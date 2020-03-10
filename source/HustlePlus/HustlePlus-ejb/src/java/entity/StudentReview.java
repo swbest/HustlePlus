@@ -7,8 +7,10 @@ package entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -19,6 +21,9 @@ import javax.persistence.InheritanceType;
 public class StudentReview extends Review implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    private Company company;
 
     public Long getStudentReviewId() {
         return reviewId;
@@ -26,6 +31,14 @@ public class StudentReview extends Review implements Serializable {
 
     public void setStudentReviewId(Long id) {
         this.reviewId = id;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     @Override
