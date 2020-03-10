@@ -7,7 +7,6 @@ package ejb.session.stateless;
 
 import entity.AdminStaff;
 import java.util.List;
-import javax.ejb.Local;
 import util.exception.AdminStaffNameExistException;
 import util.exception.AdminStaffNotFoundException;
 import util.exception.InputDataValidationException;
