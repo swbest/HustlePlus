@@ -50,7 +50,7 @@ public class CompanyReview extends Review implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.CompanyReview[ id=" + id + " ]";
+        return "entity.CompanyReview[ id=" + reviewId + " ]";
     }
     
 }
