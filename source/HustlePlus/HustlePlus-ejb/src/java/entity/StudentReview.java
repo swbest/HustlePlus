@@ -6,45 +6,29 @@
 package entity;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  *
  * @author sw_be
  */
 @Entity
-public class Review implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public class StudentReview extends Review implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long reviewId;
-    @Column(nullable = false, length = 256)
-    @NotNull
-    @Size(max = 256)
-    private String reviewText;
-    @Column(nullable = false)
-    @NotNull
-    private Integer rating;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = true)
-    private Project project;
-    
-    public Long getReviewId() {
+    public Long getId() {
         return reviewId;
     }
 
-    public void setReviewId(Long reviewId) {
-        this.reviewId = reviewId;
+    public void setId(Long id) {
+        this.reviewId = id;
     }
 
     @Override
@@ -56,11 +40,11 @@ public class Review implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the reviewId fields are not set
-        if (!(object instanceof Review)) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof StudentReview)) {
             return false;
         }
-        Review other = (Review) object;
+        StudentReview other = (StudentReview) object;
         if ((this.reviewId == null && other.reviewId != null) || (this.reviewId != null && !this.reviewId.equals(other.reviewId))) {
             return false;
         }
@@ -69,7 +53,7 @@ public class Review implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Review[ id=" + reviewId + " ]";
+        return "entity.StudentReview[ id=" + reviewId + " ]";
     }
     
 }
