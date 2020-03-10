@@ -106,6 +106,8 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
                 paymentToUpdate.setAccountNumber(payment.getAccountNumber());
                 paymentToUpdate.setPaymentDescription(payment.getPaymentDescription());
                 paymentToUpdate.setPaid(payment.getPaid());
+                paymentToUpdate.setMilestone(payment.getMilestone());
+                
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

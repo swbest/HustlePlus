@@ -20,11 +20,11 @@ public class CompanyReview extends Review implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Long getCompanyId() {
         return reviewId;
     }
 
-    public void setId(Long id) {
+    public void setCompanyId(Long id) {
         this.reviewId = id;
     }
 

@@ -69,7 +69,6 @@ public class Project implements Serializable {
     private List<Milestone> milestones;
     @OneToMany(mappedBy = "review")
     private List<Review> reviews;
-    
 
     public Long getProjectId() {
         return projectId;
@@ -77,6 +76,86 @@ public class Project implements Serializable {
 
     public void setProjectId(Long projectId) {
         this.projectId = projectId;
+    }
+    
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public BigDecimal getJobValue() {
+        return jobValue;
+    }
+
+    public void setJobValue(BigDecimal jobValue) {
+        this.jobValue = jobValue;
+    }
+
+    public Integer getNoStudentsRequired() {
+        return noStudentsRequired;
+    }
+
+    public void setNoStudentsRequired(Integer noStudentsRequired) {
+        this.noStudentsRequired = noStudentsRequired;
+    }
+
+    public String getProjectDescription() {
+        return projectDescription;
+    }
+
+    public void setProjectDescription(String projectDescription) {
+        this.projectDescription = projectDescription;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public List<Milestone> getMilestones() {
+        return milestones;
+    }
+
+    public void setMilestones(List<Milestone> milestones) {
+        this.milestones = milestones;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override
