@@ -5,7 +5,13 @@
  */
 package ejb.session.stateless;
 
+import entity.StudentReview;
+import java.util.List;
 import javax.ejb.Local;
+import util.exception.InputDataValidationException;
+import util.exception.ReviewNotFoundException;
+import util.exception.UnknownPersistenceException;
+import util.exception.UpdateReviewException;
 
 /**
  *
@@ -13,5 +19,15 @@ import javax.ejb.Local;
  */
 @Local
 public interface StudentReviewSessionBeanLocal {
+
+    public Long createNewStudentReview(StudentReview newStudentReview) throws UnknownPersistenceException, InputDataValidationException;
+
+    public List<StudentReview> retrieveAllStudentReviews();
+
+    public StudentReview retrieveStudentReviewByReviewId(Long reviewId) throws ReviewNotFoundException;
+
+    public void updateStudentReview(StudentReview studentReview) throws ReviewNotFoundException, UpdateReviewException, InputDataValidationException;
+
+    public void deleteStudentReview(Long reviewId) throws ReviewNotFoundException;
     
 }
