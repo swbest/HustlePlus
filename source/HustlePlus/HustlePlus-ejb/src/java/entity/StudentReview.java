@@ -7,9 +7,6 @@ package entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
@@ -23,11 +20,11 @@ public class StudentReview extends Review implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Long getStudentReviewId() {
         return reviewId;
     }
 
-    public void setId(Long id) {
+    public void setStudentReviewId(Long id) {
         this.reviewId = id;
     }
 
