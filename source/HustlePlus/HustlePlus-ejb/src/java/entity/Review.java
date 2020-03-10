@@ -6,10 +6,13 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -21,31 +24,38 @@ public class Review implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long reviewId;
+    @Column(nullable = false, length = 256)
+    @NotNull
+    @Size(max = 256)
+    private String reviewText;
+    @Column(nullable = false)
+    @NotNull
+    private Integer rating;
 
-    public Long getId() {
-        return id;
+    public Long getReviewId() {
+        return reviewId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setReviewId(Long reviewId) {
+        this.reviewId = reviewId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (reviewId != null ? reviewId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the reviewId fields are not set
         if (!(object instanceof Review)) {
             return false;
         }
         Review other = (Review) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.reviewId == null && other.reviewId != null) || (this.reviewId != null && !this.reviewId.equals(other.reviewId))) {
             return false;
         }
         return true;
@@ -53,7 +63,7 @@ public class Review implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Review[ id=" + id + " ]";
+        return "entity.Review[ id=" + reviewId + " ]";
     }
     
 }
