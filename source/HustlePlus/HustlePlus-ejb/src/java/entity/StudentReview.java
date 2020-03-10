@@ -21,9 +21,6 @@ import javax.persistence.OneToOne;
 public class StudentReview extends Review implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
-    private Company company;
 
     public Long getStudentReviewId() {
         return reviewId;
@@ -31,14 +28,6 @@ public class StudentReview extends Review implements Serializable {
 
     public void setStudentReviewId(Long id) {
         this.reviewId = id;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
     }
 
     @Override
