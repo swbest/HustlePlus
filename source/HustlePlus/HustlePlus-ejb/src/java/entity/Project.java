@@ -51,7 +51,7 @@ public class Project implements Serializable {
     private Integer noStudentsRequired;
     @Column(nullable = false, length = 256)
     @NotNull
-    @Size(max = 32)
+    @Size(max = 256)
     private String projectDescription;
     @Temporal(javax.persistence.TemporalType.DATE)
     @Column(nullable = false)
