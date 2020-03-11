@@ -44,7 +44,7 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
     }
 
     @Override
-    public Long createNewCompanyReview(CompanyReview newCompanyReview) throws UnknownPersistenceException, InputDataValidationException {
+    public CompanyReview createNewCompanyReview(CompanyReview newCompanyReview) throws UnknownPersistenceException, InputDataValidationException {
         try {
             Set<ConstraintViolation<CompanyReview>> constraintViolations = validator.validate(newCompanyReview);
 
@@ -52,7 +52,7 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
                 em.persist(newCompanyReview);
                 em.flush();
 
-                return newCompanyReview.getReviewId();
+                return newCompanyReview;
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

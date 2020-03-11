@@ -44,7 +44,7 @@ public class AdminStaffSessionBean implements AdminStaffSessionBeanLocal {
     }
 
     @Override
-    public Long createNewAdminStaff(AdminStaff newAdminStaff) throws AdminStaffNameExistException, UnknownPersistenceException, InputDataValidationException {
+    public AdminStaff createNewAdminStaff(AdminStaff newAdminStaff) throws AdminStaffNameExistException, UnknownPersistenceException, InputDataValidationException {
         try {
             Set<ConstraintViolation<AdminStaff>> constraintViolations = validator.validate(newAdminStaff);
 
@@ -52,7 +52,7 @@ public class AdminStaffSessionBean implements AdminStaffSessionBeanLocal {
                 em.persist(newAdminStaff);
                 em.flush();
 
-                return newAdminStaff.getAdminStaffId();
+                return newAdminStaff;
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

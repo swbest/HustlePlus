@@ -20,7 +20,7 @@ import util.exception.UpdateReviewException;
 @Local
 public interface CompanyReviewSessionBeanLocal {
 
-    public Long createNewCompanyReview(CompanyReview newCompanyReview) throws UnknownPersistenceException, InputDataValidationException;
+    public CompanyReview createNewCompanyReview(CompanyReview newCompanyReview) throws UnknownPersistenceException, InputDataValidationException;
 
     public List<CompanyReview> retrieveAllCompanyReviews();
 

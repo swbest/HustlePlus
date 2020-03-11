@@ -8,6 +8,12 @@ package ejb.session.stateless;
 import entity.Student;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.InputDataValidationException;
+import util.exception.InvalidLoginCredentialException;
+import util.exception.StudentNameExistException;
+import util.exception.StudentNotFoundException;
+import util.exception.UnknownPersistenceException;
+import util.exception.UpdateStudentException;
 
 /**
  *
@@ -16,15 +22,19 @@ import javax.ejb.Local;
 @Local
 public interface StudentSessionBeanLocal {
 
-    public Long createStudentAccount(Student newStudent);
+    public Student createStudentAccount(Student newStudent) throws StudentNameExistException, UnknownPersistenceException, InputDataValidationException;
 
-    public void updateStudentProfile(Student student);
+    public void updateStudent(Student student)  throws StudentNotFoundException, UpdateStudentException, InputDataValidationException;
 
-    public void deleteStudentAccount(Long studentId);
+    public void deleteStudentAccount(Long studentId) throws StudentNotFoundException;
 
     public List<Student> retrieveAllStudents();
 
-    public Student retrieveStudentProfileByStudentId(Long studentId);
+    public Student retrieveStudentByStudentId(Long studentId) throws StudentNotFoundException;
+
+    public Student retrieveStudentByUsername(String username) throws StudentNotFoundException;
+
+    public Student studentLogin(String username, String password) throws InvalidLoginCredentialException;
 
 
 

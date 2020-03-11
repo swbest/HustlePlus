@@ -8,6 +8,11 @@ package ejb.session.stateless;
 import entity.Milestone;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.InputDataValidationException;
+import util.exception.MilestoneIdExistException;
+import util.exception.MilestoneNotFoundException;
+import util.exception.UnknownPersistenceException;
+import util.exception.UpdateMilestoneException;
 
 /**
  *
@@ -16,13 +21,13 @@ import javax.ejb.Local;
 @Local
 public interface MilestoneSessionBeanLocal {
 
-    public Long createNewMilestone(Milestone newMilestone);
+    public Milestone createNewMilestone(Milestone newMilestone)throws MilestoneIdExistException, UnknownPersistenceException, InputDataValidationException;
 
-    public Milestone retrieveMilestoneByMilestoneId(Long milestoneId);
+    public Milestone retrieveMilestoneByMilestoneId(Long milestoneId) throws MilestoneNotFoundException;
 
-    public void updateMilestone(Milestone milestone);
+    public void updateMilestone(Milestone milestone) throws MilestoneNotFoundException, UpdateMilestoneException, InputDataValidationException;
 
-    public void deleteMilestone(Long milestoneId);
+    public void deleteMilestone(Long milestoneId) throws MilestoneNotFoundException ;
 
     public List<Milestone> retrieveAllMilestones();
 

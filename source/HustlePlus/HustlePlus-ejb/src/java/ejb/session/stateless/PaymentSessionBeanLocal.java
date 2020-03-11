@@ -18,7 +18,7 @@ import util.exception.UpdatePaymentException;
  */
 public interface PaymentSessionBeanLocal {
 
-    public Long createNewPayment(Payment newPayment) throws UnknownPersistenceException, InputDataValidationException;
+    public Payment createNewPayment(Payment newPayment) throws UnknownPersistenceException, InputDataValidationException;
 
     public void updatePayment(Payment payment) throws PaymentNotFoundException, UpdatePaymentException, InputDataValidationException;
 

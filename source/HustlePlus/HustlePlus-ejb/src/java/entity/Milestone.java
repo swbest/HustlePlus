@@ -7,12 +7,16 @@ package entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -25,22 +29,33 @@ public class Milestone implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long milestoneId;
+    
+    @Column(nullable = false, length = 256)
+    @NotNull
+    @Size(max = 256)
     private String description;
+    
+    @Column(nullable = false)
+    @NotNull
     private Boolean hasCleared;
 
-    //@OneToMany(mappedBy="milestone", fetch = FetchType.LAZY)
-    //private List<PaymentEntity> payments;
+    @OneToMany(mappedBy="milestone")
+    private List<Payment> payments;
 
-    //@OneToOne(optional = false)
-    //private ProjectEntity projectId;
+   @OneToOne(optional = false, fetch = FetchType.EAGER)
+   private Project project;
 
     public Milestone() {
     }
 
-    public Milestone(String description, Boolean hasCleared) {
+    public Milestone(String description, Boolean hasCleared, List<Payment> payments, Project project) {
         this.description = description;
         this.hasCleared = hasCleared;
+        this.payments = payments;
+        this.project = project;
     }
+
+
 
 
     public Long getMilestoneId() {
@@ -92,6 +107,22 @@ public class Milestone implements Serializable {
 
     public void setHasCleared(Boolean hasCleared) {
         this.hasCleared = hasCleared;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
 }

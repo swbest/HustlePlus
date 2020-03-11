@@ -45,7 +45,7 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
     
     
     @Override
-    public Long createNewTeam(Team newTeam) throws TeamNameExistException, UnknownPersistenceException, InputDataValidationException
+    public Team createNewTeam(Team newTeam) throws TeamNameExistException, UnknownPersistenceException, InputDataValidationException
     {
         try
         {
@@ -56,7 +56,7 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
                 em.persist(newTeam);
                 em.flush();
 
-                return newTeam.getTeamId();
+                return newTeam;
             }
             else
             {

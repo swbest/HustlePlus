@@ -43,7 +43,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
     }
 
     @Override
-    public Long createNewPayment(Payment newPayment) throws UnknownPersistenceException, InputDataValidationException {
+    public Payment createNewPayment(Payment newPayment) throws UnknownPersistenceException, InputDataValidationException {
         try {
             Set<ConstraintViolation<Payment>> constraintViolations = validator.validate(newPayment);
 
@@ -51,7 +51,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
                 em.persist(newPayment);
                 em.flush();
 
-                return newPayment.getPaymentId();
+                return newPayment;
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

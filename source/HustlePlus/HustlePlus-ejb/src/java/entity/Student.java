@@ -7,10 +7,16 @@ package entity;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -23,15 +29,50 @@ public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studentId;
+    
+    @Column(nullable = false, length = 32)
+    @NotNull
+    @Size(max = 32)
     private String firstName;
+    @Column(nullable = false, length = 32)
+    @NotNull
+    @Size(max = 32)    
     private String lastName;
+    @NotNull
+    @Size(min = 6, max = 64)
+    @Column(nullable = false, unique = true, length = 64)
     private String username;
+    @NotNull
+    @Size(min = 6, max = 64)
+    @Column(nullable = false)
     private String password;
-    private String profilePic;
+    
+    private String profilePic; 
+    
+    @Column(nullable = false, length = 256)
+    @NotNull
+    @Size(max = 256)
     private String studentBio;
+    @NotNull
+    @Column(nullable = false, length = 30) 
     private String email;
+    
     private File resume;
+    
+    @Column(nullable = false, precision = 16, scale = 2)
+    @NotNull
     private Double avgRating;
+    
+    @Column(columnDefinition = "CHAR(32) NOT NULL") 
+    private String salt; 
+    
+    @OneToMany(mappedBy="student")
+    private List<Review> reviews;
+    
+    @OneToMany(mappedBy="student")
+    private List<Team> teams;
+    
+    
 
     public Student() {
     }
@@ -40,7 +81,7 @@ public class Student implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
-        this.password = password;
+        setPassword(password);
         this.profilePic = profilePic;
         this.studentBio = studentBio;
         this.email = email;
@@ -111,7 +152,11 @@ public class Student implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        if (password != null) {
+            this.password = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(password + this.salt));
+            } else {
+            this.password = null ; 
+        }
     }
 
     public String getProfilePic() {
@@ -152,6 +197,30 @@ public class Student implements Serializable {
 
     public void setAvgRating(Double avgRating) {
         this.avgRating = avgRating;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
+    
+    public String getSalt() {
+        return salt ; 
+    }
+    
+    public void setSalt(String salt) {
+        this.salt = salt ;
     }
 
 }

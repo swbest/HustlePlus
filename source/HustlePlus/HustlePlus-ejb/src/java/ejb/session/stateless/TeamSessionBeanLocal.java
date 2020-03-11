@@ -22,7 +22,7 @@ import util.exception.UpdateTeamException;
 @Local
 public interface TeamSessionBeanLocal {
     
-    public Long createNewTeam(Team newTeam) throws TeamNameExistException, UnknownPersistenceException, InputDataValidationException;
+    public Team createNewTeam(Team newTeam) throws TeamNameExistException, UnknownPersistenceException, InputDataValidationException;
     public List<Team> retrieveAllTeams();
     public Team retrieveTeamByTeamId(Long teamId) throws TeamNotFoundException;
     public void updateTeam(Team team, Long projectId, List<Long> studentIds) throws TeamNotFoundException, /*ProjectNotFoundException, StudentNotFoundException,*/ UpdateTeamException, InputDataValidationException;

@@ -21,7 +21,7 @@ import util.exception.UpdateProjectException;
 @Local
 public interface ProjectSessionBeanLocal {
 
-    public Long createNewProject(Project newProject) throws UnknownPersistenceException, InputDataValidationException, ProjectNameExistException;
+    public Project createNewProject(Project newProject) throws UnknownPersistenceException, InputDataValidationException, ProjectNameExistException;
 
     public List<Project> retrieveAllProject();
 

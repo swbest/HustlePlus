@@ -22,7 +22,7 @@ import util.exception.UpdateCompanyException;
 @Local
 public interface CompanySessionBeanLocal {
     
-    public Long createNewCompany(Company newCompany) throws CompanyNameExistException, UnknownPersistenceException, InputDataValidationException;
+    public Company createNewCompany(Company newCompany) throws CompanyNameExistException, UnknownPersistenceException, InputDataValidationException;
     public List<Company> retrieveAllCompanies();
     public Company retrieveCompanyByCompanyId(Long companyId) throws CompanyNotFoundException;
     public void updateCompany(Company company, Long projectId, List<Long> projectIds) throws CompanyNotFoundException, /*ProjectNotFoundException, StudentReviewNotFoundException,*/ UpdateCompanyException, InputDataValidationException;

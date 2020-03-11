@@ -19,7 +19,7 @@ import util.exception.UpdateAdminStaffException;
  */
 public interface AdminStaffSessionBeanLocal {
 
-    public Long createNewAdminStaff(AdminStaff newAdminStaff) throws AdminStaffNameExistException, UnknownPersistenceException, InputDataValidationException;
+    public AdminStaff createNewAdminStaff(AdminStaff newAdminStaff) throws AdminStaffNameExistException, UnknownPersistenceException, InputDataValidationException;
 
     public List<AdminStaff> retrieveAllAdminStaff();
 

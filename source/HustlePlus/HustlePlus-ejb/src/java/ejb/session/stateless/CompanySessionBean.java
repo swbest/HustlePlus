@@ -46,7 +46,7 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
     
         
     @Override
-    public Long createNewCompany(Company newCompany) throws CompanyNameExistException, UnknownPersistenceException, InputDataValidationException
+    public Company createNewCompany(Company newCompany) throws CompanyNameExistException, UnknownPersistenceException, InputDataValidationException
     {
         try
         {
@@ -57,7 +57,7 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
                 em.persist(newCompany);
                 em.flush();
 
-                return newCompany.getCompanyId();
+                return newCompany;
             }
             else
             {

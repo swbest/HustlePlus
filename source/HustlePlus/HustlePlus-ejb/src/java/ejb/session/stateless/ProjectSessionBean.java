@@ -44,7 +44,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
 
     @Override
-    public Long createNewProject(Project newProject) throws UnknownPersistenceException, InputDataValidationException, ProjectNameExistException {
+    public Project createNewProject(Project newProject) throws UnknownPersistenceException, InputDataValidationException, ProjectNameExistException {
         try {
             Set<ConstraintViolation<Project>> constraintViolations = validator.validate(newProject);
 
@@ -52,7 +52,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                 em.persist(newProject);
                 em.flush();
 
-                return newProject.getProjectId();
+                return newProject;
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

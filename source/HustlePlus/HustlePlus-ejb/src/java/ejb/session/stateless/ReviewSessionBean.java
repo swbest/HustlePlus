@@ -43,7 +43,7 @@ public class ReviewSessionBean implements ReviewSessionBeanLocal {
     }
 
     @Override
-    public Long createNewReview(Review newReview) throws UnknownPersistenceException, InputDataValidationException {
+    public Review createNewReview(Review newReview) throws UnknownPersistenceException, InputDataValidationException {
         try {
             Set<ConstraintViolation<Review>> constraintViolations = validator.validate(newReview);
 
@@ -51,7 +51,7 @@ public class ReviewSessionBean implements ReviewSessionBeanLocal {
                 em.persist(newReview);
                 em.flush();
 
-                return newReview.getReviewId();
+                return newReview;
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
