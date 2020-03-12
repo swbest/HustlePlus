@@ -30,7 +30,6 @@ import util.exception.UpdateCompanyException;
  * @author amanda
  */
 @Stateless
-@Local
 public class CompanySessionBean implements CompanySessionBeanLocal {
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")

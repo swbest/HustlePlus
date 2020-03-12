@@ -29,7 +29,6 @@ import util.exception.UpdateProjectException;
  * @author sw_be
  */
 @Stateless
-@Local(ProjectSessionBeanLocal.class)
 public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")

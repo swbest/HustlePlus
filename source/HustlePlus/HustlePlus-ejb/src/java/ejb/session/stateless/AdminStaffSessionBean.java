@@ -29,7 +29,6 @@ import util.exception.UpdateAdminStaffException;
  * @author dtjldamien
  */
 @Stateless
-@Local(AdminStaffSessionBeanLocal.class)
 public class AdminStaffSessionBean implements AdminStaffSessionBeanLocal {
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")

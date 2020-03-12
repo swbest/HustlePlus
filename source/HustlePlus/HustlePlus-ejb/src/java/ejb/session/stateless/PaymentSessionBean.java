@@ -28,7 +28,6 @@ import util.exception.UpdatePaymentException;
  * @author dtjldamien
  */
 @Stateless
-@Local(PaymentSessionBeanLocal.class)
 public class PaymentSessionBean implements PaymentSessionBeanLocal {
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")

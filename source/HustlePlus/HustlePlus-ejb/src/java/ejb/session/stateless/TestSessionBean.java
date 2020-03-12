@@ -15,7 +15,6 @@ import javax.persistence.PersistenceContext;
  * @author dtjldamien
  */
 @Stateless
-@Local(TestSessionBeanLocal.class)
 public class TestSessionBean implements TestSessionBeanLocal {
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")

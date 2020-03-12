@@ -28,7 +28,6 @@ import util.exception.UpdateReviewException;
  * @author sw_be
  */
 @Stateless
-@Local(ReviewSessionBeanLocal.class)
 public class ReviewSessionBean implements ReviewSessionBeanLocal {
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
