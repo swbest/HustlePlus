@@ -5,78 +5,47 @@
  */
 package entity;
 
-import java.io.File;
 import java.io.Serializable;
-//import java.util.List;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-//import javax.persistence.OneToMany;
+import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author amanda
  */
 @Entity
-public class Company implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Company extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long companyId;
-    //@NotNull
-    //@Size(max = 30, message = "Name should be at most 30 characters")
-    @Column(nullable = false, length = 30)
-    private String name;
-    //@NotNull
-    @Column(nullable = false, length = 256)
-    private String password;
-    //@NotNull
-    @Column(nullable = false)
-    private File icon;
-    //@NotNull
-    //@Size(max = 256, message = "Company description should be at most 256 characters")
-    @Column(nullable = false, length = 256)
-    private String description;
-    //@NotNull
-    //@Email(message = "Email should be valid")
-    @Column(nullable = false, length = 30)
-    private String email;
-    //@NotNull
-    //@Min(value = 0.0, message = "Average rating should not be less than 0.0")
-    //@Max(value = 5.0, message = "Average rating should not be more than 5.0")
-    @Column(nullable = false)
-    private double avgRating;
-    //@OneToMany(mappedBy = "company")
-    //private List<Project> projects;
-    //@OneToOne
-    //private StudentReview studentReview;
+
+    @Column(nullable = false, length = 32)
+    @NotNull
+    @Size(max = 32)
+    private String companyName;
+
+    @OneToMany(mappedBy = "company")
+    private List<Project> projects;
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = true)
+    private List<StudentReview> studentReviews;
 
     public Company() {
-    }
-
-    public Company(String name, String password, File icon, String description, String email) {
-        this.name = name;
-        this.password = password;
-        this.icon = icon;
-        this.description = description;
-        this.email = email;
-    }
-
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (companyId != null ? companyId.hashCode() : 0);
+        hash += (userId != null ? userId.hashCode() : 0);
         return hash;
     }
 
@@ -87,99 +56,39 @@ public class Company implements Serializable {
             return false;
         }
         Company other = (Company) object;
-        if ((this.companyId == null && other.companyId != null) || (this.companyId != null && !this.companyId.equals(other.companyId))) {
+        if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
             return false;
         }
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "entity.Company[ id=" + companyId + " ]";
+    /**
+     * @return the companyName
+     */
+    public String getCompanyName() {
+        return companyName;
     }
 
     /**
-     * @return the password
+     * @param name the companyName to set
      */
-    public String getPassword() {
-        return password;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    /**
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
-        this.password = password;
+    public List<Project> getProjects() {
+        return projects;
     }
 
-    /**
-     * @return the icon
-     */
-    public File getIcon() {
-        return icon;
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 
-    /**
-     * @param icon the icon to set
-     */
-    public void setIcon(File icon) {
-        this.icon = icon;
+    public List<StudentReview> getStudentReviews() {
+        return studentReviews;
     }
 
-    /**
-     * @return the description
-     */
-    public String getDescription() {
-        return description;
+    public void setStudentReviews(List<StudentReview> studentReviews) {
+        this.studentReviews = studentReviews;
     }
-
-    /**
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * @return the email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * @return the avgRating
-     */
-    public double getAvgRating() {
-        return avgRating;
-    }
-
-    /**
-     * @param avgRating the avgRating to set
-     */
-    public void setAvgRating(double avgRating) {
-        this.avgRating = avgRating;
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-    
 }

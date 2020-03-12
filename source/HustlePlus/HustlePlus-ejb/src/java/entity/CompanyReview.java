@@ -7,10 +7,8 @@ package entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -54,5 +52,4 @@ public class CompanyReview extends Review implements Serializable {
     public String toString() {
         return "entity.CompanyReview[ id=" + reviewId + " ]";
     }
-    
 }
