@@ -19,6 +19,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import util.exception.DeleteStudentException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.StudentNameExistException;
@@ -53,7 +54,6 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             if (constraintViolations.isEmpty()) {
                 em.persist(newStudent);
                 em.flush();
-
                 return newStudent;
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
@@ -84,22 +84,25 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
 
     @Override
     public void updateStudent(Student student) throws StudentNotFoundException, UpdateStudentException, InputDataValidationException {
-        if (student != null && student.getUserId()!= null) {
+        if (student != null && student.getUserId() != null) {
             Set<ConstraintViolation<Student>> constraintViolations = validator.validate(student);
 
             if (constraintViolations.isEmpty()) {
                 Student studentToUpdate = retrieveStudentByStudentId(student.getUserId());
-                studentToUpdate.setFirstName(student.getFirstName());
-                studentToUpdate.setLastName(student.getLastName());
                 studentToUpdate.setUsername(student.getUsername());
                 studentToUpdate.setPassword(student.getPassword());
                 studentToUpdate.setIcon(student.getIcon());
-                studentToUpdate.setDescription(student.getDescription());
                 studentToUpdate.setEmail(student.getEmail());
+                studentToUpdate.setFirstName(student.getFirstName());
+                studentToUpdate.setLastName(student.getLastName());
                 studentToUpdate.setResume(student.getResume());
+                studentToUpdate.setDescription(student.getDescription());
                 studentToUpdate.setAvgRating(student.getAvgRating());
+                studentToUpdate.setIsVerified(student.getIsVerified());
+                studentToUpdate.setIsSuspended(student.getIsSuspended());
+                studentToUpdate.setSkills(student.getSkills());
                 studentToUpdate.setTeams(student.getTeams());
-
+                studentToUpdate.setCompanyReviews(student.getCompanyReviews());
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
@@ -109,17 +112,20 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     }
 
     @Override
-    public void deleteStudentAccount(Long studentId) throws StudentNotFoundException {
+    public void deleteStudentAccount(Long studentId) throws StudentNotFoundException, DeleteStudentException {
         Student studentToRemove = retrieveStudentByStudentId(studentId);
+        if (studentToRemove.getTeams().size() == 0 && studentToRemove.getCompanyReviews().size() == 0) {
+            em.remove(studentToRemove);
+        } else {
+            throw new DeleteStudentException("Student ID " + studentId + " is associated with existing teams and reviews and cannot be deleted!");
+        }
         em.remove(studentToRemove);
     }
 
     @Override
     public List<Student> retrieveAllStudents() {
         Query query = em.createQuery("SELECT s FROM Student s");
-
         return query.getResultList();
-
     }
 
     @Override
@@ -136,13 +142,12 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
 
     @Override
     public Student studentLogin(String username, String password) throws InvalidLoginCredentialException {
-
         try {
-            Student studentEntity = retrieveStudentByUsername(username);
-            String passwordHash = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(password + studentEntity.getSalt()));
+            Student student = retrieveStudentByUsername(username);
+            String passwordHash = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(password + student.getSalt()));
 
-            if (studentEntity.getPassword().equals(passwordHash)) {
-                return studentEntity;
+            if (student.getPassword().equals(passwordHash)) {
+                return student;
             } else {
                 throw new InvalidLoginCredentialException("Username does not exist or invalid password!");
             }

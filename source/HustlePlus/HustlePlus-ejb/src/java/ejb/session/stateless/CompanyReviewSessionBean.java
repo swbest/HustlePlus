@@ -61,7 +61,7 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
 
     @Override
     public List<CompanyReview> retrieveAllCompanyReviews() {
-        Query query = em.createQuery("SELECT cr FROM StudentReview cr");
+        Query query = em.createQuery("SELECT cr FROM CompanyReview cr");
 
         return query.getResultList();
     }
@@ -87,7 +87,6 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
                 companyReviewToUpdate.setReviewText(companyReview.getReviewText());
                 companyReviewToUpdate.setRating(companyReview.getRating());
                 companyReviewToUpdate.setProject(companyReview.getProject());
-                        
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

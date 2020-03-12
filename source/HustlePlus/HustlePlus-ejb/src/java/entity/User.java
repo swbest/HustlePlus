@@ -40,6 +40,8 @@ public class User implements Serializable {
     @Column(nullable = false, length = 64, unique = true)
     @Size(max = 64)
     protected String email;
+    @Column(columnDefinition = "CHAR(32) NOT NULL")
+    protected String salt;
 
     public User() {
     }
@@ -82,6 +84,14 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     @Override

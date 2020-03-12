@@ -10,6 +10,7 @@ import java.util.List;
 import util.exception.AdminStaffNameExistException;
 import util.exception.AdminStaffNotFoundException;
 import util.exception.InputDataValidationException;
+import util.exception.InvalidLoginCredentialException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateAdminStaffException;
 
@@ -28,5 +29,9 @@ public interface AdminStaffSessionBeanLocal {
     public void deleteAdminStaff(Long adminStafffId) throws AdminStaffNotFoundException;
 
     public void updateAdminStaff(AdminStaff adminStaff) throws AdminStaffNotFoundException, UpdateAdminStaffException, InputDataValidationException;
-    
+
+    public AdminStaff retrieveAdminStaffByUsername(String username) throws AdminStaffNotFoundException;
+
+    public AdminStaff adminStaffLogin(String username, String password) throws InvalidLoginCredentialException;
+
 }

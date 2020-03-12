@@ -12,6 +12,7 @@ import util.exception.CompanyNameExistException;
 import util.exception.CompanyNotFoundException;
 import util.exception.DeleteCompanyException;
 import util.exception.InputDataValidationException;
+import util.exception.InvalidLoginCredentialException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateCompanyException;
 
@@ -23,9 +24,17 @@ import util.exception.UpdateCompanyException;
 public interface CompanySessionBeanLocal {
     
     public Company createNewCompany(Company newCompany) throws CompanyNameExistException, UnknownPersistenceException, InputDataValidationException;
+    
     public List<Company> retrieveAllCompanies();
+    
     public Company retrieveCompanyByCompanyId(Long companyId) throws CompanyNotFoundException;
-    public void updateCompany(Company company, Long projectId, List<Long> projectIds) throws CompanyNotFoundException, /*ProjectNotFoundException, StudentReviewNotFoundException,*/ UpdateCompanyException, InputDataValidationException;
+        
     public void deleteCompany(Long companyId) throws CompanyNotFoundException, DeleteCompanyException;
+    
+    public Company retrieveCompanyByUsername(String username) throws CompanyNotFoundException;
+
+    public void updateCompany(Company company) throws CompanyNotFoundException, UpdateCompanyException, InputDataValidationException;
+
+    public Company companyLogin(String username, String password) throws InvalidLoginCredentialException;
     
 }
