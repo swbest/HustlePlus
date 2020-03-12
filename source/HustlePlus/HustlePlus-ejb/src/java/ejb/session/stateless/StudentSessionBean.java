@@ -88,7 +88,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             Set<ConstraintViolation<Student>> constraintViolations = validator.validate(student);
 
             if (constraintViolations.isEmpty()) {
-                Student studentToUpdate = retrieveStudentByStudentId(student.getStudentId());
+                Student studentToUpdate = retrieveStudentByStudentId(student.getUserId());
                 studentToUpdate.setFirstName(student.getFirstName());
                 studentToUpdate.setLastName(student.getLastName());
                 studentToUpdate.setUsername(student.getUsername());
@@ -98,7 +98,6 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
                 studentToUpdate.setEmail(student.getEmail());
                 studentToUpdate.setResume(student.getResume());
                 studentToUpdate.setAvgRating(student.getAvgRating());
-                studentToUpdate.setReviews(student.get);
                 studentToUpdate.setTeams(student.getTeams());
 
             } else {

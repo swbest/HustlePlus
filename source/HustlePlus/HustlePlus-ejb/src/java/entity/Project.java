@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -59,7 +60,8 @@ public class Project implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     @Column(nullable = false)
     private Date endDate;
-    
+    @Column(nullable = false)
+    private List<String> skills;
     @ManyToOne(optional = false)
     @JoinColumn(nullable = true)
     private Company company;
@@ -69,6 +71,18 @@ public class Project implements Serializable {
     private List<Milestone> milestones;
     @OneToMany(mappedBy = "review")
     private List<Review> reviews;
+
+    public Project() {
+        this.skills = new ArrayList<String>();
+    }
+
+    public List<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
+    }
 
     public Long getProjectId() {
         return projectId;

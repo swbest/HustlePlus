@@ -39,6 +39,8 @@ public class Student extends User implements Serializable {
     private List<CompanyReview> companyReviews;
     @Column(nullable = true)
     private File resume;
+    @Column(nullable = true)
+    private List<String> skills;
 
     @Column(columnDefinition = "CHAR(32) NOT NULL")
     private String salt;
@@ -120,5 +122,13 @@ public class Student extends User implements Serializable {
 
     public void setCompanyReview(List<CompanyReview> companyReviews) {
         this.companyReviews = companyReviews;
+    }
+
+    public List<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
     }
 }
