@@ -37,7 +37,6 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
     
-    //relationship with project is one to one, should it be 0..1 to 1 (team) instead? form group before joining project
     public TeamSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
