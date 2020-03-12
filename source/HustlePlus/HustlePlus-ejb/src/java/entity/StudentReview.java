@@ -20,14 +20,9 @@ public class StudentReview extends Review implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Long getStudentReviewId() {
-        return reviewId;
+    public StudentReview() {
     }
-
-    public void setStudentReviewId(Long id) {
-        this.reviewId = id;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

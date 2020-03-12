@@ -38,13 +38,18 @@ public class Review implements Serializable {
     private Integer rating;
 
     @ManyToOne(optional = false)
-    @JoinColumn(nullable = true)
+    @JoinColumn(nullable = false)
     private Project project;
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = true)
     private Student student;
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = true)
     private Company company;
-    
+
+    public Review() {
+    }
+
     public Long getReviewId() {
         return reviewId;
     }
@@ -92,7 +97,7 @@ public class Review implements Serializable {
     public void setCompany(Company company) {
         this.company = company;
     }
-
+  
     @Override
     public int hashCode() {
         int hash = 0;

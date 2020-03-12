@@ -47,11 +47,14 @@ public class Payment implements Serializable {
     @JoinColumn(nullable = true)
     private Milestone milestone;
 
+    public Payment() {
+        this.paid = Boolean.FALSE;
+    }
+
     public Payment(String accountName, Long accountNumber, String paymentDescription) {
         this.accountName = accountName;
         this.accountNumber = accountNumber;
         this.paymentDescription = paymentDescription;
-        this.paid = Boolean.FALSE;
     }
 
     public Long getPaymentId() {

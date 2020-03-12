@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -32,6 +35,20 @@ public class Company extends User implements Serializable {
     @NotNull
     @Size(max = 32)
     private String companyName;
+    @NotNull
+    @Size(max = 256, message = "Company description should be at most 256 characters")
+    @Column(nullable = false, length = 256)
+    private String description;
+    @Min(value = 0, message = "Average rating should not be less than 0")
+    @Max(value = 5, message = "Average rating should not be more than 5")
+    @Column(nullable = true)
+    private Double avgRating;
+    @NotNull
+    @Column(nullable = false)
+    private Boolean isVerified;
+    @NotNull
+    @Column(nullable = false)
+    private Boolean isSuspended;
 
     @OneToMany(mappedBy = "company")
     private List<Project> projects;
@@ -40,6 +57,64 @@ public class Company extends User implements Serializable {
     private List<StudentReview> studentReviews;
 
     public Company() {
+        this.projects = new ArrayList<Project>();
+        this.studentReviews = new ArrayList<StudentReview>();
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    public List<StudentReview> getStudentReviews() {
+        return studentReviews;
+    }
+
+    public void setStudentReviews(List<StudentReview> studentReviews) {
+        this.studentReviews = studentReviews;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(Double avgRating) {
+        this.avgRating = avgRating;
+    }
+
+    public Boolean getIsVerified() {
+        return isVerified;
+    }
+
+    public void setIsVerified(Boolean isVerified) {
+        this.isVerified = isVerified;
+    }
+
+    public Boolean getIsSuspended() {
+        return isSuspended;
+    }
+
+    public void setIsSuspended(Boolean isSuspended) {
+        this.isSuspended = isSuspended;
     }
 
     @Override
@@ -62,33 +137,8 @@ public class Company extends User implements Serializable {
         return true;
     }
 
-    /**
-     * @return the companyName
-     */
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    /**
-     * @param name the companyName to set
-     */
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public List<Project> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
-    }
-
-    public List<StudentReview> getStudentReviews() {
-        return studentReviews;
-    }
-
-    public void setStudentReviews(List<StudentReview> studentReviews) {
-        this.studentReviews = studentReviews;
+    @Override
+    public String toString() {
+        return "entity.Company[ id=" + userId + " ]";
     }
 }

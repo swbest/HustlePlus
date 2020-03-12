@@ -94,7 +94,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                 Project projectToUpdate = retrieveProjectByProjectId(project.getProjectId());
                 projectToUpdate.setProjectName(project.getProjectName());
                 projectToUpdate.setJobValue(project.getJobValue());
-                projectToUpdate.setNoStudentsRequired(project.getNoStudentsRequired());
+                projectToUpdate.setNumStudentsRequired(project.getNumStudentsRequired());
                 projectToUpdate.setProjectDescription(project.getProjectDescription());
                 projectToUpdate.setStartDate(project.getStartDate());
                 projectToUpdate.setEndDate(project.getEndDate());

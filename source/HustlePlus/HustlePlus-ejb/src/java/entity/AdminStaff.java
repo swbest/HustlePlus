@@ -5,12 +5,15 @@
  */
 package entity;
 
+import java.io.File;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -19,54 +22,16 @@ import javax.validation.constraints.Size;
  * @author dtjldamien
  */
 @Entity
-public class AdminStaff implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public class AdminStaff extends User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long adminStaffId;
-    @NotNull
-    @Size(min = 6, max = 64)
-    @Column(nullable = false, unique = true, length = 64)
-    private String username;
-    @NotNull
-    @Size(min = 6, max = 64)
-    @Column(nullable = false)
-    private String password;
-
-    public AdminStaff(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public AdminStaff() {
     }
-
-    public Long getAdminStaffId() {
-        return adminStaffId;
-    }
-
-    public void setAdminStaffId(Long adminStaffId) {
-        this.adminStaffId = adminStaffId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (adminStaffId != null ? adminStaffId.hashCode() : 0);
+        hash += (userId != null ? userId.hashCode() : 0);
         return hash;
     }
 
@@ -77,7 +42,7 @@ public class AdminStaff implements Serializable {
             return false;
         }
         AdminStaff other = (AdminStaff) object;
-        if ((this.adminStaffId == null && other.adminStaffId != null) || (this.adminStaffId != null && !this.adminStaffId.equals(other.adminStaffId))) {
+        if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
             return false;
         }
         return true;
@@ -85,7 +50,7 @@ public class AdminStaff implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.AdminStaff[ id=" + adminStaffId + " ]";
+        return "entity.AdminStaff[ id=" + userId + " ]";
     }
 
 }

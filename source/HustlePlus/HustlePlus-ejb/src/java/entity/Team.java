@@ -6,14 +6,18 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 //import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-//import javax.persistence.OneToMany;
-//import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -26,32 +30,65 @@ public class Team implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long teamId;
-    //@NotNull
-    //@Size(max = 30, message = "Team name should be less than 30 characters")
+    @NotNull
+    @Size(max = 30, message = "Team name should be less than 30 characters")
     @Column(nullable = false, length = 30)
     private String teamName;
-    //@NotNull
+    @NotNull
     @Column(nullable = false)
-    private int noStudents;
-    //@OneToMany(mappedBy = "team")
-    //private List<Student> students;
-    //@OneToOne
-    //private Project project;
+    private int numStudents;
+    @OneToMany(mappedBy = "team")
+    private List<Student> students;
+    @OneToOne(optional = false)
+    private Project project;
 
     public Team() {
+        this.students = new ArrayList<Student>();
     }
 
     public Team(String teamName, int noStudents) {
         this.teamName = teamName;
-        this.noStudents = noStudents;
+        this.numStudents = noStudents;
     }
-    
+
     public Long getTeamId() {
         return teamId;
     }
 
     public void setTeamId(Long teamId) {
         this.teamId = teamId;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public int getNumStudents() {
+        return numStudents;
+    }
+
+    public void setNumStudents(int numStudents) {
+        this.numStudents = numStudents;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     @Override
@@ -78,47 +115,4 @@ public class Team implements Serializable {
     public String toString() {
         return "entity.Team[ id=" + teamId + " ]";
     }
-
-    /**
-     * @return the teamName
-     */
-    public String getTeamName() {
-        return teamName;
-    }
-
-    /**
-     * @param teamName the teamName to set
-     */
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
-
-    /**
-     * @return the noStudents
-     */
-    public int getNoStudents() {
-        return noStudents;
-    }
-
-    /**
-     * @param noStudents the noStudents to set
-     */
-    public void setNoStudents(int noStudents) {
-        this.noStudents = noStudents;
-    }
-
-    /**
-     * @return the students
-    
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    /**
-     * @param students the students to set
-    
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
-    */
 }

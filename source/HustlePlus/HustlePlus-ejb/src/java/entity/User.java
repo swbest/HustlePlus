@@ -9,14 +9,9 @@ import java.io.File;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -42,34 +37,11 @@ public class User implements Serializable {
     @Column(nullable = true)
     protected File icon;
     @NotNull
-    @Size(max = 256, message = "Company description should be at most 256 characters")
-    @Column(nullable = false, length = 256)
-    protected String description;
-    @NotNull
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 64, unique = true)
+    @Size(max = 64)
     protected String email;
-    @Min(value = 0, message = "Average rating should not be less than 0")
-    @Max(value = 5, message = "Average rating should not be more than 5")
-    @Column(nullable = true)
-    protected Double avgRating;
-    @NotNull
-    @Column(nullable = false)
-    protected Boolean isVerified;
-    @NotNull
-    @Column(nullable = false)
-    protected Boolean isSuspended;
 
     public User() {
-        this.isVerified = false;
-        this.isSuspended = false;
-    }
-
-    public User(String username, String password, String description, String email) {
-        this();
-        this.username = username;
-        this.password = password;
-        this.description = description;
-        this.email = email;
     }
 
     public Long getUserId() {
@@ -104,44 +76,12 @@ public class User implements Serializable {
         this.icon = icon;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Double getAvgRating() {
-        return avgRating;
-    }
-
-    public void setAvgRating(Double avgRating) {
-        this.avgRating = avgRating;
-    }
-
-    public Boolean getIsVerified() {
-        return isVerified;
-    }
-
-    public void setIsVerified(Boolean isVerified) {
-        this.isVerified = isVerified;
-    }
-
-    public Boolean getIsSuspended() {
-        return isSuspended;
-    }
-
-    public void setIsSuspended(Boolean isSuspended) {
-        this.isSuspended = isSuspended;
     }
 
     @Override

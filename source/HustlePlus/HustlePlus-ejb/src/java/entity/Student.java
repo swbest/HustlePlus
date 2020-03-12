@@ -7,6 +7,7 @@ package entity;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -34,46 +37,35 @@ public class Student extends User implements Serializable {
     @NotNull
     @Size(max = 32)
     private String lastName;
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = true)
-    private List<CompanyReview> companyReviews;
     @Column(nullable = true)
     private File resume;
+    @NotNull
+    @Size(max = 256, message = "Company description should be at most 256 characters")
+    @Column(nullable = false, length = 256)
+    private String description;
+    @Min(value = 0, message = "Average rating should not be less than 0")
+    @Max(value = 5, message = "Average rating should not be more than 5")
     @Column(nullable = true)
+    private Double avgRating;
+    @NotNull
+    @Column(nullable = false)
+    private Boolean isVerified;
+    @NotNull
+    @Column(nullable = false)
+    private Boolean isSuspended;
+    @Column(nullable = false)
     private List<String> skills;
-
-    @Column(columnDefinition = "CHAR(32) NOT NULL")
-    private String salt;
 
     @OneToMany(mappedBy = "student")
     private List<Team> teams;
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = true)
+    private List<CompanyReview> companyReviews;
 
     public Student() {
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (userId != null ? userId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the studentId fields are not set
-        if (!(object instanceof Student)) {
-            return false;
-        }
-        Student other = (Student) object;
-        if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.Student[ id=" + userId + " ]";
+        this.skills = new ArrayList<String>();
+        this.teams = new ArrayList<Team>();
+        this.companyReviews = new ArrayList<CompanyReview>();
     }
 
     public String getFirstName() {
@@ -100,28 +92,36 @@ public class Student extends User implements Serializable {
         this.resume = resume;
     }
 
-    public List<Team> getTeams() {
-        return teams;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getSalt() {
-        return salt;
+    public Double getAvgRating() {
+        return avgRating;
     }
 
-    public void setSalt(String salt) {
-        this.salt = salt;
+    public void setAvgRating(Double avgRating) {
+        this.avgRating = avgRating;
     }
 
-    public List<CompanyReview> getCompanyReview() {
-        return companyReviews;
+    public Boolean getIsVerified() {
+        return isVerified;
     }
 
-    public void setCompanyReview(List<CompanyReview> companyReviews) {
-        this.companyReviews = companyReviews;
+    public void setIsVerified(Boolean isVerified) {
+        this.isVerified = isVerified;
+    }
+
+    public Boolean getIsSuspended() {
+        return isSuspended;
+    }
+
+    public void setIsSuspended(Boolean isSuspended) {
+        this.isSuspended = isSuspended;
     }
 
     public List<String> getSkills() {
@@ -130,5 +130,46 @@ public class Student extends User implements Serializable {
 
     public void setSkills(List<String> skills) {
         this.skills = skills;
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
+
+    public List<CompanyReview> getCompanyReviews() {
+        return companyReviews;
+    }
+
+    public void setCompanyReviews(List<CompanyReview> companyReviews) {
+        this.companyReviews = companyReviews;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (userId != null ? userId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the studentId fields are not set
+        if (!(object instanceof Student)) {
+            return false;
+        }
+        Student other = (Student) object;
+        if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "entity.Student[ id=" + userId + " ]";
     }
 }

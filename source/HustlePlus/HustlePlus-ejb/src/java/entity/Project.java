@@ -49,7 +49,7 @@ public class Project implements Serializable {
     private BigDecimal jobValue;  
     @Column(nullable = false)
     @NotNull
-    private Integer noStudentsRequired;
+    private Integer numStudentsRequired;
     @Column(nullable = false, length = 256)
     @NotNull
     @Size(max = 256)
@@ -62,10 +62,11 @@ public class Project implements Serializable {
     private Date endDate;
     @Column(nullable = false)
     private List<String> skills;
+    
     @ManyToOne(optional = false)
-    @JoinColumn(nullable = true)
+    @JoinColumn(nullable = false)
     private Company company;
-    @OneToOne(optional = false, fetch = FetchType.EAGER)
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
     private Team team;
     @OneToMany(mappedBy = "milestone")
     private List<Milestone> milestones;
@@ -74,14 +75,8 @@ public class Project implements Serializable {
 
     public Project() {
         this.skills = new ArrayList<String>();
-    }
-
-    public List<String> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(List<String> skills) {
-        this.skills = skills;
+        this.milestones = new ArrayList<Milestone>();
+        this.reviews = new ArrayList<>();
     }
 
     public Long getProjectId() {
@@ -91,7 +86,7 @@ public class Project implements Serializable {
     public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
-    
+
     public String getProjectName() {
         return projectName;
     }
@@ -108,12 +103,12 @@ public class Project implements Serializable {
         this.jobValue = jobValue;
     }
 
-    public Integer getNoStudentsRequired() {
-        return noStudentsRequired;
+    public Integer getNumStudentsRequired() {
+        return numStudentsRequired;
     }
 
-    public void setNoStudentsRequired(Integer noStudentsRequired) {
-        this.noStudentsRequired = noStudentsRequired;
+    public void setNumStudentsRequired(Integer numStudentsRequired) {
+        this.numStudentsRequired = numStudentsRequired;
     }
 
     public String getProjectDescription() {
@@ -138,6 +133,14 @@ public class Project implements Serializable {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public List<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
     }
 
     public Company getCompany() {
