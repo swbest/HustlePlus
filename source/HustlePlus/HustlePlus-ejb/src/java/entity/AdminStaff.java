@@ -24,6 +24,8 @@ import javax.validation.constraints.Size;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class AdminStaff extends User implements Serializable {
+    
+    private String name;
 
     public AdminStaff() {
     }
@@ -51,6 +53,20 @@ public class AdminStaff extends User implements Serializable {
     @Override
     public String toString() {
         return "entity.AdminStaff[ id=" + userId + " ]";
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
 }
