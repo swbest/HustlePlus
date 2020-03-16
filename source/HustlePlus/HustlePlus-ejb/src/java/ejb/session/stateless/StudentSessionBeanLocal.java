@@ -37,4 +37,9 @@ public interface StudentSessionBeanLocal {
 
     public Student studentLogin(String username, String password) throws InvalidLoginCredentialException;
 
+    public List<Student> retrieveStudentsBySkills(String skill);
+
+    public List<Student> retrieveStudentsByAvgRating(Double avgRating);
+
+
 }

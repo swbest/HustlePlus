@@ -140,6 +140,20 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             throw new StudentNotFoundException("Student Username " + username + " does not exist!");
         }
     }
+    
+    @Override
+    public List<Student> retrieveStudentsBySkills(String skill) {
+        Query query = em.createQuery("SELECT s FROM Student s WHERE :inSkill IN (s.skills)");
+        query.setParameter("inSkill", skill);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<Student> retrieveStudentsByAvgRating(Double avgRating) {
+        Query query = em.createQuery("SELECT s FROM Student s WHERE s.avgRating = :inAvgRating");
+        query.setParameter("inAvgRating", avgRating);
+        return query.getResultList();
+    }
 
     @Override
     public Student studentLogin(String username, String password) throws InvalidLoginCredentialException {
