@@ -36,5 +36,9 @@ public interface CompanySessionBeanLocal {
     public void updateCompany(Company company) throws CompanyNotFoundException, UpdateCompanyException, InputDataValidationException;
 
     public Company companyLogin(String username, String password) throws InvalidLoginCredentialException;
+
+    public List<Company> retrieveCompaniesByName(String cname);
+
+    public List<Company> retrieveCompaniesByAvgRating(Double avgRating);
     
 }

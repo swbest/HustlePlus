@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.Company;
 import entity.Project;
 import java.util.List;
 import java.util.Set;
@@ -87,7 +88,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
     @Override
     public void updateProject(Project project) throws ProjectNotFoundException, UpdateProjectException, InputDataValidationException {
-        if (project != null && project.getProjectId()!= null) {
+        if (project != null && project.getProjectId() != null) {
             Set<ConstraintViolation<Project>> constraintViolations = validator.validate(project);
 
             if (constraintViolations.isEmpty()) {
@@ -103,7 +104,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                 projectToUpdate.setTeam(project.getTeam());
                 projectToUpdate.setMilestones(project.getMilestones());
                 projectToUpdate.setReviews(project.getReviews());
-                        
+
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
@@ -125,5 +126,26 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
         }
         return msg;
     }
-        
+
+    // searching for existing project) project name/ company name/project skills required
+    @Override
+    public List<Company> retrieveProjectsByName(String pname) {
+        Query query = em.createQuery("SELECT p FROM Project p WHERE p.projectName LIKE '%inProjectName%'");
+        query.setParameter("inProjectName", pname);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Project> retrieveProjectsByCompany(String cname) {
+        Query query = em.createQuery("SELECT p FROM Project p WHERE p.company.companyName LIKE '%inCompanyName%'");
+        query.setParameter("inCompanyName", cname);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Project> retrieveProjectsBySkills(String skill) {
+        Query query = em.createQuery("SELECT p FROM Project p WHERE :inSkill IN (p.skills)");
+        query.setParameter("inSkill", skill);
+        return query.getResultList();
+    }
 }

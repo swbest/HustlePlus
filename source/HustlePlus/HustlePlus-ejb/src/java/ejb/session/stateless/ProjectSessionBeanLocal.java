@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.Company;
 import entity.Project;
 import java.util.List;
 import javax.ejb.Local;
@@ -30,5 +31,11 @@ public interface ProjectSessionBeanLocal {
     public void updateProject(Project project) throws ProjectNotFoundException, UpdateProjectException, InputDataValidationException;
 
     public void deleteProject(Long projectId) throws ProjectNotFoundException;
+
+    public List<Company> retrieveProjectsByName(String pname);
+
+    public List<Project> retrieveProjectsByCompany(String cname);
+
+    public List<Project> retrieveProjectsBySkills(String skill);
     
 }

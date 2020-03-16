@@ -155,6 +155,21 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
         }
     }
 
+    // searching for company) rating/ company's name
+    @Override
+    public List<Company> retrieveCompaniesByName(String cname) {
+        Query query = em.createQuery("SELECT c FROM Company c WHERE c.companyName LIKE '%cname%'");
+        query.setParameter("inCompanyName", cname);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Company> retrieveCompaniesByAvgRating(Double avgRating) {
+        Query query = em.createQuery("SELECT c FROM Company c WHERE c.avgRating = :inAvgRating");
+        query.setParameter("inAvgRating", avgRating);
+        return query.getResultList();
+    }
+
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Company>> constraintViolations) {
         String msg = "Input data validation error!:";
 
