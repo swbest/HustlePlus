@@ -37,7 +37,7 @@ public class Project implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long projectId;
-    
+
     @Column(nullable = false, length = 32, unique = true)
     @NotNull
     @Size(max = 32)
@@ -46,7 +46,7 @@ public class Project implements Serializable {
     @NotNull
     @DecimalMin("0.00")
     @Digits(integer = 9, fraction = 2)
-    private BigDecimal jobValue;  
+    private BigDecimal jobValue;
     @Column(nullable = false)
     @NotNull
     private Integer numStudentsRequired;
@@ -62,7 +62,7 @@ public class Project implements Serializable {
     private Date endDate;
     @Column(nullable = false)
     private List<String> skills;
-    
+
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Company company;
@@ -143,6 +143,18 @@ public class Project implements Serializable {
         this.skills = skills;
     }
 
+    public void addSkill(String skill) {
+        if (!this.skills.contains(skill)) {
+            this.skills.add(skill);
+        }
+    }
+
+    public void removeSkill(String skill) {
+        if (this.skills.contains(skill)) {
+            this.skills.remove(skill);
+        }
+    }
+
     public Company getCompany() {
         return company;
     }
@@ -167,12 +179,36 @@ public class Project implements Serializable {
         this.milestones = milestones;
     }
 
+    public void addMilestone(Milestone milestone) {
+        if (!this.milestones.contains(milestone)) {
+            this.milestones.add(milestone);
+        }
+    }
+
+    public void removeMilestone(Milestone milestone) {
+        if (this.milestones.contains(milestone)) {
+            this.milestones.remove(milestone);
+        }
+    }
+
     public List<Review> getReviews() {
         return reviews;
     }
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public void addReview(Review review) {
+        if (!this.reviews.contains(review)) {
+            this.reviews.add(review);
+        }
+    }
+
+    public void removeReview(Review review) {
+        if (this.reviews.contains(review)) {
+            this.reviews.remove(review);
+        }
     }
 
     @Override
@@ -199,5 +235,5 @@ public class Project implements Serializable {
     public String toString() {
         return "entity.Project[ id=" + projectId + " ]";
     }
-    
+
 }

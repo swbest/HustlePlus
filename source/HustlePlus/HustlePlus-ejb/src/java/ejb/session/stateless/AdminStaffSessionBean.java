@@ -25,6 +25,7 @@ import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateAdminStaffException;
+import util.exception.UserEmailExistsException;
 import util.security.CryptographicHelper;
 
 /**
@@ -46,7 +47,7 @@ public class AdminStaffSessionBean implements AdminStaffSessionBeanLocal {
     }
 
     @Override
-    public AdminStaff createNewAdminStaff(AdminStaff newAdminStaff) throws AdminStaffNameExistException, UnknownPersistenceException, InputDataValidationException {
+    public AdminStaff createNewAdminStaff(AdminStaff newAdminStaff) throws UserEmailExistsException, UnknownPersistenceException, InputDataValidationException {
         try {
             Set<ConstraintViolation<AdminStaff>> constraintViolations = validator.validate(newAdminStaff);
 
@@ -61,7 +62,7 @@ public class AdminStaffSessionBean implements AdminStaffSessionBeanLocal {
         } catch (PersistenceException ex) {
             if (ex.getCause() != null && ex.getCause().getClass().getName().equals("org.eclipse.persistence.exceptions.DatabaseException")) {
                 if (ex.getCause().getCause() != null && ex.getCause().getCause().getClass().getName().equals("java.sql.SQLIntegrityConstraintViolationException")) {
-                    throw new AdminStaffNameExistException("Admin name exists, please try again!");
+                    throw new UserEmailExistsException("User email exists, please try again!");
                 } else {
                     throw new UnknownPersistenceException(ex.getMessage());
                 }

@@ -49,10 +49,9 @@ public class Milestone implements Serializable {
         this.hasCleared = Boolean.FALSE;
     }
 
-    public Milestone(String description, Boolean hasCleared, List<Payment> payments, Project project) {
+    public Milestone(String description, Project project) {
         this();
         this.description = description;
-        this.hasCleared = hasCleared;
         this.project = project;
     }
 
@@ -86,6 +85,18 @@ public class Milestone implements Serializable {
 
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
+    }
+
+    public void addPayment(Payment payment) {
+        if (!this.payments.contains(payment)) {
+            this.payments.add(payment);
+        }
+    }
+
+    public void removePayment(Payment payment) {
+        if (this.payments.contains(payment)) {
+            this.payments.remove(payment);
+        }
     }
 
     public Project getProject() {

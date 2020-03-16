@@ -5,13 +5,9 @@
  */
 package entity;
 
-import java.io.File;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotNull;
@@ -24,12 +20,19 @@ import javax.validation.constraints.Size;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class AdminStaff extends User implements Serializable {
-    
+
+    @NotNull
+    @Size(min = 6, max = 64)
+    @Column(nullable = false, length = 64)
     private String name;
 
     public AdminStaff() {
     }
-    
+
+    public AdminStaff(String name) {
+        this.name = name;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -68,5 +71,4 @@ public class AdminStaff extends User implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
 }

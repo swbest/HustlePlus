@@ -132,12 +132,36 @@ public class Student extends User implements Serializable {
         this.skills = skills;
     }
 
+    public void addSkill(String skill) {
+        if (!this.skills.contains(skill)) {
+            this.skills.add(skill);
+        }
+    }
+
+    public void removeSkill(String skill) {
+        if (this.skills.contains(skill)) {
+            this.skills.remove(skill);
+        }
+    }
+
     public List<Team> getTeams() {
         return teams;
     }
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
+    }
+
+    public void addTeam(Team team) {
+        if (!this.teams.contains(team)) {
+            this.teams.add(team);
+        }
+    }
+
+    public void removeTeam(Team team) {
+        if (this.teams.contains(team)) {
+            this.teams.remove(team);
+        }
     }
 
     public List<CompanyReview> getCompanyReviews() {

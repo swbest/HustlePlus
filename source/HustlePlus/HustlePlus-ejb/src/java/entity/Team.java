@@ -8,7 +8,6 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -81,6 +80,18 @@ public class Team implements Serializable {
 
     public void setStudents(List<Student> students) {
         this.students = students;
+    }
+
+    public void addStudent(Student student) {
+        if (!this.students.contains(student)) {
+            this.students.add(student);
+        }
+    }
+
+    public void removeTeam(Student student) {
+        if (this.students.contains(student)) {
+            this.students.remove(student);
+        }
     }
 
     public Project getProject() {

@@ -7,12 +7,12 @@ package ejb.session.stateless;
 
 import entity.AdminStaff;
 import java.util.List;
-import util.exception.AdminStaffNameExistException;
 import util.exception.AdminStaffNotFoundException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateAdminStaffException;
+import util.exception.UserEmailExistsException;
 
 /**
  *
@@ -20,7 +20,7 @@ import util.exception.UpdateAdminStaffException;
  */
 public interface AdminStaffSessionBeanLocal {
 
-    public AdminStaff createNewAdminStaff(AdminStaff newAdminStaff) throws AdminStaffNameExistException, UnknownPersistenceException, InputDataValidationException;
+    public AdminStaff createNewAdminStaff(AdminStaff newAdminStaff) throws UserEmailExistsException, UnknownPersistenceException, InputDataValidationException;
 
     public List<AdminStaff> retrieveAllAdminStaff();
 

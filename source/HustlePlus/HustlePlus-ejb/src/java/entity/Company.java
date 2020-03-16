@@ -117,6 +117,30 @@ public class Company extends User implements Serializable {
         this.isSuspended = isSuspended;
     }
 
+    public void addProject(Project project) {
+        if (!this.projects.contains(project)) {
+            this.projects.add(project);
+        }
+    }
+
+    public void removeProject(Project project) {
+        if (this.projects.contains(project)) {
+            this.projects.remove(project);
+        }
+    }
+
+    public void addStudentReview(StudentReview studentReview) {
+        if (!this.studentReviews.contains(studentReview)) {
+            this.studentReviews.add(studentReview);
+        }
+    }
+
+    public void removeStudentReview(StudentReview studentReview) {
+        if (this.studentReviews.contains(studentReview)) {
+            this.studentReviews.remove(studentReview);
+        }
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
