@@ -95,6 +95,11 @@ public class MilestoneManagementManagedBean {
         setProjectIdUpdate(milestoneToUpdate.getProject().getProjectId());
 
     }
+    
+    public void deleteProduct(javax.faces.event.ActionEvent event)
+    {
+        
+    }
 
     /**
      * @return the viewMilestoneManagedBean

@@ -53,14 +53,23 @@
                         <p:commandButton update="ccViewMilestone:formViewMilestone" oncomplete="PF('dialogViewMilestone').show()" icon="ui-icon-document" title="View">
                             <f:setPropertyActionListener value="#{milestone}" target="#{milestoneManagementManagedBean.viewMilestoneManagedBean.milestoneToView}" />
                         </p:commandButton>
-                        <p:commandButton actionListener="#{milestoneManagementManagedBean.doUpdateMilestone}" update="formUpdateProduct" oncomplete="PF('dialogUpdateProduct').show()" icon="ui-icon-pencil" title="Update">
-                            <f:attribute name="productEntityToUpdate" value="#{productEntity}" />
+                        <p:commandButton actionListener="#{milestoneManagementManagedBean.doUpdateMilestone}" update="formUpdateMilestone" oncomplete="PF('dialogUpdateMilestone').show()" icon="ui-icon-pencil" title="Update">
+                            <f:attribute name="milestoneToUpdate" value="#{milestone}" />
                         </p:commandButton>
-                        <p:commandButton icon="ui-icon-trash" actionListener="#{productManagementManagedBean.deleteProduct}" update="formAllProducts:dataTableAllProducts formAllProducts:messages">
-                            <f:attribute name="productEntityToDelete" value="#{productEntity}" />
-                            <p:confirm header="Confirmation" message="Are you sure you want to delete #{productEntity.name} (SKU Code: #{productEntity.skuCode})?" icon="ui-icon-alert" />
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{milestoneManagementManagedBean.deleteMilestone}" update="formAllMilestones:dataTableAllMilestones formAllMilestones:messages">
+                            <f:attribute name="milestoneToDelete" value="#{milestone}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to delete #{milestone.milestoneId})?" icon="ui-icon-alert" />
                         </p:commandButton>
                     </p:column>
+                    
+                    </p:dataTable>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+                
+            </h:form>
     
 </ui:composition>
 
