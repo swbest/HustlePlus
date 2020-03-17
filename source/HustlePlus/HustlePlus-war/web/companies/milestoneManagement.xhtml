@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="content">
+        
+        <ez:Breadcrumb pageName="milestoneManagement" />
+        
+        <div>
+            <h3>Milestone Management</h3>
+            
+            <h:form>
+            
+                <p:menubar>
+
+                    <p:submenu label="File" icon="ui-icon-document">
+                        <p:menuitem value="Create New Milestone" onclick="PF('dialogCreateNewMilestone').show()" icon="fa fa-plus" />
+                    </p:submenu>                                        
+
+                </p:menubar>
+                <br/>
+
+            </h:form>
+            
+            <h:form id="formAllMilestones">
+            
+                <p:messages id="messages" redisplay="false" closable="true" />
+
+                <p:dataTable id="dataTableAllMilestones" widgetVar="dataTableAllMilestones" value="#{milestoneManagementManagedBean.milestones}" var="milestone" rowKey="#{milestone.milestoneId}" rowIndexVar="row"
+                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                    
+                    <f:facet name="header">
+                        <p:outputPanel style="text-align: right;">
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('dataTableAllMilestones').filter()" style="width:300px" placeholder="Enter keyword"/>
+                        </p:outputPanel>
+                    </f:facet>
+                    
+                     <p:column headerText="Milestone ID" sortBy="#{milestone.milestoneId}" filterBy="#{milestone.milestoneId}" filterMatchMode="contains">
+                        <h:outputText value="#{milestone.milestoneId}" />
+                    </p:column>
+                    
+                    <p:column headerText="Description" sortBy="#{milestone.description}" filterBy="#{milestone.description}" filterMatchMode="contains">
+                        <h:outputText value="#{milestone.description}" />
+                    </p:column>
+                    
+                    <p:column headerText="Action" >
+                        <p:commandButton update="ccViewMilestone:formViewMilestone" oncomplete="PF('dialogViewMilestone').show()" icon="ui-icon-document" title="View">
+                            <f:setPropertyActionListener value="#{milestone}" target="#{milestoneManagementManagedBean.viewMilestoneManagedBean.milestoneToView}" />
+                        </p:commandButton>
+                        <p:commandButton actionListener="#{milestoneManagementManagedBean.doUpdateMilestone}" update="formUpdateProduct" oncomplete="PF('dialogUpdateProduct').show()" icon="ui-icon-pencil" title="Update">
+                            <f:attribute name="productEntityToUpdate" value="#{productEntity}" />
+                        </p:commandButton>
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{productManagementManagedBean.deleteProduct}" update="formAllProducts:dataTableAllProducts formAllProducts:messages">
+                            <f:attribute name="productEntityToDelete" value="#{productEntity}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to delete #{productEntity.name} (SKU Code: #{productEntity.skuCode})?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </p:column>
+    
+</ui:composition>
+
