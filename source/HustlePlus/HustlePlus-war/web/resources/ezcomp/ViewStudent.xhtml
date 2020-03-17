@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <cc:interface>
+    </cc:interface>
+    
+    <cc:implementation>
+        
+        <h:form id="formViewStudent">
+            
+            <p:dialog id="dialogViewStudent" widgetVar="dialogViewStudent" header="View Student" closable="true">
+
+                <p:panelGrid>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="User ID: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewStudentManagedBean.studentToView.userId}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Profile Picture: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewStudentManagedBean.studentToView.icon}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="First Name: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewStudentManagedBean.studentToView.firstName}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Last Name: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewStudentManagedBean.studentToView.lastName}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Username: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewStudentManagedBean.studentToView.username}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Email: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewStudentManagedBean.studentToView.email}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Resume: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewStudentManagedBean.studentToView.resume}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="About Me: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewStudentManagedBean.studentToView.description}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Average Rating: " />
+                        </p:column>
+                        <p:column>
+                            <p:rating id="productRating" value="#{viewStudentManagedBean.studentToView.avgRating}" stars="5" readonly="true" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Verified: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewStudentManagedBean.studentToView.isVerified}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Suspended: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewStudentManagedBean.studentToView.isSuspended}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Skill(s): " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewStudentManagedBean.studentToView.skills}" />
+                        </p:column>
+                    </p:row>
+                    
+                </p:panelGrid>
+
+            </p:dialog>
+            
+        </h:form>
+        
+    </cc:implementation>
+</html>
