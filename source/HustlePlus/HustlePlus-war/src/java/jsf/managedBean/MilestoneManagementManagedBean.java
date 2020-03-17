@@ -8,10 +8,10 @@ package jsf.managedBean;
 import ejb.session.stateless.MilestoneSessionBeanLocal;
 import ejb.session.stateless.ProjectSessionBeanLocal;
 import entity.Milestone;
+import entity.Payment;
 import entity.Project;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -22,6 +22,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import util.exception.InputDataValidationException;
 import util.exception.MilestoneIdExistException;
+import util.exception.MilestoneNotFoundException;
 import util.exception.UnknownPersistenceException;
 
 /**
@@ -42,11 +43,14 @@ public class MilestoneManagementManagedBean {
     private ViewMilestoneManagedBean viewMilestoneManagedBean;
     
     private List<Milestone> milestones;
+    private Project selProject;
+    private Payment newPayment;
     private Milestone newMilestone;
     private List<Project> projects;
     
     private Milestone milestoneToUpdate;
     private Long projectIdUpdate;
+    private Payment paymentToUpdate;
 
     
     /**
@@ -75,10 +79,12 @@ public class MilestoneManagementManagedBean {
         
         try
         {
-            Milestone m = milestoneSessionBeanLocal.createNewMilestone(getNewMilestone()); //project? payment?
+            Milestone m = milestoneSessionBeanLocal.createNewMilestone(newMilestone); //project? payment?
             getMilestones().add(m);
             
-            setNewMilestone(new Milestone());
+            newMilestone = new Milestone();
+            selProject = null;
+            newPayment = null;
         
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New milestone created successfully (Product ID: " + m.getMilestoneId() + ")", null));
             
@@ -93,7 +99,45 @@ public class MilestoneManagementManagedBean {
         milestoneToUpdate = (Milestone)event.getComponent().getAttributes().get("milestoneToUpdate");
         
         setProjectIdUpdate(milestoneToUpdate.getProject().getProjectId());
+        //setPaymentToUpdate(paymentToUpdate.getPayment().getPaymentId());
 
+    }
+    
+    public void updateProduct(javax.faces.event.ActionEvent event)
+    {                    
+        
+        try
+        {
+            milestoneSessionBeanLocal.updateMilestone(milestoneToUpdate); //project? payment?
+                        
+            for(Project p: projects)
+            {
+                if(p.getProjectId().equals(projectIdUpdate))
+                {
+                    milestoneToUpdate.setProject(p);
+                    break;
+                }                
+            }
+            
+            //milestoneToUpdate.getPayment().clear();
+            
+            /*
+            if (milestoneToUpdate.getPayment().getPaymentId().equals(paymentToUpdate.getPaymentId()))
+            {
+                milestoneToUpdate.setPayment(paymentToUpdate);
+            }
+            */
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Milestone updated successfully!", null));
+        }
+        catch(MilestoneNotFoundException ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating this milestone: " + ex.getMessage(), null));
+        }
+        catch(Exception ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
     }
     
     public void deleteProduct(javax.faces.event.ActionEvent event)
@@ -184,6 +228,50 @@ public class MilestoneManagementManagedBean {
     public void setProjectIdUpdate(Long projectIdUpdate) {
         this.projectIdUpdate = projectIdUpdate;
     }
+
+    /**
+     * @return the selProject
+     */
+    public Project getSelProject() {
+        return selProject;
+    }
+
+    /**
+     * @param selProject the selProject to set
+     */
+    public void setSelProject(Project selProject) {
+        this.selProject = selProject;
+    }
+
+    /**
+     * @return the newPayment
+     */
+    public Payment getNewPayment() {
+        return newPayment;
+    }
+
+    /**
+     * @param newPayment the newPayment to set
+     */
+    public void setNewPayment(Payment newPayment) {
+        this.newPayment = newPayment;
+    }
+
+    /**
+     * @return the paymentToUpdate
+     */
+    public Payment getPaymentToUpdate() {
+        return paymentToUpdate;
+    }
+
+    /**
+     * @param paymentToUpdate the paymentToUpdate to set
+     */
+    public void setPaymentToUpdate(Payment paymentToUpdate) {
+        this.paymentToUpdate = paymentToUpdate;
+    }
+
+  
 
     
     
