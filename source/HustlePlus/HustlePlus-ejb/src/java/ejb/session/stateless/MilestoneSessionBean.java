@@ -86,6 +86,7 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
 
             if (constraintViolations.isEmpty()) {
                 Milestone milestoneToUpdate = retrieveMilestoneByMilestoneId(milestone.getMilestoneId());
+                milestoneToUpdate.setTitle(milestone.getTitle());
                 milestoneToUpdate.setDescription(milestone.getDescription());
                 milestoneToUpdate.setHasCleared(milestone.getHasCleared());
                 milestoneToUpdate.setPayments(milestone.getPayments());

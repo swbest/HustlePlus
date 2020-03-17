@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.Company;
 import entity.Project;
+import entity.Skill;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -18,6 +19,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import util.exception.DeleteProjectException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
 import util.exception.ProjectNotFoundException;
@@ -114,9 +116,13 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
 
     @Override
-    public void deleteProject(Long projectId) throws ProjectNotFoundException {
+    public void deleteProject(Long projectId) throws ProjectNotFoundException, DeleteProjectException {
         Project projectToRemove = retrieveProjectByProjectId(projectId);
-        em.remove(projectToRemove);
+        if (projectToRemove.getTeam().getNumStudents() == 0 && projectToRemove.getReviews().size() == 0) {
+            em.remove(projectToRemove);
+        } else {
+            throw new DeleteProjectException("Project Id " + projectId + " is associated with existing teams and reviews and cannot be deleted!");
+        }
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Project>> constraintViolations) {
@@ -143,9 +149,9 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
 
     @Override
-    public List<Project> retrieveProjectsBySkills(String skill) {
-        Query query = em.createQuery("SELECT p FROM Project p WHERE :inSkill IN (p.skills)");
-        query.setParameter("inSkill", skill);
+    public List<Project> retrieveProjectsBySkills(String skillTitle) {
+        Query query = em.createQuery("SELECT p FROM Project p WHERE p.skills.title = :inSkillTitle");
+        query.setParameter("inSkillTitle", skillTitle);
         return query.getResultList();
     }
 }

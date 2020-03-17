@@ -9,6 +9,7 @@ import entity.Company;
 import entity.Project;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.DeleteProjectException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
 import util.exception.ProjectNotFoundException;
@@ -30,7 +31,7 @@ public interface ProjectSessionBeanLocal {
 
     public void updateProject(Project project) throws ProjectNotFoundException, UpdateProjectException, InputDataValidationException;
 
-    public void deleteProject(Long projectId) throws ProjectNotFoundException;
+    public void deleteProject(Long projectId) throws ProjectNotFoundException, DeleteProjectException;
 
     public List<Company> retrieveProjectsByName(String pname);
 

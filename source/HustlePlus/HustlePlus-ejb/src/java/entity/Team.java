@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
@@ -36,7 +37,7 @@ public class Team implements Serializable {
     @NotNull
     @Column(nullable = false)
     private int numStudents;
-    @OneToMany(mappedBy = "team")
+    @ManyToMany(mappedBy = "teams")
     private List<Student> students;
     @OneToOne(optional = false)
     private Project project;

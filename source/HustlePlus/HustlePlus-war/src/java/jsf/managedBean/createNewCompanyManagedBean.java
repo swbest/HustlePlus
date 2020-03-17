@@ -23,7 +23,7 @@ import util.exception.UnknownPersistenceException;
  */
 @Named(value = "createNewCompanyManagedBean")
 @RequestScoped
-public class createNewCompanyManagedBean {
+public class CreateNewCompanyManagedBean {
 
     @EJB
     private CompanySessionBeanLocal companySessionBeanLocal;
@@ -33,7 +33,7 @@ public class createNewCompanyManagedBean {
     /**
      * Creates a new instance of createNewCompanyManagedBean
      */
-    public createNewCompanyManagedBean() {
+    public CreateNewCompanyManagedBean() {
         
         newCompany = new Company(); 
     }

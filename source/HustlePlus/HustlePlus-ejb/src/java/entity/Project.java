@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -60,21 +61,22 @@ public class Project implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     @Column(nullable = false)
     private Date endDate;
-    @Column(nullable = false)
-    private List<String> skills;
-
+    
+    @ManyToMany(mappedBy = "projects")
+    @JoinColumn(nullable = false)
+    private List<Skill> skills;
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Company company;
     @OneToOne(optional = true, fetch = FetchType.EAGER)
     private Team team;
-    @OneToMany(mappedBy = "milestone")
+    @OneToMany(mappedBy = "project")
     private List<Milestone> milestones;
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "project")
     private List<Review> reviews;
 
     public Project() {
-        this.skills = new ArrayList<String>();
+        this.skills = new ArrayList<Skill>();
         this.milestones = new ArrayList<Milestone>();
         this.reviews = new ArrayList<>();
     }
@@ -135,21 +137,21 @@ public class Project implements Serializable {
         this.endDate = endDate;
     }
 
-    public List<String> getSkills() {
+    public List<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<String> skills) {
+    public void setSkills(List<Skill> skills) {
         this.skills = skills;
     }
 
-    public void addSkill(String skill) {
+    public void addSkill(Skill skill) {
         if (!this.skills.contains(skill)) {
             this.skills.add(skill);
         }
     }
 
-    public void removeSkill(String skill) {
+    public void removeSkill(Skill skill) {
         if (this.skills.contains(skill)) {
             this.skills.remove(skill);
         }

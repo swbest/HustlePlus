@@ -14,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Max;
@@ -52,13 +53,12 @@ public class Company extends User implements Serializable {
 
     @OneToMany(mappedBy = "company")
     private List<Project> projects;
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = true)
-    private List<StudentReview> studentReviews;
+    @OneToMany(mappedBy = "company")
+    private List<Review> studentReviews;
 
     public Company() {
         this.projects = new ArrayList<Project>();
-        this.studentReviews = new ArrayList<StudentReview>();
+        this.studentReviews = new ArrayList<Review>();
     }
 
     public String getCompanyName() {
@@ -77,11 +77,11 @@ public class Company extends User implements Serializable {
         this.projects = projects;
     }
 
-    public List<StudentReview> getStudentReviews() {
+    public List<Review> getStudentReviews() {
         return studentReviews;
     }
 
-    public void setStudentReviews(List<StudentReview> studentReviews) {
+    public void setStudentReviews(List<Review> studentReviews) {
         this.studentReviews = studentReviews;
     }
 

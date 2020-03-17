@@ -30,6 +30,10 @@ public class Milestone implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long milestoneId;
+    @Column(nullable = false, length = 16)
+    @NotNull
+    @Size(max = 16)
+    private String title;
     @Column(nullable = false, length = 256)
     @NotNull
     @Size(max = 256)
@@ -49,8 +53,9 @@ public class Milestone implements Serializable {
         this.hasCleared = Boolean.FALSE;
     }
 
-    public Milestone(String description, Project project) {
+    public Milestone(String title, String description, Project project) {
         this();
+        this.title = title;
         this.description = description;
         this.project = project;
     }
@@ -61,6 +66,14 @@ public class Milestone implements Serializable {
 
     public void setMilestoneId(Long milestoneId) {
         this.milestoneId = milestoneId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
