@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import util.exception.AdminStaffNameExistException;
 import util.exception.InputDataValidationException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UserEmailExistsException;
 
 /**
  *
@@ -45,7 +46,7 @@ public class CreateNewAdminStaffManagedBean {
             setNewAdminStaff(new AdminStaff());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New administrator created successfully " + a.getUserId(), null));
         
-        } catch (AdminStaffNameExistException ex)
+        } catch (UserEmailExistsException ex)
         {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new administrator: The administrator name already exists!", null));
         }  catch (InputDataValidationException | UnknownPersistenceException ex) {
