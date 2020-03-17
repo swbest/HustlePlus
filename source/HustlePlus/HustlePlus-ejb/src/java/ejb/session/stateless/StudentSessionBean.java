@@ -5,7 +5,7 @@
  */
 package ejb.session.stateless;
 
-import entity.Company;
+import entity.Skill;
 import entity.Student;
 import java.util.List;
 import java.util.Set;
@@ -94,8 +94,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
                 studentToUpdate.setPassword(student.getPassword());
                 studentToUpdate.setIcon(student.getIcon());
                 studentToUpdate.setEmail(student.getEmail());
-                studentToUpdate.setFirstName(student.getFirstName());
-                studentToUpdate.setLastName(student.getLastName());
+                studentToUpdate.setName(student.getName());
                 studentToUpdate.setResume(student.getResume());
                 studentToUpdate.setDescription(student.getDescription());
                 studentToUpdate.setAvgRating(student.getAvgRating());
@@ -140,14 +139,21 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             throw new StudentNotFoundException("Student Username " + username + " does not exist!");
         }
     }
-    
+
     @Override
-    public List<Student> retrieveStudentsBySkills(String skill) {
-        Query query = em.createQuery("SELECT s FROM Student s WHERE :inSkill IN (s.skills)");
-        query.setParameter("inSkill", skill);
+    public List retrieveStudentsByName(String name) throws StudentNotFoundException {
+        Query query = em.createQuery("SELECT s FROM Student s WHERE s.name LIKE '%inStudentName%'");
+        query.setParameter("inStudentName", name);
         return query.getResultList();
     }
-    
+
+    @Override
+    public List<Student> retrieveStudentsBySkills(String skillTitle) {
+        Query query = em.createQuery("SELECT s FROM Student s WHERE s.skills.title = :inSkillTitle");
+        query.setParameter("inSkillTitle", skillTitle);
+        return query.getResultList();
+    }
+
     @Override
     public List<Student> retrieveStudentsByAvgRating(Double avgRating) {
         Query query = em.createQuery("SELECT s FROM Student s WHERE s.avgRating = :inAvgRating");

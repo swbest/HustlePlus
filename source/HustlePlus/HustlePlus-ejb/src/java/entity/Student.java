@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Max;
@@ -31,12 +32,8 @@ public class Student extends User implements Serializable {
 
     @Column(nullable = false, length = 32)
     @NotNull
-    @Size(max = 32)
-    private String firstName;
-    @Column(nullable = false, length = 32)
-    @NotNull
-    @Size(max = 32)
-    private String lastName;
+    @Size(max = 64)
+    private String name;
     @Column(nullable = true)
     private File resume;
     @NotNull
@@ -53,35 +50,27 @@ public class Student extends User implements Serializable {
     @NotNull
     @Column(nullable = false)
     private Boolean isSuspended;
-    @Column(nullable = false)
-    private List<String> skills;
-
-    @OneToMany(mappedBy = "student")
+    
+    @ManyToMany(mappedBy = "students")
+    @JoinColumn(nullable = false)
+    private List<Skill> skills;
+    @ManyToMany
     private List<Team> teams;
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = true)
-    private List<CompanyReview> companyReviews;
+    @OneToMany(mappedBy = "student")
+    private List<Review> companyReviews;
 
     public Student() {
-        this.skills = new ArrayList<String>();
+        this.skills = new ArrayList<Skill>();
         this.teams = new ArrayList<Team>();
-        this.companyReviews = new ArrayList<CompanyReview>();
+        this.companyReviews = new ArrayList<Review>();
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public File getResume() {
@@ -124,21 +113,21 @@ public class Student extends User implements Serializable {
         this.isSuspended = isSuspended;
     }
 
-    public List<String> getSkills() {
+    public List<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<String> skills) {
+    public void setSkills(List<Skill> skills) {
         this.skills = skills;
     }
 
-    public void addSkill(String skill) {
+    public void addSkill(Skill skill) {
         if (!this.skills.contains(skill)) {
             this.skills.add(skill);
         }
     }
 
-    public void removeSkill(String skill) {
+    public void removeSkill(Skill skill) {
         if (this.skills.contains(skill)) {
             this.skills.remove(skill);
         }
@@ -164,11 +153,11 @@ public class Student extends User implements Serializable {
         }
     }
 
-    public List<CompanyReview> getCompanyReviews() {
+    public List<Review> getCompanyReviews() {
         return companyReviews;
     }
 
-    public void setCompanyReviews(List<CompanyReview> companyReviews) {
+    public void setCompanyReviews(List<Review> companyReviews) {
         this.companyReviews = companyReviews;
     }
 

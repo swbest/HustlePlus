@@ -41,5 +41,6 @@ public interface StudentSessionBeanLocal {
 
     public List<Student> retrieveStudentsByAvgRating(Double avgRating);
 
+    public List retrieveStudentsByName(String name) throws StudentNotFoundException;
 
 }

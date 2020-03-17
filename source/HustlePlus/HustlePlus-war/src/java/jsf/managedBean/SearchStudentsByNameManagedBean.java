@@ -14,6 +14,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import util.exception.StudentNotFoundException;
 
 /**
  *
@@ -25,43 +26,43 @@ public class SearchStudentsByNameManagedBean {
 
     @EJB
     private StudentSessionBeanLocal studentSessionBeanLocal;
-    
+
     @Inject
     private ViewStudentManagedBean viewStudentManagedBean;
-    
+
     private String searchString;
     private List<Student> students;
-    
+
     /**
      * Creates a new instance of SearchStudentsManagedBean
      */
     public SearchStudentsByNameManagedBean() {
     }
-    
+
     @PostConstruct
-    public void postConstruct()
-    {
-        setSearchString((String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("studentSearchString"));
-        
-        if(getSearchString() == null || getSearchString().trim().length() == 0)
-        {
+    public void postConstruct() {
+        setSearchString((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("studentSearchString"));
+
+        if (getSearchString() == null || getSearchString().trim().length() == 0) {
             setStudents(studentSessionBeanLocal.retrieveAllStudents());
-        }
-        else
-        {
-            setStudents(studentSessionBeanLocal.searchStudentsByName(getSearchString()));
+        } else {
+            try {
+                setStudents(studentSessionBeanLocal.retrieveStudentsByName(getSearchString()));
+            } catch (StudentNotFoundException ex) {
+                
+            }
         }
     }
-    
-    public void searchStudent()
-    {
-        if(getSearchString() == null || getSearchString().trim().length() == 0)
-        {
+
+    public void searchStudent() {
+        if (getSearchString() == null || getSearchString().trim().length() == 0) {
             setStudents(studentSessionBeanLocal.retrieveAllStudents());
-        }
-        else
-        {
-            setStudents(studentSessionBeanLocal.searchStudentsByName(getSearchString()));
+        } else {
+            try {
+                setStudents(studentSessionBeanLocal.retrieveStudentsByName(getSearchString()));
+            } catch (StudentNotFoundException ex) {
+                
+            }
         }
     }
 
@@ -106,5 +107,5 @@ public class SearchStudentsByNameManagedBean {
     public void setStudents(List<Student> students) {
         this.students = students;
     }
-    
+
 }
