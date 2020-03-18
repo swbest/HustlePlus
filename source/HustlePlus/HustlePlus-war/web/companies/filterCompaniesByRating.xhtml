@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="content">
+        
+        <ez:Breadcrumb pageName="filterCompaniesByRating" />
+        
+        <div>
+            <h3>Filter Companies By Rating</h3>                       
+            
+            <h:form id="formMain">
+                
+                <p:layout>
+                
+                    <p:layoutUnit position="west" resizable="true">
+                        
+                        <p:outputLabel for="selCondition" value="Condition: " style="font-weight: bold;" />
+                        <p:selectOneMenu id="selCondition" value="#{filterCompaniesByRatingManagedBean.condition}">
+
+                            <f:selectItem itemValue="OR" itemLabel="OR" itemDescription="OR" />
+                            <f:selectItem itemValue="AND" itemLabel="AND" itemDescription="AND" />
+
+                            <p:ajax process="@form" update="formMain:dataTableMain" listener="#{filterCompaniesByRatingManagedBean.filterCompany}" />
+
+                        </p:selectOneMenu>
+
+                        <br /><br />
+
+                        <p:outputLabel for="selReviews" value="Rating: " style="font-weight: bold;" />
+                        <p:selectManyMenu id="selReviews" value="#{filterCompaniesByRatingManagedBean.selectedReviewIds}" showCheckbox="true">
+                            <f:selectItems value="#{filterCompaniesByRatingManagedBean.selectItems}" />
+
+                            <p:ajax process="@form" update="formMain:dataTableMain" listener="#{filterCompaniesByRatingManagedBean.filterCompany}" />
+
+                        </p:selectManyMenu>                                
+
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="center">
+                        
+                        <p:dataTable id="dataTableMain" widgetVar="dataTableMain" value="#{filterCompaniesByRatingManagedBean.companies}" var="company" rowKey="#{company.userId}" rowIndexVar="row"                             
+                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                    
+                            <p:column headerText="User ID" sortBy="#{company.userId}">
+                                <h:outputText value="#{company.userId}" />
+                            </p:column>
+                    
+                            <p:column headerText="Name" sortBy="#{company.companyName}">
+                                <h:outputText value="#{company.companyName}" />
+                            </p:column>                         
+
+                            <p:column headerText="Username" sortBy="#{company.username}">
+                                <h:outputText value="#{company.username}" />
+                            </p:column>
+                    
+                            <p:column headerText="Email" sortBy="#{company.email}">
+                                <h:outputText value="#{company.email}" />
+                            </p:column>
+                    
+                            <p:column headerText="Verified" sortBy="#{company.isVerified}">
+                                <h:outputText value="#{company.isVerified}" />
+                            </p:column>
+                    
+                            <p:column headerText="Suspended" sortBy="#{company.isSuspended}">
+                             <h:outputText value="#{company.isSuspended}" />
+                            </p:column>
+
+                            <p:column headerText="Action" >
+                            <p:commandButton update="ccViewCompany:formViewCompany" oncomplete="PF('dialogViewCompany').show()" icon="ui-icon-document" title="View Details">
+                                <f:setPropertyActionListener value="#{company}" target="#{filterCompaniesByRatingManagedBean.viewCompanyManagedBean.companyToView}" />
+                             </p:commandButton>                        
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:layoutUnit>
+
+                </p:layout>                                               
+                
+            </h:form>
+            
+            <ez:ViewStudent id="ccViewCompany" />
+        </div>
+        
+    </ui:define>
+</ui:composition>

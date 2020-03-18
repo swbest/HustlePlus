@@ -45,7 +45,7 @@ public class FilterCompaniesByRatingManagedBean {
     private List<Company> companies;
 
     /**
-     * Creates a new instance of FilterCompaniesb
+     * Creates a new instance of FilterCompaniesByRatingManagedBean
      */
     public FilterCompaniesByRatingManagedBean() {
         condition = "OR";

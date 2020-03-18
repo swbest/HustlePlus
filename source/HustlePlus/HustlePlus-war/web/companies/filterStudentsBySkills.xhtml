@@ -33,7 +33,7 @@
                         <br /><br />
 
                         <p:outputLabel for="selSkills" value="Skills: " style="font-weight: bold;" />
-                        <p:selectManyMenu id="selTags" value="#{filterStudentsBySkillsManagedBean.selectedSkillIds}" showCheckbox="true">
+                        <p:selectManyMenu id="selSkills" value="#{filterStudentsBySkillsManagedBean.selectedSkillIds}" showCheckbox="true">
                             <f:selectItems value="#{filterStudentsBySkillsManagedBean.selectItems}" />
 
                             <p:ajax process="@form" update="formMain:dataTableMain" listener="#{filterStudentsBySkillsManagedBean.filterStudent}" />
@@ -51,13 +51,9 @@
                                 <h:outputText value="#{student.userId}" />
                             </p:column>
                     
-                            <p:column headerText="First Name" sortBy="#{student.firstName}">
-                               <h:outputText value="#{student.firstName}" />
-                            </p:column>
-
-                            <p:column headerText="Last Name" sortBy="#{student.lastName}">
-                                <h:outputText value="#{student.lastName}" />
-                            </p:column>                            
+                            <p:column headerText="Name" sortBy="#{student.name}">
+                               <h:outputText value="#{student.name}" />
+                            </p:column>                           
 
                             <p:column headerText="Username" sortBy="#{student.username}">
                                 <h:outputText value="#{student.username}" />
@@ -77,7 +73,7 @@
 
                             <p:column headerText="Action" >
                             <p:commandButton update="ccViewStudent:formViewStudent" oncomplete="PF('dialogViewStudent').show()" icon="ui-icon-document" title="View Details">
-                             <f:setPropertyActionListener value="#{student}" target="#{searchStudentsByNameManagedBean.viewStudentManagedBean.studentToView}" />
+                                <f:setPropertyActionListener value="#{student}" target="#{filterStudentsBySkillsManagedBean.viewStudentManagedBean.studentToView}" />
                              </p:commandButton>                        
                             </p:column>
 
