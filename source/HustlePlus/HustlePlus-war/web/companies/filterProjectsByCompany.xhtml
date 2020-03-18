@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui">
+   
+    <ui:define name="content">
+        
+        <ez:Breadcrumb pageName="filterProjectsByCompany" />
+        
+        <div>
+            <h3>Filter Projects By Company</h3>                       
+            
+            <h:form id="formMain">
+                
+                <p:layout>
+                
+                    <p:layoutUnit position="west" resizable="true">
+                        
+                        <p:outputLabel for="selCondition" value="Condition: " style="font-weight: bold;" />
+                        <p:selectOneMenu id="selCondition" value="#{filterProjectsByCompanyManagedBean.condition}">
+
+                            <f:selectItem itemValue="OR" itemLabel="OR" itemDescription="OR" />
+                            <f:selectItem itemValue="AND" itemLabel="AND" itemDescription="AND" />
+
+                            <p:ajax process="@form" update="formMain:dataTableMain" listener="#{filterProjectsByCompanyManagedBean.filterProject}" />
+
+                        </p:selectOneMenu>
+
+                        <br /><br />
+
+                        <p:outputLabel for="selCompany" value="Company: " style="font-weight: bold;" />
+                        <p:selectManyMenu id="selReviews" value="#{filterProjectsByCompanyManagedBean.selectedCompanyIds}" showCheckbox="true">
+                            <f:selectItems value="#{filterProjectsByCompanyManagedBean.selectItems}" />
+
+                            <p:ajax process="@form" update="formMain:dataTableMain" listener="#{filterProjectsByCompanyManagedBean.filterProject}" />
+
+                        </p:selectManyMenu>                                
+
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="center">
+                        
+                        <p:dataTable id="dataTableMain" widgetVar="dataTableMain" value="#{filterProjectsByCompanyManagedBean.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row"                             
+                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                    
+                            <p:column headerText="Project ID" sortBy="#{project.projectId}">
+                                <h:outputText value="#{project.projectId}" />
+                            </p:column>
+
+                            <p:column headerText="Project Name" sortBy="#{project.projectName}">
+                                <h:outputText value="#{project.projectName}" />
+                            </p:column>                          
+
+                            <p:column headerText="Job Value" sortBy="#{project.jobValue}">
+                                <h:outputText value="#{project.jobValue}" />
+                            </p:column>
+
+                            <p:column headerText="No. Students" sortBy="#{project.numStudentsRequired}">
+                                <h:outputText value="#{project.numStudentsRequired}" />
+                            </p:column>
+
+                            <p:column headerText="Start Date" sortBy="#{project.startDate}">
+                                <h:outputText value="#{project.startDate}" />
+                            </p:column>
+
+                            <p:column headerText="Due Date" sortBy="#{project.endDate}">
+                                <h:outputText value="#{project.endDate}" />
+                            </p:column>
+
+                            <p:column headerText="Action" >
+                            <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View Details">
+                                <f:setPropertyActionListener value="#{company}" target="#{filterProjectsByCompanyManagedBean.viewProjectManagedBean.projectToView}" />
+                             </p:commandButton>                        
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:layoutUnit>
+
+                </p:layout>                                               
+                
+            </h:form>
+            
+            <ez:ViewStudent id="ccViewProject" />
+        </div>
+        
+    </ui:define>
+</ui:composition>
