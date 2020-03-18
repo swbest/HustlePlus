@@ -6,14 +6,14 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <cc:interface>
+<cc:interface>
     </cc:interface>
     
     <cc:implementation>
         
-        <h:form id="formViewStudent">
+        <h:form id="formViewCompany">
             
-            <p:dialog id="dialogViewStudent" widgetVar="dialogViewStudent" header="View Student" closable="true">
+            <p:dialog id="dialogViewCompany" widgetVar="dialogViewCompany" header="View Company" closable="true">
 
                 <p:panelGrid>
                     
@@ -22,7 +22,7 @@
                             <h:outputLabel value="User ID: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentToView.userId}" />
+                            <h:outputText value="#{viewCompanyManagedBean.companyToView.userId}" />
                         </p:column>
                     </p:row>
                     
@@ -31,7 +31,7 @@
                             <h:outputLabel value="Profile Picture: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentToView.icon}" />
+                            <h:outputText value="#{viewCompanyManagedBean.companyToView.icon}" />
                         </p:column>
                     </p:row>
                     
@@ -40,7 +40,7 @@
                             <h:outputLabel value="Name: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentToView.name}" />
+                            <h:outputText value="#{viewCompanyManagedBean.companyToView.name}" />
                         </p:column>
                     </p:row>
                     
@@ -49,7 +49,7 @@
                             <h:outputLabel value="Username: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentToView.username}" />
+                            <h:outputText value="#{viewCompanyManagedBean.companyToView.username}" />
                         </p:column>
                     </p:row>
                     
@@ -58,25 +58,16 @@
                             <h:outputLabel value="Email: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentToView.email}" />
+                            <h:outputText value="#{viewCompanyManagedBean.companyToView.email}" />
                         </p:column>
                     </p:row>
                     
                     <p:row>
                         <p:column>
-                            <h:outputLabel value="Resume: " />
+                            <h:outputLabel value="Description: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentToView.resume}" />
-                        </p:column>
-                    </p:row>
-                    
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="About Me: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentToView.description}" />
+                            <h:outputText value="#{viewCompanyManagedBean.companyToView.description}" />
                         </p:column>
                     </p:row>
                     
@@ -85,7 +76,7 @@
                             <h:outputLabel value="Average Rating: " />
                         </p:column>
                         <p:column>
-                            <p:rating id="avgRating" value="#{viewStudentManagedBean.studentToView.avgRating}" stars="5" readonly="true" />
+                            <p:rating id="avgRating" value="#{viewCompanyManagedBean.companyToView.avgRating}" stars="5" readonly="true" />
                         </p:column>
                     </p:row>
                     
@@ -94,7 +85,7 @@
                             <h:outputLabel value="Verified: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentToView.isVerified}" />
+                            <h:outputText value="#{viewCompanyManagedBean.companyToView.isVerified}" />
                         </p:column>
                     </p:row>
                     
@@ -103,16 +94,7 @@
                             <h:outputLabel value="Suspended: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentToView.isSuspended}" />
-                        </p:column>
-                    </p:row>
-                    
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Skill(s): " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentToView.skills}" />
+                            <h:outputText value="#{viewCompanyManagedBean.companyToView.isSuspended}" />
                         </p:column>
                     </p:row>
                     

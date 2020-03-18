@@ -9,10 +9,10 @@
                     
 <ui:define name="content">
         
-        <ez:Breadcrumb pageName="searchProductsByName" />
+        <ez:Breadcrumb pageName="searchStudentsByName" />
         
         <div>
-            <h3>Search Products by Name</h3>                        
+            <h3>Search Students by Name</h3>                        
 
             <h:form id="formMain">
                                 
@@ -39,13 +39,9 @@
                         <h:outputText value="#{student.userId}" />
                     </p:column>
                     
-                    <p:column headerText="First Name" sortBy="#{student.firstName}">
-                        <h:outputText value="#{student.firstName}" />
-                    </p:column>
-
-                    <p:column headerText="Last Name" sortBy="#{student.lastName}">
-                        <h:outputText value="#{student.lastName}" />
-                    </p:column>                            
+                    <p:column headerText="First Name" sortBy="#{student.name}">
+                        <h:outputText value="#{student.name}" />
+                    </p:column>                      
 
                     <p:column headerText="Username" sortBy="#{student.username}">
                         <h:outputText value="#{student.username}" />
