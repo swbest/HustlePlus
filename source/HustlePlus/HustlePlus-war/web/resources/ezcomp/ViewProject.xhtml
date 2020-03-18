@@ -11,90 +11,72 @@
     
     <cc:implementation>
         
-        <h:form id="formViewCompany">
+        <h:form id="formViewProject">
             
-            <p:dialog id="dialogViewCompany" widgetVar="dialogViewCompany" header="View Company" closable="true">
+            <p:dialog id="dialogViewProject" widgetVar="dialogViewProject" header="View Project" closable="true">
 
                 <p:panelGrid>
                     
                     <p:row>
                         <p:column>
-                            <h:outputLabel value="User ID: " />
+                            <h:outputLabel value="Project ID: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewCompanyManagedBean.companyToView.userId}" />
-                        </p:column>
-                    </p:row>
-                    
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Profile Picture: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{viewCompanyManagedBean.companyToView.icon}" />
+                            <h:outputText value="#{viewProjectManagedBean.projectToView.projectId}" />
                         </p:column>
                     </p:row>
                     
                     <p:row>
                         <p:column>
-                            <h:outputLabel value="Name: " />
+                            <h:outputLabel value="Project Name: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewCompanyManagedBean.companyToView.name}" />
-                        </p:column>
-                    </p:row>
-                    
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Username: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{viewCompanyManagedBean.companyToView.username}" />
+                            <h:outputText value="#{viewProjectManagedBean.projectToView.projectName}" />
                         </p:column>
                     </p:row>
                     
                     <p:row>
                         <p:column>
-                            <h:outputLabel value="Email: " />
+                            <h:outputLabel value="Job Value: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewCompanyManagedBean.companyToView.email}" />
-                        </p:column>
-                    </p:row>
-                    
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Description: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{viewCompanyManagedBean.companyToView.description}" />
+                            <h:outputText value="#{viewProjectManagedBean.projectToView.jobValue}" />
                         </p:column>
                     </p:row>
                     
                     <p:row>
                         <p:column>
-                            <h:outputLabel value="Average Rating: " />
+                            <h:outputLabel value="No. Students: " />
                         </p:column>
                         <p:column>
-                            <p:rating id="avgRating" value="#{viewCompanyManagedBean.companyToView.avgRating}" stars="5" readonly="true" />
-                        </p:column>
-                    </p:row>
-                    
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Verified: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{viewCompanyManagedBean.companyToView.isVerified}" />
+                            <h:outputText value="#{viewProjectManagedBean.projectToView.numStudentsRequired}" />
                         </p:column>
                     </p:row>
                     
                     <p:row>
                         <p:column>
-                            <h:outputLabel value="Suspended: " />
+                            <h:outputLabel value="Project Description: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewCompanyManagedBean.companyToView.isSuspended}" />
+                            <h:outputText value="#{viewProjectManagedBean.projectToView.projectDescription}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Start Date: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewProjectManagedBean.projectToView.startDate}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Due Date: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewProjectManagedBean.projectToView.endDate}" />
                         </p:column>
                     </p:row>
                     

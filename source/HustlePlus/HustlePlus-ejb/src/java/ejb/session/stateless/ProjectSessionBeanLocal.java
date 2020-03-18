@@ -33,7 +33,7 @@ public interface ProjectSessionBeanLocal {
 
     public void deleteProject(Long projectId) throws ProjectNotFoundException, DeleteProjectException;
 
-    public List<Company> retrieveProjectsByName(String pname);
+    public List<Project> retrieveProjectsByName(String pname);
 
     public List<Project> retrieveProjectsByCompany(String cname);
 

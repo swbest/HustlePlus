@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="content">
+        
+        <ez:Breadcrumb pageName="searchProjectsByName" />
+        
+        <div>
+            <h3>Search Projects by Name</h3>                        
+
+            <h:form id="formMain">
+                                
+                <br />
+                
+                <div style="text-align: center;">
+                
+                    <p:inputText id="txtSearchString" value="#{searchProjectsByNameManagedBean.searchString}" style="font-size: x-large;">
+                        <p:ajax event="keyup" process="@this" update="formMain:dataTableMain" listener="#{searchProjectsByNameManagedBean.searchProject}" />
+                    </p:inputText>
+                    &nbsp;
+                    <p:commandButton value="Go" style="font-size: x-large;">
+                        <p:ajax event="click" process="@this formMain:txtSearchString" update="formMain:dataTableMain" listener="#{searchProjectsByNameManagedBean.searchProject}" />
+                    </p:commandButton>
+
+                </div>
+                
+                <br />
+                
+                <p:dataTable id="dataTableMain" widgetVar="dataTableMain" value="#{searchProjectsByNameManagedBean.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row"                             
+                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                    
+                    <p:column headerText="Project ID" sortBy="#{project.projectId}">
+                        <h:outputText value="#{project.projectId}" />
+                    </p:column>
+                    
+                    <p:column headerText="Project Name" sortBy="#{project.projectName}">
+                        <h:outputText value="#{project.projectName}" />
+                    </p:column>                          
+
+                    <p:column headerText="Job Value" sortBy="#{project.jobValue}">
+                        <h:outputText value="#{project.jobValue}" />
+                    </p:column>
+                    
+                    <p:column headerText="No. Students" sortBy="#{project.numStudentsRequired}">
+                        <h:outputText value="#{project.numStudentsRequired}" />
+                    </p:column>
+                    
+                    <p:column headerText="Start Date" sortBy="#{project.startDate}">
+                        <h:outputText value="#{project.startDate}" />
+                    </p:column>
+                    
+                    <p:column headerText="Due Date" sortBy="#{project.endDate}">
+                        <h:outputText value="#{project.endDate}" />
+                    </p:column>
+
+                    <p:column headerText="Action" >
+                        <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View Details">
+                            <f:setPropertyActionListener value="#{project}" target="#{searchProjectsByNameManagedBean.viewProjectManagedBean.projectToView}" />
+                        </p:commandButton>                        
+                    </p:column>
+
+                </p:dataTable>
+                                
+            </h:form>
+            
+            <ez:ViewProject id="ccViewProject" />
+        </div>
+        
+    </ui:define>
+    
+</ui:composition>
+
+    
+    

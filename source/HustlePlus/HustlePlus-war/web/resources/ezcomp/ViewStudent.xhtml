@@ -112,7 +112,9 @@
                             <h:outputLabel value="Skill(s): " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewStudentManagedBean.studentToView.skills}" />
+                            <p:dataList value="#{viewStudentManagedBean.studentToView.skills}" var="skill" type="unordered">
+                                #{skill.title}
+                            </p:dataList>
                         </p:column>
                     </p:row>
                     

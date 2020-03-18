@@ -76,8 +76,8 @@ public class Project implements Serializable {
     private List<Review> reviews;
 
     public Project() {
-        this.skills = new ArrayList<Skill>();
-        this.milestones = new ArrayList<Milestone>();
+        this.skills = new ArrayList<>();
+        this.milestones = new ArrayList<>();
         this.reviews = new ArrayList<>();
     }
 

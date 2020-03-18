@@ -5,9 +5,12 @@
  */
 package jsf.managedBean;
 
+import ejb.session.stateless.SkillSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
+import entity.Skill;
 import entity.Student;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -26,6 +29,9 @@ import javax.inject.Inject;
 @Named(value = "filterStudentsBySkillsManagedBean")
 @RequestScoped
 public class FilterStudentsBySkillsManagedBean {
+
+    @EJB(name = "SkillSessionBeanLocal")
+    private SkillSessionBeanLocal skillSessionBeanLocal;
 
     @EJB(name = "StudentSessionBeanLocal")
     private StudentSessionBeanLocal studentSessionBeanLocal;
@@ -48,19 +54,18 @@ public class FilterStudentsBySkillsManagedBean {
     @PostConstruct
     public void postConstruct()
     {
-        /*
+
         List<Skill> skills = skillSessionBeanLocal.retrieveAllSkills();
         selectItems = new ArrayList<>();
         
         for(Skill s:skills)
         {
-            selectItems.add(new SelectItem(s.getSkillId(), s.getName(), s.getName()));
+            selectItems.add(new SelectItem(s.getSkillId(), s.getTitle(), s.getTitle()));
         }
         
         
         condition = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("studentFilterCondition");        
         selectedSkillIds = (List<Long>)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("studentFilterSkills");
-        */
         
         filterStudent();
     }
@@ -73,16 +78,16 @@ public class FilterStudentsBySkillsManagedBean {
     
     public void filterStudent()
     {        
-        /*
+
         if(selectedSkillIds != null && selectedSkillIds.size() > 0)
         {
-            students = studentSessionBeanLocal.filterStudentsBySkills(selectedSkillIds, condition);
+            //students = studentSessionBeanLocal.retrieveStudentsBySkills(selectedSkillIds, condition);
         }
         else
         {
-            students = studentSessionBeanLocal.retrieveAllProducts();
+            students = studentSessionBeanLocal.retrieveAllStudents();
         }
-        */
+
     }
     
     public void viewStudentDetails(ActionEvent event) throws IOException
@@ -147,6 +152,20 @@ public class FilterStudentsBySkillsManagedBean {
      */
     public void setCondition(String condition) {
         this.condition = condition;
+    }
+
+    /**
+     * @return the viewStudentManagedBean
+     */
+    public ViewStudentManagedBean getViewStudentManagedBean() {
+        return viewStudentManagedBean;
+    }
+
+    /**
+     * @param viewStudentManagedBean the viewStudentManagedBean to set
+     */
+    public void setViewStudentManagedBean(ViewStudentManagedBean viewStudentManagedBean) {
+        this.viewStudentManagedBean = viewStudentManagedBean;
     }
     
 }

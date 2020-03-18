@@ -135,7 +135,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
     // searching for existing project) project name/ company name/project skills required
     @Override
-    public List<Company> retrieveProjectsByName(String pname) {
+    public List<Project> retrieveProjectsByName(String pname) {
         Query query = em.createQuery("SELECT p FROM Project p WHERE p.projectName LIKE '%inProjectName%'");
         query.setParameter("inProjectName", pname);
         return query.getResultList();
