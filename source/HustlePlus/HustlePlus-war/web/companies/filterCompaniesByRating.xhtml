@@ -32,8 +32,8 @@
 
                         <br /><br />
 
-                        <p:outputLabel for="selReviews" value="Rating: " style="font-weight: bold;" />
-                        <p:selectManyMenu id="selReviews" value="#{filterCompaniesByRatingManagedBean.selectedReviewIds}" showCheckbox="true">
+                        <p:outputLabel for="selCompany" value="Rating: " style="font-weight: bold;" />
+                        <p:selectManyMenu id="selCompany" value="#{filterCompaniesByRatingManagedBean.selectedCompanyIds}" showCheckbox="true">
                             <f:selectItems value="#{filterCompaniesByRatingManagedBean.selectItems}" />
 
                             <p:ajax process="@form" update="formMain:dataTableMain" listener="#{filterCompaniesByRatingManagedBean.filterCompany}" />

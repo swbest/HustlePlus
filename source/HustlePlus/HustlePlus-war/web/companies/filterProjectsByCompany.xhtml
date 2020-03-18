@@ -33,7 +33,7 @@
                         <br /><br />
 
                         <p:outputLabel for="selCompany" value="Company: " style="font-weight: bold;" />
-                        <p:selectManyMenu id="selReviews" value="#{filterProjectsByCompanyManagedBean.selectedCompanyIds}" showCheckbox="true">
+                        <p:selectManyMenu id="selCompany" value="#{filterProjectsByCompanyManagedBean.selectedCompanyIds}" showCheckbox="true">
                             <f:selectItems value="#{filterProjectsByCompanyManagedBean.selectItems}" />
 
                             <p:ajax process="@form" update="formMain:dataTableMain" listener="#{filterProjectsByCompanyManagedBean.filterProject}" />

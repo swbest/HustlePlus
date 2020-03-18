@@ -5,10 +5,8 @@
  */
 package jsf.managedBean;
 
-import ejb.session.stateless.CompanyReviewSessionBeanLocal;
 import ejb.session.stateless.CompanySessionBeanLocal;
 import entity.Company;
-import entity.CompanyReview;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +28,6 @@ import javax.inject.Inject;
 @Dependent
 public class FilterCompaniesByRatingManagedBean {
 
-    @EJB(name = "CompanyReviewSessionBeanLocal")
-    private CompanyReviewSessionBeanLocal companyReviewSessionBeanLocal;
-
     @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal;
     
@@ -40,7 +35,7 @@ public class FilterCompaniesByRatingManagedBean {
     private ViewCompanyManagedBean viewCompanyManagedBean;
     
     private String condition;
-    private List<Long> selectedReviewIds;
+    private List<Long> selectedCompanyIds;
     private List<SelectItem> selectItems;
     private List<Company> companies;
 
@@ -55,17 +50,17 @@ public class FilterCompaniesByRatingManagedBean {
     public void postConstruct()
     {
 
-        List<CompanyReview> companyReviews = companyReviewSessionBeanLocal.retrieveAllCompanyReviews();
+        List<Company> cs = companySessionBeanLocal.retrieveAllCompanies();
         setSelectItems(new ArrayList<>());
         
-        for(CompanyReview cr:companyReviews)
+        for(Company c:cs)
         {
-            getSelectItems().add(new SelectItem(cr.getReviewId(), cr.getRating().toString(), cr.getRating().toString()));
+            getSelectItems().add(new SelectItem(c.getUserId(), c.getAvgRating().toString(), c.getAvgRating().toString()));
         }
         
         
         setCondition((String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("companyFilterCondition"));        
-        setSelectedReviewIds((List<Long>)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("companyFilterReviews"));
+        setSelectedCompanyIds((List<Long>)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("companyFilterReviews"));
         
         filterCompany();
     }
@@ -79,7 +74,7 @@ public class FilterCompaniesByRatingManagedBean {
     public void filterCompany()
     {        
 
-        if(getSelectedReviewIds() != null && getSelectedReviewIds().size() > 0)
+        if(getSelectedCompanyIds() != null && getSelectedCompanyIds().size() > 0)
         {
             //companies = companySessionBeanLocal.retrieveCompaniesByAvgRating(selectedReviewIds, condition);
         }
@@ -125,21 +120,7 @@ public class FilterCompaniesByRatingManagedBean {
     public void setCondition(String condition) {
         this.condition = condition;
     }
-
-    /**
-     * @return the selectedReviewIds
-     */
-    public List<Long> getSelectedReviewIds() {
-        return selectedReviewIds;
-    }
-
-    /**
-     * @param selectedReviewIds the selectedReviewIds to set
-     */
-    public void setSelectedReviewIds(List<Long> selectedReviewIds) {
-        this.selectedReviewIds = selectedReviewIds;
-    }
-
+    
     /**
      * @return the selectItems
      */
@@ -166,6 +147,20 @@ public class FilterCompaniesByRatingManagedBean {
      */
     public void setCompanies(List<Company> companies) {
         this.companies = companies;
+    }
+
+    /**
+     * @return the selectedCompanyIds
+     */
+    public List<Long> getSelectedCompanyIds() {
+        return selectedCompanyIds;
+    }
+
+    /**
+     * @param selectedCompanyIds the selectedCompanyIds to set
+     */
+    public void setSelectedCompanyIds(List<Long> selectedCompanyIds) {
+        this.selectedCompanyIds = selectedCompanyIds;
     }
     
 }
