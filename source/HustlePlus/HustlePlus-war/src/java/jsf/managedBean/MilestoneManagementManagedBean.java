@@ -10,8 +10,9 @@ import ejb.session.stateless.ProjectSessionBeanLocal;
 import entity.Milestone;
 import entity.Payment;
 import entity.Project;
-import java.awt.event.ActionEvent;
+import javax.faces.event.ActionEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -43,14 +44,16 @@ public class MilestoneManagementManagedBean {
     private ViewMilestoneManagedBean viewMilestoneManagedBean;
     
     private List<Milestone> milestones;
-    private Project selProject;
-    private Payment newPayment;
+    
     private Milestone newMilestone;
+    private Long selProjectId;
+    private List<Long> newPaymentIds;
     private List<Project> projects;
+    private List<Payment> payments;
     
     private Milestone milestoneToUpdate;
     private Long projectIdUpdate;
-    private Payment paymentToUpdate;
+    private List<Long> paymentIdsUpdate;
 
     
     /**
@@ -77,16 +80,23 @@ public class MilestoneManagementManagedBean {
     public void createNewMilestone(ActionEvent event)
     {
         
+        /*
+        if(selProjectId == 0)
+        {
+            selProjectId = null;
+        }
+        */
+        
         try
         {
             Milestone m = milestoneSessionBeanLocal.createNewMilestone(newMilestone); //project? payment?
             getMilestones().add(m);
             
             newMilestone = new Milestone();
-            selProject = null;
-            newPayment = null;
+            selProjectId = null;
+            newPaymentIds = null;
         
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New milestone created successfully (Product ID: " + m.getMilestoneId() + ")", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New milestone created successfully (Milestone ID: " + m.getMilestoneId() + ")", null));
             
         } catch (MilestoneIdExistException | InputDataValidationException | UnknownPersistenceException ex)
         {
@@ -94,17 +104,29 @@ public class MilestoneManagementManagedBean {
         }
     }
     
-    public void doUpdateMilestone(javax.faces.event.ActionEvent event)
+    public void doUpdateMilestone(ActionEvent event)
     {
         milestoneToUpdate = (Milestone)event.getComponent().getAttributes().get("milestoneToUpdate");
         
-        setProjectIdUpdate(milestoneToUpdate.getProject().getProjectId());
-        //setPaymentToUpdate(paymentToUpdate.getPayment().getPaymentId());
+        projectIdUpdate = milestoneToUpdate.getProject().getProjectId();
+        paymentIdsUpdate = new ArrayList<>();
+        
+        for(Payment payment:milestoneToUpdate.getPayments())
+        {
+            paymentIdsUpdate.add(payment.getPaymentId());
+        }
 
     }
     
     public void updateProduct(javax.faces.event.ActionEvent event)
     {                    
+        
+        /*
+        if(selProjectId == 0)
+        {
+            selProjectId = null;
+        }
+        */
         
         try
         {
@@ -119,14 +141,15 @@ public class MilestoneManagementManagedBean {
                 }                
             }
             
-            //milestoneToUpdate.getPayment().clear();
+            milestoneToUpdate.getPayments().clear();
             
-            /*
-            if (milestoneToUpdate.getPayment().getPaymentId().equals(paymentToUpdate.getPaymentId()))
+            for(Payment pm:payments)
             {
-                milestoneToUpdate.setPayment(paymentToUpdate);
+                if(paymentIdsUpdate.contains(pm.getPaymentId()))
+                {
+                    milestoneToUpdate.getPayments().add(pm);
+                }                
             }
-            */
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Milestone updated successfully!", null));
         }
@@ -140,8 +163,24 @@ public class MilestoneManagementManagedBean {
         }
     }
     
-    public void deleteProduct(javax.faces.event.ActionEvent event)
-    {
+    public void deleteProduct(ActionEvent event)
+    { 
+        try
+        {
+            Milestone milestoneToDelete = (Milestone)event.getComponent().getAttributes().get("milestoneToDelete");
+            milestoneSessionBeanLocal.deleteMilestone(milestoneToDelete.getMilestoneId());
+            
+            milestones.remove(milestoneToDelete);
+            
+        }
+        catch(MilestoneNotFoundException ex) //DeleteMilestoneException?
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while deleting milestone: " + ex.getMessage(), null));
+        }
+        catch(Exception ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
         
     }
 
@@ -230,46 +269,62 @@ public class MilestoneManagementManagedBean {
     }
 
     /**
-     * @return the selProject
+     * @return the selProjectId
      */
-    public Project getSelProject() {
-        return selProject;
+    public Long getSelProjectId() {
+        return selProjectId;
     }
 
     /**
-     * @param selProject the selProject to set
+     * @param selProjectId the selProjectId to set
      */
-    public void setSelProject(Project selProject) {
-        this.selProject = selProject;
+    public void setSelProjectId(Long selProjectId) {
+        this.selProjectId = selProjectId;
     }
 
     /**
-     * @return the newPayment
+     * @return the newPaymentIds
      */
-    public Payment getNewPayment() {
-        return newPayment;
+    public List<Long> getNewPaymentIds() {
+        return newPaymentIds;
     }
 
     /**
-     * @param newPayment the newPayment to set
+     * @param newPaymentIds the newPaymentIds to set
      */
-    public void setNewPayment(Payment newPayment) {
-        this.newPayment = newPayment;
+    public void setNewPaymentIds(List<Long> newPaymentIds) {
+        this.newPaymentIds = newPaymentIds;
     }
 
     /**
-     * @return the paymentToUpdate
+     * @return the paymentIdsUpdate
      */
-    public Payment getPaymentToUpdate() {
-        return paymentToUpdate;
+    public List<Long> getPaymentIdsUpdate() {
+        return paymentIdsUpdate;
     }
 
     /**
-     * @param paymentToUpdate the paymentToUpdate to set
+     * @param paymentIdsUpdate the paymentIdsUpdate to set
      */
-    public void setPaymentToUpdate(Payment paymentToUpdate) {
-        this.paymentToUpdate = paymentToUpdate;
+    public void setPaymentIdsUpdate(List<Long> paymentIdsUpdate) {
+        this.paymentIdsUpdate = paymentIdsUpdate;
     }
+
+    /**
+     * @return the payments
+     */
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    /**
+     * @param payments the payments to set
+     */
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
+
 
   
 
