@@ -28,32 +28,26 @@ public class Payment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
-    @NotNull
-    @Size(max = 30, message = "Account name should be at most 30 characters")
-    @Column(nullable = false, length = 30)
-    private String accountName;
-    @NotNull
-    @Column(nullable = false)
-    private Long accountNumber;
     // optional payment description
     @NotNull
     @Column(nullable = false)
     private String paymentDescription;
     @Column(nullable = false)
     @NotNull
-    private Boolean paid;
+    private Boolean isPaid;
 
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = true)
+    private Student student;
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(nullable = true)
     private Milestone milestone;
 
     public Payment() {
-        this.paid = Boolean.FALSE;
+        this.isPaid = Boolean.FALSE;
     }
 
-    public Payment(String accountName, Long accountNumber, String paymentDescription) {
-        this.accountName = accountName;
-        this.accountNumber = accountNumber;
+    public Payment(String paymentDescription) {
         this.paymentDescription = paymentDescription;
     }
 
@@ -65,22 +59,6 @@ public class Payment implements Serializable {
         this.paymentId = paymentId;
     }
 
-    public String getAccountName() {
-        return accountName;
-    }
-
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
-    }
-
-    public Long getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(Long accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
     public String getPaymentDescription() {
         return paymentDescription;
     }
@@ -89,12 +67,12 @@ public class Payment implements Serializable {
         this.paymentDescription = paymentDescription;
     }
 
-    public Boolean getPaid() {
-        return paid;
+    public Boolean getIsPaid() {
+        return isPaid;
     }
 
-    public void setPaid(Boolean paid) {
-        this.paid = paid;
+    public void setIsPaid(Boolean isPaid) {
+        this.isPaid = isPaid;
     }
 
     public Milestone getMilestone() {
@@ -103,6 +81,14 @@ public class Payment implements Serializable {
 
     public void setMilestone(Milestone milestone) {
         this.milestone = milestone;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     @Override

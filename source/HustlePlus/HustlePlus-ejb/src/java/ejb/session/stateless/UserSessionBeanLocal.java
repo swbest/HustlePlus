@@ -5,7 +5,10 @@
  */
 package ejb.session.stateless;
 
+import entity.User;
 import javax.ejb.Local;
+import util.exception.InvalidLoginCredentialException;
+import util.exception.UserNotFoundException;
 
 /**
  *
@@ -13,5 +16,9 @@ import javax.ejb.Local;
  */
 @Local
 public interface UserSessionBeanLocal {
+
+    public User login(String username, String password) throws InvalidLoginCredentialException;
+
+    public User retrieveUserByUsername(String username) throws UserNotFoundException;
     
 }

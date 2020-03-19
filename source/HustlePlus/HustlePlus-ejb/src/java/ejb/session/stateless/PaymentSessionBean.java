@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.Milestone;
 import entity.Payment;
+import entity.Student;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
@@ -22,6 +23,7 @@ import javax.validation.ValidatorFactory;
 import util.exception.InputDataValidationException;
 import util.exception.MilestoneNotFoundException;
 import util.exception.PaymentNotFoundException;
+import util.exception.StudentNotFoundException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdatePaymentException;
 
@@ -37,9 +39,11 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
 
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
-    
+
     @EJB
     private MilestoneSessionBeanLocal milestoneSessionBeanLocal;
+    @EJB
+    private StudentSessionBeanLocal studentSessionBeanLocal;
 
     public PaymentSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -47,19 +51,22 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
     }
 
     @Override
-    public Payment createNewPayment(Payment newPayment, Long milestoneId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException {
+    public Payment createNewPayment(Payment newPayment, Long milestoneId, Long studentId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException, StudentNotFoundException {
         try {
             Set<ConstraintViolation<Payment>> constraintViolations = validator.validate(newPayment);
 
             if (constraintViolations.isEmpty()) {
                 try {
-                Milestone milestone = milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId);
-                newPayment.setMilestone(milestone);  
-                milestone.addPayment(newPayment);
-                em.persist(newPayment);
-                em.flush();
+                    Milestone milestone = milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId);
+                    Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+                    newPayment.setMilestone(milestone);
+                    newPayment.setStudent(student);
+                    milestone.addPayment(newPayment);
+                    student.addPayment(newPayment);
+                    em.persist(newPayment);
+                    em.flush();
 
-                return newPayment;
+                    return newPayment;
                 } catch (MilestoneNotFoundException ex) {
                     throw new MilestoneNotFoundException("Milestone Not Found for ID: " + milestoneId);
                 }
@@ -113,11 +120,10 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
 
             if (constraintViolations.isEmpty()) {
                 Payment paymentToUpdate = retrievePaymentByPaymentId(payment.getPaymentId());
-                paymentToUpdate.setAccountName(payment.getAccountName());
-                paymentToUpdate.setAccountNumber(payment.getAccountNumber());
                 paymentToUpdate.setPaymentDescription(payment.getPaymentDescription());
-                paymentToUpdate.setPaid(payment.getPaid());
+                paymentToUpdate.setIsPaid(payment.getIsPaid());
                 paymentToUpdate.setMilestone(payment.getMilestone());
+                paymentToUpdate.setStudent(payment.getStudent());
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

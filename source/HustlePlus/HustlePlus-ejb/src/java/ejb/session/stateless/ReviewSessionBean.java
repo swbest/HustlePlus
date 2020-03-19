@@ -72,7 +72,6 @@ public class ReviewSessionBean implements ReviewSessionBeanLocal {
                     company.getStudentReviews().add(newReview);
                     em.persist(newReview);
                     em.flush();
-                    
                     return newReview;
                 } catch (ProjectNotFoundException ex) {
                     throw new ProjectNotFoundException("Project Not Found for ID: " + projectId);

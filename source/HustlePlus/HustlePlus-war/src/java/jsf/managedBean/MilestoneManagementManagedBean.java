@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import util.exception.InputDataValidationException;
 import util.exception.MilestoneIdExistException;
 import util.exception.MilestoneNotFoundException;
+import util.exception.ProjectNotFoundException;
 import util.exception.UnknownPersistenceException;
 
 /**
@@ -89,7 +90,7 @@ public class MilestoneManagementManagedBean {
         
         try
         {
-            Milestone m = milestoneSessionBeanLocal.createNewMilestone(newMilestone); //project? payment?
+            Milestone m = milestoneSessionBeanLocal.createNewMilestone(newMilestone, selProjectId); //project? payment?
             getMilestones().add(m);
             
             newMilestone = new Milestone();
@@ -98,7 +99,7 @@ public class MilestoneManagementManagedBean {
         
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New milestone created successfully (Milestone ID: " + m.getMilestoneId() + ")", null));
             
-        } catch (MilestoneIdExistException | InputDataValidationException | UnknownPersistenceException ex)
+        } catch (MilestoneIdExistException |ProjectNotFoundException | InputDataValidationException | UnknownPersistenceException ex)
         {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new milestone: " + ex.getMessage(), null));
         }
