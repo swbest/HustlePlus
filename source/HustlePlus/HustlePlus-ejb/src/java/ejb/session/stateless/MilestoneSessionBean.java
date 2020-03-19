@@ -53,13 +53,17 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
             Set<ConstraintViolation<Milestone>> constraintViolations = validator.validate(newMilestone);
 
             if (constraintViolations.isEmpty()) {
-              
+                try {
                 Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
                 newMilestone.setProject(project);  
+                project.addMilestone(newMilestone);
                 em.persist(newMilestone);
                 em.flush();
 
                 return newMilestone;
+                } catch (ProjectNotFoundException ex) {
+                    throw new ProjectNotFoundException("Project Not Found for ID: " + projectId);
+                }
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

@@ -5,9 +5,13 @@
  */
 package ejb.session.stateless;
 
+import entity.Company;
+import entity.Project;
 import entity.Review;
+import entity.Student;
 import java.util.List;
 import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,8 +21,11 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import util.exception.CompanyNotFoundException;
 import util.exception.InputDataValidationException;
+import util.exception.ProjectNotFoundException;
 import util.exception.ReviewNotFoundException;
+import util.exception.StudentNotFoundException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateReviewException;
 
@@ -34,6 +41,13 @@ public class ReviewSessionBean implements ReviewSessionBeanLocal {
 
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
+    
+    @EJB
+    private ProjectSessionBeanLocal projectSessionBeanLocal;
+    @EJB
+    private StudentSessionBeanLocal studentSessionBeanLocal;
+    @EJB
+    private CompanySessionBeanLocal companySessionBeanLocal;
 
     public ReviewSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -41,15 +55,32 @@ public class ReviewSessionBean implements ReviewSessionBeanLocal {
     }
 
     @Override
-    public Review createNewReview(Review newReview) throws UnknownPersistenceException, InputDataValidationException {
+    public Review createNewReview(Review newReview, Long projectId, Long studentId, Long companyId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException {
         try {
             Set<ConstraintViolation<Review>> constraintViolations = validator.validate(newReview);
 
             if (constraintViolations.isEmpty()) {
-                em.persist(newReview);
-                em.flush();
-
-                return newReview;
+                try {
+                    Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
+                    Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+                    Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
+                    newReview.setProject(project);
+                    newReview.setCompany(company);
+                    newReview.setStudent(student);
+                    project.getReviews().add(newReview);
+                    student.getCompanyReviews().add(newReview);
+                    company.getStudentReviews().add(newReview);
+                    em.persist(newReview);
+                    em.flush();
+                    
+                    return newReview;
+                } catch (ProjectNotFoundException ex) {
+                    throw new ProjectNotFoundException("Project Not Found for ID: " + projectId);
+                } catch (StudentNotFoundException ex) {
+                    throw new StudentNotFoundException("Student Not Found for ID: " + studentId);
+                } catch (CompanyNotFoundException ex) {
+                    throw new CompanyNotFoundException("Company Not Found for ID: " + companyId);
+                }
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

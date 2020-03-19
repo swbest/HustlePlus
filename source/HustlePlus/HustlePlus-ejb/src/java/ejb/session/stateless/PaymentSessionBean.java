@@ -55,6 +55,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
                 try {
                 Milestone milestone = milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId);
                 newPayment.setMilestone(milestone);  
+                milestone.addPayment(newPayment);
                 em.persist(newPayment);
                 em.flush();
 
