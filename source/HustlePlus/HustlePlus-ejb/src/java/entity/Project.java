@@ -61,6 +61,9 @@ public class Project implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     @Column(nullable = false)
     private Date endDate;
+    @Column(nullable = false)
+    @NotNull
+    private Boolean isFinished;
     
     @ManyToMany(mappedBy = "projects")
     @JoinColumn(nullable = false)
@@ -79,6 +82,7 @@ public class Project implements Serializable {
         this.skills = new ArrayList<>();
         this.milestones = new ArrayList<>();
         this.reviews = new ArrayList<>();
+        this.isFinished = Boolean.FALSE;
     }
 
     public Long getProjectId() {
@@ -211,6 +215,14 @@ public class Project implements Serializable {
         if (this.reviews.contains(review)) {
             this.reviews.remove(review);
         }
+    }
+    
+    public Boolean getIsFinished() {
+        return isFinished;
+    }
+
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
     }
 
     @Override

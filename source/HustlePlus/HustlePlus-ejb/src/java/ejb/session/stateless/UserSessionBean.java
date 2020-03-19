@@ -9,11 +9,18 @@ import entity.User;
 import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import util.exception.AdminStaffNotFoundException;
+import util.exception.InvalidLoginCredentialException;
+import util.exception.UserNotFoundException;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -31,6 +38,34 @@ public class UserSessionBean implements UserSessionBeanLocal {
     public UserSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
+    }
+
+    @Override
+    public User retrieveUserByUsername(String username) throws UserNotFoundException {
+        Query query = em.createQuery("SELECT u FROM User u WHERE u.username = :inUsername");
+        query.setParameter("inUsername", username);
+
+        try {
+            return (User) query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException ex) {
+            throw new UserNotFoundException("Admin Staff Username " + username + " does not exist!");
+        }
+    }
+
+    @Override
+    public User login(String username, String password) throws InvalidLoginCredentialException {
+        try {
+            User user = retrieveUserByUsername(username);
+            String passwordHash = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(password + user.getSalt()));
+
+            if (user.getPassword().equals(passwordHash)) {
+                return user;
+            } else {
+                throw new InvalidLoginCredentialException("Username does not exist or invalid password!");
+            }
+        } catch (UserNotFoundException ex) {
+            throw new InvalidLoginCredentialException("Username does not exist or invalid password!");
+        }
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<User>> constraintViolations) {
