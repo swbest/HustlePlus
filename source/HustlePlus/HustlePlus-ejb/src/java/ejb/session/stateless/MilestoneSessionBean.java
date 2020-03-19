@@ -6,8 +6,10 @@
 package ejb.session.stateless;
 
 import entity.Milestone;
+import entity.Project;
 import java.util.List;
 import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,6 +22,7 @@ import javax.validation.ValidatorFactory;
 import util.exception.InputDataValidationException;
 import util.exception.MilestoneIdExistException;
 import util.exception.MilestoneNotFoundException;
+import util.exception.ProjectNotFoundException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateMilestoneException;
 
@@ -35,6 +38,9 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
 
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
+    
+    @EJB
+    private ProjectSessionBeanLocal projectSessionBeanLocal;
 
     public MilestoneSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -42,11 +48,14 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
     }
 
     @Override
-    public Milestone createNewMilestone(Milestone newMilestone) throws MilestoneIdExistException, UnknownPersistenceException, InputDataValidationException {
+    public Milestone createNewMilestone(Milestone newMilestone, Long projectId) throws MilestoneIdExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException {
         try {
             Set<ConstraintViolation<Milestone>> constraintViolations = validator.validate(newMilestone);
 
             if (constraintViolations.isEmpty()) {
+              
+                Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
+                newMilestone.setProject(project);  
                 em.persist(newMilestone);
                 em.flush();
 

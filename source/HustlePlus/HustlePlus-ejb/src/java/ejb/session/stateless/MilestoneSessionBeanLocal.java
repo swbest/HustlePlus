@@ -11,6 +11,7 @@ import javax.ejb.Local;
 import util.exception.InputDataValidationException;
 import util.exception.MilestoneIdExistException;
 import util.exception.MilestoneNotFoundException;
+import util.exception.ProjectNotFoundException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateMilestoneException;
 
@@ -21,7 +22,7 @@ import util.exception.UpdateMilestoneException;
 @Local
 public interface MilestoneSessionBeanLocal {
 
-    public Milestone createNewMilestone(Milestone newMilestone)throws MilestoneIdExistException, UnknownPersistenceException, InputDataValidationException;
+    public Milestone createNewMilestone(Milestone newMilestone, Long projectId) throws MilestoneIdExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException;
 
     public Milestone retrieveMilestoneByMilestoneId(Long milestoneId) throws MilestoneNotFoundException;
 
@@ -30,6 +31,6 @@ public interface MilestoneSessionBeanLocal {
     public void deleteMilestone(Long milestoneId) throws MilestoneNotFoundException ;
 
     public List<Milestone> retrieveAllMilestones();
-
+    
 }
 
