@@ -2,11 +2,10 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+ 
 package ejb.session.stateless;
 
 import entity.Review;
-import entity.StudentReview;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -26,7 +25,7 @@ import util.exception.UpdateReviewException;
 /**
  *
  * @author sw_be
- */
+ 
 @Stateless
 public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
 
@@ -42,9 +41,9 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
     }
 
     @Override
-    public StudentReview createNewStudentReview(StudentReview newStudentReview) throws UnknownPersistenceException, InputDataValidationException {
+    public Review createNewStudentReview(Review newStudentReview) throws UnknownPersistenceException, InputDataValidationException {
         try {
-            Set<ConstraintViolation<StudentReview>> constraintViolations = validator.validate(newStudentReview);
+            Set<ConstraintViolation<Review>> constraintViolations = validator.validate(newStudentReview);
 
             if (constraintViolations.isEmpty()) {
                 em.persist(newStudentReview);
@@ -60,15 +59,15 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
     }
 
     @Override
-    public List<StudentReview> retrieveAllStudentReviews() {
-        Query query = em.createQuery("SELECT sr FROM StudentReview sr");
+    public List<Review> retrieveAllStudentReviews() {
+        Query query = em.createQuery("SELECT r FROM Review r");
 
         return query.getResultList();
     }
 
     @Override
-    public StudentReview retrieveStudentReviewByReviewId(Long reviewId) throws ReviewNotFoundException {
-        StudentReview studentReview = em.find(StudentReview.class, reviewId);
+    public Review retrieveStudentReviewByReviewId(Long reviewId) throws ReviewNotFoundException {
+        Review studentReview = em.find(Review.class, reviewId);
 
         if (studentReview != null) {
             return studentReview;
@@ -78,9 +77,9 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
     }
 
     @Override
-    public void updateStudentReview(StudentReview studentReview) throws ReviewNotFoundException, UpdateReviewException, InputDataValidationException {
+    public void updateStudentReview(Review studentReview) throws ReviewNotFoundException, UpdateReviewException, InputDataValidationException {
         if (studentReview != null && studentReview.getReviewId()!= null) {
-            Set<ConstraintViolation<StudentReview>> constraintViolations = validator.validate(studentReview);
+            Set<ConstraintViolation<Review>> constraintViolations = validator.validate(studentReview);
 
             if (constraintViolations.isEmpty()) {
                 Review studentReviewToUpdate = retrieveStudentReviewByReviewId(studentReview.getReviewId());
@@ -102,7 +101,7 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
         em.remove(studentReviewToRemove);
     }
 
-    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<StudentReview>> constraintViolations) {
+    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Review>> constraintViolations) {
         String msg = "Input data validation error!:";
         for (ConstraintViolation constraintViolation : constraintViolations) {
             msg += "\n\t" + constraintViolation.getPropertyPath() + " - " + constraintViolation.getInvalidValue() + "; " + constraintViolation.getMessage();
@@ -110,3 +109,4 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
         return msg;
     }
 }
+*/

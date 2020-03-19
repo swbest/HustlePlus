@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+ 
 package entity;
 
 import java.io.Serializable;
@@ -13,7 +13,7 @@ import javax.persistence.InheritanceType;
 /**
  *
  * @author sw_be
- */
+ 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class StudentReview extends Review implements Serializable {
@@ -48,3 +48,4 @@ public class StudentReview extends Review implements Serializable {
         return "entity.StudentReview[ id=" + reviewId + " ]";
     }
 }
+*/
