@@ -46,30 +46,10 @@
                     
                     <p:row>
                         <p:column>
-                            <h:outputLabel value="Completed: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{viewMilestoneManagedBean.milestoneToView.hasCleared}" />
-                        </p:column>
-                    </p:row>
-                    
-                    <p:row>
-                        <p:column>
                             <h:outputLabel value="Project Name: " />
                         </p:column>
                         <p:column>
                             <h:outputText value="#{viewMilestoneManagedBean.milestoneToView.project.projectName}" />
-                        </p:column>
-                    </p:row>
-                    
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Payments: " />
-                        </p:column>
-                        <p:column>
-                            <p:dataList value="#{viewMilestoneManagedBean.milestoneToView.payments}" var="payment" type="unordered">
-                                #{payment.paymentDescription}
-                            </p:dataList>
                         </p:column>
                     </p:row>
                     

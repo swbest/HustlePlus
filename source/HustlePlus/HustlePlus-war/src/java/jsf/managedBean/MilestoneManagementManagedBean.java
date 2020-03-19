@@ -75,7 +75,7 @@ public class MilestoneManagementManagedBean {
     {
         Long milestoneIdToView = (Long)event.getComponent().getAttributes().get("milestoneId");
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("milestoneIdToView", milestoneIdToView);
-        //FacesContext.getCurrentInstance().getExternalContext().redirect("viewMilestoneDetails.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("viewMilestone.xhtml");
     }
     
     public void createNewMilestone(ActionEvent event)

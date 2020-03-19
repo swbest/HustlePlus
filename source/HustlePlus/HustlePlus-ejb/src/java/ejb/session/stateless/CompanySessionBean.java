@@ -150,7 +150,7 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
     @Override
     public void deleteCompany(Long companyId) throws CompanyNotFoundException, DeleteCompanyException {
         Company companyToRemove = retrieveCompanyByCompanyId(companyId);
-        if (companyToRemove.getProjects().size() == 0 && companyToRemove.getStudentReviews().size() == 0) {
+        if (companyToRemove.getProjects().isEmpty() && companyToRemove.getStudentReviews().isEmpty()) {
             em.remove(companyToRemove);
         } else {
             throw new DeleteCompanyException("Company ID " + companyId + " is associated with existing projects and reviews and cannot be deleted!");
