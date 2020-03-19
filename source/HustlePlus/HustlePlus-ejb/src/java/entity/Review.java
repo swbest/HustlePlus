@@ -39,10 +39,10 @@ public class Review implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Project project;
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(nullable = true)
     private Student student;
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(nullable = true)
     private Company company;
 
