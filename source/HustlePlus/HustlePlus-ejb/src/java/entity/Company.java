@@ -125,13 +125,13 @@ public class Company extends User implements Serializable {
         }
     }
 
-    public void addStudentReview(StudentReview studentReview) {
+    public void addStudentReview(Review studentReview) {
         if (!this.studentReviews.contains(studentReview)) {
             this.studentReviews.add(studentReview);
         }
     }
 
-    public void removeStudentReview(StudentReview studentReview) {
+    public void removeStudentReview(Review studentReview) {
         if (this.studentReviews.contains(studentReview)) {
             this.studentReviews.remove(studentReview);
         }

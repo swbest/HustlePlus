@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"      
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <ui:define name="content"> 
+        
+        
+        <div>
+            <h3>Company Account</h3>            
+        <br/>
+        
+            <p:commandButton update="ccViewProduct:formViewProduct" oncomplete="PF('dialogViewProduct').show()" icon="ui-icon-document" title="View">
+                            <f:setPropertyActionListener value="#{company}" target="#{viewCompanyManagedBean.companyToView}" />
+                    </p:commandButton>
+                        <p:commandButton actionListener="#{updateCompanyManagedBean.updateCompany}" update="formUpdateCompany" oncomplete="PF('dialogUpdateProduct').show()" icon="ui-icon-pencil" title="Update">
+                            <f:attribute name="companyToUpdate" value="#{company}" />
+                        </p:commandButton>
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{deleteCompanyManagedBean.deleteCompany}">
+                            <f:attribute name="companyToDelete" value="#{company}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to delete #{company.name} ?" icon="ui-icon-alert" />
+                        </p:commandButton>
+
+           <h:form id="formUpdateCompany">
+
+                <p:dialog id="dialogUpdateCompany" widgetVar="dialogUpdateCompany" header="Update Company" closable="true">
+
+                    <p:messages id="messagesUpdateCompany" redisplay="false" />
+
+                    <p:panelGrid>
+
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Company ID: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{updateCompanyManagedBean.companyToUpdate.userId}" />
+                            </p:column>
+                            <p:column>
+                                &nbsp;
+                            </p:column>
+                        </p:row>
+
+           
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="companyName" value="Company Name: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="companyName" value="#{updateCompanyManagedBean.companyToUpdate.companyName}" placeholder="Company 1" required="true" requiredMessage="Name is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="companyName" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="username" value="Username: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="username" value="#{updateCompanyManagedBean.companyToUpdate.username}" placeholder="company1" required="true" requiredMessage="Username is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="username" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="password" value="Password " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="password" value="#{updateCompanyManagedBean.companyToUpdate.password}" placeholder="company1" required="true" requiredMessage="Password is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="password" />
+                            </p:column>
+                        </p:row>                       
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="description" value="Description " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="description" value="#{updateCompanyManagedBean.companyToUpdate.description}" placeholder="Company 1" required="true" requiredMessage="Description is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="description" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="email" value="Email: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="email" value="#{updateCompanyManagedBean.companyToUpdate.email}" placeholder="company1@gmail.com" required="true" requiredMessage="Email is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="email" />
+                            </p:column>
+                        </p:row>
+                        
+
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Average Rating: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{updateCompanyManagedBean.companyToUpdate.avgRating}" />
+                            </p:column>
+                            <p:column>
+                                &nbsp;
+                            </p:column>
+                        </p:row>                  
+
+                        
+
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:commandButton value="Update Company" update="@form formAllCompanies:dataTableAllCompany" actionListener="#{updateCompanyManagedBean.updateCompany}" oncomplete="PF('dialogUpdateCompany').show();" />
+                            </p:column>
+                        </p:row>
+                        
+                        
+
+                    </p:panelGrid>
+
+                </p:dialog>
+
+            </h:form>
+        
+         <div style="text-align: center;">                       
+                    <h:commandButton value="Delete" type="submit" rendered="#{deleteCompanyManagedBean.companyAccountToDelete != null}">
+                        <f:ajax event="click" execute="@this" render="@form" listener="#{deleteCompanyManagedBean.deleteCompany}" />
+                    </h:commandButton>
+                </div>
+        
+        </div>
+        
+    </ui:define>
+
+</ui:composition>

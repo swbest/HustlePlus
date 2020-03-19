@@ -16,9 +16,17 @@
                         <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}" icon="fa fa-sign-out" rendered="#{sessionScope.isLogin == true}" />
                     </p:submenu>
                     
-                    <p:submenu label="For Companies" rendered="#{sessionScope.isLogin == true}">
+                    <p:submenu label="For Companies">
+                        <p:menuitem value="Create Company" outcome="/companies/createNewCompany.xhtml" icon="fa fa-company" />
+                        <p:menuitem value="My Account" outcome="/companies/companyAccount.xhtml" icon="fa fa-account" />
+                        
                         <p:menuitem value="Search Students by Name" outcome="/companies/searchStudentsByName.xhtml" icon="fa fa-search" />
                         <p:menuitem value="Filter Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" icon="fa fa-filter" />
+                        <p:menuitem value="Milestone" outcome="/companies/milestoneManagement.xhtml" icon="fa fa-milestone" />
+                        <p:menuitem value="Filter Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml" icon="fa fa-filter" />
+                        <p:menuitem value="Filter Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml" icon="fa fa-filter" />
+                        <p:menuitem value="Search Companies by Name" outcome="/companies/searchCompaniesByName.xhtml" icon="fa fa-filter" />
+                        <p:menuitem value="Search Projects by Name" outcome="/companies/searchStudentsByName.xhtml" icon="fa fa-filter" />
                     </p:submenu>                        
 
                 </p:menu>
