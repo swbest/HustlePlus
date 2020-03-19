@@ -32,6 +32,7 @@ public class Skill implements Serializable {
     @NotNull
     @Size(max = 16)
     private String title;
+    
     @ManyToMany
     private List<Student> students;
     @ManyToMany
