@@ -10,6 +10,8 @@ import entity.Project;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CompanyNotFoundException;
+import util.exception.CompanyNotVerifiedException;
+import util.exception.CompanySuspendedException;
 import util.exception.DeleteProjectException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
@@ -24,13 +26,13 @@ import util.exception.UpdateProjectException;
 @Local
 public interface ProjectSessionBeanLocal {
 
-    public Project createNewProject(Project newProject, Long companyId) throws UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException;
+    public Project createNewProject(Project newProject, Long companyId) throws CompanyNotVerifiedException, CompanySuspendedException, UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException;
 
     public List<Project> retrieveAllProject();
 
     public Project retrieveProjectByProjectId(Long projectId) throws ProjectNotFoundException;
 
-    public void updateProject(Project project) throws ProjectNotFoundException, UpdateProjectException, InputDataValidationException;
+    public void updateProject(Project project, Long companyId) throws CompanyNotFoundException, ProjectNotFoundException, UpdateProjectException, InputDataValidationException;
 
     public void deleteProject(Long projectId) throws ProjectNotFoundException, DeleteProjectException;
 

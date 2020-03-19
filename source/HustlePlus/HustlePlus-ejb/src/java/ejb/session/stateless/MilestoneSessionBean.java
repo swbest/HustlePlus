@@ -101,7 +101,6 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
                 Milestone milestoneToUpdate = retrieveMilestoneByMilestoneId(milestone.getMilestoneId());
                 milestoneToUpdate.setTitle(milestone.getTitle());
                 milestoneToUpdate.setDescription(milestone.getDescription());
-                milestoneToUpdate.setHasCleared(milestone.getHasCleared());
                 milestoneToUpdate.setPayments(milestone.getPayments());
                 milestoneToUpdate.setProject(milestone.getProject());
             } else {
