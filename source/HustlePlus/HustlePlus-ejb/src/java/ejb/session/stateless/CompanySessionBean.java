@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.Company;
 import java.util.List;
 import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -52,6 +53,7 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
             Set<ConstraintViolation<Company>> constraintViolations = validator.validate(newCompany);
 
             if (constraintViolations.isEmpty()) {
+                
                 em.persist(newCompany);
                 em.flush();
 

@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.Payment;
 import java.util.List;
 import util.exception.InputDataValidationException;
+import util.exception.MilestoneNotFoundException;
 import util.exception.PaymentNotFoundException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdatePaymentException;
@@ -17,8 +18,8 @@ import util.exception.UpdatePaymentException;
  * @author dtjldamien
  */
 public interface PaymentSessionBeanLocal {
-
-    public Payment createNewPayment(Payment newPayment) throws UnknownPersistenceException, InputDataValidationException;
+    
+    public Payment createNewPayment(Payment newPayment, Long milestoneId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException;
 
     public void updatePayment(Payment payment) throws PaymentNotFoundException, UpdatePaymentException, InputDataValidationException;
 

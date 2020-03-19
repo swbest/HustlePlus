@@ -5,9 +5,11 @@
  */
 package ejb.session.stateless;
 
+import entity.Milestone;
 import entity.Payment;
 import java.util.List;
 import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +20,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.InputDataValidationException;
+import util.exception.MilestoneNotFoundException;
 import util.exception.PaymentNotFoundException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdatePaymentException;
@@ -34,6 +37,9 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
 
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
+    
+    @EJB
+    private MilestoneSessionBeanLocal milestoneSessionBeanLocal;
 
     public PaymentSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -41,15 +47,21 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
     }
 
     @Override
-    public Payment createNewPayment(Payment newPayment) throws UnknownPersistenceException, InputDataValidationException {
+    public Payment createNewPayment(Payment newPayment, Long milestoneId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException {
         try {
             Set<ConstraintViolation<Payment>> constraintViolations = validator.validate(newPayment);
 
             if (constraintViolations.isEmpty()) {
+                try {
+                Milestone milestone = milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId);
+                newPayment.setMilestone(milestone);  
                 em.persist(newPayment);
                 em.flush();
 
                 return newPayment;
+                } catch (MilestoneNotFoundException ex) {
+                    throw new MilestoneNotFoundException("Milestone Not Found for ID: " + milestoneId);
+                }
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
