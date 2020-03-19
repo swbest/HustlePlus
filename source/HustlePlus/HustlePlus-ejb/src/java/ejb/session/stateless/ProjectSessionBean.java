@@ -21,6 +21,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.CompanyNotFoundException;
+import util.exception.CompanyNotVerifiedException;
+import util.exception.CompanySuspendedException;
 import util.exception.DeleteProjectException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
@@ -40,7 +42,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
-    
+
     @EJB
     private CompanySessionBeanLocal companySessionBeanLocal;
 
@@ -50,14 +52,19 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
 
     @Override
-    public Project createNewProject(Project newProject, Long companyId) throws UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException {
+    public Project createNewProject(Project newProject, Long companyId) throws CompanyNotVerifiedException, CompanySuspendedException, UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException {
         try {
             Set<ConstraintViolation<Project>> constraintViolations = validator.validate(newProject);
 
             if (constraintViolations.isEmpty()) {
                 try {
                     Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
-                    newProject.setCompany(company);
+                    if (company.getIsVerified() == false) {
+                        throw new CompanyNotVerifiedException("Company is not yet verified! Please wait a few days for admin staff to verify.");
+                    }
+                    if (company.getIsSuspended()== false) {
+                        throw new CompanySuspendedException("Company is suspended. Please contact admin staff for details.");
+                    }
                     company.getProjects().add(newProject);
                     em.persist(newProject);
                     em.flush();
@@ -101,24 +108,28 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
 
     @Override
-    public void updateProject(Project project) throws ProjectNotFoundException, UpdateProjectException, InputDataValidationException {
+    public void updateProject(Project project, Long companyId) throws CompanyNotFoundException, ProjectNotFoundException, UpdateProjectException, InputDataValidationException {
         if (project != null && project.getProjectId() != null) {
             Set<ConstraintViolation<Project>> constraintViolations = validator.validate(project);
 
             if (constraintViolations.isEmpty()) {
-                Project projectToUpdate = retrieveProjectByProjectId(project.getProjectId());
-                projectToUpdate.setProjectName(project.getProjectName());
-                projectToUpdate.setJobValue(project.getJobValue());
-                projectToUpdate.setNumStudentsRequired(project.getNumStudentsRequired());
-                projectToUpdate.setProjectDescription(project.getProjectDescription());
-                projectToUpdate.setStartDate(project.getStartDate());
-                projectToUpdate.setEndDate(project.getEndDate());
-                projectToUpdate.setSkills(project.getSkills());
-                projectToUpdate.setCompany(project.getCompany());
-                projectToUpdate.setTeam(project.getTeam());
-                projectToUpdate.setMilestones(project.getMilestones());
-                projectToUpdate.setReviews(project.getReviews());
-
+                try {
+                    Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
+                    Project projectToUpdate = retrieveProjectByProjectId(project.getProjectId());
+                    projectToUpdate.setProjectName(project.getProjectName());
+                    projectToUpdate.setJobValue(project.getJobValue());
+                    projectToUpdate.setNumStudentsRequired(project.getNumStudentsRequired());
+                    projectToUpdate.setProjectDescription(project.getProjectDescription());
+                    projectToUpdate.setStartDate(project.getStartDate());
+                    projectToUpdate.setEndDate(project.getEndDate());
+                    projectToUpdate.setSkills(project.getSkills());
+                    projectToUpdate.setCompany(company);
+                    projectToUpdate.setTeam(project.getTeam());
+                    projectToUpdate.setMilestones(project.getMilestones());
+                    projectToUpdate.setReviews(project.getReviews());
+                } catch (CompanyNotFoundException ex) {
+                    throw new CompanyNotFoundException("Company Not Found for ID: " + companyId);
+                }
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

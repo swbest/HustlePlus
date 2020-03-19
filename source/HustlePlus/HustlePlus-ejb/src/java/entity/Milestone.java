@@ -38,9 +38,6 @@ public class Milestone implements Serializable {
     @NotNull
     @Size(max = 256)
     private String description;
-    @Column(nullable = false)
-    @NotNull
-    private Boolean hasCleared;
 
     @OneToMany(mappedBy = "milestone")
     private List<Payment> payments;
@@ -50,7 +47,6 @@ public class Milestone implements Serializable {
 
     public Milestone() {
         this.payments = new ArrayList<Payment>();
-        this.hasCleared = Boolean.FALSE;
     }
 
     public Milestone(String title, String description, Project project) {
@@ -82,14 +78,6 @@ public class Milestone implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Boolean getHasCleared() {
-        return hasCleared;
-    }
-
-    public void setHasCleared(Boolean hasCleared) {
-        this.hasCleared = hasCleared;
     }
 
     public List<Payment> getPayments() {
