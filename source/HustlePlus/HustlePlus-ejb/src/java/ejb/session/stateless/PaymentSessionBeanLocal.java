@@ -10,6 +10,7 @@ import java.util.List;
 import util.exception.InputDataValidationException;
 import util.exception.MilestoneNotFoundException;
 import util.exception.PaymentNotFoundException;
+import util.exception.StudentNotFoundException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdatePaymentException;
 
@@ -19,8 +20,6 @@ import util.exception.UpdatePaymentException;
  */
 public interface PaymentSessionBeanLocal {
     
-    public Payment createNewPayment(Payment newPayment, Long milestoneId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException;
-
     public void updatePayment(Payment payment) throws PaymentNotFoundException, UpdatePaymentException, InputDataValidationException;
 
     public void deletePayment(Long paymentId) throws PaymentNotFoundException;
@@ -34,5 +33,7 @@ public interface PaymentSessionBeanLocal {
     public List<Payment> retrieveAllPaymentByProject();
 
     public List<Payment> retrieveAllPayment();
+
+    public Payment createNewPayment(Payment newPayment, Long milestoneId, Long studentId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException, StudentNotFoundException;
     
 }

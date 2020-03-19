@@ -48,7 +48,14 @@ public class Student extends User implements Serializable {
     @NotNull
     @Column(nullable = false)
     private Boolean isSuspended;
-    
+    @NotNull
+    @Size(max = 30, message = "Account name should be at most 30 characters")
+    @Column(nullable = false, length = 30)
+    private String bankAccountName;
+    @NotNull
+    @Column(nullable = false)
+    private Long bankAccountNumber;
+
     @ManyToMany(mappedBy = "students")
     @JoinColumn(nullable = false)
     private List<Skill> skills;
@@ -56,11 +63,14 @@ public class Student extends User implements Serializable {
     private List<Team> teams;
     @OneToMany(mappedBy = "student")
     private List<Review> companyReviews;
+    @OneToMany(mappedBy = "student")
+    private List<Payment> payments;
 
     public Student() {
         this.skills = new ArrayList<Skill>();
         this.teams = new ArrayList<Team>();
         this.companyReviews = new ArrayList<Review>();
+        this.payments = new ArrayList<Payment>();
     }
 
     public String getName() {
@@ -111,6 +121,22 @@ public class Student extends User implements Serializable {
         this.isSuspended = isSuspended;
     }
 
+    public String getBankAccountName() {
+        return bankAccountName;
+    }
+
+    public void setBankAccountName(String bankAccountName) {
+        this.bankAccountName = bankAccountName;
+    }
+
+    public Long getBankAccountNumber() {
+        return bankAccountNumber;
+    }
+
+    public void setBankAccountNumber(Long bankAccountNumber) {
+        this.bankAccountNumber = bankAccountNumber;
+    }
+
     public List<Skill> getSkills() {
         return skills;
     }
@@ -157,6 +183,38 @@ public class Student extends User implements Serializable {
 
     public void setCompanyReviews(List<Review> companyReviews) {
         this.companyReviews = companyReviews;
+    }
+
+    public void addCompanyReview(Review review) {
+        if (!this.companyReviews.contains(review)) {
+            this.companyReviews.add(review);
+        }
+    }
+
+    public void removeCompanyReview(Review review) {
+        if (this.companyReviews.contains(review)) {
+            this.companyReviews.remove(review);
+        }
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
+    public void addPayment(Payment payment) {
+        if (!this.payments.contains(payment)) {
+            this.payments.add(payment);
+        }
+    }
+
+    public void removePayment(Payment payment) {
+        if (this.payments.contains(payment)) {
+            this.payments.remove(payment);
+        }
     }
 
     @Override
