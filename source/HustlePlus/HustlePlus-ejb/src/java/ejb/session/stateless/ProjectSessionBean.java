@@ -10,6 +10,7 @@ import entity.Project;
 import entity.Skill;
 import java.util.List;
 import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,6 +20,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import util.exception.CompanyNotFoundException;
 import util.exception.DeleteProjectException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
@@ -38,6 +40,9 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
+    
+    @EJB
+    private CompanySessionBeanLocal companySessionBeanLocal;
 
     public ProjectSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -45,15 +50,22 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
 
     @Override
-    public Project createNewProject(Project newProject) throws UnknownPersistenceException, InputDataValidationException, ProjectNameExistException {
+    public Project createNewProject(Project newProject, Long companyId) throws UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException {
         try {
             Set<ConstraintViolation<Project>> constraintViolations = validator.validate(newProject);
 
             if (constraintViolations.isEmpty()) {
-                em.persist(newProject);
-                em.flush();
+                try {
+                    Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
+                    newProject.setCompany(company);
+                    company.getProjects().add(newProject);
+                    em.persist(newProject);
+                    em.flush();
 
-                return newProject;
+                    return newProject;
+                } catch (CompanyNotFoundException ex) {
+                    throw new CompanyNotFoundException("Company Not Found for ID: " + companyId);
+                }
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

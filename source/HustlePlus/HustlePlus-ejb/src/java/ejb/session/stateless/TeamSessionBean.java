@@ -5,9 +5,11 @@
  */
 package ejb.session.stateless;
 
+import entity.Project;
 import entity.Team;
 import java.util.List;
 import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,6 +21,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.DeleteTeamException;
 import util.exception.InputDataValidationException;
+import util.exception.ProjectNotFoundException;
 import util.exception.TeamNameExistException;
 import util.exception.TeamNotFoundException;
 import util.exception.UnknownPersistenceException;
@@ -36,6 +39,9 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
 
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
+    
+    @EJB
+    private ProjectSessionBeanLocal projectSessionBeanLocal;
 
     public TeamSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -43,15 +49,22 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
     }
 
     @Override
-    public Team createNewTeam(Team newTeam) throws TeamNameExistException, UnknownPersistenceException, InputDataValidationException {
+    public Team createNewTeam(Team newTeam, Long projectId) throws TeamNameExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException {
         try {
             Set<ConstraintViolation<Team>> constraintViolations = validator.validate(newTeam);
 
             if (constraintViolations.isEmpty()) {
-                em.persist(newTeam);
-                em.flush();
+                try {
+                    Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
+                    newTeam.setProject(project);
+                    project.setTeam(newTeam);
+                    em.persist(newTeam);
+                    em.flush();
 
-                return newTeam;
+                    return newTeam;
+                } catch (ProjectNotFoundException ex) {
+                    throw new ProjectNotFoundException("Project Not Found for ID: " + projectId);
+                }
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

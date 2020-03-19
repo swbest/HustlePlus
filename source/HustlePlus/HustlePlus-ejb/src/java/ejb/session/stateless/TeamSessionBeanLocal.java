@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Local;
 import util.exception.DeleteTeamException;
 import util.exception.InputDataValidationException;
+import util.exception.ProjectNotFoundException;
 import util.exception.TeamNameExistException;
 import util.exception.TeamNotFoundException;
 import util.exception.UnknownPersistenceException;
@@ -22,11 +23,9 @@ import util.exception.UpdateTeamException;
 @Local
 public interface TeamSessionBeanLocal {
     
-    public Team createNewTeam(Team newTeam) throws TeamNameExistException, UnknownPersistenceException, InputDataValidationException;
+    public Team createNewTeam(Team newTeam, Long projectId) throws TeamNameExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException;
     public List<Team> retrieveAllTeams();
     public Team retrieveTeamByTeamId(Long teamId) throws TeamNotFoundException;
     public void updateTeam(Team team, Long projectId, List<Long> studentIds) throws TeamNotFoundException, /*ProjectNotFoundException, StudentNotFoundException,*/ UpdateTeamException, InputDataValidationException;
-
-    public void deleteTeam(Long teamId) throws TeamNotFoundException, DeleteTeamException;
-    
+    public void deleteTeam(Long teamId) throws TeamNotFoundException, DeleteTeamException;    
 }

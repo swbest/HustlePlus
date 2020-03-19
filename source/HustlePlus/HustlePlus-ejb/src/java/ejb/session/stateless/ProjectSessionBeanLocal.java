@@ -9,6 +9,7 @@ import entity.Company;
 import entity.Project;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.CompanyNotFoundException;
 import util.exception.DeleteProjectException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
@@ -23,7 +24,7 @@ import util.exception.UpdateProjectException;
 @Local
 public interface ProjectSessionBeanLocal {
 
-    public Project createNewProject(Project newProject) throws UnknownPersistenceException, InputDataValidationException, ProjectNameExistException;
+    public Project createNewProject(Project newProject, Long companyId) throws UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException;
 
     public List<Project> retrieveAllProject();
 

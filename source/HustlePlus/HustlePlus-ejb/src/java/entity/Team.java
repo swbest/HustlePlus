@@ -37,6 +37,7 @@ public class Team implements Serializable {
     @NotNull
     @Column(nullable = false)
     private int numStudents;
+    
     @ManyToMany(mappedBy = "teams")
     private List<Student> students;
     @OneToOne(optional = false)
