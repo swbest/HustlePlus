@@ -26,6 +26,8 @@ import util.exception.DeleteApplicationException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNotFoundException;
 import util.exception.StudentNotFoundException;
+import util.exception.StudentNotVerifiedException;
+import util.exception.StudentSuspendedException;
 import util.exception.UnknownPersistenceException;
 
 /**
@@ -54,13 +56,18 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
     }
 
     @Override
-    public Application createApplication(Application newApplication, Long projectId, Long studentId) throws ApplicationExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException, StudentNotFoundException {
+    public Application createApplication(Application newApplication, Long projectId, Long studentId) throws StudentSuspendedException, StudentNotVerifiedException, ApplicationExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException, StudentNotFoundException {
         try {
             Set<ConstraintViolation<Application>> constraintViolations = validator.validate(newApplication);
-
+            Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
+            Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+            if (student.getIsVerified() == false) {
+                throw new StudentNotVerifiedException("Student is not yet verified! Please wait a few days for admin staff to verify.");
+            }
+            if (student.getIsSuspended() == false) {
+                throw new StudentSuspendedException("Student is suspended. Please contact admin staff for details.");
+            }
             if (constraintViolations.isEmpty()) {
-                Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
-                Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
                 newApplication.setProject(project);
                 newApplication.setStudent(student);
                 project.addApplication(newApplication);

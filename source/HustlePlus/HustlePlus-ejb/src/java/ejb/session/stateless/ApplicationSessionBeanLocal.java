@@ -14,6 +14,8 @@ import util.exception.DeleteApplicationException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNotFoundException;
 import util.exception.StudentNotFoundException;
+import util.exception.StudentNotVerifiedException;
+import util.exception.StudentSuspendedException;
 import util.exception.UnknownPersistenceException;
 
 /**
@@ -27,7 +29,7 @@ public interface ApplicationSessionBeanLocal {
 
     public Application retrieveApplicationByApplicationId(Long applicationId) throws ApplicationNotFoundException;
 
-    public Application createApplication(Application newApplication, Long projectId, Long studentId) throws ApplicationExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException, StudentNotFoundException;
+    public Application createApplication(Application newApplication, Long projectId, Long studentId) throws StudentSuspendedException, StudentNotVerifiedException, ApplicationExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException, StudentNotFoundException;
 
     public void updateApplication(Application application) throws ApplicationNotFoundException, UpdateApplicationException, InputDataValidationException;
 
