@@ -65,12 +65,15 @@ public class Student extends User implements Serializable {
     private List<Review> companyReviews;
     @OneToMany(mappedBy = "student")
     private List<Payment> payments;
+    @OneToMany(mappedBy = "student")
+    private List<Application> applications;
 
     public Student() {
         this.skills = new ArrayList<Skill>();
         this.teams = new ArrayList<Team>();
         this.companyReviews = new ArrayList<Review>();
         this.payments = new ArrayList<Payment>();
+        this.applications = new ArrayList<Application>();
     }
 
     public String getName() {
@@ -214,6 +217,26 @@ public class Student extends User implements Serializable {
     public void removePayment(Payment payment) {
         if (this.payments.contains(payment)) {
             this.payments.remove(payment);
+        }
+    }
+
+    public List<Application> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
+    }
+
+    public void addApplication(Application application) {
+        if (!this.applications.contains(application)) {
+            this.applications.add(application);
+        }
+    }
+
+    public void removeApplication(Application application) {
+        if (this.applications.contains(application)) {
+            this.applications.remove(application);
         }
     }
 

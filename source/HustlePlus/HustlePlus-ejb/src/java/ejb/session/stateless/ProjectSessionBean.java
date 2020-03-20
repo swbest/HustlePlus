@@ -7,7 +7,6 @@ package ejb.session.stateless;
 
 import entity.Company;
 import entity.Project;
-import entity.Skill;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
@@ -62,7 +61,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                     if (company.getIsVerified() == false) {
                         throw new CompanyNotVerifiedException("Company is not yet verified! Please wait a few days for admin staff to verify.");
                     }
-                    if (company.getIsSuspended()== false) {
+                    if (company.getIsSuspended() == false) {
                         throw new CompanySuspendedException("Company is suspended. Please contact admin staff for details.");
                     }
                     company.getProjects().add(newProject);
@@ -127,6 +126,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                     projectToUpdate.setTeam(project.getTeam());
                     projectToUpdate.setMilestones(project.getMilestones());
                     projectToUpdate.setReviews(project.getReviews());
+                    projectToUpdate.setApplications(project.getApplications());
                 } catch (CompanyNotFoundException ex) {
                     throw new CompanyNotFoundException("Company Not Found for ID: " + companyId);
                 }

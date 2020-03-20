@@ -64,7 +64,7 @@ public class Project implements Serializable {
     @Column(nullable = false)
     @NotNull
     private Boolean isFinished;
-    
+
     @ManyToMany(mappedBy = "projects")
     @JoinColumn(nullable = false)
     private List<Skill> skills;
@@ -77,11 +77,14 @@ public class Project implements Serializable {
     private List<Milestone> milestones;
     @OneToMany(mappedBy = "project")
     private List<Review> reviews;
+    @OneToMany(mappedBy = "project")
+    private List<Application> applications;
 
     public Project() {
         this.skills = new ArrayList<>();
         this.milestones = new ArrayList<>();
         this.reviews = new ArrayList<>();
+        this.applications = new ArrayList<>();
         this.isFinished = Boolean.FALSE;
     }
 
@@ -216,13 +219,33 @@ public class Project implements Serializable {
             this.reviews.remove(review);
         }
     }
-    
+
     public Boolean getIsFinished() {
         return isFinished;
     }
 
     public void setIsFinished(Boolean isFinished) {
         this.isFinished = isFinished;
+    }
+
+    public List<Application> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
+    }
+
+    public void addApplication(Application application) {
+        if (!this.applications.contains(application)) {
+            this.applications.add(application);
+        }
+    }
+
+    public void removeApplication(Application application) {
+        if (this.applications.contains(application)) {
+            this.applications.remove(application);
+        }
     }
 
     @Override

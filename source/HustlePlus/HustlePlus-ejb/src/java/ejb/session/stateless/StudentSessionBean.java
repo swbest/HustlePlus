@@ -5,7 +5,6 @@
  */
 package ejb.session.stateless;
 
-import entity.Skill;
 import entity.Student;
 import java.util.List;
 import java.util.Set;
@@ -106,6 +105,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
                 studentToUpdate.setPayments(student.getPayments());
                 studentToUpdate.setBankAccountName(student.getBankAccountName());
                 studentToUpdate.setBankAccountNumber(student.getBankAccountNumber());
+                studentToUpdate.setApplications(student.getApplications());
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
