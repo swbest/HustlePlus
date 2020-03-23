@@ -14,6 +14,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import util.exception.CompanyNotVerifiedException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
 import util.exception.UnknownPersistenceException;
@@ -40,7 +41,7 @@ public class CreateNewProjectManagedBean {
     public CreateNewProjectManagedBean() {
         
         newProject = new Project() ; 
-        companyId = 
+
         
     }
     
@@ -52,7 +53,7 @@ public class CreateNewProjectManagedBean {
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New project created successfully (Milestone ID: " + pj.getProjectId() + ")", null));
             
-        } catch (ProjectNameExistException ex) {
+        } catch (CompanyNotVerifiedException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: The project name already exist", null));
         } catch (InputDataValidationException | UnknownPersistenceException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: " + ex.getMessage(), null));
