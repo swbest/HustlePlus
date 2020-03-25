@@ -1,0 +1,7 @@
+{
+  "name": "HustlePlusMobile",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
