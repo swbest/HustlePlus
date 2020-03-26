@@ -78,7 +78,7 @@ public class SecurityFilter implements Filter {
                 return false ;
             }
         } else if (accessRight.equals(AccessRightEnum.COMPANY)) {
-            if (path.equals("/companies/companyAccount.xhtml") ||
+            if (path.equals("/companies/profilePage.xhtml") ||
                 path.equals("/companies/filterStudentsBySkills.xhtml") ||
                 path.equals("/companies/searchStudentsByName.xhtml") ||
                 path.equals("/companies/searchCompaniesByName.xhtml") ||
@@ -95,7 +95,7 @@ public class SecurityFilter implements Filter {
     
     private Boolean excludeLoginCheck(String path) {
         if (path.equals("/index.xhtml") ||
-            path.equals("/createNewComany.xhtml") ||
+            path.equals("/companies/createNewCompany.xhtml") ||
             path.equals("/accessRightError.xhtml") ||
             path.startsWith("/javax.faces.resource")) {
             return true ;

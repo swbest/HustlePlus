@@ -51,15 +51,20 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
     @Override
     public Company createNewCompany(Company newCompany) throws CompanyNameExistException, UnknownPersistenceException, InputDataValidationException {
         try {
+            newCompany.setIsSuspended(Boolean.FALSE);
+            newCompany.setIsVerified(Boolean.FALSE);
+            newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
             Set<ConstraintViolation<Company>> constraintViolations = validator.validate(newCompany);
 
             if (constraintViolations.isEmpty()) {
                 
-                newCompany.setIsSuspended(Boolean.FALSE);
-                newCompany.setIsVerified(Boolean.FALSE);
-                newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
+                        System.out.println("createNew3");
+
+
                 em.persist(newCompany);
                 em.flush();
+                        System.out.println("createNew4");
+
 
                 return newCompany;
             } else {

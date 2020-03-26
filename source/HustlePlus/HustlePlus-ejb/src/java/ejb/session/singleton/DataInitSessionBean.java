@@ -5,10 +5,10 @@
  */
 package ejb.session.singleton;
 
+import ejb.session.stateless.AdminStaffSessionBeanLocal;
 import ejb.session.stateless.CompanySessionBeanLocal;
-import ejb.session.stateless.SkillSessionBeanLocal;
+import entity.AdminStaff;
 import entity.Company;
-import entity.Skill;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -20,8 +20,8 @@ import util.enumeration.AccessRightEnum;
 import util.exception.CompanyNameExistException;
 import util.exception.CompanyNotFoundException;
 import util.exception.InputDataValidationException;
-import util.exception.SkillNameExistsException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UserEmailExistsException;
 
 /**
  *
@@ -32,14 +32,13 @@ import util.exception.UnknownPersistenceException;
 @Startup
 public class DataInitSessionBean {
 
-
+    @EJB(name = "AdminStaffSessionBeanLocal")
+    private AdminStaffSessionBeanLocal adminStaffSessionBeanLocal;
 
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
 
-    @EJB(name = "SkillSessionBeanLocal")
-    private SkillSessionBeanLocal skillSessionBeanLocal;
 
     @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal; 
@@ -55,7 +54,7 @@ public class DataInitSessionBean {
         try
         {
             System.out.println("********* HERE 1");
-            companySessionBeanLocal.retrieveCompanyByUsername("company1");
+            companySessionBeanLocal.retrieveCompanyByUsername("company0");
             System.out.println("********* HERE 2");
         }
         catch(CompanyNotFoundException ex)
@@ -81,10 +80,17 @@ public class DataInitSessionBean {
         newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
         companySessionBeanLocal.createNewCompany(newCompany);
         
-        skillSessionBeanLocal.createNewSkill(new Skill("skill1")) ; 
+        AdminStaff newAdmin = new AdminStaff() ; 
+        newAdmin.setName("admin tan");
+        newAdmin.setUsername("admin1");
+        newAdmin.setPassword("password");
+        newAdmin.setEmail("admin1@gmail.com");
+        newAdmin.setAccessRightEnum(AccessRightEnum.ADMIN);
+        adminStaffSessionBeanLocal.createNewAdminStaff(newAdmin);
+
+
         
-        
-    } catch (SkillNameExistsException | CompanyNameExistException | UnknownPersistenceException | InputDataValidationException ex) {
+    } catch ( UserEmailExistsException | CompanyNameExistException | UnknownPersistenceException | InputDataValidationException ex) {
         ex.printStackTrace();
 
     }

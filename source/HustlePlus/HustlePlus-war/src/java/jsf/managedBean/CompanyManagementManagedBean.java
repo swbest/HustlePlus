@@ -33,10 +33,10 @@ import util.exception.UnknownPersistenceException;
  *
  * @author Nurhidayah
  */
-@Named(value = "companyMangementManagedBean")
+@Named(value = "companyManagementManagedBean")
 @ViewScoped
 
-public class CompanyMangementManagedBean implements Serializable {
+public class CompanyManagementManagedBean implements Serializable {
 
     @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal;
@@ -65,7 +65,7 @@ public class CompanyMangementManagedBean implements Serializable {
     /**
      * Creates a new instance of companyMangementManagedBean
      */
-    public CompanyMangementManagedBean() {
+    public CompanyManagementManagedBean() {
         
         newCompany = new Company(); 
     }
@@ -82,10 +82,13 @@ public class CompanyMangementManagedBean implements Serializable {
         
         try {
             
+        System.out.println("createNew1");
         Company c = companySessionBeanLocal.createNewCompany(newCompany);
+        System.out.println("createNew2");
         companies.add(c); 
         newCompany = new Company() ; 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + c.getUserId() + ")", null));
+        
      } catch (CompanyNameExistException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: The company name already exist", null));
         } catch ( InputDataValidationException | UnknownPersistenceException ex) {
@@ -94,7 +97,7 @@ public class CompanyMangementManagedBean implements Serializable {
     }
    
    public void doUpdateCompany(ActionEvent event) {
-         selectedCompanyToUpdate =(Company)event.getComponent().getAttributes().get("companyToUpdate");
+         selectedCompanyToUpdate =(Company)event.getComponent().getAttributes().get("selectedCompanyToUpdate");
 
          }
   
@@ -125,8 +128,6 @@ public class CompanyMangementManagedBean implements Serializable {
             Company companyToDelete = (Company) event.getComponent().getAttributes().get("companyToDelete");
             companySessionBeanLocal.deleteCompany(companyToDelete.getUserId());
             companies.remove(companyToDelete); 
-            
-
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Company Account deleted successfully", null));
         }
