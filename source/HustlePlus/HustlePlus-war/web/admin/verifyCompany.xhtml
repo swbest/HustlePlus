@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+                
+        <div>
+            <h3>List of Companies to Verify</h3>
+            
+            <h:form id="formAllCompanies">
+            
+                <p:messages id="messages" redisplay="false" closable="true" />
+
+                <p:dataTable id="dataTableAllCompanies" widgetVar="dataTableAllCompanies" value="#{companyManagementManagedBean.companies}" var="company" rowKey="#{company.userId}" rowIndexVar="row" filteredValue="#{companyMangementManagedBean.filteredCompanies}"  
+                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                    
+                    <f:facet name="header">
+                        <p:outputPanel style="text-align: right;">
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('dataTableAllCompanies').filter()" style="width:300px" placeholder="Enter keyword"/>
+                        </p:outputPanel>
+                    </f:facet>
+                    
+                    <p:column headerText="Company ID" sortBy="#{company.userId}" filterBy="#{company.userId}" filterMatchMode="contains">
+                        <h:outputText value="#{company.userId}" />
+                    </p:column>
+                    
+                    <p:column headerText="Company Name" sortBy="#{company.name}" filterBy="#{company.name}" filterMatchMode="contains">
+                        <h:outputText value="#{company.name}" />
+                    </p:column>
+                    
+                    <p:column headerText="Username" sortBy="#{company.username}" filterBy="#{company.username}" filterMatchMode="contains">
+                        <h:outputText value="#{company.username}" />
+                    </p:column>
+                    
+                    <p:column headerText="Average Rating" sortBy="#{company.avgRating}" filterBy="#{company.avgRating}" filterMatchMode="contains">
+                        <h:outputText value="#{company.avgRating}" />
+                    </p:column>                    
+                    
+                    <p:column headerText="Email" sortBy="#{company.email}" filterBy="#{company.email}" filterMatchMode="contains">
+                        <h:outputText value="#{company.email}" />
+                    </p:column>
+                    
+                    <p:column headerText="Description" sortBy="#{company.description}" filterBy="#{company.description}" filterMatchMode="contains">
+                        <h:outputText value="#{company.description}" />
+                    </p:column>
+                    
+                    <p:column headerText="Action" >
+                        <p:commandButton actionListener="#{companyManagementManagedBean.verifyCompany}" oncomplete="PF('dialogVerifyCompany').show()" value="Verify" title="Verify">
+                            <f:attribute name="companyToUpdate" value="#{company}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to verify #{company.name} (Company ID #{company.userId})?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:commandButton actionListener="#{companyManagementManagedBean.suspendCompany}" update="formAllProducts:dataTableAllProducts formAllProducts:messages">
+                            <f:attribute name="productEntityToDelete" value="#{productEntity}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to delete #{productEntity.name} (SKU Code: #{productEntity.skuCode})?" icon="ui-icon-alert" />
+                        </p:commandButton>                
+                    </p:column>                                         
+
+                </p:dataTable>
+                
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+            </h:form>
+
+    
+        </div>
+        
+    </ui:define>
+
+</ui:composition>

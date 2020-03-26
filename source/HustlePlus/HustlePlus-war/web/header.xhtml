@@ -6,7 +6,7 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <header style="text-align: right;">
-        <h:panelGroup>
+        <h:panelGroup rendered="#{sessionScope.isLogin == false}">
             <h:form id="loginForm">
 
                 <p:outputLabel for="username" value="Username" />&nbsp;
@@ -19,8 +19,8 @@
                     <f:validateLength minimum="4" />
                 </p:password>
                 &nbsp;
-                <p:commandButton type="reset" value="Clear" icon="fa fa-undo" />&nbsp;
-                <p:commandButton type="submit" value="Login" actionListener="#{loginManagedBean.login}" icon="fa fa-sign-in" />
+                <p:commandButton type="reset" value="Clear" />&nbsp;
+                <p:commandButton ajax="false" type="submit" value="Login" actionListener="#{loginManagedBean.login}" />
 
                 <p:growl>
 
@@ -29,11 +29,19 @@
             </h:form>
         </h:panelGroup>
 
-        <h:panelGroup>
+        <h:panelGroup rendered="#{sessionScope.isLogin == true}">
+            
             <h:form id="logoutForm">
-                <h:outputText value="You are login as #{sessionScope.company.companyName}" />&nbsp;
-                <p:commandButton value="Logout" actionListener="#{loginManagedBean.logout}" icon="fa fa-sign-out" />
+                <h:outputText value="You are login as #{sessionScope.userEntity.name}" />&nbsp;
+                <p:commandButton value="Logout" actionListener="#{loginManagedBean.logout}" />
             </h:form>
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{sessionScope.isLogin == false}">
+            <h:form id ="signUpForm">
+                <p:commandButton ajax="false" style="margin-top: 5px" value="Sign Up" action="/companies/createNewCompany"  />
+            </h:form>
+            
         </h:panelGroup>
         
     </header>

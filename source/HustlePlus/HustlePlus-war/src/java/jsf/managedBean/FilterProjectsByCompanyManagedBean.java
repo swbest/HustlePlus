@@ -59,7 +59,7 @@ public class FilterProjectsByCompanyManagedBean {
         
         for (Company c:companies)
         {
-            getSelectItems().add(new SelectItem(c.getUserId(), c.getCompanyName(), c.getCompanyName()));
+            getSelectItems().add(new SelectItem(c.getUserId(), c.getName(), c.getName()));
         }
         
         setCondition((String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("projectFilterCondition"));

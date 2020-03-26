@@ -9,14 +9,14 @@ import entity.Company;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author amanda
  */
 @Named(value = "viewCompanyManagedBean")
-@RequestScoped
+@ViewScoped
 public class ViewCompanyManagedBean implements Serializable {
 
     private Company companyToView;

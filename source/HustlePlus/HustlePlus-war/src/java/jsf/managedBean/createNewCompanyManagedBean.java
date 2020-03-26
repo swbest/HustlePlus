@@ -8,6 +8,7 @@ package jsf.managedBean;
 import ejb.session.stateless.CompanySessionBeanLocal;
 import entity.Company;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -42,14 +43,22 @@ public class CreateNewCompanyManagedBean {
         
         try {
             
+            System.out.println("******** HERE 1");
+            
         Company c = companySessionBeanLocal.createNewCompany(newCompany);
         newCompany = new Company() ; 
+        //FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/createNewCompany.xhtml");
+        //FacesContext.getCurrentInstance().getExternalContext().redirect("createNewCompany.xhtml");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + c.getUserId() + ")", null));
      } catch (CompanyNameExistException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: The company name already exist", null));
-        } catch (InputDataValidationException | UnknownPersistenceException ex) {
+        } catch ( InputDataValidationException | UnknownPersistenceException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: " + ex.getMessage(), null));
         }
+    }
+    
+    public void navigate(ActionEvent event) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("createNewCompany.xhtml");
     }
 
 

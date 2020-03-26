@@ -17,6 +17,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -28,10 +29,7 @@ public class Company extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(nullable = false, length = 32)
-    @NotNull
-    @Size(max = 32)
-    private String companyName;
+
     @NotNull
     @Size(max = 256, message = "Company description should be at most 256 characters")
     @Column(nullable = false, length = 256)
@@ -57,13 +55,6 @@ public class Company extends User implements Serializable {
         this.studentReviews = new ArrayList<Review>();
     }
 
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
 
     public List<Project> getProjects() {
         return projects;

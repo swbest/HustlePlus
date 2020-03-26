@@ -38,7 +38,7 @@ public class Team implements Serializable {
     @Column(nullable = false)
     private int numStudents;
     
-    @ManyToMany(mappedBy = "teams")
+    @ManyToMany
     private List<Student> students;
     @OneToOne(optional = false)
     private Project project;

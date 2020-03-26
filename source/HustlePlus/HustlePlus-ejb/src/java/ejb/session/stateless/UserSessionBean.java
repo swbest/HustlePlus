@@ -48,18 +48,18 @@ public class UserSessionBean implements UserSessionBeanLocal {
         try {
             return (User) query.getSingleResult();
         } catch (NoResultException | NonUniqueResultException ex) {
-            throw new UserNotFoundException("Admin Staff Username " + username + " does not exist!");
+            throw new UserNotFoundException("Username " + username + " does not exist!");
         }
     }
 
     @Override
     public User login(String username, String password) throws InvalidLoginCredentialException {
         try {
-            User user = retrieveUserByUsername(username);
-            String passwordHash = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(password + user.getSalt()));
+            User userEntity = retrieveUserByUsername(username);
+            String passwordHash = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(password + userEntity.getSalt()));
 
-            if (user.getPassword().equals(passwordHash)) {
-                return user;
+            if (userEntity.getPassword().equals(passwordHash)) {
+                return userEntity;
             } else {
                 throw new InvalidLoginCredentialException("Username does not exist or invalid password!");
             }

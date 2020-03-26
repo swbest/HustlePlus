@@ -5,15 +5,15 @@
  */
 package jsf.managedBean;
 
-import ejb.session.stateless.StudentSessionBeanLocal;
-import entity.Student;
-import java.awt.event.ActionEvent;
+import ejb.session.stateless.UserSessionBeanLocal;
+import entity.User;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 import util.exception.InvalidLoginCredentialException;
 
@@ -25,9 +25,9 @@ import util.exception.InvalidLoginCredentialException;
 @RequestScoped
 public class LoginManagedBean {
 
-    @EJB(name = "StudentSessionBeanLocal")
-    private StudentSessionBeanLocal studentSessionBeanLocal;
-    
+    @EJB
+    private UserSessionBeanLocal userSessionBeanLocal;
+
     private String username;
     private String password; 
 
@@ -38,12 +38,12 @@ public class LoginManagedBean {
     }
     
     public void login(ActionEvent event) throws IOException {
-        
+       
         try {
-            Student studentEntity = studentSessionBeanLocal.studentLogin(username,password);
+            User userEntity = userSessionBeanLocal.login(username,password);
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("studentEntity", studentEntity);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("userEntity", userEntity);
             FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
         }
         catch(InvalidLoginCredentialException ex)

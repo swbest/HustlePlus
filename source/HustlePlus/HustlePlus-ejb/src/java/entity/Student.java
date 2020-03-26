@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -28,10 +30,7 @@ public class Student extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(nullable = false, length = 32)
-    @NotNull
-    @Size(max = 64)
-    private String name;
+
     @Column(nullable = true)
     private File resume;
     @NotNull
@@ -51,9 +50,11 @@ public class Student extends User implements Serializable {
     @NotNull
     @Size(max = 30, message = "Account name should be at most 30 characters")
     @Column(nullable = false, length = 30)
+    //@Column(nullable = true)
     private String bankAccountName;
     @NotNull
     @Column(nullable = false)
+    //@Column(nullable = true)
     private Long bankAccountNumber;
 
     @ManyToMany(mappedBy = "students")
@@ -74,14 +75,6 @@ public class Student extends User implements Serializable {
         this.companyReviews = new ArrayList<Review>();
         this.payments = new ArrayList<Payment>();
         this.applications = new ArrayList<Application>();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public File getResume() {

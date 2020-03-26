@@ -9,18 +9,19 @@
     <h:body>
         
         <p:panel header="Sign Up (Company)">
-            <h:form id="formMain"> 
+            <h:form id="signUpForm" enctype="multipart/form-data"> 
                 
                                <p:messages />
                 
                 <p:panelGrid>
+                    
                     
                     <p:row>
                         <p:column>
                             <p:outputLabel for="companyName" value="Company Name" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="companyName" value="#{createNewCompanyManagedBean.newCompany.companyName}" />
+                            <p:inputText id="companyName" value="#{companyMangementManagedBean.newCompany.name}" />
                         </p:column>
                     </p:row>
                     
@@ -29,7 +30,7 @@
                             <p:outputLabel for="email" value="Email" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="email" value="#{createNewCompanyManagedBean.newCompany.email}" />
+                            <p:inputText id="email" value="#{companyMangementManagedBean.newCompany.email}" />
                         </p:column>
                     </p:row>
                    
@@ -38,7 +39,7 @@
                             <p:outputLabel for="username" value="Username" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="username" value="#{createNewCompanyManagedBean.newCompany.username}" />
+                            <p:inputText id="username" value="#{companyMangementManagedBean.newCompany.username}" />
                         </p:column>
                     </p:row>
                     
@@ -47,32 +48,27 @@
                             <p:outputLabel for="password" value="Password" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="password" value="#{createNewCompanyManagedBean.newCompany.password}" />
+                            <p:inputText id="password" value="#{companyMangementManagedBean.newCompany.password}" />
                         </p:column>
                     </p:row>
                     
-                     <p:row>
-                        <p:column>
-                            <p:outputLabel for="icon" value="Profile Picture" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="icon" value="#{createNewCompanyManagedBean.newCompany.icon}" />
-                        </p:column>
-                    </p:row>
+
                     
                     <p:row>
                         <p:column>
                             <p:outputLabel for="description" value="Description" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="description" value="#{createNewCompanyManagedBean.newCompany.description}" />
+                            <p:inputText id="description" value="#{companyMangementManagedBean.newCompany.description}" />
                         </p:column>
                     </p:row>
+                    
+                    
                     
                     <p:row>
                         <p:column colspan="2">
                             <p:commandButton type="reset" value="Clear" />
-                            <p:commandButton type="submit" value="Create" process="@form" update="@form" actionListener="#{createNewCompanyManagedBean.createNewCompany}" />
+                            <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{companyMangementManagedBean.createNewCompany}" />
                         </p:column>
                     </p:row>
                     

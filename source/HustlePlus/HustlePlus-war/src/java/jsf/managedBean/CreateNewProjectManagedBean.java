@@ -6,15 +6,19 @@
 package jsf.managedBean;
 
 import ejb.session.stateless.ProjectSessionBeanLocal;
+import entity.Milestone;
 import entity.Project;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import util.exception.CompanyNotFoundException;
 import util.exception.CompanyNotVerifiedException;
+import util.exception.CompanySuspendedException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
 import util.exception.UnknownPersistenceException;
@@ -31,6 +35,7 @@ public class CreateNewProjectManagedBean {
     private ProjectSessionBeanLocal projectSessionBeanLocal;
     private Project newProject ; 
     private List<Project>projects; 
+    private List<Milestone> milestones ; 
     private Long companyId ; 
     
     
@@ -45,17 +50,34 @@ public class CreateNewProjectManagedBean {
         
     }
     
+    @PostConstruct 
+    public void postConstruct() {
+        
+        setProjects(projectSessionBeanLocal.retrieveAllProject());
+        
+        
+        
+        
+    }
+    
         public void createNewProject(ActionEvent event) {
         
         try {
             Project pj = projectSessionBeanLocal.createNewProject(newProject, companyId);
-            projects.add(pj); 
+            getProjects().add(pj); 
+            newProject = new Project();
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New project created successfully (Milestone ID: " + pj.getProjectId() + ")", null));
             
         } catch (CompanyNotVerifiedException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: The project name already exist", null));
-        } catch (InputDataValidationException | UnknownPersistenceException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: Company has not been verified", null));
+        } catch (CompanySuspendedException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: Company has been suspended", null));
+        } catch (ProjectNameExistException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: Project name exists", null));
+        }catch (CompanyNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: Company does not exist", null));
+        }catch (InputDataValidationException | UnknownPersistenceException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: " + ex.getMessage(), null));
         }
     }
@@ -67,5 +89,15 @@ public class CreateNewProjectManagedBean {
     public void setNewProject(Project newProject) {
         this.newProject = newProject ;
     }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+    
+    
     
 }

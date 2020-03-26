@@ -20,6 +20,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import util.enumeration.AccessRightEnum;
 import util.exception.CompanyNameExistException;
 import util.exception.CompanyNotFoundException;
 import util.exception.DeleteCompanyException;
@@ -54,6 +55,9 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
 
             if (constraintViolations.isEmpty()) {
                 
+                newCompany.setIsSuspended(Boolean.FALSE);
+                newCompany.setIsVerified(Boolean.FALSE);
+                newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
                 em.persist(newCompany);
                 em.flush();
 
@@ -131,7 +135,7 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
                 companyToUpdate.setPassword(company.getPassword());
                 companyToUpdate.setIcon(company.getIcon());
                 companyToUpdate.setEmail(company.getEmail());
-                companyToUpdate.setCompanyName(company.getCompanyName());
+                companyToUpdate.setName(company.getName());
                 companyToUpdate.setDescription(company.getDescription());
                 companyToUpdate.setAvgRating(company.getAvgRating());
                 companyToUpdate.setIsVerified(company.getIsVerified());
@@ -160,8 +164,8 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
     // searching for company) rating/ company's name
     @Override
     public List<Company> retrieveCompaniesByName(String cname) {
-        Query query = em.createQuery("SELECT c FROM Company c WHERE c.companyName LIKE '%cname%'");
-        query.setParameter("inCompanyName", cname);
+        Query query = em.createQuery("SELECT c FROM Company c WHERE c.Name LIKE '%cname%'");
+        query.setParameter("inName", cname);
         return query.getResultList();
     }
 
@@ -170,6 +174,10 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
         Query query = em.createQuery("SELECT c FROM Company c WHERE c.avgRating = :inAvgRating");
         query.setParameter("inAvgRating", avgRating);
         return query.getResultList();
+    }
+    
+    public void verifyCompany(Company company) {
+         
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Company>> constraintViolations) {

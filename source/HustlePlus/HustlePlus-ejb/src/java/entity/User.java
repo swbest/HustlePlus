@@ -12,8 +12,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import util.enumeration.AccessRightEnum;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -22,10 +26,14 @@ import javax.validation.constraints.Size;
 @Entity
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    protected static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long userId;
+    @NotNull
+    @Size(min = 6, max = 64)
+    @Column(nullable = false, length = 64)
+    protected String name;
     @NotNull
     @Size(min = 6, max = 64)
     @Column(nullable = false, unique = true, length = 64)
@@ -42,8 +50,13 @@ public class User implements Serializable {
     protected String email;
     @Column(columnDefinition = "CHAR(32) NOT NULL")
     protected String salt;
+    @Column(nullable = false)
+    @NotNull
+    protected AccessRightEnum accessRightEnum;
 
     public User() {
+        
+     this.salt = CryptographicHelper.getInstance().generateRandomString(32);     
     }
 
     public Long getUserId() {
@@ -67,7 +80,14 @@ public class User implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        if(password != null)
+        {
+            this.password = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(password + this.salt));
+        }
+        else
+        {
+            this.password = null;
+        }
     }
 
     public File getIcon() {
@@ -93,6 +113,8 @@ public class User implements Serializable {
     public void setSalt(String salt) {
         this.salt = salt;
     }
+    
+    
 
     @Override
     public int hashCode() {
@@ -117,5 +139,21 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User.java[ id=" + userId + " ]";
+    }
+
+    public AccessRightEnum getAccessRightEnum() {
+        return accessRightEnum;
+    }
+
+    public void setAccessRightEnum(AccessRightEnum accessRightEnum) {
+        this.accessRightEnum = accessRightEnum;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

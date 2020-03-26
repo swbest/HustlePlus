@@ -26,11 +26,11 @@ public class WebApplicationListener implements ServletContextListener, HttpSessi
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void sessionCreated(HttpSessionEvent se) {
+        se.getSession().setAttribute("isLogin", false);
         se.getSession().getServletContext().setAttribute("visitor counter", ((int)se.getSession().getServletContext().getAttribute("visitorCounter")) + 1);
 	System.out.println("******** sessionCreated: " + se.getSession().getServletContext().getAttribute("visitorCounter"));
 }
@@ -38,6 +38,5 @@ public class WebApplicationListener implements ServletContextListener, HttpSessi
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

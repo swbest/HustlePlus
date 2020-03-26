@@ -11,13 +11,17 @@
         
         <ez:Breadcrumb pageName="index" />
         
-        <h:panelGroup rendered="#{sessionScope.isLogin == false}">
+        <h:panelGroup>
             <article>
                 <h3>Welcome to Hustle+!</h3>
                 <p>
                     Hustle+ is an online marketplace for companies to offer tech projects to students with the relevant skills to complete them, using a commission-based business model.                   
                 </p>
             </article>
+            
+            <label for="profilepic">Choose a profile picture:</label>
+            
+            <input type ="file" id="profilepic" name="Profile Picture" accept="image/png, image/jpeg"></input>
         </h:panelGroup>
         
     </ui:define>
