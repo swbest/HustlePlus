@@ -1,4 +1,4 @@
-/*
+
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -23,9 +23,9 @@ import util.exception.ReviewNotFoundException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateReviewException;
 
-/**
- *
- * @author sw_be
+
+ 
+  @author sw_be
  
 @Stateless
 public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
@@ -109,4 +109,3 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
         return msg;
     }
 }
-*/
