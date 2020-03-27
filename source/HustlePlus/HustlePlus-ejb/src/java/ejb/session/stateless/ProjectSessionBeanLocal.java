@@ -41,5 +41,7 @@ public interface ProjectSessionBeanLocal {
     public List<Project> retrieveProjectsByCompany(String cname)throws ProjectNotFoundException;
 
     public List<Project> retrieveProjectsBySkills(String skill) throws ProjectNotFoundException;
+
+    public List<Project> filterProjectsBySkills(List<Long> skillIds, String condition);
     
 }

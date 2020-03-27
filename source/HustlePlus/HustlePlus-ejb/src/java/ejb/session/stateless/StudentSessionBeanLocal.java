@@ -43,4 +43,6 @@ public interface StudentSessionBeanLocal {
 
     public List retrieveStudentsByName(String name) throws StudentNotFoundException;
 
+    public List<Student> filterStudentsBySkills(List<Long> skillIds, String condition);
+
 }

@@ -5,7 +5,11 @@
  */
 package ejb.session.stateless;
 
+import entity.Project;
 import entity.Student;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -176,6 +180,68 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             return query.getResultList();
         } catch (NoResultException ex) {
             throw new StudentNotFoundException("No students were found for that rating!");
+        }
+    }
+    
+    @Override
+    public List<Student> filterStudentsBySkills(List<Long> skillIds, String condition)
+    {
+        List<Student> students = new ArrayList<>();
+        
+        if(skillIds == null || skillIds.isEmpty() || (!condition.equals("AND") && !condition.equals("OR")))
+        {
+            return students;
+        }
+        else
+        {
+            if(condition.equals("OR"))
+            {
+                Query query = em.createQuery("SELECT DISTINCT st FROM Student st, IN (st.skills) s WHERE s.skillId IN :inSkillIds ORDER BY st.name ASC");
+                query.setParameter("inSkillIds", skillIds);
+                students = query.getResultList();                                                          
+            }
+            else // AND
+            {
+                String selectClause = "SELECT st FROM Student st";
+                String whereClause = "";
+                Boolean firstSkill = true;
+                Integer skillCount = 1;
+
+                for(Long skillId : skillIds)
+                {
+                    selectClause += ", IN (st.skills) s" + skillCount;
+
+                    if(firstSkill)
+                    {
+                        whereClause = "WHERE st1.skillId = " + skillId;
+                        firstSkill = false;
+                    }
+                    else
+                    {
+                        whereClause += " AND st" + skillCount + ".skillId = " + skillId; 
+                    }
+                    
+                    skillCount++;
+                }
+                
+                String jpql = selectClause + " " + whereClause + " ORDER BY st.name ASC";
+                Query query = em.createQuery(jpql);
+                students = query.getResultList();                                
+            }
+            
+            for(Student student : students)
+            {
+                student.getSkills().size();
+            }
+            
+            Collections.sort(students, new Comparator<Student>()
+            {
+                public int compare(Student st1, Student st2) {
+                    return st1.getName().compareTo(st2.getName());
+                }
+            });
+            
+            return students;
         }
     }
 

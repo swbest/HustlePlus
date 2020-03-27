@@ -7,6 +7,9 @@ package ejb.session.stateless;
 
 import entity.Company;
 import entity.Project;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
@@ -193,4 +196,67 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
             throw new ProjectNotFoundException("No projects were found by that skill!");
         }
     }
+    
+    @Override
+    public List<Project> filterProjectsBySkills(List<Long> skillIds, String condition)
+    {
+        List<Project> projects = new ArrayList<>();
+        
+        if(skillIds == null || skillIds.isEmpty() || (!condition.equals("AND") && !condition.equals("OR")))
+        {
+            return projects;
+        }
+        else
+        {
+            if(condition.equals("OR"))
+            {
+                Query query = em.createQuery("SELECT DISTINCT p FROM Project p, IN (p.skills) s WHERE s.skillId IN :inSkillIds ORDER BY p.projectName ASC");
+                query.setParameter("inSkillIds", skillIds);
+                projects = query.getResultList();                                                          
+            }
+            else // AND
+            {
+                String selectClause = "SELECT p FROM Project p";
+                String whereClause = "";
+                Boolean firstSkill = true;
+                Integer skillCount = 1;
+
+                for(Long skillId : skillIds)
+                {
+                    selectClause += ", IN (p.skills) s" + skillCount;
+
+                    if(firstSkill)
+                    {
+                        whereClause = "WHERE p1.skillId = " + skillId;
+                        firstSkill = false;
+                    }
+                    else
+                    {
+                        whereClause += " AND p" + skillCount + ".skillId = " + skillId; 
+                    }
+                    
+                    skillCount++;
+                }
+                
+                String jpql = selectClause + " " + whereClause + " ORDER BY p.projectName ASC";
+                Query query = em.createQuery(jpql);
+                projects = query.getResultList();                                
+            }
+            
+            for(Project project : projects)
+            {
+                project.getSkills().size();
+            }
+            
+            Collections.sort(projects, new Comparator<Project>()
+            {
+                public int compare(Project p1, Project p2) {
+                    return p1.getProjectName().compareTo(p2.getProjectName());
+                }
+            });
+            
+            return projects;
+        }
+    }
+    
 }
