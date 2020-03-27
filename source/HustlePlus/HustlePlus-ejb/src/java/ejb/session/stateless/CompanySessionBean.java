@@ -168,17 +168,27 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
 
     // searching for company) rating/ company's name
     @Override
-    public List<Company> retrieveCompaniesByName(String cname) {
+    public List<Company> retrieveCompaniesByName(String cname) throws CompanyNotFoundException {
         Query query = em.createQuery("SELECT c FROM Company c WHERE c.Name LIKE '%cname%'");
         query.setParameter("inName", cname);
-        return query.getResultList();
+        
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new CompanyNotFoundException("No companies were found by that name!");
+        }
     }
 
     @Override
-    public List<Company> retrieveCompaniesByAvgRating(Double avgRating) {
+    public List<Company> retrieveCompaniesByAvgRating(Double avgRating) throws CompanyNotFoundException{
         Query query = em.createQuery("SELECT c FROM Company c WHERE c.avgRating = :inAvgRating");
         query.setParameter("inAvgRating", avgRating);
-        return query.getResultList();
+        
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new CompanyNotFoundException("No companies were found for that rating!");
+        }
     }
     
     public void verifyCompany(Company company) {
