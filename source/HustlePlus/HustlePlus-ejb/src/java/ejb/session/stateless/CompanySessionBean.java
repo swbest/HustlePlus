@@ -192,7 +192,7 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
     }
     
     public void verifyCompany(Company company) {
-         
+         company.setIsVerified(true);
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Company>> constraintViolations) {
