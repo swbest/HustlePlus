@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -158,23 +159,38 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
     // searching for existing project) project name/ company name/project skills required
     @Override
-    public List<Project> retrieveProjectsByName(String pname) {
+    public List<Project> retrieveProjectsByName(String pname) throws ProjectNotFoundException {
         Query query = em.createQuery("SELECT p FROM Project p WHERE p.projectName LIKE '%inProjectName%'");
         query.setParameter("inProjectName", pname);
-        return query.getResultList();
+        
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new ProjectNotFoundException("No projects were found by that name!");
+        }
     }
 
     @Override
-    public List<Project> retrieveProjectsByCompany(String cname) {
+    public List<Project> retrieveProjectsByCompany(String cname) throws ProjectNotFoundException {
         Query query = em.createQuery("SELECT p FROM Project p WHERE p.company.companyName LIKE '%inCompanyName%'");
         query.setParameter("inCompanyName", cname);
-        return query.getResultList();
+        
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new ProjectNotFoundException("No projects were found by that Company!");
+        }
     }
 
     @Override
-    public List<Project> retrieveProjectsBySkills(String skillTitle) {
+    public List<Project> retrieveProjectsBySkills(String skillTitle) throws ProjectNotFoundException {
         Query query = em.createQuery("SELECT p FROM Project p WHERE p.skills.title = :inSkillTitle");
         query.setParameter("inSkillTitle", skillTitle);
-        return query.getResultList();
+        
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new ProjectNotFoundException("No projects were found by that skill!");
+        }
     }
 }
