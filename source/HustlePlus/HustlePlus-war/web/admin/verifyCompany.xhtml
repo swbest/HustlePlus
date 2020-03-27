@@ -16,7 +16,7 @@
             
                 <p:messages id="messages" redisplay="false" closable="true" />
 
-                <p:dataTable id="dataTableAllCompanies" widgetVar="dataTableAllCompanies" value="#{companyManagementManagedBean.companies}" var="company" rowKey="#{company.userId}" rowIndexVar="row" filteredValue="#{companyMangementManagedBean.filteredCompanies}"  
+                <p:dataTable id="dataTableAllCompanies" widgetVar="dataTableAllCompanies" value="#{companyManagementManagedBean.companies}" var="company" rowKey="#{company.userId}" rowIndexVar="row" filteredValue="#{companyManagementManagedBean.filteredCompanies}"  
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
                     <f:facet name="header">
@@ -50,14 +50,24 @@
                         <h:outputText value="#{company.description}" />
                     </p:column>
                     
+                    <p:column headerText="Verified" sortBy="#{company.isVerified}" filterBy="#{company.isVerified}" filterMatchMode="contains">
+                        <h:outputText value="#{company.isVerified}" />
+                    </p:column>
+                    
+                    <p:column headerText="Suspended" sortBy="#{company.isSuspended}" filterBy="#{company.isSuspended}" filterMatchMode="contains">
+                        <h:outputText value="#{company.isSuspended}" />
+                    </p:column>                    
+                    
                     <p:column headerText="Action" >
-                        <p:commandButton actionListener="#{companyManagementManagedBean.verifyCompany}" oncomplete="PF('dialogVerifyCompany').show()" value="Verify" title="Verify">
+                        <p:commandButton actionListener="#{companyManagementManagedBean.verifyCompany}" oncomplete="PF('dialogVerifyCompany').show()" value="Verify">
                             <f:attribute name="companyToUpdate" value="#{company}" />
                             <p:confirm header="Confirmation" message="Are you sure you want to verify #{company.name} (Company ID #{company.userId})?" icon="ui-icon-alert" />
                         </p:commandButton>
-                        <p:commandButton actionListener="#{companyManagementManagedBean.suspendCompany}" update="formAllProducts:dataTableAllProducts formAllProducts:messages">
-                            <f:attribute name="productEntityToDelete" value="#{productEntity}" />
-                            <p:confirm header="Confirmation" message="Are you sure you want to delete #{productEntity.name} (SKU Code: #{productEntity.skuCode})?" icon="ui-icon-alert" />
+                            <br />
+                       <br /> 
+                        <p:commandButton actionListener="#{companyManagementManagedBean.suspendCompany}" value="Suspend">
+                            <f:attribute name="companyToSuspend" value="#{companyToSuspend}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to suspend #{companyToSuspend.name} (Company ID: #{companyToSuspend.userId})?" icon="ui-icon-alert" />
                         </p:commandButton>                
                     </p:column>                                         
 

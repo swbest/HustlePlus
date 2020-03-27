@@ -51,13 +51,13 @@ public class CompanyManagementManagedBean implements Serializable {
     private ViewCompanyManagedBean viewCompanyManagedBean;
     
     private List<Company> companies;
+    private List<Company> filteredCompanies; 
     
     private Company newCompany;
     private List<Project> projects;
     private List<Review> reviews; 
     
     private Company selectedCompanyToUpdate;
-    private List<Long>projectIdsUpdate;
     
     private Company selectedCompanyToVerify; 
 
@@ -86,7 +86,12 @@ public class CompanyManagementManagedBean implements Serializable {
         Company c = companySessionBeanLocal.createNewCompany(newCompany);
         System.out.println("createNew2");
         companies.add(c); 
-        newCompany = new Company() ; 
+        
+        if( getFilteredCompanies() != null)
+        {
+                getFilteredCompanies().add(c);
+        }
+       newCompany = new Company() ; 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + c.getUserId() + ")", null));
         
      } catch (CompanyNameExistException ex) {
@@ -128,6 +133,11 @@ public class CompanyManagementManagedBean implements Serializable {
             Company companyToDelete = (Company) event.getComponent().getAttributes().get("companyToDelete");
             companySessionBeanLocal.deleteCompany(companyToDelete.getUserId());
             companies.remove(companyToDelete); 
+            
+          if(getFilteredCompanies() != null)
+        {
+                getFilteredCompanies().remove(companyToDelete);
+        }    
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Company Account deleted successfully", null));
         }
@@ -142,7 +152,7 @@ public class CompanyManagementManagedBean implements Serializable {
     }
      
      public void verifyCompany(ActionEvent event) {
-      selectedCompanyToVerify =(Company)event.getComponent().getAttributes().get("companyToVerify");
+        setSelectedCompanyToVerify((Company)event.getComponent().getAttributes().get("companyToVerify"));
         
 
      }
@@ -195,10 +205,20 @@ public class CompanyManagementManagedBean implements Serializable {
         this.selectedCompanyToUpdate = selectedCompanyToUpdate;
     }
 
+    public List<Company> getFilteredCompanies() {
+        return filteredCompanies;
+    }
 
-    
-    
-     
-     
+    public void setFilteredCompanies(List<Company> filteredCompanies) {
+        this.filteredCompanies = filteredCompanies;
+    }
+
+    public Company getSelectedCompanyToVerify() {
+        return selectedCompanyToVerify;
+    }
+
+    public void setSelectedCompanyToVerify(Company selectedCompanyToVerify) {
+        this.selectedCompanyToVerify = selectedCompanyToVerify;
+    } 
 
 }

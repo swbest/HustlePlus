@@ -71,8 +71,7 @@ public class SecurityFilter implements Filter {
     
     public Boolean checkAccessRight(String path, AccessRightEnum accessRight) {
         if(accessRight.equals(AccessRightEnum.ADMIN)) {
-            if (path.equals("/adminOperation/verifyCompany.xhtml") ||
-                path.equals("adminOperation/suspendCompany.xhtml")) {
+            if ( path.equals("adminOperation/suspendCompany.xhtml")) {
                 return true ; 
             } else {
                 return false ;
@@ -95,6 +94,7 @@ public class SecurityFilter implements Filter {
     
     private Boolean excludeLoginCheck(String path) {
         if (path.equals("/index.xhtml") ||
+            path.equals("/admin/verifyCompany.xhtml") ||
             path.equals("/companies/createNewCompany.xhtml") ||
             path.equals("/accessRightError.xhtml") ||
             path.startsWith("/javax.faces.resource")) {
