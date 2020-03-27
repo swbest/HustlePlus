@@ -147,21 +147,36 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     public List retrieveStudentsByName(String name) throws StudentNotFoundException {
         Query query = em.createQuery("SELECT s FROM Student s WHERE s.name LIKE '%inStudentName%'");
         query.setParameter("inStudentName", name);
-        return query.getResultList();
+        
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new StudentNotFoundException("No students were found by that name!");
+        }
     }
 
     @Override
-    public List<Student> retrieveStudentsBySkills(String skillTitle) {
+    public List<Student> retrieveStudentsBySkills(String skillTitle) throws StudentNotFoundException{
         Query query = em.createQuery("SELECT s FROM Student s WHERE s.skills.title = :inSkillTitle");
         query.setParameter("inSkillTitle", skillTitle);
-        return query.getResultList();
+        
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new StudentNotFoundException("No students were found with those skills!");
+        }
     }
 
     @Override
-    public List<Student> retrieveStudentsByAvgRating(Double avgRating) {
+    public List<Student> retrieveStudentsByAvgRating(Double avgRating) throws StudentNotFoundException{
         Query query = em.createQuery("SELECT s FROM Student s WHERE s.avgRating = :inAvgRating");
         query.setParameter("inAvgRating", avgRating);
-        return query.getResultList();
+        
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new StudentNotFoundException("No students were found for that rating!");
+        }
     }
 
     @Override
