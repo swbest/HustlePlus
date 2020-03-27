@@ -29,6 +29,7 @@ import util.exception.StudentNotFoundException;
 import util.exception.StudentNotVerifiedException;
 import util.exception.StudentSuspendedException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UpdateApplicationException;
 
 /**
  *
