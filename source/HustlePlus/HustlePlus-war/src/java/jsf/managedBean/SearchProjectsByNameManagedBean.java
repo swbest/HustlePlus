@@ -14,6 +14,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import util.exception.CompanyNotFoundException;
 import util.exception.ProjectNotFoundException;
 
 /**
@@ -46,11 +47,11 @@ public class SearchProjectsByNameManagedBean {
         if (getSearchString() == null || getSearchString().trim().length() == 0) {
             setProjects(projectSessionBeanLocal.retrieveAllProject());
         } else {
-            //try {
+            try {
                 setProjects(projectSessionBeanLocal.retrieveProjectsByName(getSearchString()));
-            //} catch (ProjectNotFoundException ex) {
+            } catch (ProjectNotFoundException ex) {
                 
-         //   }
+            }
         }
     }
     
@@ -58,11 +59,11 @@ public class SearchProjectsByNameManagedBean {
         if (getSearchString() == null || getSearchString().trim().length() == 0) {
             setProjects(projectSessionBeanLocal.retrieveAllProject());
         } else {
-            //try {
+            try {
                 setProjects(projectSessionBeanLocal.retrieveProjectsByName(getSearchString()));
-            //} catch (CompanyNotFoundException ex) {
+            } catch (ProjectNotFoundException ex) {
                 
-            //}
+            }
         }
     }
 
