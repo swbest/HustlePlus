@@ -21,7 +21,7 @@
                             <p:outputLabel for="companyName" value="Company Name" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="companyName" value="#{companyMangementManagedBean.newCompany.name}" />
+                            <p:inputText id="companyName" value="#{companyManagementManagedBean.newCompany.name}" />
                         </p:column>
                     </p:row>
                     
@@ -30,7 +30,7 @@
                             <p:outputLabel for="email" value="Email" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="email" value="#{companyMangementManagedBean.newCompany.email}" />
+                            <p:inputText id="email" value="#{companyManagementManagedBean.newCompany.email}" />
                         </p:column>
                     </p:row>
                    
@@ -39,7 +39,7 @@
                             <p:outputLabel for="username" value="Username" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="username" value="#{companyMangementManagedBean.newCompany.username}" />
+                            <p:inputText id="username" value="#{companyManagementManagedBean.newCompany.username}" />
                         </p:column>
                     </p:row>
                     
@@ -48,7 +48,7 @@
                             <p:outputLabel for="password" value="Password" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="password" value="#{companyMangementManagedBean.newCompany.password}" />
+                            <p:inputText id="password" value="#{companyManagementManagedBean.newCompany.password}" />
                         </p:column>
                     </p:row>
                     
@@ -59,14 +59,14 @@
                             <p:outputLabel for="description" value="Description" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="description" value="#{companyMangementManagedBean.newCompany.description}" />
+                            <p:inputText id="description" value="#{companyManagementManagedBean.newCompany.description}" />
                         </p:column>
                     </p:row>
 
                     <p:row>
                         <p:column colspan="2">
                             <p:commandButton type="reset" value="Clear" />
-                            <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{companyMangementManagedBean.createNewCompany}" />
+                            <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{companyManagementManagedBean.createNewCompany}" />
                         </p:column>
                     </p:row>
                     
