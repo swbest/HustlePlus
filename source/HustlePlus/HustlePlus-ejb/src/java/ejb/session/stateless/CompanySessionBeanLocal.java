@@ -37,8 +37,8 @@ public interface CompanySessionBeanLocal {
 
     public Company companyLogin(String username, String password) throws InvalidLoginCredentialException;
 
-    public List<Company> retrieveCompaniesByName(String cname);
+    public List<Company> retrieveCompaniesByName(String cname) throws CompanyNotFoundException;
 
-    public List<Company> retrieveCompaniesByAvgRating(Double avgRating);
+    public List<Company> retrieveCompaniesByAvgRating(Double avgRating) throws CompanyNotFoundException;
     
 }

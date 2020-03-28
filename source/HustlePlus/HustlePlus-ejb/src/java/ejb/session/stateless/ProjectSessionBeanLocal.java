@@ -36,10 +36,12 @@ public interface ProjectSessionBeanLocal {
 
     public void deleteProject(Long projectId) throws ProjectNotFoundException, DeleteProjectException;
 
-    public List<Project> retrieveProjectsByName(String pname);
+    public List<Project> retrieveProjectsByName(String pname) throws ProjectNotFoundException;
 
-    public List<Project> retrieveProjectsByCompany(String cname);
+    public List<Project> retrieveProjectsByCompany(String cname)throws ProjectNotFoundException;
 
-    public List<Project> retrieveProjectsBySkills(String skill);
+    public List<Project> retrieveProjectsBySkills(String skill) throws ProjectNotFoundException;
+
+    public List<Project> filterProjectsBySkills(List<Long> skillIds, String condition);
     
 }

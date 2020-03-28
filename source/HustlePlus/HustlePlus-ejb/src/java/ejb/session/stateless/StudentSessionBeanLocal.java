@@ -37,10 +37,12 @@ public interface StudentSessionBeanLocal {
 
     public Student studentLogin(String username, String password) throws InvalidLoginCredentialException;
 
-    public List<Student> retrieveStudentsBySkills(String skill);
+    public List<Student> retrieveStudentsBySkills(String skill)throws StudentNotFoundException;
 
-    public List<Student> retrieveStudentsByAvgRating(Double avgRating);
+    public List<Student> retrieveStudentsByAvgRating(Double avgRating) throws StudentNotFoundException;
 
     public List retrieveStudentsByName(String name) throws StudentNotFoundException;
+
+    public List<Student> filterStudentsBySkills(List<Long> skillIds, String condition);
 
 }

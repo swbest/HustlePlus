@@ -7,11 +7,15 @@ package ejb.session.stateless;
 
 import entity.Company;
 import entity.Project;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -158,23 +162,101 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
     // searching for existing project) project name/ company name/project skills required
     @Override
-    public List<Project> retrieveProjectsByName(String pname) {
+    public List<Project> retrieveProjectsByName(String pname) throws ProjectNotFoundException {
         Query query = em.createQuery("SELECT p FROM Project p WHERE p.projectName LIKE '%inProjectName%'");
         query.setParameter("inProjectName", pname);
-        return query.getResultList();
+        
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new ProjectNotFoundException("No projects were found by that name!");
+        }
     }
 
     @Override
-    public List<Project> retrieveProjectsByCompany(String cname) {
+    public List<Project> retrieveProjectsByCompany(String cname) throws ProjectNotFoundException {
         Query query = em.createQuery("SELECT p FROM Project p WHERE p.company.companyName LIKE '%inCompanyName%'");
         query.setParameter("inCompanyName", cname);
-        return query.getResultList();
+        
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new ProjectNotFoundException("No projects were found by that Company!");
+        }
     }
 
     @Override
-    public List<Project> retrieveProjectsBySkills(String skillTitle) {
+    public List<Project> retrieveProjectsBySkills(String skillTitle) throws ProjectNotFoundException {
         Query query = em.createQuery("SELECT p FROM Project p WHERE p.skills.title = :inSkillTitle");
         query.setParameter("inSkillTitle", skillTitle);
-        return query.getResultList();
+        
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new ProjectNotFoundException("No projects were found by that skill!");
+        }
     }
+    
+    @Override
+    public List<Project> filterProjectsBySkills(List<Long> skillIds, String condition)
+    {
+        List<Project> projects = new ArrayList<>();
+        
+        if(skillIds == null || skillIds.isEmpty() || (!condition.equals("AND") && !condition.equals("OR")))
+        {
+            return projects;
+        }
+        else
+        {
+            if(condition.equals("OR"))
+            {
+                Query query = em.createQuery("SELECT DISTINCT p FROM Project p, IN (p.skills) s WHERE s.skillId IN :inSkillIds ORDER BY p.projectName ASC");
+                query.setParameter("inSkillIds", skillIds);
+                projects = query.getResultList();                                                          
+            }
+            else // AND
+            {
+                String selectClause = "SELECT p FROM Project p";
+                String whereClause = "";
+                Boolean firstSkill = true;
+                Integer skillCount = 1;
+
+                for(Long skillId : skillIds)
+                {
+                    selectClause += ", IN (p.skills) s" + skillCount;
+
+                    if(firstSkill)
+                    {
+                        whereClause = "WHERE p1.skillId = " + skillId;
+                        firstSkill = false;
+                    }
+                    else
+                    {
+                        whereClause += " AND p" + skillCount + ".skillId = " + skillId; 
+                    }
+                    
+                    skillCount++;
+                }
+                
+                String jpql = selectClause + " " + whereClause + " ORDER BY p.projectName ASC";
+                Query query = em.createQuery(jpql);
+                projects = query.getResultList();                                
+            }
+            
+            for(Project project : projects)
+            {
+                project.getSkills().size();
+            }
+            
+            Collections.sort(projects, new Comparator<Project>()
+            {
+                public int compare(Project p1, Project p2) {
+                    return p1.getProjectName().compareTo(p2.getProjectName());
+                }
+            });
+            
+            return projects;
+        }
+    }
+    
 }

@@ -14,6 +14,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import util.exception.CompanyNotFoundException;
 
 /**
  *
@@ -42,11 +43,11 @@ public class SearchCompaniesByNameManagedBean {
         if (getSearchString() == null || getSearchString().trim().length() == 0) {
             setCompanies(companySessionBeanLocal.retrieveAllCompanies());
         } else {
-            //try {
+            try {
                 setCompanies(companySessionBeanLocal.retrieveCompaniesByName(getSearchString()));
-            //} catch (CompanyNotFoundException ex) {
+            } catch (CompanyNotFoundException ex) {
                 
-         //   }
+            }
         }
     }
 
@@ -54,11 +55,11 @@ public class SearchCompaniesByNameManagedBean {
         if (getSearchString() == null || getSearchString().trim().length() == 0) {
             setCompanies(companySessionBeanLocal.retrieveAllCompanies());
         } else {
-            //try {
+            try {
                 setCompanies(companySessionBeanLocal.retrieveCompaniesByName(getSearchString()));
-            //} catch (CompanyNotFoundException ex) {
+            } catch (CompanyNotFoundException ex) {
                 
-            //}
+            }
         }
     }
 
