@@ -33,22 +33,22 @@ public class Company extends User implements Serializable {
     @NotNull
     @Size(max = 256, message = "Company description should be at most 256 characters")
     @Column(nullable = false, length = 256)
-    private String description;
+    protected String description;
     @Min(value = 0, message = "Average rating should not be less than 0")
     @Max(value = 5, message = "Average rating should not be more than 5")
     @Column(nullable = true)
-    private Double avgRating;
+    protected Double avgRating;
     @NotNull
     @Column(nullable = false)
-    private Boolean isVerified;
+    protected Boolean isVerified;
     @NotNull
     @Column(nullable = false)
-    private Boolean isSuspended;
+    protected Boolean isSuspended;
 
     @OneToMany(mappedBy = "company")
-    private List<Project> projects;
+    protected List<Project> projects;
     @OneToMany(mappedBy = "company")
-    private List<Review> studentReviews;
+    protected List<Review> studentReviews;
 
     public Company() {
         this.projects = new ArrayList<Project>();

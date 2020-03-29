@@ -51,8 +51,13 @@ public class AdminStaffSessionBean implements AdminStaffSessionBeanLocal {
             Set<ConstraintViolation<AdminStaff>> constraintViolations = validator.validate(newAdminStaff);
 
             if (constraintViolations.isEmpty()) {
+                
+                System.out.println("createAdmin1");
                 em.persist(newAdminStaff);
                 em.flush();
+                
+                System.out.println("createAdmin2");
+
 
                 return newAdminStaff;
             } else {

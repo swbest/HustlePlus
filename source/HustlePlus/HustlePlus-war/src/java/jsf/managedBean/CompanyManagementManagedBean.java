@@ -91,6 +91,7 @@ public class CompanyManagementManagedBean implements Serializable {
         {
                 getFilteredCompanies().add(c);
         }
+        
        newCompany = new Company() ; 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + c.getUserId() + ")", null));
         

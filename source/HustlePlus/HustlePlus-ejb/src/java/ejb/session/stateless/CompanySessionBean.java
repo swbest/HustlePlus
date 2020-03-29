@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.Company;
+import static entity.User_.password;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
@@ -54,16 +55,18 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
             newCompany.setIsSuspended(Boolean.FALSE);
             newCompany.setIsVerified(Boolean.FALSE);
             newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
+            String passwordHash = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(newCompany.getPassword() + newCompany.getSalt()));
+
             Set<ConstraintViolation<Company>> constraintViolations = validator.validate(newCompany);
 
             if (constraintViolations.isEmpty()) {
                 
-                        System.out.println("createNew3");
+                System.out.println("createNew3");
 
 
                 em.persist(newCompany);
                 em.flush();
-                        System.out.println("createNew4");
+                System.out.println("createNew4");
 
 
                 return newCompany;

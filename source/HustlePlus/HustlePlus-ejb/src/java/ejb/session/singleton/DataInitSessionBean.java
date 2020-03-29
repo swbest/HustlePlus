@@ -80,6 +80,7 @@ public class DataInitSessionBean {
         newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
         companySessionBeanLocal.createNewCompany(newCompany);
         
+        /*
         AdminStaff newAdmin = new AdminStaff() ; 
         newAdmin.setName("admin tan");
         newAdmin.setUsername("admin1");
@@ -87,10 +88,11 @@ public class DataInitSessionBean {
         newAdmin.setEmail("admin1@gmail.com");
         newAdmin.setAccessRightEnum(AccessRightEnum.ADMIN);
         adminStaffSessionBeanLocal.createNewAdminStaff(newAdmin);
+*/
 
 
         
-    } catch ( UserEmailExistsException | CompanyNameExistException | UnknownPersistenceException | InputDataValidationException ex) {
+    } catch (CompanyNameExistException | UnknownPersistenceException | InputDataValidationException ex) {
         ex.printStackTrace();
 
     }
