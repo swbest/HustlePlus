@@ -88,6 +88,15 @@ public class Project implements Serializable {
         this.isFinished = Boolean.FALSE;
     }
 
+    public Project(String projectName, BigDecimal jobValue, String projectDescription, Date startDate, Date endDate) {
+        this();
+        this.projectName = projectName;
+        this.jobValue = jobValue;
+        this.projectDescription = projectDescription;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public Long getProjectId() {
         return projectId;
     }

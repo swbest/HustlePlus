@@ -48,6 +48,7 @@ public class Payment implements Serializable {
     }
 
     public Payment(String paymentDescription) {
+        this();
         this.paymentDescription = paymentDescription;
     }
 
