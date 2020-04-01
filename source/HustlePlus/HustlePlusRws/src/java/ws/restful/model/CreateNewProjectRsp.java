@@ -11,21 +11,21 @@ package ws.restful.model;
  */
 public class CreateNewProjectRsp {
 
-    private Long newBookId;
+    private Long newProjectId;
 
     public CreateNewProjectRsp() {
     }
 
-    public CreateNewProjectRsp(Long newBookId) {
-        this.newBookId = newBookId;
+    public CreateNewProjectRsp(Long newProjectId) {
+        this.newProjectId = newProjectId;
     }
 
-    public Long getNewBookId() {
-        return newBookId;
+    public Long getNewProjectId() {
+        return newProjectId;
     }
 
-    public void setNewBookId(Long newBookId) {
-        this.newBookId = newBookId;
+    public void setNewProjectId(Long newProjectId) {
+        this.newProjectId = newProjectId;
     }
 
 }

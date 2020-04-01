@@ -6,7 +6,6 @@
 package ws.restful.resources;
 
 import ejb.session.stateless.SkillSessionBeanLocal;
-import entity.Project;
 import entity.Skill;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,7 +25,6 @@ import javax.ws.rs.core.Response.Status;
 import ws.restful.model.CreateNewSkillReq;
 import ws.restful.model.CreateNewSkillRsp;
 import ws.restful.model.ErrorRsp;
-import ws.restful.model.RetrieveAllProjectsRsp;
 import ws.restful.model.RetrieveAllSkillsRsp;
 
 /**

@@ -5,8 +5,8 @@
  */
 package ws.restful.resources;
 
-import ejb.session.stateless.ProjectSessionBeanLocal;
-import entity.Project;
+import ejb.session.stateless.StudentSessionBeanLocal;
+import entity.Student;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,30 +22,29 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import ws.restful.model.CreateNewProjectReq;
-import ws.restful.model.CreateNewProjectRsp;
+import ws.restful.model.CreateNewStudentReq;
+import ws.restful.model.CreateNewStudentRsp;
 import ws.restful.model.ErrorRsp;
-import ws.restful.model.RetrieveAllProjectsRsp;
-import ws.restful.model.RetrieveProjectRsp;
+import ws.restful.model.RetrieveAllStudentsRsp;
+import ws.restful.model.RetrieveStudentRsp;
 
 /**
  * REST Web Service
  *
  * @author dtjldamien
  */
-@Path("Project")
-public class ProjectResource {
+@Path("Student")
+public class StudentResource {
 
     @Context
     private UriInfo context;
 
-    private ProjectSessionBeanLocal projectSessionBean = lookupProjectSessionBeanLocal();
+    StudentSessionBeanLocal studentSessionBean = lookupStudentSessionBeanLocal();
 
     /**
-     * Creates a new instance of ProjectResource
+     * Creates a new instance of StudentResource
      */
-    public ProjectResource() {
+    public StudentResource() {
     }
 
     /**
@@ -57,14 +56,14 @@ public class ProjectResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveProjectById(@PathParam("id") Long projectId) {
+    public Response retrieveProjectById(@PathParam("id") Long studentId) {
         try {
-            Project project = projectSessionBean.retrieveProjectByProjectId(projectId);
-            RetrieveProjectRsp retrieveProjectRsp = new RetrieveProjectRsp(project);
-            return Response.status(Status.OK).entity(retrieveProjectRsp).build();
+            Student student = studentSessionBean.retrieveStudentByStudentId(studentId);
+            RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(student);
+            return Response.status(Response.Status.OK).entity(retrieveStudentRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
 
@@ -78,12 +77,12 @@ public class ProjectResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllProjects() {
         try {
-            List<Project> projects = projectSessionBean.retrieveAllProjects();
-            RetrieveAllProjectsRsp retrieveAllProjectsRsp = new RetrieveAllProjectsRsp(projects);
-            return Response.status(Status.OK).entity(retrieveAllProjectsRsp).build();
+            List<Student> students = studentSessionBean.retrieveAllStudents();
+            RetrieveAllStudentsRsp retrieveAllStudentsRsp = new RetrieveAllStudentsRsp(students);
+            return Response.status(Response.Status.OK).entity(retrieveAllStudentsRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
 
@@ -95,26 +94,26 @@ public class ProjectResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createProject(CreateNewProjectReq createNewProjectReq) {
-        if (createNewProjectReq != null) {
+    public Response createStudent(CreateNewStudentReq createNewStudentReq) {
+        if (createNewStudentReq != null) {
             try {
-                Long newProjectId = projectSessionBean.createNewProject(createNewProjectReq.getNewProject(), createNewProjectReq.getCompanyId());
-                CreateNewProjectRsp createNewProjectRsp = new CreateNewProjectRsp(newProjectId);
-                return Response.status(Status.OK).entity(createNewProjectRsp).build();
+                Long newStudentId = studentSessionBean.createStudentAccount(createNewStudentReq.getNewStudent());
+                CreateNewStudentRsp createNewStudentRsp = new CreateNewStudentRsp(newStudentId);
+                return Response.status(Response.Status.OK).entity(createNewStudentRsp).build();
             } catch (Exception ex) {
                 ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-                return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
             }
         } else {
             ErrorRsp errorRsp = new ErrorRsp("Invalid Request");
-            return Response.status(Status.BAD_REQUEST).entity(errorRsp).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
 
-    private ProjectSessionBeanLocal lookupProjectSessionBeanLocal() {
+    private StudentSessionBeanLocal lookupStudentSessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();
-            return (ProjectSessionBeanLocal) c.lookup("java:global/HustlePlus/HustlePlus-ejb/ProjectSessionBean!ejb.session.stateless.ProjectSessionBeanLocal");
+            return (StudentSessionBeanLocal) c.lookup("java:global/HustlePlus/HustlePlus-ejb/StudentSessionBean!ejb.session.stateless.StudentSessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
