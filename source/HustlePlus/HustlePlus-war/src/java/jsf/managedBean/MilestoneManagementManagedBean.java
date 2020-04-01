@@ -68,7 +68,7 @@ public class MilestoneManagementManagedBean {
     public void postConstruct()
     {
         setMilestones(milestoneSessionBeanLocal.retrieveAllMilestones());
-        setProjects(projectSessionBeanLocal.retrieveAllProject());
+        setProjects(projectSessionBeanLocal.retrieveAllProjects());
     }
     
     public void viewMilestoneDetails(javax.faces.event.ActionEvent event) throws IOException

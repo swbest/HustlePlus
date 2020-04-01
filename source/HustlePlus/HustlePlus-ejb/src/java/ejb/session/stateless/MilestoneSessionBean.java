@@ -48,7 +48,7 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
     }
 
     @Override
-    public Milestone createNewMilestone(Milestone newMilestone, Long projectId) throws MilestoneIdExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException {
+    public Long createNewMilestone(Milestone newMilestone, Long projectId) throws MilestoneIdExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException {
         try {
             Set<ConstraintViolation<Milestone>> constraintViolations = validator.validate(newMilestone);
 
@@ -60,7 +60,7 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
                 em.persist(newMilestone);
                 em.flush();
 
-                return newMilestone;
+                return newMilestone.getMilestoneId();
                 } catch (ProjectNotFoundException ex) {
                     throw new ProjectNotFoundException("Project Not Found for ID: " + projectId);
                 }

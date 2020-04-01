@@ -22,7 +22,7 @@ import util.exception.UpdateMilestoneException;
 @Local
 public interface MilestoneSessionBeanLocal {
 
-    public Milestone createNewMilestone(Milestone newMilestone, Long projectId) throws MilestoneIdExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException;
+    public Long createNewMilestone(Milestone newMilestone, Long projectId) throws MilestoneIdExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException;
 
     public Milestone retrieveMilestoneByMilestoneId(Long milestoneId) throws MilestoneNotFoundException;
 

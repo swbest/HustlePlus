@@ -73,7 +73,7 @@ public class CompanyManagementManagedBean implements Serializable {
     @PostConstruct
     public void postConstruct() {
         setCompanies(companySessionBeanLocal.retrieveAllCompanies());   
-        setProjects(projectSessionBeanLocal.retrieveAllProject());
+        setProjects(projectSessionBeanLocal.retrieveAllProjects());
         setReviews(reviewSessionBeanLocal.retrieveAllReviews()); 
     }
     

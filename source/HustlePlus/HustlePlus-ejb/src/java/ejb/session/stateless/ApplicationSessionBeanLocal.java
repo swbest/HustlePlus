@@ -30,7 +30,7 @@ public interface ApplicationSessionBeanLocal {
 
     public Application retrieveApplicationByApplicationId(Long applicationId) throws ApplicationNotFoundException;
 
-    public Application createApplication(Application newApplication, Long projectId, Long studentId) throws StudentSuspendedException, StudentNotVerifiedException, ApplicationExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException, StudentNotFoundException;
+    public Long createApplication(Application newApplication, Long projectId, Long studentId) throws StudentSuspendedException, StudentNotVerifiedException, ApplicationExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException, StudentNotFoundException;
 
     public void updateApplication(Application application) throws ApplicationNotFoundException, UpdateApplicationException, InputDataValidationException;
 

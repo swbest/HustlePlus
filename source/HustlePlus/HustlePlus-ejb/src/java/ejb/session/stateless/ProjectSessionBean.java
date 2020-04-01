@@ -55,7 +55,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
 
     @Override
-    public Project createNewProject(Project newProject, Long companyId) throws CompanyNotVerifiedException, CompanySuspendedException, UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException {
+    public Long createNewProject(Project newProject, Long companyId) throws CompanyNotVerifiedException, CompanySuspendedException, UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException {
         try {
             Set<ConstraintViolation<Project>> constraintViolations = validator.validate(newProject);
 
@@ -72,7 +72,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                     em.persist(newProject);
                     em.flush();
 
-                    return newProject;
+                    return newProject.getProjectId();
                 } catch (CompanyNotFoundException ex) {
                     throw new CompanyNotFoundException("Company Not Found for ID: " + companyId);
                 }
@@ -93,7 +93,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
 
     @Override
-    public List<Project> retrieveAllProject() {
+    public List<Project> retrieveAllProjects() {
         Query query = em.createQuery("SELECT p FROM Project p");
 
         return query.getResultList();

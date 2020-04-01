@@ -20,7 +20,7 @@ import util.exception.UserEmailExistsException;
  */
 public interface AdminStaffSessionBeanLocal {
 
-    public AdminStaff createNewAdminStaff(AdminStaff newAdminStaff) throws UserEmailExistsException, UnknownPersistenceException, InputDataValidationException;
+    public Long createNewAdminStaff(AdminStaff newAdminStaff) throws UserEmailExistsException, UnknownPersistenceException, InputDataValidationException;
 
     public List<AdminStaff> retrieveAllAdminStaff();
 

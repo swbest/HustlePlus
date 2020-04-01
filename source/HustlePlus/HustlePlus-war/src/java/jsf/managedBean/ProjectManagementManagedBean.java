@@ -79,7 +79,7 @@ public class ProjectManagementManagedBean implements Serializable {
     @PostConstruct
     public void postConstruct() {
         
-        setProjects(projectSessionBeanLocal.retrieveAllProject());
+        setProjects(projectSessionBeanLocal.retrieveAllProjects());
         setMilestones(milestoneSessionBeanLocal.retrieveAllMilestones());
         setReviews(reviewSessionBeanLocal.retrieveAllReviews());
         setApplications(applicationSessionBeanLocal.retrieveAllApplicationss());

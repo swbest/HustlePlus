@@ -46,20 +46,20 @@ public class AdminStaffSessionBean implements AdminStaffSessionBeanLocal {
     }
 
     @Override
-    public AdminStaff createNewAdminStaff(AdminStaff newAdminStaff) throws UserEmailExistsException, UnknownPersistenceException, InputDataValidationException {
+    public Long createNewAdminStaff(AdminStaff newAdminStaff) throws UserEmailExistsException, UnknownPersistenceException, InputDataValidationException {
         try {
             Set<ConstraintViolation<AdminStaff>> constraintViolations = validator.validate(newAdminStaff);
 
             if (constraintViolations.isEmpty()) {
                 
-                System.out.println("createAdmin1");
+                System.out.println("Create Admin (Before Persist)");
                 em.persist(newAdminStaff);
                 em.flush();
                 
-                System.out.println("createAdmin2");
+                System.out.println("Create Admin (After Persist)");
 
 
-                return newAdminStaff;
+                return newAdminStaff.getUserId();
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

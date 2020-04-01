@@ -51,7 +51,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
     }
 
     @Override
-    public Payment createNewPayment(Payment newPayment, Long milestoneId, Long studentId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException, StudentNotFoundException {
+    public Long createNewPayment(Payment newPayment, Long milestoneId, Long studentId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException, StudentNotFoundException {
         try {
             Set<ConstraintViolation<Payment>> constraintViolations = validator.validate(newPayment);
 
@@ -66,7 +66,7 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
                     em.persist(newPayment);
                     em.flush();
 
-                    return newPayment;
+                    return newPayment.getPaymentId();
                 } catch (MilestoneNotFoundException ex) {
                     throw new MilestoneNotFoundException("Milestone Not Found for ID: " + milestoneId);
                 }

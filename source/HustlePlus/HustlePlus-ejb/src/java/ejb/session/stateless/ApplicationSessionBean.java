@@ -57,7 +57,7 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
     }
 
     @Override
-    public Application createApplication(Application newApplication, Long projectId, Long studentId) throws StudentSuspendedException, StudentNotVerifiedException, ApplicationExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException, StudentNotFoundException {
+    public Long createApplication(Application newApplication, Long projectId, Long studentId) throws StudentSuspendedException, StudentNotVerifiedException, ApplicationExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException, StudentNotFoundException {
         try {
             Set<ConstraintViolation<Application>> constraintViolations = validator.validate(newApplication);
             Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
@@ -75,7 +75,7 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
                 student.addApplication(newApplication);
                 em.persist(newApplication);
                 em.flush();
-                return newApplication;
+                return newApplication.getApplicationId();
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

@@ -53,7 +53,7 @@ public class CreateNewProjectManagedBean {
     @PostConstruct 
     public void postConstruct() {
         
-        setProjects(projectSessionBeanLocal.retrieveAllProject());
+        setProjects(projectSessionBeanLocal.retrieveAllProjects());
         
         
         

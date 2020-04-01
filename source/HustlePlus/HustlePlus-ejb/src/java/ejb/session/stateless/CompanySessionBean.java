@@ -50,7 +50,7 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
     }
 
     @Override
-    public Company createNewCompany(Company newCompany) throws CompanyNameExistException, UnknownPersistenceException, InputDataValidationException {
+    public Long createNewCompany(Company newCompany) throws CompanyNameExistException, UnknownPersistenceException, InputDataValidationException {
         try {
             newCompany.setIsSuspended(Boolean.FALSE);
             newCompany.setIsVerified(Boolean.FALSE);
@@ -61,15 +61,15 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
 
             if (constraintViolations.isEmpty()) {
                 
-                System.out.println("createNew3");
+                System.out.println("Create new company(Before persist)");
 
 
                 em.persist(newCompany);
                 em.flush();
-                System.out.println("createNew4");
+                System.out.println("Create new company(After persist)");
 
 
-                return newCompany;
+                return newCompany.getUserId();
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

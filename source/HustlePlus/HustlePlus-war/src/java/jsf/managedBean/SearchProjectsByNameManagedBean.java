@@ -45,7 +45,7 @@ public class SearchProjectsByNameManagedBean {
         setSearchString((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("projectSearchString"));
 
         if (getSearchString() == null || getSearchString().trim().length() == 0) {
-            setProjects(projectSessionBeanLocal.retrieveAllProject());
+            setProjects(projectSessionBeanLocal.retrieveAllProjects());
         } else {
             try {
                 setProjects(projectSessionBeanLocal.retrieveProjectsByName(getSearchString()));
@@ -57,7 +57,7 @@ public class SearchProjectsByNameManagedBean {
     
     public void searchProject() {
         if (getSearchString() == null || getSearchString().trim().length() == 0) {
-            setProjects(projectSessionBeanLocal.retrieveAllProject());
+            setProjects(projectSessionBeanLocal.retrieveAllProjects());
         } else {
             try {
                 setProjects(projectSessionBeanLocal.retrieveProjectsByName(getSearchString()));
