@@ -21,6 +21,7 @@ import util.exception.CompanyNotVerifiedException;
 import util.exception.CompanySuspendedException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
+import util.exception.ProjectNotFoundException;
 import util.exception.UnknownPersistenceException;
 
 /**
@@ -63,12 +64,14 @@ public class CreateNewProjectManagedBean {
         public void createNewProject(ActionEvent event) {
         
         try {
-            Project pj = projectSessionBeanLocal.createNewProject(newProject, companyId);
-            getProjects().add(pj); 
+            Long projectId = projectSessionBeanLocal.createNewProject(newProject, companyId);
+            getProjects().add(projectSessionBeanLocal.retrieveProjectByProjectId(projectId)); 
             newProject = new Project();
             
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New project created successfully (Milestone ID: " + pj.getProjectId() + ")", null));
-            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New project created successfully (Milestone ID: " + projectId + ")", null));
+        
+        } catch (ProjectNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: Project not found", null));
         } catch (CompanyNotVerifiedException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: Company has not been verified", null));
         } catch (CompanySuspendedException ex) {
