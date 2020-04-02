@@ -132,7 +132,7 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
     }
 
     @Override
-    public List<Application> retrieveAllApplicationss() {
+    public List<Application> retrieveAllApplications() {
         Query query = em.createQuery("SELECT a FROM Application a");
         return query.getResultList();
     }

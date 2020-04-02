@@ -26,7 +26,7 @@ import util.exception.UpdateApplicationException;
 @Local
 public interface ApplicationSessionBeanLocal {
 
-    public List<Application> retrieveAllApplicationss();
+    public List<Application> retrieveAllApplications();
 
     public Application retrieveApplicationByApplicationId(Long applicationId) throws ApplicationNotFoundException;
 
