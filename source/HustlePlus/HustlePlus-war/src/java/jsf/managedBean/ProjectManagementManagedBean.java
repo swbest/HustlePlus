@@ -82,7 +82,7 @@ public class ProjectManagementManagedBean implements Serializable {
         setProjects(projectSessionBeanLocal.retrieveAllProjects());
         setMilestones(milestoneSessionBeanLocal.retrieveAllMilestones());
         setReviews(reviewSessionBeanLocal.retrieveAllReviews());
-        setApplications(applicationSessionBeanLocal.retrieveAllApplicationss());
+        setApplications(applicationSessionBeanLocal.retrieveAllApplications());
         
     }
     
