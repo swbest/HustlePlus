@@ -90,16 +90,16 @@ public class MilestoneManagementManagedBean {
         
         try
         {
-            Long milestoneId = milestoneSessionBeanLocal.createNewMilestone(newMilestone, selProjectId);
-            getMilestones().add(milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId));
+            Milestone m = milestoneSessionBeanLocal.createNewMilestone(newMilestone, selProjectId); //project? payment?
+            getMilestones().add(m);
             
             newMilestone = new Milestone();
             selProjectId = null;
             newPaymentIds = null;
         
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New milestone created successfully (Milestone ID: " + milestoneId + ")", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New milestone created successfully (Milestone ID: " + m.getMilestoneId() + ")", null));
             
-        } catch (MilestoneNotFoundException | MilestoneIdExistException |ProjectNotFoundException | InputDataValidationException | UnknownPersistenceException ex)
+        } catch (MilestoneIdExistException |ProjectNotFoundException | InputDataValidationException | UnknownPersistenceException ex)
         {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new milestone: " + ex.getMessage(), null));
         }
@@ -122,15 +122,16 @@ public class MilestoneManagementManagedBean {
     public void updateProduct(javax.faces.event.ActionEvent event)
     {                    
         
-        
+        /*
         if(selProjectId == 0)
         {
             selProjectId = null;
         }
+        */
         
         try
         {
-            milestoneSessionBeanLocal.updateMilestone(milestoneToUpdate);
+            milestoneSessionBeanLocal.updateMilestone(milestoneToUpdate); //project? payment?
                         
             for(Project p: projects)
             {

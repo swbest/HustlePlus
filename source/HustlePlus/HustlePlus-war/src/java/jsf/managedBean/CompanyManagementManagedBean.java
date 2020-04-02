@@ -83,21 +83,19 @@ public class CompanyManagementManagedBean implements Serializable {
         try {
             
         System.out.println("createNew1");
-        Long companyId = companySessionBeanLocal.createNewCompany(newCompany);
+        Company c = companySessionBeanLocal.createNewCompany(newCompany);
         System.out.println("createNew2");
-        companies.add(companySessionBeanLocal.retrieveCompanyByCompanyId(companyId)); 
+        companies.add(c); 
         
-        if(getFilteredCompanies() != null)
+        if( getFilteredCompanies() != null)
         {
-                getFilteredCompanies().add(companySessionBeanLocal.retrieveCompanyByCompanyId(companyId));
+                getFilteredCompanies().add(c);
         }
         
        newCompany = new Company() ; 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + companyId + ")", null));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + c.getUserId() + ")", null));
         
-        } catch (CompanyNotFoundException ex) {
-          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: The company is not found", null));  
-        } catch (CompanyNameExistException ex) {
+     } catch (CompanyNameExistException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: The company name already exist", null));
         } catch ( InputDataValidationException | UnknownPersistenceException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: " + ex.getMessage(), null));
