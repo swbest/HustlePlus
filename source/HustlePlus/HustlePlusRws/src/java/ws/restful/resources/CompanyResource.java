@@ -14,15 +14,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import ws.restful.model.CreateNewCompanyReq;
+import ws.restful.model.CreateNewCompanyRsp;
 import ws.restful.model.ErrorRsp;
 import ws.restful.model.RetrieveAllCompaniesRsp;
 import ws.restful.model.RetrieveAllProjectsRsp;
@@ -84,6 +88,30 @@ public class CompanyResource {
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    /**
+     * PUT method for updating or creating an instance of ProjectResource
+     *
+     * @param content representation for the resource
+     */
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createCompany(CreateNewCompanyReq createNewCompanyReq) {
+        if (createNewCompanyReq != null) {
+            try {
+                Long newCompanyId = companySessionBean.createNewCompany(createNewCompanyReq.getNewCompany());
+                CreateNewCompanyRsp createNewCompanyRsp = new CreateNewCompanyRsp(newCompanyId);
+                return Response.status(Status.OK).entity(createNewCompanyRsp).build();
+            } catch (Exception ex) {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+                return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        } else {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid Request");
+            return Response.status(Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
 
