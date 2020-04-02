@@ -7,28 +7,15 @@
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
                 xmlns:p="http://primefaces.org/ui">
     
-    <style type="text/css">
-        .ui-analog-clock {
-            width: 200px;
-        }
-    </style> 
-    
     <ui:define name="content">
         
         <ez:Breadcrumb pageName="index" />
         
         <h:panelGroup>
-            <center><h1>Welcome To Hustle+!</h1></center>
-            <center><h3>The online marketplace for you to offer tech projects to students with the relevant skills to complete them, using a commission-based business model.</h3></center>
-            <div class="container" style="width: 30%">
-                <center>
-                    <p:clock />
-                </center>
-            </div>
-            
-            <label for="profilepic">Choose a profile picture:</label>
-            
-            <input type ="file" id="profilepic" name="Profile Picture" accept="image/png, image/jpeg"></input>
+            <center><h2>Welcome To Hustle+</h2></center>
+            <center><h6>The online marketplace for you to offer tech projects to students with the relevant skills to complete them, using a commission-based business model.</h6></center>
+            <h6><label for="profilepic">Upload Profile Photo</label></h6>
+            <h6><input type ="file" id="profilepic" name="Profile Picture" accept="image/png, image/jpeg"></input></h6>
         </h:panelGroup>
         
     </ui:define>

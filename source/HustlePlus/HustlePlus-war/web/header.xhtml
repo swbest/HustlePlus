@@ -5,6 +5,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
 
+    <h4><img src="resources/img/icon.jpg" width="5%"/></h4>
+    
     <header style="text-align: right;">
         <h:panelGroup rendered="#{sessionScope.isLogin == false}">
             <h:form id="loginForm">
@@ -32,7 +34,7 @@
         <h:panelGroup rendered="#{sessionScope.isLogin == true}">
             
             <h:form id="logoutForm">
-                <h:outputText value="You are login as #{sessionScope.userEntity.name}" />&nbsp;
+                <h:outputText value="You are logged in as #{sessionScope.userEntity.name}" />&nbsp;
                 <p:commandButton value="Logout" actionListener="#{loginManagedBean.logout}" />
             </h:form>
         </h:panelGroup>

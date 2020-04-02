@@ -98,7 +98,8 @@ public class SecurityFilter implements Filter {
                 path.equals("/companies/filterCompaniesByRating.xhtml") ||
                 path.equals("/companies/filterProjectsByCompany.xhtml") ||
                 path.equals("/companies/searchProjectsByName.xhtml") ||
-                path.equals("adminOperation/suspendCompany.xhtml") ||
+                path.equals("/admin/suspendCompany.xhtml") ||
+                path.equals("/companies/milestoneManagement.xhtml") ||
             path.startsWith("/javax.faces.resource")
                 ) {
             return true ;
