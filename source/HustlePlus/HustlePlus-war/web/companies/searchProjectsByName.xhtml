@@ -7,27 +7,24 @@
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
                 xmlns:p="http://primefaces.org/ui">
     
-    <ui:define name="top">
-        <h2 style="color: white; text-align: left">Search All Projects</h2>
-    </ui:define>
-    
     <ui:define name="content">
+        <h:panelGroup rendered="#{!sessionScope.isLogin}">
+            <article>
+                <center><h2>Please login.</h2></center>
+            </article>
+        </h:panelGroup>
         
-        <ez:Breadcrumb pageName="searchProjectsByName" />
-        
-        <div>                        
+        <div class="container" style="width: 95%">                      
 
-            <h:form id="formMain">
-                                
-                <br />
-                
+            <h:form id="formMain" rendered="#{sessionScope.isLogin == true}">
+
                 <div style="text-align: center;">
                 
-                    <p:inputText id="txtSearchString" value="#{searchProjectsByNameManagedBean.searchString}" style="font-size: x-large;">
+                    <p:inputText id="txtSearchString" value="#{searchProjectsByNameManagedBean.searchString}" style="font-size: large;" placeholder="Search Project">
                         <p:ajax event="keyup" process="@this" update="formMain:dataTableMain" listener="#{searchProjectsByNameManagedBean.searchProject}" />
                     </p:inputText>
                     &nbsp;
-                    <p:commandButton value="Go" style="font-size: x-large;">
+                    <p:commandButton value="GO" style="font-size: medium; background-color: powderblue; color: black; font-family: helvetica">
                         <p:ajax event="click" process="@this formMain:txtSearchString" update="formMain:dataTableMain" listener="#{searchProjectsByNameManagedBean.searchProject}" />
                     </p:commandButton>
 
@@ -38,31 +35,31 @@
                 <p:dataTable id="dataTableMain" widgetVar="dataTableMain" value="#{searchProjectsByNameManagedBean.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row"                             
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
-                    <p:column headerText="Project ID" sortBy="#{project.projectId}">
+                    <p:column headerText="Project ID" style="background-color: powderblue; color: black;" sortBy="#{project.projectId}">
                         <h:outputText value="#{project.projectId}" />
                     </p:column>
                     
-                    <p:column headerText="Project Name" sortBy="#{project.projectName}">
+                    <p:column headerText="Project Name" style="background-color: powderblue; color: black;" sortBy="#{project.projectName}">
                         <h:outputText value="#{project.projectName}" />
                     </p:column>                          
 
-                    <p:column headerText="Job Value" sortBy="#{project.jobValue}">
+                    <p:column headerText="Job Value" style="background-color: powderblue; color: black;" sortBy="#{project.jobValue}">
                         <h:outputText value="#{project.jobValue}" />
                     </p:column>
                     
-                    <p:column headerText="No. Students" sortBy="#{project.numStudentsRequired}">
+                    <p:column headerText="No. Students" style="background-color: powderblue; color: black;" sortBy="#{project.numStudentsRequired}">
                         <h:outputText value="#{project.numStudentsRequired}" />
                     </p:column>
                     
-                    <p:column headerText="Start Date" sortBy="#{project.startDate}">
+                    <p:column headerText="Start Date" style="background-color: powderblue; color: black;" sortBy="#{project.startDate}">
                         <h:outputText value="#{project.startDate}" />
                     </p:column>
                     
-                    <p:column headerText="Due Date" sortBy="#{project.endDate}">
+                    <p:column headerText="Due Date" style="background-color: powderblue; color: black;" sortBy="#{project.endDate}">
                         <h:outputText value="#{project.endDate}" />
                     </p:column>
 
-                    <p:column headerText="Action" >
+                    <p:column headerText="Action" style="background-color: powderblue; color: black;">
                         <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View Details">
                             <f:setPropertyActionListener value="#{project}" target="#{searchProjectsByNameManagedBean.viewProjectManagedBean.projectToView}" />
                         </p:commandButton>                        

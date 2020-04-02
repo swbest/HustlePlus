@@ -119,7 +119,7 @@ public class MilestoneManagementManagedBean {
 
     }
     
-    public void updateProduct(javax.faces.event.ActionEvent event)
+    public void updateMilestone(ActionEvent event)
     {                    
         
         
@@ -163,7 +163,7 @@ public class MilestoneManagementManagedBean {
         }
     }
     
-    public void deleteProduct(ActionEvent event)
+    public void deleteMilestone(ActionEvent event)
     { 
         try
         {

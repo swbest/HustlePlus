@@ -7,30 +7,17 @@
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
                 xmlns:p="http://primefaces.org/ui">
     
-    <ui:define name="top">
-        <h2 style="color: white; text-align: left">Milestone Management</h2>
-    </ui:define>
-    
     <ui:define name="content">
         
-        <ez:Breadcrumb pageName="milestoneManagement" />
+        <h:panelGroup rendered="#{!sessionScope.isLogin}">
+            <article>
+                <center><h2>Please login.</h2></center>
+            </article>
+        </h:panelGroup>
         
         <div class="container" style="width: 95%">
             
-            <h:form>
-            
-                <p:menubar>
-
-                    <p:submenu label="File" icon="ui-icon-document">
-                        <p:menuitem value="Create New Milestone" onclick="PF('dialogCreateNewMilestone').show()" icon="fa fa-plus" />
-                    </p:submenu>                                        
-
-                </p:menubar>
-                <br/>
-
-            </h:form>
-            
-            <h:form id="formAllMilestones">
+            <h:form id="formAllMilestones" rendered="#{sessionScope.isLogin == true}">
             
                 <p:messages id="messages" redisplay="false" closable="true" />
 
@@ -38,9 +25,9 @@
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
                     <f:facet name="header">
-                        <p:outputPanel style="text-align: right;">
-                            <h:outputText value="Search all fields:" />
-                            <p:inputText id="globalFilter" onkeyup="PF('dataTableAllMilestones').filter()" style="width:300px" placeholder="Enter keyword"/>
+                        <p:outputPanel style="text-align: center;">
+                            <h:outputText value="Search " />
+                            <p:inputText id="globalFilter" onkeyup="PF('dataTableAllMilestones').filter()" style="width:200px" placeholder=""/>
                         </p:outputPanel>
                     </f:facet>
                     
@@ -115,33 +102,21 @@
                                 <p:outputLabel for="selProject" value="Project: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:selectOneMenu id="selProject" value="#{milestoneManagementManagedBean.selProject}">
+                                <p:selectOneMenu id="selProject" value="#{milestoneManagementManagedBean.selProjectId}">
                                     <f:selectItem itemValue="0" itemLabel="[Select A Project]" noSelectionOption="true" />
                                     <f:selectItems value="#{milestoneManagementManagedBean.projects}" var="project" itemValue="#{project.projectId}" itemLabel="#{project.projectName}" />
                                 </p:selectOneMenu>
                             </p:column>
                             <p:column>
                                 <p:message for="selProject" />
-                            </p:column>
-                            
+                            </p:column>     
                         </p:row>
-                        
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="cleared" value="Completed: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:selectBooleanButton id="cleared" value="#{milestoneManagementManagedBean.newMilestone.hasCleared}" onLabel="Yes" offLabel="No" style="width:60px" />
-                            </p:column>
-                            <p:column>
-                                <p:message for="cleared" />
-                            </p:column>
-                        </p:row>
+
 
                         <p:row>
                             <p:column colspan="3">
                                 <p:commandButton type="reset" value="Clear" />&nbsp;
-                                <p:commandButton  value="Create New Milestone" update="@form formAllMilestones:dataTableAllMilestones" actionListener="#{milestoneManagementManagedBean.createNewMilestone}" oncomplete="PF('dialogCreateNewMilestone').show();" />
+                                <p:commandButton  value="Create New Milestone" update="@form formCreateNewMilestone" actionListener="#{milestoneManagementManagedBean.createNewMilestone}" oncomplete="PF('dialogCreateNewMilestone').show();" />
                             </p:column>
                         </p:row>
 
@@ -211,22 +186,10 @@
                                 <p:message for="selProject" />
                             </p:column>
                         </p:row>
-                        
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="cleared" value="Completed: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:selectBooleanButton id="cleared" value="#{milestoneManagementManagedBean.milestoneToUpdate.hasCleared}" onLabel="Yes" offLabel="No" style="width:60px" />
-                            </p:column>
-                            <p:column>
-                                <p:message for="hasCleared" />
-                            </p:column>
-                        </p:row>
 
                         <p:row>
                             <p:column colspan="3">
-                                <p:commandButton value="Update Milestone" update="@form formAllMilestone:dataTableAllMilestone" actionListener="#{milestoneManagementManagedBean.updateMilestone}" oncomplete="PF('dialogUpdateMilestone').show();" />
+                                <p:commandButton value="Update Milestone" update="@form formUpdateMilestone" actionListener="#{milestoneManagementManagedBean.updateMilestone}" oncomplete="PF('dialogUpdateMilestone').show();" />
                             </p:column>
                         </p:row>
 

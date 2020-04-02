@@ -6,12 +6,12 @@
                 xmlns:p="http://primefaces.org/ui">
     
     <section id="mainmenu" class="mainmenu">
-        <h5>Menu</h5>
+        <h3>Menu</h3>
         <nav>
             <h:form>
                 <p:growl id="messages"/>
                     
-                <p:menubar>
+                <p:menubar style="background-color: powderblue">
                         <p:menuitem value="Home" outcome="/index" icon="fa fa-home" />
                         <p:separator/>
                         <p:submenu label="Search" icon="fa fa-search">
@@ -19,7 +19,7 @@
                             <p:separator />
                             <p:menuitem value="For Companies" outcome="/companies/searchCompaniesByName.xhtml" />
                             <p:separator />
-                            <p:menuitem value="For Projects" outcome="/companies/searchStudentsByName.xhtml" />
+                            <p:menuitem value="For Projects" outcome="/companies/searchProjectsByName.xhtml" />
                         </p:submenu>
                         <p:separator/>
                         <p:submenu label="Filter" icon="fa fa-filter">
@@ -35,9 +35,9 @@
                            <p:menuitem value="Milestone Management" outcome="/companies/milestoneManagement.xhtml"/> 
                         </p:submenu>
                         <p:separator/>
-                        <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml" icon="fa fa-verify" />
+                        <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml"/>
                         <p:separator/>
-                        <p:menuitem value="View Your Profile" outcome="/companies/profilePage.xhtml" icon="fa fa-account" />
+                        <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml" />
                         <p:separator/>
                         <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}" icon="fa fa-sign-out" rendered="#{sessionScope.isLogin == true}" />
                 </p:menubar>

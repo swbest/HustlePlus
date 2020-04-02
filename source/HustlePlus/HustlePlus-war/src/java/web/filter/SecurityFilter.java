@@ -89,6 +89,7 @@ public class SecurityFilter implements Filter {
     private Boolean excludeLoginCheck(String path) {
         if (path.equals("/index.xhtml") ||
             path.equals("/admin/verifyCompany.xhtml") ||
+            path.equals("/admin/suspendCompany.xhtml") ||
             path.equals("/companies/createNewCompany.xhtml") ||
             path.equals("/accessRightError.xhtml") ||
                 path.equals("/companies/profilePage.xhtml") ||
@@ -100,6 +101,9 @@ public class SecurityFilter implements Filter {
                 path.equals("/companies/searchProjectsByName.xhtml") ||
                 path.equals("/admin/suspendCompany.xhtml") ||
                 path.equals("/companies/milestoneManagement.xhtml") ||
+                path.equals("/companies/createNewProject.xhtml") ||
+                path.equals("/companies/createNewCompany.xhtml") ||
+                path.equals("/companies/profilePage.xhtml") ||
             path.startsWith("/javax.faces.resource")
                 ) {
             return true ;
