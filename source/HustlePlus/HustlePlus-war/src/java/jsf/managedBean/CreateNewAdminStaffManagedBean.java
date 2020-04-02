@@ -42,9 +42,9 @@ public class CreateNewAdminStaffManagedBean {
     {
         try
         {
-            AdminStaff a = adminStaffSessionBeanLocal.createNewAdminStaff(getNewAdminStaff());
+            Long adminId = adminStaffSessionBeanLocal.createNewAdminStaff(getNewAdminStaff());
             setNewAdminStaff(new AdminStaff());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New administrator created successfully " + a.getUserId(), null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New administrator created successfully " + adminId, null));
         
         } catch (UserEmailExistsException ex)
         {
