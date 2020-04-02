@@ -43,7 +43,7 @@ public class SecurityFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest)request;
         HttpServletResponse httpServletResponse = (HttpServletResponse)response;
         HttpSession httpSession = httpServletRequest.getSession(true);
-        String requestServletPath = httpServletRequest.getServletPath();     
+        String requestServletPath = httpServletRequest.getServletPath();
         
         if (httpSession.getAttribute("isLogin") == null) {
             httpSession.setAttribute("isLogin", false);
@@ -71,23 +71,17 @@ public class SecurityFilter implements Filter {
     
     public Boolean checkAccessRight(String path, AccessRightEnum accessRight) {
         if(accessRight.equals(AccessRightEnum.ADMIN)) {
-            if ( path.equals("adminOperation/suspendCompany.xhtml")) {
+            /*if () {
                 return true ; 
             } else {
                 return false ;
-            }
+            }*/
         } else if (accessRight.equals(AccessRightEnum.COMPANY)) {
-            if (path.equals("/companies/profilePage.xhtml") ||
-                path.equals("/companies/filterStudentsBySkills.xhtml") ||
-                path.equals("/companies/searchStudentsByName.xhtml") ||
-                path.equals("/companies/searchCompaniesByName.xhtml") ||
-                path.equals("/companies/filterCompaniesByRating.xhtml") ||
-                path.equals("/companies/filterProjectsByCompany.xhtml") ||
-                path.equals("/companies/searchProjectsByName.xhtml"))  {
+            /*if ()  {
                 return true ; 
             } else {
                 return false ;
-            }
+            }*/
     } 
             return false ;
         }
@@ -97,7 +91,16 @@ public class SecurityFilter implements Filter {
             path.equals("/admin/verifyCompany.xhtml") ||
             path.equals("/companies/createNewCompany.xhtml") ||
             path.equals("/accessRightError.xhtml") ||
-            path.startsWith("/javax.faces.resource")) {
+                path.equals("/companies/profilePage.xhtml") ||
+                path.equals("/companies/filterStudentsBySkills.xhtml") ||
+                path.equals("/companies/searchStudentsByName.xhtml") ||
+                path.equals("/companies/searchCompaniesByName.xhtml") ||
+                path.equals("/companies/filterCompaniesByRating.xhtml") ||
+                path.equals("/companies/filterProjectsByCompany.xhtml") ||
+                path.equals("/companies/searchProjectsByName.xhtml") ||
+                path.equals("adminOperation/suspendCompany.xhtml") ||
+            path.startsWith("/javax.faces.resource")
+                ) {
             return true ;
         } else {
             return false ;

@@ -62,7 +62,7 @@
               <br />
               <p:commandButton value="Delete Account" actionListener="#{companyManagementManagedBean.deleteCompany}">
                 <f:attribute name="companyToDelete" value="#{sessionScope.userEntity}" />
-               <p:confirm header="Confirmation" message="Are you sure you want to delete #{userEntity.name} (User ID: #{userEntity.userId})?" icon="ui-icon-alert" />
+               <p:confirm header="Confirmation" message="Are you sure you want to delete #{userEntity.name} (Your ID: #{userEntity.userId})?" icon="ui-icon-alert" />
         </p:commandButton>
               
               <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

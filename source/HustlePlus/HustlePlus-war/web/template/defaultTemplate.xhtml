@@ -9,8 +9,42 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Hustle+</title>
-        <h:outputStylesheet library="css" name="default.css" />
+        <style type="text/css">
+            body{
+                background-color:#F1F1F1;
+            }
+
+            .ui-menubar, .ui-menu-child {
+                box-shadow: none;
+            }
+
+            .ui-panelgrid .ui-panelgrid-cell {
+                border: none;
+            }
+
+            .notificationsGrid tr {
+                border: none;
+            }
+
+            .notificationsGrid td {
+                border: none;
+            }
+
+            .ui-datatable thead th {
+                white-space: normal!important;
+                word-wrap: break-word;
+                font-size: 15px;
+            }
+            
+            .ui-datatable tbody td {
+                white-space: normal !important;
+                word-wrap: break-word;
+                text-align: center;
+            }
+
+        </style>
     </h:head>
+    
     <h:body>
         
         <p:layout fullPage="true">

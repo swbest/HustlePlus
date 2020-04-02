@@ -4,30 +4,41 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
+    
     <section id="mainmenu" class="mainmenu">
-        <h3>Main Menu</h3>
+        <h2>Menu</h2>
         <nav>
             <h:form>
+                <p:growl id="messages"/>
                     
                 <p:menu style="width:200px;">
                     
-                    <p:submenu label="System">
                         <p:menuitem value="Home" outcome="/index" icon="fa fa-home" />
-                        <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}" icon="fa fa-sign-out" rendered="#{sessionScope.isLogin == true}" />
-                    </p:submenu>
-                    
-                    <p:submenu label="For Companies">
-                        <p:menuitem value="My Account" outcome="/companies/profilePage.xhtml" icon="fa fa-account" />
-                        <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml" icon="fa fa-verify" />
-                        <p:menuitem value="Search Students by Name" outcome="/companies/searchStudentsByName.xhtml" icon="fa fa-search" />
-                        <p:menuitem value="Filter Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" icon="fa fa-filter" />
-                        <p:menuitem value="Milestone" outcome="/companies/milestoneManagement.xhtml" icon="fa fa-milestone" />
-                        <p:menuitem value="Filter Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml" icon="fa fa-filter" />
-                        <p:menuitem value="Filter Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml" icon="fa fa-filter" />
-                        <p:menuitem value="Search Companies by Name" outcome="/companies/searchCompaniesByName.xhtml" icon="fa fa-filter" />
-                        <p:menuitem value="Search Projects by Name" outcome="/companies/searchStudentsByName.xhtml" icon="fa fa-filter" />
-                    </p:submenu>                        
 
+                        <p:submenu label="Search" icon="fa fa-search">
+                            <p:menuitem value="For Students" outcome="/companies/searchStudentsByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="For Companies" outcome="/companies/searchCompaniesByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="For Projects" outcome="/companies/searchStudentsByName.xhtml" />
+                        </p:submenu>
+
+                        <p:submenu label="Filter" icon="fa fa-filter">
+                            <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml"/>
+                            <p:separator />
+                            <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
+                        </p:submenu>
+
+                        <p:menuitem value="Milestone Management" outcome="/companies/milestoneManagement.xhtml" icon="fa fa-milestone" />
+                        <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml" icon="fa fa-verify" />
+                        
+                        <f:facet name="options">
+                            <p:menuitem value="View Your Profile" outcome="/companies/profilePage.xhtml" icon="fa fa-account" />
+                            <p:separator />
+                            <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}" icon="fa fa-sign-out" rendered="#{sessionScope.isLogin == true}" />
+                        </f:facet>
                 </p:menu>
 
             </h:form>
