@@ -34,6 +34,10 @@ public class ApplicationConfig extends Application {
         resources.add(ws.restful.resources.SkillResource.class);
         resources.add(ws.restful.resources.StudentResource.class);
         resources.add(ws.restful.resources.TeamResource.class);
+        resources.add(ws.restful.resources.ApplicationResource.class);
+        resources.add(ws.restful.resources.MilestoneResource.class);
+        resources.add(ws.restful.resources.PaymentResource.class);
+        resources.add(ws.restful.resources.ReviewResource.class);
         resources.add(ws.restful.resources.AdminStaffResource.class);
     }
     
