@@ -21,7 +21,7 @@
                             <p:outputLabel for="projectName" value="Project Name" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="projectName" value="#{createNewProjectManagedBean.newProject.projectName}" />
+                            <p:inputText id="projectName" value="#{projectManagementManagedBean.newProject.projectName}" />
                         </p:column>
                     </p:row>
                     
@@ -30,7 +30,7 @@
                             <p:outputLabel for="jobValue" value="Job Value" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="jobValue" value="#{createNewProjectManagedBean.newProject.jobValue}" />
+                            <p:inputText id="jobValue" value="#{projectManagementManagedBean.newProject.jobValue}" />
                         </p:column>
                     </p:row>
                    
@@ -39,7 +39,7 @@
                             <p:outputLabel for="numStudentsRequired" value="Number of student(s) required" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="numStudentsRequired" value="#{createNewProjectManagedBean.newProject.numStudentsRequired}" />
+                            <p:inputText id="numStudentsRequired" value="#{projectManagementManagedBean.newProject.numStudentsRequired}" />
                         </p:column>
                     </p:row>
                     
@@ -48,7 +48,7 @@
                             <p:outputLabel for="projectDescription" value="Project Description" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="projectDescription" value="#{createNewProjectManagedBean.newProject.projectDescription}" />
+                            <p:inputText id="projectDescription" value="#{projectManagementManagedBean.newProject.projectDescription}" />
                         </p:column>
                     </p:row>
                     
@@ -57,7 +57,7 @@
                             <p:outputLabel for="startDate" value="Project Start Date" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="startDate" value="#{createNewProjectManagedBean.newProject.startDate}" />
+                            <p:inputText id="startDate" value="#{projectManagementManagedBean.newProject.startDate}" />
                         </p:column>
                     </p:row>
                    
@@ -67,7 +67,7 @@
                             <p:outputLabel for="endDate" value="Project End Date" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="endDate" value="#{createNewProjectManagedBean.newProject.endDate}" />
+                            <p:inputText id="endDate" value="#{projectManagementManagedBean.newProject.endDate}" />
                         </p:column>
                     </p:row>
                     
@@ -76,7 +76,7 @@
                             <p:outputLabel for="skills" value="Required Skills" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="skills" value="#{createNewProjectManagedBean.newProject.skills}" />
+                            <p:inputText id="skills" value="#{projectManagementManagedBean.newProject.skills}" />
                         </p:column>
                     </p:row>
                     
@@ -84,7 +84,8 @@
                     <p:row>
                         <p:column colspan="2">
                             <p:commandButton type="reset" value="Clear" />
-                            <p:commandButton type="submit" value="Create" process="@form" update="@form" actionListener="#{createNewProjectManagedBean.createNewProject}" />
+                            <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{projectManagementManagedBean.createNewProject}" />
+                                              
                         </p:column>
                     </p:row>
                     

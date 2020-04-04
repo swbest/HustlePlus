@@ -78,6 +78,7 @@ public class SecurityFilter implements Filter {
             }
         } else if (accessRight.equals(AccessRightEnum.COMPANY)) {
             if (path.equals("/companies/profilePage.xhtml") ||
+                path.equals("/companies/createNewProject.xhtml") ||    
                 path.equals("/companies/filterStudentsBySkills.xhtml") ||
                 path.equals("/companies/searchStudentsByName.xhtml") ||
                 path.equals("/companies/searchCompaniesByName.xhtml") ||
