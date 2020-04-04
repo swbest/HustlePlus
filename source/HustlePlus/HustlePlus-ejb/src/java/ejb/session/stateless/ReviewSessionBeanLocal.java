@@ -23,7 +23,7 @@ import util.exception.UpdateReviewException;
 @Local
 public interface ReviewSessionBeanLocal {
 
-    public Review createNewReview(Review newReview, Long projectId, Long studentId, Long companyId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException;
+    public Long createNewReview(Review newReview, Long projectId, Long studentId, Long companyId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException;
 
     public List<Review> retrieveAllReviews();
 

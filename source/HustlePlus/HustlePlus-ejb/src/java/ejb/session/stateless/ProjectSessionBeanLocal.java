@@ -5,7 +5,6 @@
  */
 package ejb.session.stateless;
 
-import entity.Company;
 import entity.Project;
 import java.util.List;
 import javax.ejb.Local;
@@ -26,9 +25,9 @@ import util.exception.UpdateProjectException;
 @Local
 public interface ProjectSessionBeanLocal {
 
-    public Project createNewProject(Project newProject, Long companyId) throws CompanyNotVerifiedException, CompanySuspendedException, UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException;
+    public Long createNewProject(Project newProject, Long companyId) throws CompanyNotVerifiedException, CompanySuspendedException, UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException;
 
-    public List<Project> retrieveAllProject();
+    public List<Project> retrieveAllProjects();
 
     public Project retrieveProjectByProjectId(Long projectId) throws ProjectNotFoundException;
 

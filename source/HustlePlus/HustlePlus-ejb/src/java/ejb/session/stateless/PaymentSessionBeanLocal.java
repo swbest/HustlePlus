@@ -34,6 +34,6 @@ public interface PaymentSessionBeanLocal {
 
     public List<Payment> retrieveAllPayment();
 
-    public Payment createNewPayment(Payment newPayment, Long milestoneId, Long studentId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException, StudentNotFoundException;
+    public Long createNewPayment(Payment newPayment, Long milestoneId, Long studentId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException, StudentNotFoundException;
     
 }

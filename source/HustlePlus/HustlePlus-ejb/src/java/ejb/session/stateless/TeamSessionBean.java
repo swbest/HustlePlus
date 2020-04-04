@@ -49,7 +49,7 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
     }
 
     @Override
-    public Team createNewTeam(Team newTeam, Long projectId) throws TeamNameExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException {
+    public Long createNewTeam(Team newTeam, Long projectId) throws TeamNameExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException {
         try {
             Set<ConstraintViolation<Team>> constraintViolations = validator.validate(newTeam);
 
@@ -61,7 +61,7 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
                     em.persist(newTeam);
                     em.flush();
 
-                    return newTeam;
+                    return newTeam.getTeamId();
                 } catch (ProjectNotFoundException ex) {
                     throw new ProjectNotFoundException("Project Not Found for ID: " + projectId);
                 }

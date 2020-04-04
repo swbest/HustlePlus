@@ -22,7 +22,7 @@ import util.exception.UpdateSkillException;
 @Local
 public interface SkillSessionBeanLocal {
 
-    public Skill createNewSkill(Skill newSkill) throws UnknownPersistenceException, InputDataValidationException, SkillNameExistsException;
+    public Long createNewSkill(Skill newSkill) throws UnknownPersistenceException, InputDataValidationException, SkillNameExistsException;
 
     public Skill retrieveSkillBySkillId(Long skillId) throws SkillNotFoundException;
 

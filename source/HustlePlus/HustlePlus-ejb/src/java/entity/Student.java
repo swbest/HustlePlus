@@ -30,28 +30,28 @@ public class Student extends User implements Serializable {
 
 
     @Column(nullable = true)
-    protected File resume;
+    private File resume;
     @NotNull
     @Size(max = 256, message = "Description should be at most 256 characters")
     @Column(nullable = false, length = 256)
-    protected String description;
+    private String description;
     @Min(value = 0, message = "Average rating should not be less than 0")
     @Max(value = 5, message = "Average rating should not be more than 5")
     @Column(nullable = true)
-    protected Double avgRating;
+    private Double avgRating;
     @NotNull
     @Column(nullable = false)
-    protected Boolean isVerified;
+    private Boolean isVerified;
     @NotNull
     @Column(nullable = false)
-    protected Boolean isSuspended;
+    private Boolean isSuspended;
     //@NotNull
     //@Size(max = 30, message = "Account name should be at most 30 characters")
     //@Column(nullable = true, length = 30)
     @Column(nullable = true)
-    protected String bankAccountName;
+    private String bankAccountName;
     @Column(nullable = true)
-    protected Long bankAccountNumber;
+    private Long bankAccountNumber;
 
     @ManyToMany(mappedBy = "students")
     @JoinColumn(nullable = false)

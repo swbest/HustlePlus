@@ -6,13 +6,41 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Create New Project</title>
+        <style type="text/css">
+            .ui-layout-north {
+                z-index:2 !important;
+                overflow:visible !important;
+            }
+            .ui-layout-north .ui-layout-unit-content {
+                overflow:visible !important;
+            }
+
+            .ui-layout-center {
+                overflow:auto !important;
+            }
+
+            .ui-layout-center .ui-layout-unit-content {
+                overflow: visible !important;
+            }
+
+            body {
+                background-color: powderblue;
+            }
+
+            .ui-widget {
+                font-size: small;
+                box-shadow: none;
+            }
+
+            .ui-menubar, .ui-menu-child {
+                box-shadow: none;
+            }
+        </style>
     </h:head>
     <h:body>
         
-        <p:panel header="List a New Project">
-            <h:form> 
-                
-                  <p:messages />
+        <p:panel header="List a New Project" style="background-color: powderblue; font-size: large">
+            <h:form>
                 
                 <p:panelGrid>
                     

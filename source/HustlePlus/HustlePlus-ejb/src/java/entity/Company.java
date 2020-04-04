@@ -17,7 +17,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import util.security.CryptographicHelper;
 
 /**
  *
@@ -33,22 +32,22 @@ public class Company extends User implements Serializable {
     @NotNull
     @Size(max = 256, message = "Company description should be at most 256 characters")
     @Column(nullable = false, length = 256)
-    protected String description;
+    private String description;
     @Min(value = 0, message = "Average rating should not be less than 0")
     @Max(value = 5, message = "Average rating should not be more than 5")
     @Column(nullable = true)
-    protected Double avgRating;
+    private Double avgRating;
     @NotNull
     @Column(nullable = false)
-    protected Boolean isVerified;
+    private Boolean isVerified;
     @NotNull
     @Column(nullable = false)
-    protected Boolean isSuspended;
+    private Boolean isSuspended;
 
     @OneToMany(mappedBy = "company")
-    protected List<Project> projects;
+    private List<Project> projects;
     @OneToMany(mappedBy = "company")
-    protected List<Review> studentReviews;
+    private List<Review> studentReviews;
 
     public Company() {
         this.projects = new ArrayList<Project>();

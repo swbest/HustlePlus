@@ -68,7 +68,7 @@ public class MilestoneManagementManagedBean {
     public void postConstruct()
     {
         setMilestones(milestoneSessionBeanLocal.retrieveAllMilestones());
-        setProjects(projectSessionBeanLocal.retrieveAllProject());
+        setProjects(projectSessionBeanLocal.retrieveAllProjects());
     }
     
     public void viewMilestoneDetails(javax.faces.event.ActionEvent event) throws IOException
@@ -90,16 +90,16 @@ public class MilestoneManagementManagedBean {
         
         try
         {
-            Milestone m = milestoneSessionBeanLocal.createNewMilestone(newMilestone, selProjectId); //project? payment?
-            getMilestones().add(m);
+            Long milestoneId = milestoneSessionBeanLocal.createNewMilestone(newMilestone, selProjectId);
+            getMilestones().add(milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId));
             
             newMilestone = new Milestone();
             selProjectId = null;
             newPaymentIds = null;
         
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New milestone created successfully (Milestone ID: " + m.getMilestoneId() + ")", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New milestone created successfully (Milestone ID: " + milestoneId + ")", null));
             
-        } catch (MilestoneIdExistException |ProjectNotFoundException | InputDataValidationException | UnknownPersistenceException ex)
+        } catch (MilestoneNotFoundException | MilestoneIdExistException |ProjectNotFoundException | InputDataValidationException | UnknownPersistenceException ex)
         {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new milestone: " + ex.getMessage(), null));
         }
@@ -119,19 +119,18 @@ public class MilestoneManagementManagedBean {
 
     }
     
-    public void updateProduct(javax.faces.event.ActionEvent event)
+    public void updateMilestone(ActionEvent event)
     {                    
         
-        /*
+        
         if(selProjectId == 0)
         {
             selProjectId = null;
         }
-        */
         
         try
         {
-            milestoneSessionBeanLocal.updateMilestone(milestoneToUpdate); //project? payment?
+            milestoneSessionBeanLocal.updateMilestone(milestoneToUpdate);
                         
             for(Project p: projects)
             {
@@ -164,7 +163,7 @@ public class MilestoneManagementManagedBean {
         }
     }
     
-    public void deleteProduct(ActionEvent event)
+    public void deleteMilestone(ActionEvent event)
     { 
         try
         {

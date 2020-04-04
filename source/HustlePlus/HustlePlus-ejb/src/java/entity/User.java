@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import util.enumeration.AccessRightEnum;
@@ -55,8 +53,15 @@ public class User implements Serializable {
     protected AccessRightEnum accessRightEnum;
 
     public User() {
-        
-     this.salt = CryptographicHelper.getInstance().generateRandomString(32);     
+        this.salt = CryptographicHelper.getInstance().generateRandomString(32);
+    }
+
+    public User(String name, String username, String password, String email, AccessRightEnum accessRightEnum) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.accessRightEnum = accessRightEnum;
     }
 
     public Long getUserId() {
@@ -80,12 +85,9 @@ public class User implements Serializable {
     }
 
     public void setPassword(String password) {
-        if(password != null)
-        {
+        if (password != null) {
             this.password = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(password + this.salt));
-        }
-        else
-        {
+        } else {
             this.password = null;
         }
     }
@@ -113,8 +115,6 @@ public class User implements Serializable {
     public void setSalt(String salt) {
         this.salt = salt;
     }
-    
-    
 
     @Override
     public int hashCode() {

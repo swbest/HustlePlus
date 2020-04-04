@@ -83,7 +83,7 @@ public class FilterProjectsByCompanyManagedBean {
         }
         else
         {
-            setProjects(projectSessionBeanLocal.retrieveAllProject());
+            setProjects(projectSessionBeanLocal.retrieveAllProjects());
         }
 
     }

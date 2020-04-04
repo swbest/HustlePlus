@@ -4,32 +4,43 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
+    
     <section id="mainmenu" class="mainmenu">
-        <h3>Main Menu</h3>
+        <h3>Menu</h3>
         <nav>
             <h:form>
+                <p:growl id="messages"/>
                     
-                <p:menu style="width:200px;">
-                    
-                    <p:submenu label="System">
+                <p:menubar style="background-color: powderblue">
                         <p:menuitem value="Home" outcome="/index" icon="fa fa-home" />
+                        <p:separator/>
+                        <p:submenu label="Search" icon="fa fa-search">
+                            <p:menuitem value="For Students" outcome="/companies/searchStudentsByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="For Companies" outcome="/companies/searchCompaniesByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="For Projects" outcome="/companies/searchProjectsByName.xhtml" />
+                        </p:submenu>
+                        <p:separator/>
+                        <p:submenu label="Filter" icon="fa fa-filter">
+                            <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml"/>
+                            <p:separator />
+                            <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
+                        </p:submenu>
+                        <p:separator/>
+                        <p:submenu label="Projects" icon="fa fa-project">
+                            <p:menuitem value="Create New Project" outcome="/companies/createNewProject.xhtml"/>
+                           <p:menuitem value="Milestone Management" outcome="/companies/milestoneManagement.xhtml"/> 
+                        </p:submenu>
+                        <p:separator/>
+                        <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml"/>
+                        <p:separator/>
+                        <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml" />
+                        <p:separator/>
                         <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}" icon="fa fa-sign-out" rendered="#{sessionScope.isLogin == true}" />
-                    </p:submenu>
-                    
-                    <p:submenu label="For Companies">
-                        <p:menuitem value="My Account" outcome="/companies/profilePage.xhtml" icon="fa fa-account" />
-                        <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml" icon="fa fa-verify" />
-                        <p:menuitem value="Projects" outcome="/companies/createNewProject.xhtml" icon="fa fa-verify" />
-                        <p:menuitem value="Search Students by Name" outcome="/companies/searchStudentsByName.xhtml" icon="fa fa-search" />
-                        <p:menuitem value="Filter Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" icon="fa fa-filter" />
-                        <p:menuitem value="Milestone" outcome="/companies/milestoneManagement.xhtml" icon="fa fa-milestone" />
-                        <p:menuitem value="Filter Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml" icon="fa fa-filter" />
-                        <p:menuitem value="Filter Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml" icon="fa fa-filter" />
-                        <p:menuitem value="Search Companies by Name" outcome="/companies/searchCompaniesByName.xhtml" icon="fa fa-filter" />
-                        <p:menuitem value="Search Projects by Name" outcome="/companies/searchStudentsByName.xhtml" icon="fa fa-filter" />
-                    </p:submenu>                        
-
-                </p:menu>
+                </p:menubar>
 
             </h:form>
         </nav>

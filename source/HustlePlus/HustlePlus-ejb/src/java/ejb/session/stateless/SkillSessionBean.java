@@ -45,7 +45,7 @@ public class SkillSessionBean implements SkillSessionBeanLocal {
     }
 
     @Override
-    public Skill createNewSkill(Skill newSkill) throws UnknownPersistenceException, InputDataValidationException, SkillNameExistsException {
+    public Long createNewSkill(Skill newSkill) throws UnknownPersistenceException, InputDataValidationException, SkillNameExistsException {
         try {
             Set<ConstraintViolation<Skill>> constraintViolations = validator.validate(newSkill);
 
@@ -53,7 +53,7 @@ public class SkillSessionBean implements SkillSessionBeanLocal {
                 em.persist(newSkill);
                 em.flush();
 
-                return newSkill;
+                return newSkill.getSkillId();
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

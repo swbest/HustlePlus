@@ -1,0 +1,7 @@
+to test creation of skill
+
+{
+	"newSkill": {
+		"title": "JavaScript"
+	}
+}

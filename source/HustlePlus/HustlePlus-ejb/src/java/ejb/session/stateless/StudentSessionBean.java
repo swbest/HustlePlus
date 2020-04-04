@@ -51,14 +51,14 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     }
 
     @Override
-    public Student createStudentAccount(Student newStudent) throws StudentNameExistException, UnknownPersistenceException, InputDataValidationException {
+    public Long createStudentAccount(Student newStudent) throws StudentNameExistException, UnknownPersistenceException, InputDataValidationException {
         try {
             Set<ConstraintViolation<Student>> constraintViolations = validator.validate(newStudent);
 
             if (constraintViolations.isEmpty()) {
                 em.persist(newStudent);
                 em.flush();
-                return newStudent;
+                return newStudent.getUserId();
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

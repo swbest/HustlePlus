@@ -23,7 +23,7 @@ import util.exception.UpdateStudentException;
 @Local
 public interface StudentSessionBeanLocal {
 
-    public Student createStudentAccount(Student newStudent) throws StudentNameExistException, UnknownPersistenceException, InputDataValidationException;
+    public Long createStudentAccount(Student newStudent) throws StudentNameExistException, UnknownPersistenceException, InputDataValidationException;
 
     public void updateStudent(Student student)  throws StudentNotFoundException, UpdateStudentException, InputDataValidationException;
 

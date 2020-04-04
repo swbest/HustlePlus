@@ -55,7 +55,7 @@ public class ReviewSessionBean implements ReviewSessionBeanLocal {
     }
 
     @Override
-    public Review createNewReview(Review newReview, Long projectId, Long studentId, Long companyId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException {
+    public Long createNewReview(Review newReview, Long projectId, Long studentId, Long companyId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException {
         try {
             Set<ConstraintViolation<Review>> constraintViolations = validator.validate(newReview);
 
@@ -72,7 +72,7 @@ public class ReviewSessionBean implements ReviewSessionBeanLocal {
                     company.getStudentReviews().add(newReview);
                     em.persist(newReview);
                     em.flush();
-                    return newReview;
+                    return newReview.getReviewId();
                 } catch (ProjectNotFoundException ex) {
                     throw new ProjectNotFoundException("Project Not Found for ID: " + projectId);
                 } catch (StudentNotFoundException ex) {

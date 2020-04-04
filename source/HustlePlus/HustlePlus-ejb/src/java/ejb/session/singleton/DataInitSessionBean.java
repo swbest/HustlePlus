@@ -7,7 +7,6 @@ package ejb.session.singleton;
 
 import ejb.session.stateless.AdminStaffSessionBeanLocal;
 import ejb.session.stateless.CompanySessionBeanLocal;
-import entity.AdminStaff;
 import entity.Company;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -21,7 +20,6 @@ import util.exception.CompanyNameExistException;
 import util.exception.CompanyNotFoundException;
 import util.exception.InputDataValidationException;
 import util.exception.UnknownPersistenceException;
-import util.exception.UserEmailExistsException;
 
 /**
  *
@@ -32,55 +30,47 @@ import util.exception.UserEmailExistsException;
 @Startup
 public class DataInitSessionBean {
 
-    @EJB(name = "AdminStaffSessionBeanLocal")
-    private AdminStaffSessionBeanLocal adminStaffSessionBeanLocal;
-
-
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
 
+    @EJB(name = "AdminStaffSessionBeanLocal")
+    private AdminStaffSessionBeanLocal adminStaffSessionBeanLocal;
 
     @EJB(name = "CompanySessionBeanLocal")
-    private CompanySessionBeanLocal companySessionBeanLocal; 
-    
+    private CompanySessionBeanLocal companySessionBeanLocal;
+
     public DataInitSessionBean() {
     }
 
-     
-    
     @PostConstruct
-    public void postConstruct()
-    {
-        try
-        {
+    public void postConstruct() {
+        try {
             System.out.println("********* HERE 1");
             companySessionBeanLocal.retrieveCompanyByUsername("company0");
             System.out.println("********* HERE 2");
-        }
-        catch(CompanyNotFoundException ex)
-        {
+        } catch (CompanyNotFoundException ex) {
             System.out.println("********* HERE 3");
             initializeData();
         }
     }
-    
+
     private void initializeData() {
-        
-        try { 
-        
-        Company newCompany = new Company() ; 
-        newCompany.setName("Company 1");
-        newCompany.setUsername("company1");
-        newCompany.setPassword("password");
-        newCompany.setEmail("company1@gmail.com");
-        newCompany.setDescription("This is Company1");
-        newCompany.setAvgRating(5.0);
-        newCompany.setIsVerified(true);
-        newCompany.setIsSuspended(false);
-        newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
-        companySessionBeanLocal.createNewCompany(newCompany);
-        
-        /*
+
+        try {
+
+            Company newCompany = new Company();
+            newCompany.setName("Company 1");
+            newCompany.setUsername("company1");
+            newCompany.setPassword("password");
+            newCompany.setEmail("company1@gmail.com");
+            newCompany.setDescription("This is Company1");
+            newCompany.setAvgRating(5.0);
+            newCompany.setIsVerified(true);
+            newCompany.setIsSuspended(false);
+            newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
+            companySessionBeanLocal.createNewCompany(newCompany);
+
+            /*
         AdminStaff newAdmin = new AdminStaff() ; 
         newAdmin.setName("admin tan");
         newAdmin.setUsername("admin1");
@@ -88,14 +78,11 @@ public class DataInitSessionBean {
         newAdmin.setEmail("admin1@gmail.com");
         newAdmin.setAccessRightEnum(AccessRightEnum.ADMIN);
         adminStaffSessionBeanLocal.createNewAdminStaff(newAdmin);
-*/
+             */
+        } catch (CompanyNameExistException | UnknownPersistenceException | InputDataValidationException ex) {
+            ex.printStackTrace();
 
-
-        
-    } catch (CompanyNameExistException | UnknownPersistenceException | InputDataValidationException ex) {
-        ex.printStackTrace();
-
+        }
     }
-}
-    
+
 }

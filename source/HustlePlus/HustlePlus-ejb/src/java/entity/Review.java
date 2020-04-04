@@ -49,6 +49,12 @@ public class Review implements Serializable {
     public Review() {
     }
 
+    public Review(String reviewText, Integer rating) {
+        this();
+        this.reviewText = reviewText;
+        this.rating = rating;
+    }
+
     public Long getReviewId() {
         return reviewId;
     }

@@ -22,10 +22,14 @@ import util.exception.UpdateTeamException;
  */
 @Local
 public interface TeamSessionBeanLocal {
-    
-    public Team createNewTeam(Team newTeam, Long projectId) throws TeamNameExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException;
+
+    public Long createNewTeam(Team newTeam, Long projectId) throws TeamNameExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException;
+
     public List<Team> retrieveAllTeams();
+
     public Team retrieveTeamByTeamId(Long teamId) throws TeamNotFoundException;
+
     public void updateTeam(Team team, Long projectId, List<Long> studentIds) throws TeamNotFoundException, /*ProjectNotFoundException, StudentNotFoundException,*/ UpdateTeamException, InputDataValidationException;
-    public void deleteTeam(Long teamId) throws TeamNotFoundException, DeleteTeamException;    
+
+    public void deleteTeam(Long teamId) throws TeamNotFoundException, DeleteTeamException;
 }
