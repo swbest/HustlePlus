@@ -29,9 +29,9 @@ public class Company extends User implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
-    @NotNull
-    @Size(max = 256, message = "Company description should be at most 256 characters")
-    @Column(nullable = false, length = 256)
+    //@NotNull
+   //@Size(max = 256, message = "Company description should be at most 256 characters")
+    @Column(nullable = true)
     private String description;
     @Min(value = 0, message = "Average rating should not be less than 0")
     @Max(value = 5, message = "Average rating should not be more than 5")
