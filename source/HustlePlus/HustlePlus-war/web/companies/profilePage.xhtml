@@ -55,7 +55,7 @@
             
                            
                 
-             <p:commandButton ajax="false" value="Update Profile" actionListener="#{companyManagementManagedBean.doUpdateCompany}" update="formUpdateCompany" oncomplete="PF('dialogUpdateProduct').show()" title="Update">
+             <p:commandButton value="Update Profile" actionListener="#{companyManagementManagedBean.doUpdateCompany}" update="formUpdateCompany" oncomplete="PF('dialogUpdateCompany').show()" title="Update">
                 <f:attribute name="selectedCompanyToUpdate" value="#{sessionScope.userEntity}" />
              </p:commandButton>
               <br />

@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import util.enumeration.AccessRightEnum;
@@ -22,6 +24,7 @@ import util.security.CryptographicHelper;
  * @author dtjldamien
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable {
 
     protected static final long serialVersionUID = 1L;
