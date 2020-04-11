@@ -34,7 +34,12 @@ export class StudentService {
 			);
 	}
 
-
+	getStudents(): Observable<any> {
+		return this.httpClient.get<any>(this.baseUrl).pipe
+		(
+			catchError(this.handleError)
+		);
+	}
 
 	private handleError(error: HttpErrorResponse) {
 		let errorMessage: string = '';

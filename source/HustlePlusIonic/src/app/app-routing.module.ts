@@ -9,13 +9,14 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  },  
+  },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },  
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+  },
   { path: 'viewAllProjects', loadChildren: './view-all-projects/view-all-projects.module#ViewAllProjectsPageModule', canActivate: [AuthGuard] },
-  { path: 'createNewStudent', loadChildren: './create-new-student/create-new-student.module#CreateNewStudentPageModule', canActivate: [AuthGuard] }
+  { path: 'createNewStudent', loadChildren: './create-new-student/create-new-student.module#CreateNewStudentPageModule', canActivate: [AuthGuard] },
+  { path: 'viewAllStudents', loadChildren: './view-all-students/view-all-students.module.module#ViewAlltudentsPageModule', canActivate: [AuthGuard] },
 ];
 
 @NgModule({
@@ -25,4 +26,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 
-export class AppRoutingModule {}
+export class AppRoutingModule { }

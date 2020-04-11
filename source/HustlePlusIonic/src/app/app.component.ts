@@ -22,9 +22,14 @@ export class AppComponent implements OnInit {
       url: '/viewAllProjects',
       icon: 'arrow-forward'
     },
-	{
+    {
       title: 'Create New Student',
       url: '/createNewStudent',
+      icon: 'arrow-forward'
+    },
+    {
+      title: 'View All Student',
+      url: '/viewAllStudents',
       icon: 'arrow-forward'
     }
   ];
