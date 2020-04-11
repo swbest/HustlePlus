@@ -18,7 +18,7 @@ import javax.validation.constraints.Size;
  * @author dtjldamien
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.JOINED)
 public class AdminStaff extends User implements Serializable {
 
 

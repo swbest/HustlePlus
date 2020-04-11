@@ -7,6 +7,7 @@ package ejb.session.singleton;
 
 import ejb.session.stateless.AdminStaffSessionBeanLocal;
 import ejb.session.stateless.CompanySessionBeanLocal;
+import entity.AdminStaff;
 import entity.Company;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -20,6 +21,7 @@ import util.exception.CompanyNameExistException;
 import util.exception.CompanyNotFoundException;
 import util.exception.InputDataValidationException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UserEmailExistsException;
 
 /**
  *
@@ -58,6 +60,7 @@ public class DataInitSessionBean {
 
         try {
 
+            /*
             Company newCompany = new Company();
             newCompany.setName("Company 1");
             newCompany.setUsername("company1");
@@ -68,9 +71,9 @@ public class DataInitSessionBean {
             newCompany.setIsVerified(true);
             newCompany.setIsSuspended(false);
             newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
-            companySessionBeanLocal.createNewCompany(newCompany);
+            companySessionBeanLocal.createNewCompany(newCompany); */
 
-            /*
+            
         AdminStaff newAdmin = new AdminStaff() ; 
         newAdmin.setName("admin tan");
         newAdmin.setUsername("admin1");
@@ -78,8 +81,8 @@ public class DataInitSessionBean {
         newAdmin.setEmail("admin1@gmail.com");
         newAdmin.setAccessRightEnum(AccessRightEnum.ADMIN);
         adminStaffSessionBeanLocal.createNewAdminStaff(newAdmin);
-             */
-        } catch (CompanyNameExistException | UnknownPersistenceException | InputDataValidationException ex) {
+            
+        } catch (UserEmailExistsException | UnknownPersistenceException | InputDataValidationException ex) {
             ex.printStackTrace();
 
         }

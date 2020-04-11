@@ -64,8 +64,8 @@
                             <br />
                        <br /> 
                         <p:commandButton actionListener="#{companyManagementManagedBean.suspendCompany}" value="Suspend">
-                            <f:attribute name="companyToSuspend" value="#{companyToSuspend}" />
-                            <p:confirm header="Confirmation" message="Are you sure you want to suspend #{companyToSuspend.name} (Company ID: #{companyToSuspend.userId})?" icon="ui-icon-alert" />
+                            <f:attribute name="companyToSuspend" value="#{company}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to suspend #{company.name} (Company ID: #{company.userId})?" icon="ui-icon-alert" />
                         </p:commandButton>                
                     </p:column>                                         
 

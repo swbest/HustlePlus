@@ -31,9 +31,9 @@ public class Student extends User implements Serializable {
 
     @Column(nullable = true)
     private File resume;
-    @NotNull
-    @Size(max = 256, message = "Description should be at most 256 characters")
-    @Column(nullable = false, length = 256)
+    //@NotNull
+    //@Size(max = 256, message = "Description should be at most 256 characters")
+    @Column(nullable = true)
     private String description;
     @Min(value = 0, message = "Average rating should not be less than 0")
     @Max(value = 5, message = "Average rating should not be more than 5")

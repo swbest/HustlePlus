@@ -60,12 +60,13 @@ public class ProjectManagementManagedBean implements Serializable {
     
     private List<Project> projects;
     
-    private Project newProject;
+    
     private List<Long> milestoneIdsNew ; 
     private Long companyId; 
     private List<Application> applications;
     private List<Review> reviews;
     private List<Milestone> milestones; 
+    private Project newProject ; 
     
     private Project selectedProjectToUpdate;
     private List<Long>milestoneIdsUpdate;
@@ -229,6 +230,16 @@ public class ProjectManagementManagedBean implements Serializable {
     public void setMilestoneIdsUpdate(List<Long> milestoneIdsUpdate) {
         this.milestoneIdsUpdate = milestoneIdsUpdate;
     }
+
+    public Project getNewProject() {
+        return newProject;
+    }
+
+    public void setNewProject(Project newProject) {
+        this.newProject = newProject;
+    }
+    
+    
      
      
 }
