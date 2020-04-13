@@ -7,8 +7,10 @@ package ejb.session.singleton;
 
 import ejb.session.stateless.AdminStaffSessionBeanLocal;
 import ejb.session.stateless.CompanySessionBeanLocal;
+import ejb.session.stateless.SkillSessionBeanLocal;
 import entity.AdminStaff;
 import entity.Company;
+import entity.Skill;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -20,6 +22,7 @@ import util.enumeration.AccessRightEnum;
 import util.exception.CompanyNameExistException;
 import util.exception.CompanyNotFoundException;
 import util.exception.InputDataValidationException;
+import util.exception.SkillNameExistsException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UserEmailExistsException;
 
@@ -32,6 +35,9 @@ import util.exception.UserEmailExistsException;
 @Startup
 public class DataInitSessionBean {
 
+    @EJB(name = "SkillSessionBeanLocal")
+    private SkillSessionBeanLocal skillSessionBeanLocal;
+
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
 
@@ -40,6 +46,8 @@ public class DataInitSessionBean {
 
     @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal;
+    
+    
 
     public DataInitSessionBean() {
     }
@@ -60,7 +68,7 @@ public class DataInitSessionBean {
 
         try {
 
-            /*
+            
             Company newCompany = new Company();
             newCompany.setName("Company 1");
             newCompany.setUsername("company1");
@@ -71,7 +79,7 @@ public class DataInitSessionBean {
             newCompany.setIsVerified(true);
             newCompany.setIsSuspended(false);
             newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
-            companySessionBeanLocal.createNewCompany(newCompany); */
+            companySessionBeanLocal.createNewCompany(newCompany); 
 
             
         AdminStaff newAdmin = new AdminStaff() ; 
@@ -81,8 +89,27 @@ public class DataInitSessionBean {
         newAdmin.setEmail("admin1@gmail.com");
         newAdmin.setAccessRightEnum(AccessRightEnum.ADMIN);
         adminStaffSessionBeanLocal.createNewAdminStaff(newAdmin);
-            
-        } catch (UserEmailExistsException | UnknownPersistenceException | InputDataValidationException ex) {
+        
+        Skill newSkill1 = new Skill(); 
+        newSkill1.setTitle("Java");
+        skillSessionBeanLocal.createNewSkill(newSkill1);
+        Skill newSkill2 = new Skill(); 
+        newSkill2.setTitle("Python");
+        skillSessionBeanLocal.createNewSkill(newSkill2);
+        Skill newSkill3 = new Skill(); 
+        newSkill3.setTitle("C++");
+        skillSessionBeanLocal.createNewSkill(newSkill3);
+        Skill newSkill4 = new Skill(); 
+        newSkill4.setTitle("MySQL");
+        skillSessionBeanLocal.createNewSkill(newSkill4);
+        Skill newSkill5 = new Skill(); 
+        newSkill5.setTitle("JSF");
+        skillSessionBeanLocal.createNewSkill(newSkill5);
+        Skill newSkill6 = new Skill(); 
+        newSkill6.setTitle("React");
+        skillSessionBeanLocal.createNewSkill(newSkill6);
+        
+        } catch (SkillNameExistsException | CompanyNameExistException | UserEmailExistsException | UnknownPersistenceException | InputDataValidationException ex) {
             ex.printStackTrace();
 
         }

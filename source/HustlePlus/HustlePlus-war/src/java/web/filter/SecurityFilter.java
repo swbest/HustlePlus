@@ -90,6 +90,11 @@ public class SecurityFilter implements Filter {
     
     private Boolean excludeLoginCheck(String path) {
         if (path.equals("/index.xhtml") ||
+            path.equals("/companies/emailVerification.xhtml") ||
+            path.equals("/companies/resendEmail.xhtml") ||
+            path.equals("/companies/projectManagement.xhtml") ||
+            path.equals("/companies/createNewMilestone.xhtml") ||
+            path.equals("/companies/addASkill.xhtml") ||
             path.equals("/admin/verifyCompany.xhtml") ||
             path.equals("/admin/suspendCompany.xhtml") ||
             path.equals("/companies/createNewCompany.xhtml") ||

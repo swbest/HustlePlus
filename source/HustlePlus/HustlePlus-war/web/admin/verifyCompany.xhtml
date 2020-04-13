@@ -57,21 +57,20 @@
                     </p:column>                    
                     
                     <p:column headerText="Action" >
-                        <p:commandButton actionListener="#{companyManagementManagedBean.verifyCompany}" oncomplete="PF('dialogVerifyCompany').show()" value="Verify">
-                            <f:attribute name="companyToUpdate" value="#{company}" />
+                        <p:commandButton actionListener="#{companyManagementManagedBean.verifyCompany}" value="Verify">
+                            <f:attribute name="selectedCompanyToVerify" value="#{company}" />
                             <p:confirm header="Confirmation" message="Are you sure you want to verify #{company.name} (Company ID #{company.userId})?" icon="ui-icon-alert" />
                         </p:commandButton>
                             <br />
                        <br /> 
                         <p:commandButton actionListener="#{companyManagementManagedBean.suspendCompany}" value="Suspend">
-                            <f:attribute name="companyToSuspend" value="#{company}" />
+                            <f:attribute name="selectedCompanyToSuspend" value="#{company}" />
                             <p:confirm header="Confirmation" message="Are you sure you want to suspend #{company.name} (Company ID: #{company.userId})?" icon="ui-icon-alert" />
                         </p:commandButton>                
                     </p:column>                                         
 
                 </p:dataTable>
                 
-
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />

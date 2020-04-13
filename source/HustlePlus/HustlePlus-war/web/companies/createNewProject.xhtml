@@ -3,7 +3,8 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Create New Project</title>
         <style type="text/css">
@@ -40,7 +41,11 @@
     <h:body>
         
         <p:panel header="List a New Project" style="background-color: powderblue; font-size: large">
-            <h:form>
+            <h:form id="addProject" enctype="multipart/form-data">
+                <p:growl>
+                    <p:autoUpdate/>
+                </p:growl>
+                <h:messages/>
                 
                 <p:panelGrid>
                     
@@ -85,8 +90,7 @@
                             <p:outputLabel for="startDate" value="Project Start Date" />
                         </p:column>
                         <p:column>
-                             <p:datePicker id="month" view="month" value="#{calendarView.date3}" pattern="MM/yyyy" yearNavigator="true" yearRange="2000:2030" />
-                           <p:inputText id="startDate" value="#{projectManagementManagedBean.newProject.startDate}" />
+                             <p:datePicker id="startDate" value="#{projectManagementManagedBean.newProject.startDate}" />
                         </p:column>
                     </p:row>
                    
@@ -96,26 +100,48 @@
                             <p:outputLabel for="endDate" value="Project End Date" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="endDate" value="#{projectManagementManagedBean.newProject.endDate}" />
+                          <p:datePicker id="endDate" value="#{projectManagementManagedBean.newProject.endDate}" />
                         </p:column>
                     </p:row>
                     
                      <p:row>
-                        <p:column>
-                            <p:outputLabel for="skills" value="Required Skills" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="skills" value="#{projectManagementManagedBean.newProject.skills}" />
-                        </p:column>
+                         
+                         <h:panelGrid columns="2" cellpadding="5">
+                        
+                            <p:outputLabel for="skills" value="Required Skills: * " />
+                            <p:selectCheckboxMenu id="skills" value="#{projectManagementManagedBean.newProject.skills}" label="Skills"
+                                                  multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="250px">
+                                <p:ajax event="toggleSelect" listener="#{projectManagementManagedBean.onItemUnselect}" />
+                                <f:selectItems value="#{projectManagementManagedBean.skills}" var="skill" itemLabel="#{skill.title}" />
+                            </p:selectCheckboxMenu>
+                            
+                            </h:panelGrid>
                     </p:row>
                     
- 
+                     <p:row>
+                         
+                         <h:panelGrid columns="2" cellpadding="5">
+                        
+                            <p:outputLabel for="milestones" value="Milestones for Project: * " />
+                            <p:selectCheckboxMenu id="milestones" value="#{projectManagementManagedBean.newProject.milestones}" label="Milestones"
+                                                  multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="250px">
+                                <p:ajax event="toggleSelect" listener="#{projectManagementManagedBean.onItemUnselect}" />
+                                <f:selectItems value="#{projectManagementManagedBean.milestones}" var="milestone" itemLabel="#{milestone.title}" />
+                            </p:selectCheckboxMenu>
+                            
+                            </h:panelGrid>
+                    </p:row>
+
+                    
+
                     
                     <p:row>
                         <p:column colspan="2">
                             <p:commandButton type="reset" value="Clear" />
-                            <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{projectManagementManagedBean.createNewProject}" />
-                                              
+                            <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{projectManagementManagedBean.createNewProject}" >
+                               <f:attribute name="companyTagged" value="#{sessionScope.userEntity}" />
+                            </p:commandButton>
+
                         </p:column>
                     </p:row>
                     

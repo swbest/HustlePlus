@@ -6,10 +6,8 @@
 package ejb.session.stateless;
 
 import entity.Company;
-import static entity.User_.password;
 import java.util.List;
 import java.util.Set;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -27,8 +25,10 @@ import util.exception.CompanyNotFoundException;
 import util.exception.DeleteCompanyException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.SuspendCompanyException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateCompanyException;
+import util.exception.VerifyCompanyException;
 import util.security.CryptographicHelper;
 
 /**
@@ -168,6 +168,41 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
             throw new DeleteCompanyException("Company ID " + companyId + " is associated with existing projects and reviews and cannot be deleted!");
         }
     }
+    
+    @Override
+    public void verifyCompany(Long companyId) throws CompanyNotFoundException, VerifyCompanyException {
+       try {  
+        Company companyToVerify = retrieveCompanyByCompanyId(companyId);
+        
+            if (companyToVerify.getIsVerified() == false) {
+                System.out.println("*****FALSE******");
+              companyToVerify.setIsVerified(Boolean.TRUE);   
+            } else {
+             System.out.println("*****TRUE******");
+             throw new VerifyCompanyException("Company has been verified!"); 
+            }      
+       } catch (CompanyNotFoundException ex) {
+             throw new CompanyNotFoundException("Company id does not exist!"); 
+               }
+    }
+    
+        @Override
+        public void suspendCompany(Long companyId) throws CompanyNotFoundException, SuspendCompanyException {
+        Company companyToSuspend = retrieveCompanyByCompanyId(companyId);
+        
+        if (companyToSuspend != null) {
+            
+            if (companyToSuspend.getIsSuspended() == false) {
+              companyToSuspend.setIsSuspended(Boolean.TRUE);   
+            } else {
+             throw new SuspendCompanyException("Company has been suspended"); 
+            }
+        } else {
+            throw new CompanyNotFoundException("Company Id does not exist");
+               }
+    }
+    
+    
 
     // searching for company) rating/ company's name
     @Override

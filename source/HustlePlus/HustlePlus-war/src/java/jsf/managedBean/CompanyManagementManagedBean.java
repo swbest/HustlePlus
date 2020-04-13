@@ -13,7 +13,6 @@ import entity.Project;
 import entity.Review;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -27,7 +26,9 @@ import util.exception.CompanyNameExistException;
 import util.exception.CompanyNotFoundException;
 import util.exception.DeleteCompanyException;
 import util.exception.InputDataValidationException;
+import util.exception.SuspendCompanyException;
 import util.exception.UnknownPersistenceException;
+import util.exception.VerifyCompanyException;
 
 /**
  *
@@ -60,6 +61,10 @@ public class CompanyManagementManagedBean implements Serializable {
     private Company selectedCompanyToUpdate;
     
     private Company selectedCompanyToVerify; 
+    
+    private Company selectedCompanyToSuspend; 
+    
+    private Company selectedCompanyToEmail; 
 
 
     /**
@@ -94,12 +99,13 @@ public class CompanyManagementManagedBean implements Serializable {
         
        newCompany = new Company() ; 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + companyId + ")", null));
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/emailVerification.xhtml");
         
         } catch (CompanyNotFoundException ex) {
           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: The company is not found", null));  
         } catch (CompanyNameExistException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: The company name already exist", null));
-        } catch ( InputDataValidationException | UnknownPersistenceException ex) {
+        } catch ( InputDataValidationException | UnknownPersistenceException | IOException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: " + ex.getMessage(), null));
         }
     }
@@ -155,9 +161,32 @@ public class CompanyManagementManagedBean implements Serializable {
     }
      
      public void verifyCompany(ActionEvent event) {
-        setSelectedCompanyToVerify((Company)event.getComponent().getAttributes().get("companyToVerify"));
-        
+         try {
+         Company selectedCompanyToVerify = (Company)event.getComponent().getAttributes().get("selectedCompanyToVerify") ;
+         companySessionBeanLocal.verifyCompany(selectedCompanyToVerify.getUserId());
+         } catch (CompanyNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while verifying company account: " + ex.getMessage(), null));
+         } catch (VerifyCompanyException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while verifying company account: " + ex.getMessage(), null));
+         }
 
+     }
+     
+     public void suspendCompany(ActionEvent event) {
+         try {
+         Company selectedCompanyToSuspend = (Company)event.getComponent().getAttributes().get("selectedCompanyToSuspend") ;
+         companySessionBeanLocal.suspendCompany(selectedCompanyToSuspend.getUserId());
+         } catch (CompanyNotFoundException | SuspendCompanyException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while suspending company account: " + ex.getMessage(), null));
+         }
+
+     }
+     
+     public void resendEmail(ActionEvent event) {
+         
+             Company selectedCompanyToEmail = (Company)event.getComponent().getAttributes().get("selectedCompanyToEmail") ; 
+             //companySessionBeanLocal.resendEmail(selectedCompanyToEmail.getUserId());
+         
      }
      
      public ViewCompanyManagedBean getViewCompanyManagedBean() {
@@ -223,5 +252,15 @@ public class CompanyManagementManagedBean implements Serializable {
     public void setSelectedCompanyToVerify(Company selectedCompanyToVerify) {
         this.selectedCompanyToVerify = selectedCompanyToVerify;
     } 
+
+    public Company getSelectedCompanyToSuspend() {
+        return selectedCompanyToSuspend;
+    }
+
+    public void setSelectedCompanyToSuspend(Company selectedCompanyToSuspend) {
+        this.selectedCompanyToSuspend = selectedCompanyToSuspend;
+    }
+    
+    
 
 }
