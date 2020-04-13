@@ -57,18 +57,27 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     @Override
     public Long createNewProject(Project newProject, Long companyId) throws CompanyNotVerifiedException, CompanySuspendedException, UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException {
         try {
+                                System.out.println("PSB0");
+
             Set<ConstraintViolation<Project>> constraintViolations = validator.validate(newProject);
+                                System.out.println("PSB0.5");
+
 
             if (constraintViolations.isEmpty()) {
                 try {
+                    System.out.println("PSB1");
                     Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
+                    System.out.println("PSB2");
                     if (company.getIsVerified() == false) {
                         throw new CompanyNotVerifiedException("Company is not yet verified! Please wait a few days for admin staff to verify.");
                     }
-                    if (company.getIsSuspended() == false) {
+                    if (company.getIsSuspended() == true) {
                         throw new CompanySuspendedException("Company is suspended. Please contact admin staff for details.");
                     }
+                    newProject.setCompany(company);
+                    System.out.println("PSB3");
                     company.getProjects().add(newProject);
+                    System.out.println("PSB4");
                     em.persist(newProject);
                     em.flush();
 

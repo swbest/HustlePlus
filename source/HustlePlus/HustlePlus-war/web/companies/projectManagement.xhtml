@@ -21,13 +21,13 @@
             
                 <p:messages id="messages" redisplay="false" closable="true" />
 
-                <p:dataTable id="dataTableAllProjects" widgetVar="dataTableAllProjects" value="#{projectManagementManagedBean.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row"
+                <p:dataTable id="dataTableAllProjects" widgetVar="dataTableAllProjects" value="#{projectManagementManagedBean.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row" filteredValue="#{projectManagementManagedBean.filteredProjects}"
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
                     <f:facet name="header">
                         <p:outputPanel style="text-align: center;">
                             <h:outputText value="Search " />
-                            <p:inputText id="globalFilter" onkeyup="PF('dataTableAllProjects').filter()" style="width:200px" placeholder=""/>
+                            <p:inputText id="globalFilter" onkeyup="PF('dataTableAllProjects').filter()" style="width:200px"/>
                         </p:outputPanel>
                     </f:facet>
                     
@@ -43,34 +43,34 @@
                         <h:outputText value="#{project.jobValue}" />
                     </p:column>
                     
-                    <p:column headerText="Job Value" sortBy="#{project.jobValue}" filterBy="#{project.jobValue}" filterMatchMode="contains">
-                        <h:outputText value="#{project.jobValue}" />
+                    <p:column headerText="Number of Students Required" sortBy="#{project.numStudentsRequired}" filterBy="#{project.numStudentsRequired}" filterMatchMode="contains">
+                        <h:outputText value="#{project.numStudentsRequired}" />
                     </p:column>
 
-                    <p:column headerText="Job Value" sortBy="#{project.jobValue}" filterBy="#{project.jobValue}" filterMatchMode="contains">
-                        <h:outputText value="#{project.jobValue}" />
+                    <p:column headerText="Project Description" sortBy="#{project.projectDescription}" filterBy="#{project.projectDescription}" filterMatchMode="contains">
+                        <h:outputText value="#{project.projectDescription}" />
                     </p:column>
 
-                    <p:column headerText="Job Value" sortBy="#{project.jobValue}" filterBy="#{project.jobValue}" filterMatchMode="contains">
-                        <h:outputText value="#{project.jobValue}" />
+                    <p:column headerText="Start Date" sortBy="#{project.startDate}" filterBy="#{project.startDate}" filterMatchMode="contains">
+                        <h:outputText value="#{project.startDate}" />
                     </p:column>
 
 
-                    <p:column headerText="Job Value" sortBy="#{project.jobValue}" filterBy="#{project.jobValue}" filterMatchMode="contains">
-                        <h:outputText value="#{project.jobValue}" />
+                    <p:column headerText="End Date" sortBy="#{project.endDate}" filterBy="#{project.endDate}" filterMatchMode="contains">
+                        <h:outputText value="#{project.endDate}" />
                     </p:column>
                     
 
                     <p:column headerText="Action" >
-                        <p:commandButton update="ccViewMilestone:formViewMilestone" oncomplete="PF('dialogViewMilestone').show()" icon="ui-icon-document" title="View">
-                            <f:setPropertyActionListener value="#{milestone}" target="#{milestoneManagementManagedBean.viewMilestoneManagedBean.milestoneToView}" />
+                        <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View">
+                            <f:setPropertyActionListener value="#{project}" target="#{projectManagementManagedBean.viewProjectManagedBean.projectToView}" />
                         </p:commandButton>
-                        <p:commandButton actionListener="#{milestoneManagementManagedBean.doUpdateMilestone}" update="formUpdateMilestone" oncomplete="PF('dialogUpdateMilestone').show()" icon="ui-icon-pencil" title="Update">
-                            <f:attribute name="milestoneToUpdate" value="#{milestone}" />
+                        <p:commandButton actionListener="#{projectManagementManagedBean.doUpdateProject}" update="formUpdateProject" oncomplete="PF('dialogUpdateProject').show()" icon="ui-icon-pencil" title="Update">
+                            <f:attribute name="projectToUpdate" value="#{project}" />
                         </p:commandButton>
-                        <p:commandButton icon="ui-icon-trash" actionListener="#{milestoneManagementManagedBean.deleteMilestone}" update="formAllMilestones:dataTableAllMilestones formAllMilestones:messages">
-                            <f:attribute name="milestoneToDelete" value="#{milestone}" />
-                            <p:confirm header="Confirmation" message="Are you sure you want to delete #{milestone.milestoneId})?" icon="ui-icon-alert" />
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{projectManagementManagedBean.deleteProject}" update="formAllProjects:dataTableAllProjects formAllProjects:messages">
+                            <f:attribute name="projectToDelete" value="#{project}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to delete #{project.projectId})?" icon="ui-icon-alert" />
                         </p:commandButton>
                     </p:column>
                     
@@ -83,58 +83,67 @@
                 
             </h:form>
             
-            <h:form id="formCreateNewMilestone">
+            <h:form id="formCreateNewProject">
                 
-                <p:dialog id="dialogCreateNewMilestone" widgetVar="dialogCreateNewMilestone" header="Create New Milestone" closable="true">
+                <p:dialog id="dialogCreateNewProject" widgetVar="dialogCreateNewProject" header="Create New Project" closable="true">
 
-                    <p:messages id="messagesCreateNewMilestone" redisplay="false" />
+                    <p:messages id="messagesCreateNewProject" redisplay="false" />
 
                     <p:panelGrid>
 
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="title" value="Title: " style="font-weight: bold;" />
+                                <p:outputLabel for="projectName" value="Project Name: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="title" value="#{milestoneManagementManagedBean.newMilestone.title}" placeholder="e.g. Title" required="true" requiredMessage="Title is required!" />
+                                <p:inputText id="projectName" value="#{projectManagementManagedBean.newProject.projectName}" placeholder="e.g. Project Name" required="true" requiredMessage="Project Name is required!" />
                             </p:column>
                             <p:column>
-                                <p:message for="title" />
-                            </p:column>
-                        </p:row>
-
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="description" value="Description: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="description" value="#{milestoneManagementManagedBean.newMilestone.description}" placeholder="e.g. Completed First Draft of Proposal" required="true" requiredMessage="Description is required!" />
-                            </p:column>
-                            <p:column>
-                                <p:message for="description" />
+                                <p:message for="projectName" />
                             </p:column>
                         </p:row>
 
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="selProject" value="Project: " style="font-weight: bold;" />
+                                <p:outputLabel for="jobValue" value="Job Value: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:selectOneMenu id="selProject" value="#{milestoneManagementManagedBean.selProjectId}">
-                                    <f:selectItem itemValue="0" itemLabel="[Select A Project]" noSelectionOption="true" />
-                                    <f:selectItems value="#{milestoneManagementManagedBean.projects}" var="project" itemValue="#{project.projectId}" itemLabel="#{project.projectName}" />
-                                </p:selectOneMenu>
+                                <p:inputText id="jobValue" value="#{projectManagementManagedBean.newProject.jobValue}" placeholder="e.g. 800" required="true" requiredMessage="Job Value is required!" />
                             </p:column>
                             <p:column>
-                                <p:message for="selProject" />
-                            </p:column>     
+                                <p:message for="jobValue" />
+                            </p:column>
                         </p:row>
-
-
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="numStudentsRequired" value="Number of Students Required: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="numStudentsRequired" value="#{projectManagementManagedBean.newProject.numStudentsRequired}" placeholder="e.g. 3" required="true" requiredMessage="Number of Students is required!" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="numStudentsRequired" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="projectDescription" value="Project Description: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="projectDescription" value="#{projectManagementManagedBean.newProject.projectDescription}" placeholder="e.g. Project Description" required="true" requiredMessage="Project Description is required!" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="projectDescription" />
+                            </p:column>
+                        </p:row>
+                        
+                        
                         <p:row>
                             <p:column colspan="3">
                                 <p:commandButton type="reset" value="Clear" />&nbsp;
-                                <p:commandButton  value="Create New Milestone" update="@form formCreateNewMilestone" actionListener="#{milestoneManagementManagedBean.createNewMilestone}" oncomplete="PF('dialogCreateNewMilestone').show();" />
+                                <p:commandButton  value="Create New Project" update="@form formCreateNewProject" actionListener="#{projectManagementManagedBean.createNewProject}" oncomplete="PF('dialogCreateNewProject').show();" />
                             </p:column>
                         </p:row>
 
@@ -144,22 +153,22 @@
 
             </h:form>
             
-            <ez:ViewMilestone id="ccViewMilestone" />
+            <ez:ViewProject id="ccViewProject" />
 
-            <h:form id="formUpdateMilestone">
+            <h:form id="formUpdateProject">
 
-                <p:dialog id="dialogUpdateMilestone" widgetVar="dialogUpdateMilestone" header="Update Milestone" closable="true">
+                <p:dialog id="dialogUpdateProject" widgetVar="dialogUpdateProject" header="Update Project" closable="true">
 
-                    <p:messages id="messagesUpdateMilestone" redisplay="false" />
+                    <p:messages id="messagesUpdateProject" redisplay="false" />
 
                     <p:panelGrid>
 
                         <p:row>
                             <p:column>
-                                <h:outputLabel value="Milestone ID: " />
+                                <h:outputLabel value="Project ID: " />
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{milestoneManagementManagedBean.milestoneToUpdate.milestoneId}" />
+                                <h:outputText value="#{projectManagementManagedBean.selectedProjectToUpdate.projectId}" />
                             </p:column>
                             <p:column>
                                 &nbsp;
@@ -168,46 +177,56 @@
                         
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="title" value="Title: " />
+                                <p:outputLabel for="projectName" value="Project Name: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="title" value="#{milestoneManagementManagedBean.milestoneToUpdate.title}" placeholder="e.g. Title" required="true" requiredMessage="Title is required!" />
+                                <p:inputText id="projectName" value="#{projectManagementManagedBean.newProject.projectName}" placeholder="e.g. Project Name" required="true" requiredMessage="Project Name is required!" />
                             </p:column>
                             <p:column>
-                                <p:message for="title" />
+                                <p:message for="projectName" />
                             </p:column>
                         </p:row>
 
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="description" value="Description: " />
+                                <p:outputLabel for="jobValue" value="Job Value: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="description" value="#{milestoneManagementManagedBean.milestoneToUpdate.description}" placeholder="e.g. Completed First Draft of Proposal" required="true" requiredMessage="Description is required!" />
+                                <p:inputText id="jobValue" value="#{projectManagementManagedBean.newProject.jobValue}" placeholder="e.g. 800" required="true" requiredMessage="Job Value is required!" />
                             </p:column>
                             <p:column>
-                                <p:message for="description" />
-                            </p:column>
-                        </p:row>                    
-
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="selProject" value="Project: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:selectOneMenu id="selProject" value="#{milestoneManagementManagedBean.projectIdUpdate}">
-                                    <f:selectItem itemValue="0" itemLabel="[Select A Project]" noSelectionOption="true" />
-                                    <f:selectItems value="#{milestoneManagementManagedBean.projects}" var="project" itemValue="#{project.projectId}" itemLabel="#{project.projectName}" />
-                                </p:selectOneMenu>
-                            </p:column>
-                            <p:column>
-                                <p:message for="selProject" />
+                                <p:message for="jobValue" />
                             </p:column>
                         </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="numStudentsRequired" value="Number of Students Required: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="numStudentsRequired" value="#{projectManagementManagedBean.newProject.numStudentsRequired}" placeholder="e.g. 3" required="true" requiredMessage="Number of Students is required!" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="numStudentsRequired" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="projectDescription" value="Project Description: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="projectDescription" value="#{projectManagementManagedBean.newProject.projectDescription}" placeholder="e.g. Project Description" required="true" requiredMessage="Project Description is required!" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="projectDescription" />
+                            </p:column>
+                        </p:row>       
 
+                       
                         <p:row>
                             <p:column colspan="3">
-                                <p:commandButton value="Update Milestone" update="@form formUpdateMilestone" actionListener="#{milestoneManagementManagedBean.updateMilestone}" oncomplete="PF('dialogUpdateMilestone').show();" />
+                                <p:commandButton value="Update Project" update="@form formUpdateProject" actionListener="#{projectManagementManagedBean.updateProject}" oncomplete="PF('dialogUpdateProject').show();" />
                             </p:column>
                         </p:row>
 

@@ -171,7 +171,7 @@
 
                         <p:row>
                             <p:column colspan="3">
-                                <p:commandButton value="Update Company" actionListener="#{companyManagementManagedBean.updateCompany}" oncomplete="PF('dialogUpdateCompany').show();" />
+                                <p:commandButton value="Update Company" update="@form formUpdateCompany" actionListener="#{companyManagementManagedBean.updateCompany}" oncomplete="PF('dialogUpdateCompany').show();" />
                             </p:column>
                         </p:row>
                         

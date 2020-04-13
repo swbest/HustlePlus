@@ -13,8 +13,10 @@ import util.exception.CompanyNotFoundException;
 import util.exception.DeleteCompanyException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.SuspendCompanyException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateCompanyException;
+import util.exception.VerifyCompanyException;
 
 /**
  *
@@ -40,5 +42,9 @@ public interface CompanySessionBeanLocal {
     public List<Company> retrieveCompaniesByName(String cname) throws CompanyNotFoundException;
 
     public List<Company> retrieveCompaniesByAvgRating(Double avgRating) throws CompanyNotFoundException;
+
+    public void verifyCompany(Long companyId) throws CompanyNotFoundException, VerifyCompanyException;
+
+    public void suspendCompany(Long companyId) throws CompanyNotFoundException, SuspendCompanyException;
     
 }
