@@ -2,17 +2,14 @@
 <!--
 *** GENERATED FROM project.xml - DO NOT EDIT  ***
 ***         EDIT ../build.xml INSTEAD         ***
-
 For the purpose of easier reading the script
 is divided into following sections:
-
   - initialization
   - compilation
   - dist
   - execution
   - debugging
   - cleanup
-
 -->
 <project xmlns:ear2="http://www.netbeans.org/ns/j2ee-earproject/2" basedir=".." default="default" name="HustlePlus-impl">
     <import file="ant-deploy.xml"/>

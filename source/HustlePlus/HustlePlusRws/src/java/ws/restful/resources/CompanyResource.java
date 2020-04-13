@@ -7,8 +7,6 @@ package ws.restful.resources;
 
 import ejb.session.stateless.CompanySessionBeanLocal;
 import entity.Company;
-import entity.Project;
-import static entity.Review_.project;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,9 +27,7 @@ import ws.restful.model.CreateNewCompanyReq;
 import ws.restful.model.CreateNewCompanyRsp;
 import ws.restful.model.ErrorRsp;
 import ws.restful.model.RetrieveAllCompaniesRsp;
-import ws.restful.model.RetrieveAllProjectsRsp;
 import ws.restful.model.RetrieveCompanyRsp;
-import ws.restful.model.RetrieveProjectRsp;
 
 /**
  * REST Web Service

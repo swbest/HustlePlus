@@ -1,0 +1,44 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            View All Students
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>View All Students</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+
+            <div *ngIf="errorMessage">
+                {{errorMessage}}
+            </div>
+
+            <ion-grid>
+                <ion-row>
+                    <ion-col>Name</ion-col>
+                    <ion-col>Email</ion-col>
+                    <ion-col>Description</ion-col>
+                    <ion-col>Average Rating</ion-col>
+                </ion-row>
+                <ion-row *ngFor="let student of students">
+                    <ion-col>{{student.name}}</ion-col>
+                    <ion-col>{{student.email}}</ion-col>
+                    <ion-col>{{student.description}}</ion-col>
+                    <ion-col>{{student.avgRating}}</ion-col>
+                </ion-row>
+            </ion-grid>
+
+        </ion-card-content>
+    </ion-card>
+</ion-content>
+
+<ion-footer>
+    <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+</ion-footer>

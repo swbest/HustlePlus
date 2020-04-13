@@ -32,6 +32,7 @@ public class ApplicationConfig extends Application {
         resources.add(ws.restful.resources.AdminStaffResource.class);
         resources.add(ws.restful.resources.ApplicationResource.class);
         resources.add(ws.restful.resources.CompanyResource.class);
+        resources.add(ws.restful.resources.CorsFilter.class);
         resources.add(ws.restful.resources.MilestoneResource.class);
         resources.add(ws.restful.resources.PaymentResource.class);
         resources.add(ws.restful.resources.ProjectResource.class);
