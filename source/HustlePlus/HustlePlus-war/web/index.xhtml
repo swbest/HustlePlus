@@ -9,11 +9,19 @@
     
     <ui:define name="content">
         
-        <h:panelGroup>
-            <center><h2>Welcome To Hustle+</h2></center>
-            <center><h6>The online marketplace for you to offer tech projects to students with the relevant skills to complete them, using a commission-based business model.</h6></center>
-            <h6><label for="profilepic">Upload Profile Photo</label></h6>
-            <h6><input type ="file" id="profilepic" name="Profile Picture" accept="image/png, image/jpeg"></input></h6>
+        <h:form id="login">
+        <h:panelGroup rendered="#{!sessionScope.isLogin}">
+            <article style="margin-top: 250px; font-family: Segoe UI, Tahoma, sans-serif; color: coral; font-size: xx-large">
+                <center>You are not logged in.</center>
+            </article>
+        </h:panelGroup>
+        </h:form>
+
+        <h:panelGroup rendered="#{sessionScope.isLogin == true}">
+            <article style="margin-top: 225px; font-family: Segoe UI, Tahoma, sans-serif; color: coral; font-size: xx-large">
+                <center><h1>What would you like to do today?</h1></center>
+                <center><p:clock pattern="HH:mm"/></center>
+            </article>
         </h:panelGroup>
         
     </ui:define>

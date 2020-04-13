@@ -4,44 +4,14 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
+     
     <h:head>
-        <title>Register for Hustle+</title>
-        <style type="text/css">
-            .ui-layout-north {
-                z-index:2 !important;
-                overflow:visible !important;
-            }
-            .ui-layout-north .ui-layout-unit-content {
-                overflow:visible !important;
-            }
-
-            .ui-layout-center {
-                overflow:auto !important;
-            }
-
-            .ui-layout-center .ui-layout-unit-content {
-                overflow: visible !important;
-            }
-
-            body {
-                background-color: powderblue;
-            }
-
-            .ui-widget {
-                font-size: small;
-                box-shadow: none;
-            }
-
-            .ui-menubar, .ui-menu-child {
-                box-shadow: none;
-            }
-        </style>
+        <title>Hustle+ - Sign Up for Companies</title>
     </h:head>
     <h:body>
         
-        <p:panel header="Sign Up (Company)">
+        <p:panel header="Create a new account">
             <h:form id="signUpForm" enctype="multipart/form-data"> 
-                <h:messages/>
                 
                 <p:panelGrid>
                     
@@ -95,7 +65,7 @@
                     <p:row>
                         <p:column colspan="2">
                             <p:commandButton type="reset" value="Clear" />
-                            <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{companyManagementManagedBean.createNewCompany}" />
+                            <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{companyManagementManagedBean.createNewCompany}" action="/index" />
                         </p:column>
                     </p:row>
                     

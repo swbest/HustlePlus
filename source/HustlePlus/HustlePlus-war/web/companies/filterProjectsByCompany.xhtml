@@ -8,13 +8,7 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
-        
-        <h:panelGroup rendered="#{!sessionScope.isLogin}">
-            <article>
-                <center><h2>Please login.</h2></center>
-            </article>
-        </h:panelGroup>
-        
+
         <div class="container" style="width: 95%">                      
 
             <h:form id="formMain" rendered="#{sessionScope.isLogin == true}">

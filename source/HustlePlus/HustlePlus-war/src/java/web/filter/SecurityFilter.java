@@ -73,27 +73,14 @@ public class SecurityFilter implements Filter {
     
     public Boolean checkAccessRight(String path, AccessRightEnum accessRight) {
         if(accessRight.equals(AccessRightEnum.ADMIN)) {
-            /*if () {
+            if (path.equals("/admin/verifyCompany.xhtml") ||
+                path.equals("/admin/suspendCompany.xhtml")) {
                 return true ; 
             } else {
                 return false ;
-            }*/
+            }
         } else if (accessRight.equals(AccessRightEnum.COMPANY)) {
-            /*if ()  {
-                return true ; 
-            } else {
-                return false ;
-            }*/
-    } 
-            return false ;
-        }
-    
-    private Boolean excludeLoginCheck(String path) {
-        if (path.equals("/index.xhtml") ||
-            path.equals("/admin/verifyCompany.xhtml") ||
-            path.equals("/admin/suspendCompany.xhtml") ||
-            path.equals("/companies/createNewCompany.xhtml") ||
-            path.equals("/accessRightError.xhtml") ||
+            if (path.equals("/companies/createNewCompany.xhtml") ||
                 path.equals("/companies/profilePage.xhtml") ||
                 path.equals("/companies/filterStudentsBySkills.xhtml") ||
                 path.equals("/companies/searchStudentsByName.xhtml") ||
@@ -101,11 +88,22 @@ public class SecurityFilter implements Filter {
                 path.equals("/companies/filterCompaniesByRating.xhtml") ||
                 path.equals("/companies/filterProjectsByCompany.xhtml") ||
                 path.equals("/companies/searchProjectsByName.xhtml") ||
-                path.equals("/admin/suspendCompany.xhtml") ||
                 path.equals("/companies/milestoneManagement.xhtml") ||
                 path.equals("/companies/createNewProject.xhtml") ||
-                path.equals("/companies/createNewCompany.xhtml") ||
-                path.equals("/companies/profilePage.xhtml") ||
+                path.equals("/companies/profilePage.xhtml"))  {
+                return true ; 
+            } else {
+                return false ;
+            }
+    } 
+            return false ;
+        }
+    
+    private Boolean excludeLoginCheck(String path) {
+        if (path.equals("/index.xhtml") ||
+            path.equals("/accessRightError.xhtml") ||
+            path.equals("/companies/createNewCompany.xhtml") ||
+            path.equals("/login.xhtml") ||
             path.startsWith("/javax.faces.resource")
                 ) {
             return true ;

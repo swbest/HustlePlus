@@ -4,48 +4,47 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
-
-    <h4><img src="resources/img/icon.jpg" width="5%"/></h4>
     
-    <header style="text-align: right;">
-        <h:panelGroup rendered="#{sessionScope.isLogin == false}">
-            <h:form id="loginForm">
+    <h:panelGroup rendered="#{sessionScope.isLogin == true &amp;&amp; sessionScope.userEntity.accessRightEnum == 'COMPANY'}">
 
-                <p:outputLabel for="username" value="Username" />&nbsp;
-                <p:inputText id="username" value="#{loginManagedBean.username}" size="16" required="true" requiredMessage="Username is required" maxlength="32">
-                    <f:validateLength minimum="4" />
-                </p:inputText>
-                &nbsp;
-                <p:outputLabel for="password" value="Password" />&nbsp;
-                <p:password id="password" value="#{loginManagedBean.password}" size="16" required="true" requiredMessage="Password is required" maxlength="32">
-                    <f:validateLength minimum="4" />
-                </p:password>
-                &nbsp;
-                <p:commandButton type="reset" value="Clear" />&nbsp;
-                <p:commandButton ajax="false" type="submit" value="Login" actionListener="#{loginManagedBean.login}" />
+        <p:graphicImage name="img/icon-transparent.png" style="width: 250px"/>
 
-                <p:growl>
+        <h:form>
 
-                </p:growl>
+            <p:menubar rendered="#{sessionScope.isLogin == true}" style="border-style: none">
 
-            </h:form>
-        </h:panelGroup>
+                <p:menuitem value="Home" icon="fa fa-home" outcome="/index"/>
 
-        <h:panelGroup rendered="#{sessionScope.isLogin == true}">
-            
-            <h:form id="logoutForm">
-                <h:outputText value="You are logged in as #{sessionScope.userEntity.name}" />&nbsp;
-                <p:commandButton value="Logout" actionListener="#{loginManagedBean.logout}" />
-            </h:form>
-        </h:panelGroup>
-        
-        <h:panelGroup rendered="#{sessionScope.isLogin == false}">
-            <h:form id ="signUpForm">
-                <p:commandButton ajax="false" style="margin-top: 5px" value="Sign Up" action="/companies/createNewCompany"  />
-            </h:form>
-            
-        </h:panelGroup>
-        
-    </header>
+                <p:submenu label="Search" icon="fa fa-search">
+                            <p:menuitem value="For Students" outcome="/companies/searchStudentsByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="For Companies" outcome="/companies/searchCompaniesByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="For Projects" outcome="/companies/searchProjectsByName.xhtml" />
+                </p:submenu>
 
+                <p:submenu label="Filter" icon="fa fa-filter">
+                            <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml"/>
+                            <p:separator />
+                            <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Projects" icon="fa fa-project">
+                            <p:menuitem value="Create New Project" outcome="/companies/createNewProject.xhtml"/>
+                           <p:menuitem value="Milestone Management" outcome="/companies/milestoneManagement.xhtml"/> 
+                </p:submenu>
+
+                <f:facet name="options">
+                    <p:menuButton value="Logged in as: #{sessionScope.userEntity.name} (#{sessionScope.userEntity.accessRightEnum})">
+                        <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml" icon="fa fa-user" >
+                        </p:menuitem>
+                        <p:separator />
+                        <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}" icon="fa fa-sign-out" rendered="#{sessionScope.isLogin == true}"/>
+                    </p:menuButton> &nbsp;
+                </f:facet>
+            </p:menubar>
+        </h:form>
+    </h:panelGroup>
 </ui:composition>

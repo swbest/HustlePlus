@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Hustle+ - log in or sign up</title>
+    </h:head>
+    <h:body>
+        <div class="login-box">
+            <div class="login-logo">
+                <center>
+                    <h:commandLink action="/index.html">
+                        <p:graphicImage name="img/icon-transparent.png" style="width: 500px"/>
+                    </h:commandLink>
+                </center>
+            </div>
+        </div>&nbsp;
+        
+        <div class="box login-box-body">
+            <div style="color: #000000; font-size: x-large; text-align: center">
+            <h:form>
+                <p class="login-box-msg" style="color: #000000; font-size: x-large"></p>
+                <h:panelGroup rendered="#{sessionScope.isLogin == false}">
+                    <h:form id="loginForm">
+
+                        <p:outputLabel style="font-family: Segoe UI, Tahoma, sans-serif;" for="username" value="Username" />&nbsp;
+                        <p:inputText id="username" value="#{loginManagedBean.username}" style="font-family: Segoe UI, Tahoma, sans-serif;" size="14" required="true" requiredMessage="Username is required to login!" maxlength="32">
+                            <f:validateLength minimum="4" />
+                        </p:inputText>
+                        &nbsp;
+                        <p:outputLabel style="font-family: Segoe UI, Tahoma, sans-serif;" for="password" value="Password" />&nbsp;
+                        <p:password id="password" value="#{loginManagedBean.password}" style="font-family: Segoe UI, Tahoma, sans-serif;" size="14" required="true" requiredMessage="Password is required to login!" maxlength="32">
+                            <f:validateLength minimum="4" />
+                        </p:password>
+                        &nbsp;
+                        <p:commandButton type="reset" value="Clear" style="font-family: Segoe UI, Tahoma, sans-serif;"/>&nbsp;
+                        <p:commandButton ajax="false" type="submit" value="Login" actionListener="#{loginManagedBean.login}" style="font-family: Segoe UI, Tahoma, sans-serif;"/>
+                    </h:form>
+                    &nbsp;
+                    <h:form id ="signUpForm">
+                        <center><p:outputLabel style="font-family: Segoe UI, Tahoma, sans-serif; font-weight: bold">Create a new account. It is quick and easy.</p:outputLabel></center>
+                        <p:commandButton ajax="false" style="margin-top: 5px" value="Sign Up" action="/companies/createNewCompany"  />
+                    </h:form>
+                </h:panelGroup>
+            </h:form>
+            </div>
+        </div>
+    </h:body>
+</html>
+

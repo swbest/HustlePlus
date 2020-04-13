@@ -59,30 +59,29 @@ public class DataInitSessionBean {
     private void initializeData() {
 
         try {
-
-            /*
-            Company newCompany = new Company();
-            newCompany.setName("Company 1");
-            newCompany.setUsername("company1");
-            newCompany.setPassword("password");
-            newCompany.setEmail("company1@gmail.com");
-            newCompany.setDescription("This is Company1");
-            newCompany.setAvgRating(5.0);
-            newCompany.setIsVerified(true);
-            newCompany.setIsSuspended(false);
-            newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
-            companySessionBeanLocal.createNewCompany(newCompany); */
+            
+            Company newCompany2 = new Company();
+            newCompany2.setName("Company 2");
+            newCompany2.setUsername("company2");
+            newCompany2.setPassword("password");
+            newCompany2.setEmail("company2@gmail.com");
+            newCompany2.setDescription("This is Company2");
+            newCompany2.setAvgRating(4.6);
+            newCompany2.setIsVerified(true);
+            newCompany2.setIsSuspended(false);
+            newCompany2.setAccessRightEnum(AccessRightEnum.COMPANY);
+            companySessionBeanLocal.createNewCompany(newCompany2);
 
             
-        AdminStaff newAdmin = new AdminStaff() ; 
-        newAdmin.setName("admin tan");
-        newAdmin.setUsername("admin1");
-        newAdmin.setPassword("password");
-        newAdmin.setEmail("admin1@gmail.com");
-        newAdmin.setAccessRightEnum(AccessRightEnum.ADMIN);
-        adminStaffSessionBeanLocal.createNewAdminStaff(newAdmin);
+            AdminStaff newAdmin2 = new AdminStaff() ; 
+            newAdmin2.setName("admin lai");
+            newAdmin2.setUsername("admin2");
+            newAdmin2.setPassword("password");
+            newAdmin2.setEmail("admin2@gmail.com");
+            newAdmin2.setAccessRightEnum(AccessRightEnum.ADMIN);
+            adminStaffSessionBeanLocal.createNewAdminStaff(newAdmin2);
             
-        } catch (UserEmailExistsException | UnknownPersistenceException | InputDataValidationException ex) {
+        } catch (UserEmailExistsException | UnknownPersistenceException | InputDataValidationException | CompanyNameExistException ex) {
             ex.printStackTrace();
 
         }

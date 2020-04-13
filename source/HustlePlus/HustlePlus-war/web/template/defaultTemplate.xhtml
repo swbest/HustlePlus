@@ -9,47 +9,13 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Hustle+</title>
-        <style type="text/css">
-            body{
-                background-color:#000000;
-            }
-
-            .ui-menubar, .ui-menu-child {
-                box-shadow: none;
-            }
-
-            .ui-panelgrid .ui-panelgrid-cell {
-                border: none;
-            }
-
-            .notificationsGrid tr {
-                border: none;
-            }
-
-            .notificationsGrid td {
-                border: none;
-            }
-
-            .ui-datatable thead th {
-                white-space: normal!important;
-                word-wrap: break-word;
-                font-size: 15px;
-            }
-            
-            .ui-datatable tbody td {
-                white-space: normal !important;
-                word-wrap: break-word;
-                text-align: center;
-            }
-
-        </style>
     </h:head>
     
     <h:body>
         
         <p:layout fullPage="true">
             
-            <p:layoutUnit position="north" size="150">
+            <p:layoutUnit position="north" size="150" style="position: fixed; font-family: Segoe UI, Tahoma, sans-serif">
 
                 <ui:insert name="header">
                     <ui:include src="/header.xhtml" />
@@ -73,15 +39,7 @@
                 
             </p:layoutUnit>
             
-            <p:layoutUnit minSize="200" position="east" header="Advertisements" collapsible="true" collapsed="true">
-                
-                <ui:insert name="sidebar">
-                    <ui:include src="/sidebar.xhtml" />
-                </ui:insert>        
-                
-            </p:layoutUnit>
-            
-            <p:layoutUnit position="south" size="70" >
+            <p:layoutUnit position="south" size="50" style="position: fixed; font-family: Segoe UI, Tahoma, sans-serif">
                 
                 <ui:insert name="footer">
                     <ui:include src="/footer.xhtml" />

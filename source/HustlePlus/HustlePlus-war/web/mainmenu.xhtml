@@ -4,14 +4,13 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
-    
+
     <section id="mainmenu" class="mainmenu">
-        <h3>Menu</h3>
+        <h2>Menu</h2>
         <nav>
-            <h:form>
-                <p:growl id="messages"/>
+            <h:form rendered="#{sessionScope.userEntity.accessRightEnum == 'COMPANY'}">
                     
-                <p:menubar style="background-color: powderblue">
+                <p:menubar>
                         <p:menuitem value="Home" outcome="/index" icon="fa fa-home" />
                         <p:separator/>
                         <p:submenu label="Search" icon="fa fa-search">
@@ -35,14 +34,38 @@
                            <p:menuitem value="Milestone Management" outcome="/companies/milestoneManagement.xhtml"/> 
                         </p:submenu>
                         <p:separator/>
-                        <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml"/>
-                        <p:separator/>
                         <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml" />
                         <p:separator/>
                         <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}" icon="fa fa-sign-out" rendered="#{sessionScope.isLogin == true}" />
                 </p:menubar>
 
             </h:form>
+            <h:form rendered="#{sessionScope.userEntity.accessRightEnum == 'ADMIN'}">
+                <p:menubar>
+                        <p:menuitem value="Home" outcome="/index" icon="fa fa-home" />
+                        <p:separator/>
+                        <p:submenu label="Search" icon="fa fa-search">
+                            <p:menuitem value="For Students" outcome="/companies/searchStudentsByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="For Companies" outcome="/companies/searchCompaniesByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="For Projects" outcome="/companies/searchProjectsByName.xhtml" />
+                        </p:submenu>
+                        <p:separator/>
+                        <p:submenu label="Filter" icon="fa fa-filter">
+                            <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml"/>
+                            <p:separator />
+                            <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
+                        </p:submenu>
+                        <p:separator/>
+                        <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml"/>
+                        <p:separator/>
+                        <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}" icon="fa fa-sign-out" rendered="#{sessionScope.isLogin == true}" />
+                </p:menubar>
+            </h:form>
+            
         </nav>
             
     </section>
