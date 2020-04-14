@@ -56,7 +56,7 @@ public class StudentResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveProjectById(@PathParam("id") Long studentId) {
+    public Response retrieveStudentByStudentId(@PathParam("id") Long studentId) {
         try {
             Student student = studentSessionBean.retrieveStudentByStudentId(studentId);
             RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(student);
@@ -75,7 +75,7 @@ public class StudentResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveAllProjects() {
+    public Response retrieveAllStudents() {
         try {
             List<Student> students = studentSessionBean.retrieveAllStudents();
             RetrieveAllStudentsRsp retrieveAllStudentsRsp = new RetrieveAllStudentsRsp(students);

@@ -74,23 +74,32 @@ public class SecurityFilter implements Filter {
     public Boolean checkAccessRight(String path, AccessRightEnum accessRight) {
         if(accessRight.equals(AccessRightEnum.ADMIN)) {
             if (path.equals("/admin/verifyCompany.xhtml") ||
-                path.equals("/admin/suspendCompany.xhtml")) {
+            path.equals("/companies/filterStudentsBySkills.xhtml") ||
+            path.equals("/companies/searchStudentsByName.xhtml") ||
+            path.equals("/companies/searchCompaniesByName.xhtml") ||
+            path.equals("/companies/filterCompaniesByRating.xhtml") ||
+            path.equals("/companies/filterProjectsByCompany.xhtml") ||
+            path.equals("/companies/searchProjectsByName.xhtml")) {
                 return true ; 
             } else {
                 return false ;
             }
         } else if (accessRight.equals(AccessRightEnum.COMPANY)) {
-            if (path.equals("/companies/createNewCompany.xhtml") ||
-                path.equals("/companies/profilePage.xhtml") ||
-                path.equals("/companies/filterStudentsBySkills.xhtml") ||
-                path.equals("/companies/searchStudentsByName.xhtml") ||
-                path.equals("/companies/searchCompaniesByName.xhtml") ||
-                path.equals("/companies/filterCompaniesByRating.xhtml") ||
-                path.equals("/companies/filterProjectsByCompany.xhtml") ||
-                path.equals("/companies/searchProjectsByName.xhtml") ||
-                path.equals("/companies/milestoneManagement.xhtml") ||
-                path.equals("/companies/createNewProject.xhtml") ||
-                path.equals("/companies/profilePage.xhtml"))  {
+            if (path.equals("/companies/emailVerification.xhtml") ||
+            path.equals("/companies/resendEmail.xhtml") ||
+            path.equals("/companies/projectManagement.xhtml") ||
+            path.equals("/companies/createNewMilestone.xhtml") ||
+            path.equals("/companies/addASkill.xhtml") ||
+            path.equals("/companies/profilePage.xhtml") ||
+            path.equals("/companies/filterStudentsBySkills.xhtml") ||
+            path.equals("/companies/searchStudentsByName.xhtml") ||
+            path.equals("/companies/searchCompaniesByName.xhtml") ||
+            path.equals("/companies/filterCompaniesByRating.xhtml") ||
+            path.equals("/companies/filterProjectsByCompany.xhtml") ||
+            path.equals("/companies/searchProjectsByName.xhtml") ||
+            path.equals("/companies/milestoneManagement.xhtml") ||
+            path.equals("/companies/createNewProject.xhtml") ||
+            path.equals("/companies/profilePage.xhtml"))  {
                 return true ; 
             } else {
                 return false ;
@@ -105,14 +114,12 @@ public class SecurityFilter implements Filter {
             path.equals("/companies/createNewCompany.xhtml") ||
             path.equals("/login.xhtml") ||
             path.startsWith("/javax.faces.resource")
-                ) {
-            return true ;
-        } else {
-            return false ;
-        }
-    }
-   
-
+            )  {
+                return true ; 
+            } else {
+                return false ;
+            }
+    } 
 
     @Override
     public void destroy() {

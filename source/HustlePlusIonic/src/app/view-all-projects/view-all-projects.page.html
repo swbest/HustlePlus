@@ -1,0 +1,42 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-menu-button></ion-menu-button>
+		</ion-buttons>
+		<ion-title>
+			View All Projects
+		</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-card>      
+		<ion-card-header>        
+			<ion-card-title>View All Projects</ion-card-title>
+		</ion-card-header>
+		<ion-card-content>
+		
+			<div *ngIf="errorMessage">
+				{{errorMessage}}
+			</div>
+			
+			<ion-grid>
+				<ion-row>
+					<ion-col>Project Name</ion-col>
+					<ion-col>Job Value</ion-col>
+					<ion-col>Project Description</ion-col>
+				</ion-row>
+				<ion-row *ngFor="let project of projects">
+					<ion-col>{{project.projectName}}</ion-col>
+					<ion-col>{{project.jobValue}}</ion-col>
+					<ion-col>{{project.projectDescription}}</ion-col>
+				</ion-row>
+			</ion-grid>
+			
+		</ion-card-content>
+	</ion-card>
+</ion-content>
+
+<ion-footer>
+	<ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+</ion-footer>

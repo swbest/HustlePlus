@@ -10,7 +10,7 @@
         <nav>
             <h:form rendered="#{sessionScope.userEntity.accessRightEnum == 'COMPANY'}">
                     
-                <p:menubar>
+                <p:menubar style="border-style: none">
                         <p:menuitem value="Home" outcome="/index" icon="fa fa-home" />
                         <p:separator/>
                         <p:submenu label="Search" icon="fa fa-search">
@@ -32,6 +32,9 @@
                         <p:submenu label="Projects" icon="fa fa-project">
                             <p:menuitem value="Create New Project" outcome="/companies/createNewProject.xhtml"/>
                            <p:menuitem value="Milestone Management" outcome="/companies/milestoneManagement.xhtml"/> 
+                           <p:menuitem value="Project Management" outcome="/companies/projectManagement.xhtml"/> 
+                           <p:menuitem value="Add a Skill" outcome="/companies/addASkill.xhtml"/> 
+                           <p:menuitem value="Create New Milestone" outcome="/companies/createNewMilestone.xhtml"/> 
                         </p:submenu>
                         <p:separator/>
                         <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml" />

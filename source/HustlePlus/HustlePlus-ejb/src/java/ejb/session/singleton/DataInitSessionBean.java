@@ -7,8 +7,10 @@ package ejb.session.singleton;
 
 import ejb.session.stateless.AdminStaffSessionBeanLocal;
 import ejb.session.stateless.CompanySessionBeanLocal;
+import ejb.session.stateless.SkillSessionBeanLocal;
 import entity.AdminStaff;
 import entity.Company;
+import entity.Skill;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -20,6 +22,7 @@ import util.enumeration.AccessRightEnum;
 import util.exception.CompanyNameExistException;
 import util.exception.CompanyNotFoundException;
 import util.exception.InputDataValidationException;
+import util.exception.SkillNameExistsException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UserEmailExistsException;
 
@@ -32,6 +35,9 @@ import util.exception.UserEmailExistsException;
 @Startup
 public class DataInitSessionBean {
 
+    @EJB(name = "SkillSessionBeanLocal")
+    private SkillSessionBeanLocal skillSessionBeanLocal;
+
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
 
@@ -40,6 +46,8 @@ public class DataInitSessionBean {
 
     @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal;
+    
+    
 
     public DataInitSessionBean() {
     }
@@ -60,28 +68,46 @@ public class DataInitSessionBean {
 
         try {
             
-            Company newCompany2 = new Company();
-            newCompany2.setName("Company 2");
-            newCompany2.setUsername("company2");
-            newCompany2.setPassword("password");
-            newCompany2.setEmail("company2@gmail.com");
-            newCompany2.setDescription("This is Company2");
-            newCompany2.setAvgRating(4.6);
-            newCompany2.setIsVerified(true);
-            newCompany2.setIsSuspended(false);
-            newCompany2.setAccessRightEnum(AccessRightEnum.COMPANY);
-            companySessionBeanLocal.createNewCompany(newCompany2);
+            Company newCompany = new Company();
+            newCompany.setName("Company 1");
+            newCompany.setUsername("company1");
+            newCompany.setPassword("password");
+            newCompany.setEmail("company1@gmail.com");
+            newCompany.setDescription("This is Company1");
+            newCompany.setAvgRating(5.0);
+            newCompany.setIsVerified(true);
+            newCompany.setIsSuspended(false);
+            newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
+            companySessionBeanLocal.createNewCompany(newCompany); 
 
-            
-            AdminStaff newAdmin2 = new AdminStaff() ; 
-            newAdmin2.setName("admin lai");
-            newAdmin2.setUsername("admin2");
-            newAdmin2.setPassword("password");
-            newAdmin2.setEmail("admin2@gmail.com");
-            newAdmin2.setAccessRightEnum(AccessRightEnum.ADMIN);
-            adminStaffSessionBeanLocal.createNewAdminStaff(newAdmin2);
-            
-        } catch (UserEmailExistsException | UnknownPersistenceException | InputDataValidationException | CompanyNameExistException ex) {
+        AdminStaff newAdmin = new AdminStaff() ; 
+        newAdmin.setName("admin tan");
+        newAdmin.setUsername("admin1");
+        newAdmin.setPassword("password");
+        newAdmin.setEmail("admin1@gmail.com");
+        newAdmin.setAccessRightEnum(AccessRightEnum.ADMIN);
+        adminStaffSessionBeanLocal.createNewAdminStaff(newAdmin);
+        
+        Skill newSkill1 = new Skill(); 
+        newSkill1.setTitle("Java");
+        skillSessionBeanLocal.createNewSkill(newSkill1);
+        Skill newSkill2 = new Skill(); 
+        newSkill2.setTitle("Python");
+        skillSessionBeanLocal.createNewSkill(newSkill2);
+        Skill newSkill3 = new Skill(); 
+        newSkill3.setTitle("C++");
+        skillSessionBeanLocal.createNewSkill(newSkill3);
+        Skill newSkill4 = new Skill(); 
+        newSkill4.setTitle("MySQL");
+        skillSessionBeanLocal.createNewSkill(newSkill4);
+        Skill newSkill5 = new Skill(); 
+        newSkill5.setTitle("JSF");
+        skillSessionBeanLocal.createNewSkill(newSkill5);
+        Skill newSkill6 = new Skill(); 
+        newSkill6.setTitle("React");
+        skillSessionBeanLocal.createNewSkill(newSkill6);
+        
+        } catch (SkillNameExistsException | CompanyNameExistException | UserEmailExistsException | UnknownPersistenceException | InputDataValidationException ex) {
             ex.printStackTrace();
 
         }

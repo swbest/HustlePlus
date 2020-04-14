@@ -7,15 +7,63 @@
     
     <h:panelGroup rendered="#{sessionScope.isLogin == true &amp;&amp; sessionScope.userEntity.accessRightEnum == 'COMPANY'}">
 
-        <p:graphicImage name="img/icon-transparent.png" style="width: 250px"/>
+        <h:commandLink action="/index.html">
+            <p:graphicImage name="img/icon-transparent.png" style="width: 250px"/>
+        </h:commandLink>
 
         <h:form>
 
-            <p:menubar rendered="#{sessionScope.isLogin == true}" style="border-style: none">
+            <p:menubar style="border-style: none">
 
-                <p:menuitem value="Home" icon="fa fa-home" outcome="/index"/>
+                <p:menuitem value="Home" icon="ui-icon-home" outcome="/index"/>
 
-                <p:submenu label="Search" icon="fa fa-search">
+                <p:submenu label="Search" icon="ui-icon-search">
+                            <p:menuitem icon="ui-icon-pencil" value="For Students" outcome="/companies/searchStudentsByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem icon="ui-icon-suitcase" value="For Companies" outcome="/companies/searchCompaniesByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem icon="ui-icon-folder-collapsed" value="For Projects" outcome="/companies/searchProjectsByName.xhtml" />
+                </p:submenu>
+
+                <p:submenu label="Filter" icon="ui-icon-tag">
+                            <p:menuitem icon="ui-icon-lightbulb" value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
+                            <p:separator />
+                            <p:menuitem icon="ui-icon-star" value="Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml"/>
+                            <p:separator />
+                            <p:menuitem icon="ui-icon-suitcase" value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Projects" icon="ui-icon-folder-collapsed">
+                            <p:menuitem icon="ui-icon-plus" value="Create New Project" outcome="/companies/createNewProject.xhtml"/>
+                            <p:menuitem icon="ui-icon-gear" value="My Projects" outcome="/companies/projectManagement.xhtml"/> 
+                            <p:menuitem icon="ui-icon-gear" value="My Project Milestones" outcome="/companies/milestoneManagement.xhtml"/> 
+                </p:submenu>
+
+                <f:facet name="options">
+                    <p:menuButton icon="ui-icon-person" value="Hello, #{sessionScope.userEntity.name}">
+                        <p:menuitem icon="ui-icon-heart" value="View Profile" outcome="/companies/profilePage.xhtml" >
+                        </p:menuitem>
+                        <p:separator />
+                        <p:menuitem icon="ui-icon-close" value="Log Out" actionListener="#{loginManagedBean.logout}" rendered="#{sessionScope.isLogin == true}"/>
+                    </p:menuButton> &nbsp;
+                </f:facet>
+            </p:menubar>
+        </h:form>
+    </h:panelGroup>
+    
+    <h:panelGroup rendered="#{sessionScope.isLogin == true &amp;&amp; sessionScope.userEntity.accessRightEnum == 'ADMIN'}">
+
+        <h:commandLink action="/index.html">
+            <p:graphicImage name="img/icon-transparent.png" style="width: 250px"/>
+        </h:commandLink>
+
+        <h:form>
+
+            <p:menubar style="border-style: none">
+
+                <p:menuitem value="Home" icon="ui-icon-home" outcome="/index"/>
+
+                <p:submenu label="Search" icon="ui-icon-search">
                             <p:menuitem value="For Students" outcome="/companies/searchStudentsByName.xhtml" />
                             <p:separator />
                             <p:menuitem value="For Companies" outcome="/companies/searchCompaniesByName.xhtml" />
@@ -23,7 +71,7 @@
                             <p:menuitem value="For Projects" outcome="/companies/searchProjectsByName.xhtml" />
                 </p:submenu>
 
-                <p:submenu label="Filter" icon="fa fa-filter">
+                <p:submenu label="Filter" icon="ui-icon-tag">
                             <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
                             <p:separator />
                             <p:menuitem value="Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml"/>
@@ -31,17 +79,11 @@
                             <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
                 </p:submenu>
 
-                <p:submenu label="Projects" icon="fa fa-project">
-                            <p:menuitem value="Create New Project" outcome="/companies/createNewProject.xhtml"/>
-                           <p:menuitem value="Milestone Management" outcome="/companies/milestoneManagement.xhtml"/> 
-                </p:submenu>
+                <p:menuitem value="Verify/Suspend Company" icon="ui-icon-pencil" outcome="/admin/verifyCompany.xhtml"/>
 
                 <f:facet name="options">
-                    <p:menuButton value="Logged in as: #{sessionScope.userEntity.name} (#{sessionScope.userEntity.accessRightEnum})">
-                        <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml" icon="fa fa-user" >
-                        </p:menuitem>
-                        <p:separator />
-                        <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}" icon="fa fa-sign-out" rendered="#{sessionScope.isLogin == true}"/>
+                    <p:menuButton icon="ui-icon-person" value="Hello, #{sessionScope.userEntity.name} (#{sessionScope.userEntity.accessRightEnum})">
+                        <p:menuitem icon="ui-icon-close" value="Logout" actionListener="#{loginManagedBean.logout}" rendered="#{sessionScope.isLogin == true}"/>
                     </p:menuButton> &nbsp;
                 </f:facet>
             </p:menubar>
