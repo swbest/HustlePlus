@@ -56,7 +56,7 @@ public class DataInitSessionBean {
     public void postConstruct() {
         try {
             System.out.println("********* HERE 1");
-            companySessionBeanLocal.retrieveCompanyByUsername("company0");
+            companySessionBeanLocal.retrieveCompanyByUsername("company1");
             System.out.println("********* HERE 2");
         } catch (CompanyNotFoundException ex) {
             System.out.println("********* HERE 3");

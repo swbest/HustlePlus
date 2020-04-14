@@ -20,6 +20,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import util.exception.InputDataValidationException;
 import util.exception.MilestoneIdExistException;
@@ -51,6 +52,8 @@ public class MilestoneManagementManagedBean {
     private List<Long> newPaymentIds;
     private List<Project> projects;
     private List<Payment> payments;
+    private Project selectedProject; 
+    private List<SelectItem> selectItems; 
     
     private Milestone milestoneToUpdate;
     private Long projectIdUpdate;
@@ -62,6 +65,7 @@ public class MilestoneManagementManagedBean {
      */
     public MilestoneManagementManagedBean() {
         newMilestone = new Milestone();
+        selectItems = new ArrayList(); 
     }
     
     @PostConstruct
@@ -69,6 +73,12 @@ public class MilestoneManagementManagedBean {
     {
         setMilestones(milestoneSessionBeanLocal.retrieveAllMilestones());
         setProjects(projectSessionBeanLocal.retrieveAllProjects());
+        
+        for (Project project:projects) {
+            selectItems.add(new SelectItem(project));
+        }
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("milestonesProject", projects); 
+   
     }
     
     public void viewMilestoneDetails(javax.faces.event.ActionEvent event) throws IOException
@@ -81,16 +91,21 @@ public class MilestoneManagementManagedBean {
     public void createNewMilestone(ActionEvent event)
     {
         
-        /*
-        if(selProjectId == 0)
-        {
-            selProjectId = null;
-        }
-        */
-        
+        if (selectedProject != null) {
+            System.out.println("MMMB0");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected Project is " + selectedProject.getProjectName(), "Selected Project is " + selectedProject.getProjectName()));
+        } else {
+            System.out.println("MMMB1");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please select a valid project","Please select a valid project"));
+ 
         try
         {
+            System.out.println("MMMB2");
+            Project selectedProject = (Project) event.getComponent().getAttributes().get("selectedProject");
+            Long selProjectId = selectedProject.getProjectId();
+            System.out.println("id" + selectedProject.getProjectId());
             Long milestoneId = milestoneSessionBeanLocal.createNewMilestone(newMilestone, selProjectId);
+            System.out.println("MMMB3");
             getMilestones().add(milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId));
             
             newMilestone = new Milestone();
@@ -103,6 +118,7 @@ public class MilestoneManagementManagedBean {
         {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new milestone: " + ex.getMessage(), null));
         }
+    }
     }
     
     public void doUpdateMilestone(ActionEvent event)
@@ -323,6 +339,16 @@ public class MilestoneManagementManagedBean {
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
     }
+
+    public Project getSelectedProject() {
+        return selectedProject;
+    }
+
+    public void setSelectedProject(Project selectedProject) {
+        this.selectedProject = selectedProject;
+    }
+    
+    
 
 
 

@@ -119,9 +119,9 @@ public class ProjectManagementManagedBean implements Serializable {
             System.out.println("test");
             Company companyTagged = (Company) event.getComponent().getAttributes().get("companyTagged");
             System.out.println("Id:" + companyTagged.getUserId());
-            int i = 1;
-            long l = i;
-            Long projectId = projectSessionBeanLocal.createNewProject(newProject, l);
+            //int i = 1;
+            //long l = i;
+            Long projectId = projectSessionBeanLocal.createNewProject(newProject, companyTagged.getUserId());
             System.out.println("PMMB1");
             projects.add(projectSessionBeanLocal.retrieveProjectByProjectId(projectId)); 
             System.out.println("PMMB2");
