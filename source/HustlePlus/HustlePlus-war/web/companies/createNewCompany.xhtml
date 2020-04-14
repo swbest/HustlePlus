@@ -17,7 +17,7 @@
                     
                     <p:row>
                         <p:column>
-                            <p:outputLabel for="companyName" value="Company Name" />
+                            <p:outputLabel for="companyName" value="Company Name" style="font-weight: bold"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="companyName" value="#{companyManagementManagedBean.newCompany.name}" />
@@ -26,7 +26,7 @@
                     
                     <p:row>
                         <p:column>
-                            <p:outputLabel for="email" value="Email" />
+                            <p:outputLabel for="email" value="Email" style="font-weight: bold"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="email" value="#{companyManagementManagedBean.newCompany.email}" />
@@ -35,7 +35,7 @@
                    
                     <p:row>
                         <p:column>
-                            <p:outputLabel for="username" value="Username" />
+                            <p:outputLabel for="username" value="Username" style="font-weight: bold"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="username" value="#{companyManagementManagedBean.newCompany.username}" />
@@ -44,7 +44,7 @@
                     
                      <p:row>
                         <p:column>
-                            <p:outputLabel for="password" value="Password" />
+                            <p:outputLabel for="password" value="Password" style="font-weight: bold"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="password" value="#{companyManagementManagedBean.newCompany.password}" />
@@ -55,10 +55,23 @@
                     
                     <p:row>
                         <p:column>
-                            <p:outputLabel for="description" value="Description" />
+                            <p:outputLabel for="description" value="Description" style="font-weight: bold"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="description" value="#{companyManagementManagedBean.newCompany.description}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="icon" value="Profile Picture" style="font-weight: bold" />
+                        </p:column>
+                        <p:column>
+                            <p:panel id="icon">
+                                <p:messages redisplay="false" />
+                                        Maximum File Size: 5MB
+                                        <p:fileUpload fileUploadListener="#{companyManagementManagedBean.newCompany.icon}" sizeLimit="5000000" oncomplete="PF('dialogCreateNewUser').show();" />
+                            </p:panel>
                         </p:column>
                     </p:row>
 
