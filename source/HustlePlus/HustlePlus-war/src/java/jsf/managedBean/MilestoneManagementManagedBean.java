@@ -90,6 +90,8 @@ public class MilestoneManagementManagedBean {
         
         try
         {
+            Project selProject = (Project) event.getComponent().getAttributes().get("selectedProject");
+            Long selProjectId = selProject.getProjectId();
             Long milestoneId = milestoneSessionBeanLocal.createNewMilestone(newMilestone, selProjectId);
             getMilestones().add(milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId));
             

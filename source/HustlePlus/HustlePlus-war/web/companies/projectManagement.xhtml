@@ -62,7 +62,7 @@
                     
 
                     <p:column headerText="Action" >
-                        <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View">
+                        <p:commandButton updat e="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View">
                             <f:setPropertyActionListener value="#{project}" target="#{projectManagementManagedBean.viewProjectManagedBean.projectToView}" />
                         </p:commandButton>
                         <p:commandButton actionListener="#{projectManagementManagedBean.doUpdateProject}" update="formUpdateProject" oncomplete="PF('dialogUpdateProject').show()" icon="ui-icon-pencil" title="Update">
