@@ -72,10 +72,10 @@
                          <h:panelGrid columns="2" cellpadding="5">
                         
                             <p:outputLabel for="project" value="Project: * " />
-                            <p:selectOneMenu id="project" value="#{milestoneManagementManagedBean.newMilestone.project}" dynamic="true" style="width: 125px">
+                            <h:selectOneMenu id="project" value="#{milestoneManagementManagedBean.selectedProject}" style="width: 125px" converter="projectConverter">
                               <f:selectItem itemLabel="Select One" itemValue=" "/>
-                              <f:selectItems value="#{milestoneManagementManagedBean.projects}"  var="project" itemLabel="#{project.projectName}" />
-                            </p:selectOneMenu>
+                              <f:selectItems value="#{milestoneManagementManagedBean.projects}"  var="project" itemLabel="#{project.projectName}" itemValue="project" />
+                            </h:selectOneMenu>
                         
                             </h:panelGrid>
                     </p:row>
@@ -84,7 +84,7 @@
                         <p:column colspan="2">
                             <p:commandButton type="reset" value="Clear" />
                             <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{milestoneManagementManagedBean.createNewMilestone}" >
-                                <f:attribute name="selectedProject" value="#{milestoneManagementManagedBean.newMilestone.project}" />
+                                <f:attribute name="selectedProject" value="#{milestoneManagementManagedBean.selectedProject}" />
                             </p:commandButton>
 
                         </p:column>
