@@ -21,7 +21,7 @@
             
                 <p:messages id="messages" redisplay="false" closable="true" />
 
-                <p:dataTable id="dataTableAllProjects" widgetVar="dataTableAllProjects" value="#{sessionScope.userEntity.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row" filteredValue="#{projectManagementManagedBean.filteredProjects}"
+                <p:dataTable id="dataTableAllProjects" value="#{projectManagementManagedBean.projectsOfCompany}" var="project" rowKey="#{project.projectId}" rowIndexVar="row" filteredValue="#{projectManagementManagedBean.filteredProjects}"
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
                     <f:facet name="header">
@@ -74,7 +74,7 @@
                         </p:commandButton>
                         <p:commandButton icon="ui-icon-trash" actionListener="#{projectManagementManagedBean.deleteProject}" update="formAllProjects:dataTableAllProjects formAllProjects:messages">
                             <f:attribute name="projectToDelete" value="#{project}" />
-                            <p:confirm header="Confirmation" message="Are you sure you want to delete #{project.projectId})?" icon="ui-icon-alert" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to delete Project: #{project.projectName}?" icon="ui-icon-alert" />
                         </p:commandButton>
                     </p:column>
                     
@@ -184,7 +184,7 @@
                                 <p:outputLabel for="projectName" value="Project Name: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="projectName" value="#{projectManagementManagedBean.newProject.projectName}" placeholder="e.g. Project Name" required="true" requiredMessage="Project Name is required!" />
+                                <p:inputText id="projectName" value="#{projectManagementManagedBean.selectedProjectToUpdate.projectName}" placeholder="e.g. Project Name" required="true" requiredMessage="Project Name is required!" />
                             </p:column>
                             <p:column>
                                 <p:message for="projectName" />
@@ -196,7 +196,7 @@
                                 <p:outputLabel for="jobValue" value="Job Value: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="jobValue" value="#{projectManagementManagedBean.newProject.jobValue}" placeholder="e.g. 800" required="true" requiredMessage="Job Value is required!" />
+                                <p:inputText id="jobValue" value="#{projectManagementManagedBean.selectedProjectToUpdate.jobValue}" placeholder="e.g. 800" required="true" requiredMessage="Job Value is required!" />
                             </p:column>
                             <p:column>
                                 <p:message for="jobValue" />
@@ -208,7 +208,7 @@
                                 <p:outputLabel for="numStudentsRequired" value="Number of Students Required: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="numStudentsRequired" value="#{projectManagementManagedBean.newProject.numStudentsRequired}" placeholder="e.g. 3" required="true" requiredMessage="Number of Students is required!" />
+                                <p:inputText id="numStudentsRequired" value="#{projectManagementManagedBean.selectedProjectToUpdate.numStudentsRequired}" placeholder="e.g. 3" required="true" requiredMessage="Number of Students is required!" />
                             </p:column>
                             <p:column>
                                 <p:message for="numStudentsRequired" />
@@ -220,7 +220,7 @@
                                 <p:outputLabel for="projectDescription" value="Project Description: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="projectDescription" value="#{projectManagementManagedBean.newProject.projectDescription}" placeholder="e.g. Project Description" required="true" requiredMessage="Project Description is required!" />
+                                <p:inputText id="projectDescription" value="#{projectManagementManagedBean.selectedProjectToUpdate.projectDescription}" placeholder="e.g. Project Description" required="true" requiredMessage="Project Description is required!" />
                             </p:column>
                             <p:column>
                                 <p:message for="projectDescription" />

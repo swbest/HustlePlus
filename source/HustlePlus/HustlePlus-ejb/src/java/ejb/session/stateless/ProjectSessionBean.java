@@ -120,14 +120,17 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
 
     @Override
-    public void updateProject(Project project, Long companyId) throws CompanyNotFoundException, ProjectNotFoundException, UpdateProjectException, InputDataValidationException {
+    public void updateProject(Project project) throws ProjectNotFoundException, UpdateProjectException, InputDataValidationException {
         if (project != null && project.getProjectId() != null) {
             Set<ConstraintViolation<Project>> constraintViolations = validator.validate(project);
 
             if (constraintViolations.isEmpty()) {
-                try {
-                    Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
+                System.out.println("project1");
+               // try {
+                    //Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
                     Project projectToUpdate = retrieveProjectByProjectId(project.getProjectId());
+                    System.out.println(projectToUpdate.getProjectName() + "test");
+                    System.out.println(project.getProjectName());
                     projectToUpdate.setProjectName(project.getProjectName());
                     projectToUpdate.setJobValue(project.getJobValue());
                     projectToUpdate.setNumStudentsRequired(project.getNumStudentsRequired());
@@ -135,14 +138,12 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                     projectToUpdate.setStartDate(project.getStartDate());
                     projectToUpdate.setEndDate(project.getEndDate());
                     projectToUpdate.setSkills(project.getSkills());
-                    projectToUpdate.setCompany(company);
+                   // projectToUpdate.setCompany(company);
                     projectToUpdate.setTeam(project.getTeam());
                     projectToUpdate.setMilestones(project.getMilestones());
                     projectToUpdate.setReviews(project.getReviews());
                     projectToUpdate.setApplications(project.getApplications());
-                } catch (CompanyNotFoundException ex) {
-                    throw new CompanyNotFoundException("Company Not Found for ID: " + companyId);
-                }
+               // } 
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
@@ -154,7 +155,10 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     @Override
     public void deleteProject(Long projectId) throws ProjectNotFoundException, DeleteProjectException {
         Project projectToRemove = retrieveProjectByProjectId(projectId);
-        if (projectToRemove.getTeam().getNumStudents() == 0 && projectToRemove.getReviews().size() == 0 || projectToRemove.getTeam().getTeamId() == null) {
+        System.out.println(projectToRemove.getProjectName());
+        
+        if (  projectToRemove.getTeam() == null || ( projectToRemove.getTeam().getNumStudents() == 0 && projectToRemove.getReviews().isEmpty() ) ) {
+            System.out.println("deleteProjectSB");
             em.remove(projectToRemove);
         } else {
             throw new DeleteProjectException("Project Id " + projectId + " is associated with existing teams and reviews and cannot be deleted!");
@@ -183,15 +187,23 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
 
     @Override
-    public List<Project> retrieveProjectsByCompany(String cname) throws ProjectNotFoundException {
-        Query query = em.createQuery("SELECT p FROM Project p WHERE p.company.companyName LIKE '%inCompanyName%'");
-        query.setParameter("inCompanyName", cname);
+    public List<Project> retrieveProjectsByCompany(Long cid) throws ProjectNotFoundException {
+
+        
+       Query query = em.createQuery("SELECT p FROM Project p WHERE p.company.userId = :companyId");
+        query.setParameter("companyId", cid);
+       
         
         try {
-            return query.getResultList();
+                 System.out.println("PSB1");
+            return (List <Project>) query.getResultList();
+     
         } catch (NoResultException ex) {
+            System.out.println("PSB1");
             throw new ProjectNotFoundException("No projects were found by that Company!");
         }
+       
+       
     }
 
     @Override

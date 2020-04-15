@@ -31,13 +31,13 @@ public interface ProjectSessionBeanLocal {
 
     public Project retrieveProjectByProjectId(Long projectId) throws ProjectNotFoundException;
 
-    public void updateProject(Project project, Long companyId) throws CompanyNotFoundException, ProjectNotFoundException, UpdateProjectException, InputDataValidationException;
+    public void updateProject(Project project) throws ProjectNotFoundException, UpdateProjectException, InputDataValidationException;
 
     public void deleteProject(Long projectId) throws ProjectNotFoundException, DeleteProjectException;
 
     public List<Project> retrieveProjectsByName(String pname) throws ProjectNotFoundException;
 
-    public List<Project> retrieveProjectsByCompany(String cname)throws ProjectNotFoundException;
+    public List<Project> retrieveProjectsByCompany(Long cid)throws ProjectNotFoundException;
 
     public List<Project> retrieveProjectsBySkills(String skill) throws ProjectNotFoundException;
 

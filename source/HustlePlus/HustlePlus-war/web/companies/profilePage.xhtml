@@ -123,8 +123,7 @@
                                 <p:outputLabel for="password" value="Password " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="password" value="#{companyManagementManagedBean.selectedCompanyToUpdate.password}" placeholder="company1" required="true" requiredMessage="Password is required" />
-                            </p:column>
+                                <p:commandButton id="password" value="Update Password" actionListener="#{companyManagementManagedBean.doChangePassword}"/>                            </p:column>
                             <p:column>
                                 <p:message for="password" />
                             </p:column>

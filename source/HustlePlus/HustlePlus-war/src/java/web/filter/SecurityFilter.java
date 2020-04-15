@@ -85,7 +85,8 @@ public class SecurityFilter implements Filter {
                 return false ;
             }
         } else if (accessRight.equals(AccessRightEnum.COMPANY)) {
-            if (path.equals("/companies/emailVerification.xhtml") ||
+            if (path.equals("/verificationError.xhtml") ||
+            path.equals("/changePassword.xhtml") ||
             path.equals("/companies/resendEmail.xhtml") ||
             path.equals("/companies/projectManagement.xhtml") ||
             path.equals("/companies/createNewMilestone.xhtml") ||
@@ -114,6 +115,7 @@ public class SecurityFilter implements Filter {
             path.equals("/accessRightError.xhtml") ||
             path.equals("/companies/createNewCompany.xhtml") ||
             path.equals("/login.xhtml") ||
+            path.equals("/companies/emailVerification.xhtml") ||
             path.startsWith("/javax.faces.resource")
             )  {
                 return true ; 
