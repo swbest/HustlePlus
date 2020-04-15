@@ -46,9 +46,13 @@
                         <p:separator />
                         <p:menuitem icon="ui-icon-close" value="Log Out" actionListener="#{loginManagedBean.logout}" rendered="#{sessionScope.isLogin == true}"/>
                     </p:menuButton> &nbsp;
+                    
+                    <p:commandButton style="margin-top: 5px" value="Sign Up" action="/companies/createNewCompany."  />
+
                 </f:facet>
             </p:menubar>
         </h:form>
+        
     </h:panelGroup>
     
     <h:panelGroup rendered="#{sessionScope.isLogin == true &amp;&amp; sessionScope.userEntity.accessRightEnum == 'ADMIN'}">

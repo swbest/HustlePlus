@@ -46,5 +46,7 @@ public interface CompanySessionBeanLocal {
     public void verifyCompany(Long companyId) throws CompanyNotFoundException, VerifyCompanyException;
 
     public void suspendCompany(Long companyId) throws CompanyNotFoundException, SuspendCompanyException;
+
+    public boolean checkCompany(Company company);
     
 }

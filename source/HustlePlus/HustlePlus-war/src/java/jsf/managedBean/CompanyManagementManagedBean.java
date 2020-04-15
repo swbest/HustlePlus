@@ -182,6 +182,25 @@ public class CompanyManagementManagedBean implements Serializable {
 
      }
      
+     
+     
+     public void checkIfVerified(ActionEvent event) {
+        
+         try { 
+         Company companyToCheck = (Company)event.getComponent().getAttributes().get("checkCompany") ;
+         System.out.println(companyToCheck.getUserId());
+        
+         if (companySessionBeanLocal.checkCompany(companyToCheck)) {
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/createNewProject.xhtml");
+         } else {
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/verificationError.xhtml");
+         }
+     }  catch (IOException ex) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+     }
+     }
+
+     
      public void resendEmail(ActionEvent event) {
          
              Company selectedCompanyToEmail = (Company)event.getComponent().getAttributes().get("selectedCompanyToEmail") ; 

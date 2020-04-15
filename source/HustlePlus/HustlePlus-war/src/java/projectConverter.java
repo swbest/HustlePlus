@@ -21,7 +21,10 @@ import javax.faces.convert.FacesConverter;
 public class projectConverter implements Converter {
     
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if (value == null || value.length() == 0 || value.equals("null")) {
+        
+        System.out.println("********** ProjectConverter.getAsObject: " + value);
+        
+        if (value == null || value.trim().length() == 0 || value.trim().equals("null")) {
             return null;
         } 
         
@@ -35,6 +38,7 @@ public class projectConverter implements Converter {
                 }
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new IllegalArgumentException("Please select a valid project"); 
         }
         return null;
@@ -52,6 +56,7 @@ public class projectConverter implements Converter {
             Project project = (Project) value;
             
             try {
+                System.out.println("********** ProjectConverter.getAsString: " + project.getProjectId().toString());
                 return project.getProjectId().toString();
             } catch (Exception ex) {
             throw new IllegalArgumentException("Invalid value"); 

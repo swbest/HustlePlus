@@ -154,7 +154,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     @Override
     public void deleteProject(Long projectId) throws ProjectNotFoundException, DeleteProjectException {
         Project projectToRemove = retrieveProjectByProjectId(projectId);
-        if (projectToRemove.getTeam().getNumStudents() == 0 && projectToRemove.getReviews().size() == 0) {
+        if (projectToRemove.getTeam().getNumStudents() == 0 && projectToRemove.getReviews().size() == 0 || projectToRemove.getTeam().getTeamId() == null) {
             em.remove(projectToRemove);
         } else {
             throw new DeleteProjectException("Project Id " + projectId + " is associated with existing teams and reviews and cannot be deleted!");

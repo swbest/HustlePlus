@@ -21,7 +21,7 @@
             
                 <p:messages id="messages" redisplay="false" closable="true" />
 
-                <p:dataTable id="dataTableAllProjects" widgetVar="dataTableAllProjects" value="#{projectManagementManagedBean.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row" filteredValue="#{projectManagementManagedBean.filteredProjects}"
+                <p:dataTable id="dataTableAllProjects" widgetVar="dataTableAllProjects" value="#{sessionScope.userEntity.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row" filteredValue="#{projectManagementManagedBean.filteredProjects}"
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
                     <f:facet name="header">
@@ -60,12 +60,16 @@
                         <h:outputText value="#{project.endDate}" />
                     </p:column>
                     
+                    <p:column headerText="Reviews">
+                        <p:commandButton icon="ui-icon-pencil" action="/companies/reviewStudent" />
+                    </p:column>
+                    
 
                     <p:column headerText="Action" >
                         <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View">
                             <f:setPropertyActionListener value="#{project}" target="#{projectManagementManagedBean.viewProjectManagedBean.projectToView}" />
                         </p:commandButton>
-                        <p:commandButton actionListener="#{projectManagementManagedBean.doUpdateProject}" update="formUpdateProject" oncomplete="PF('dialogUpdateProject').show()" icon="ui-icon-pencil" title="Update">
+                        <p:commandButton  actionListener="#{projectManagementManagedBean.doUpdateProject}" update="formUpdateProject" oncomplete="PF('dialogUpdateProject').show()" icon="ui-icon-pencil" title="Update">
                             <f:attribute name="projectToUpdate" value="#{project}" />
                         </p:commandButton>
                         <p:commandButton icon="ui-icon-trash" actionListener="#{projectManagementManagedBean.deleteProject}" update="formAllProjects:dataTableAllProjects formAllProjects:messages">

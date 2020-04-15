@@ -175,6 +175,7 @@ public class ProjectManagementManagedBean implements Serializable {
 
      public void updateProject(ActionEvent event) {
          try {
+             System.out.println("********** updateProject");
              projectSessionBeanLocal.updateProject(getSelectedProjectToUpdate(), getCompanyId());
              getSelectedProjectToUpdate().getMilestones().clear(); 
              for (Milestone m: getMilestones()) {

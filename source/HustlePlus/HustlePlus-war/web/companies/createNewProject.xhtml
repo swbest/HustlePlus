@@ -16,7 +16,7 @@
     <h:body>
         
 
-            <h:form id="addProject" enctype="multipart/form-data">       
+            <h:form id="addProject" enctype="multipart/form-data" >       
                 <p:panel header="List a New Project" style="background-color: white; font-size: large">
                 <p:growl>
                     <p:autoUpdate/>
@@ -126,14 +126,97 @@
                 </p:panel>
             </h:form>
 
-            <h:form id="addProjectNotVerified" rendered="#{sessionScope.companyEntity.isVerified == FALSE}"> 
-                <article style="font-size: xx-large; color: coral; font-family: Segoe UI, Tahoma, sans-serif">
-                    <center><h1>Uh Oh...</h1></center>
-                    <center><p>
-                        Please wait to be verified by our Hustle+ team. This will take no more than 24 hours. We apologize for the inconvenience caused.
-                    </p></center>            
-                </article>
+    <h:form id="addSkillForm">
+    <p:growl id="msgs" />
+
+    <p:panel header="Add a Skill" style="margin-bottom:20px">
+        <h:panelGrid columns="2" cellpadding="5">
+            <h:outputLabel value="Skill : " for="txt_skill"></h:outputLabel>
+            <p:inputText id="txt_skill" value="#{projectManagementManagedBean.newSkill.title}"/>
+ 
+            <p:commandButton id="btn_reset" value="Reset" type="reset"/>
+            <p:commandButton id="btn_add" value="Add" update="skills msgs @parent" action="#{projectManagementManagedBean.addNewSkill}">
+                <p:collector value="#{projectManagementManagedBean.newSkill}" addTo="#{projectManagementManagedBean.newProject.skills}" unique="true"/>
+            </p:commandButton>
+        </h:panelGrid>
+    </p:panel>
+ 
+    <p:outputPanel id="skills">
+        <p:dataTable value="#{projectManagementManagedBean.newProject.skills}" var="skill" id="skillsTable">
+ 
+            <p:column headerText="Skill">
+                <f:facet name="header">
+                    <h:outputText value="#{projectManagementManagedBean.newSkill.title}" />
+                </f:facet>
+            </p:column> 
+ 
+           <p:column headerText="Action">
+               <p:commandLink value="Remove" update=":form:skills" process=":form:skills">
+                   <p:collector value="#{newSkill}" removeFrom="#{projectManagementManagedBean.newProject.skills}" unique="true"/>
+               </p:commandLink>
+           </p:column>
+
+ 
+        </p:dataTable>
+    </p:outputPanel>
+</h:form>
+        
+        <p:panel header="Create Milestone" style="background-color: powderblue; font-size: large">
+            <h:form id="createMilestone" enctype="multipart/form-data">
+                <p:growl>
+                    <p:autoUpdate/>
+                </p:growl>
+                <h:messages/>
+                
+                <p:panelGrid>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="milestoneTitle" value="Title of Milestone: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="milestoneTitle" value="#{milestoneManagementManagedBean.newMilestone.title}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="description" value="Milestone Description: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="description" value="#{milestoneManagementManagedBean.newMilestone.description}" />
+                        </p:column>
+                    </p:row>
+                  
+                     <p:row>
+                         
+                         <h:panelGrid columns="2" cellpadding="5">
+                        
+                            <p:outputLabel for="project" value="Project: * " />
+                            <h:selectOneMenu id="project" value="#{milestoneManagementManagedBean.newMilestone.project}" style="width: 125px" converter="projectConverter">
+                              <f:selectItem itemLabel="Select One" itemValue=" "/>
+                              <f:selectItems value="#{milestoneManagementManagedBean.projects}"  var="project" itemLabel="#{project.projectName}" itemValue="project" />
+                            </h:selectOneMenu>
+                        
+                            </h:panelGrid>
+                    </p:row>
+
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:commandButton type="reset" value="Clear" />
+                            <p:commandButton ajax="false" type="submit" value="Add to Project" process="@form" update="@form" actionListener="#{milestoneManagementManagedBean.createNewMilestone}" >
+                                <f:attribute name="selectedProject" value="#{milestoneManagementManagedBean.newMilestone.project}" />
+                            </p:commandButton>
+
+                        </p:column>
+                    </p:row>
+                    
+                        
+                </p:panelGrid>
+
             </h:form>
+
+        </p:panel>
         
         
     </h:body>
