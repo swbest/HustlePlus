@@ -33,7 +33,7 @@
 							<ion-label>Name</ion-label>
 						</ion-col>
 						<ion-col>
-							<ion-input type="name" id="name" name="name" [(ngModel)]="newStudent.name" required="true" #title="ngModel"></ion-input>
+							<ion-input type="name" id="name" name="name" [(ngModel)]="newStudent.name" required="true" #name="ngModel"></ion-input>
 						</ion-col>
 						<ion-col>
 							<div *ngIf="name.invalid && (name.dirty || name.touched || submitted)" style="color: red;">
@@ -49,7 +49,7 @@
 							<ion-label>Username</ion-label>
 						</ion-col>
 						<ion-col>
-							<ion-input type="text" id="username" name="username" [(ngModel)]="newStudent.username" required="true" #author="ngModel"></ion-input>
+							<ion-input type="text" id="username" name="username" [(ngModel)]="newStudent.username" required="true" #username="ngModel"></ion-input>
 						</ion-col>
 						<ion-col>
 							<div *ngIf="username.invalid && (username.dirty || username.touched || submitted)" style="color: red;">
@@ -65,7 +65,7 @@
 							<ion-label>Password</ion-label>
 						</ion-col>
 						<ion-col>
-							<ion-input type="password" id="password" name="password" [(ngModel)]="newStudent.password" required="true" #author="ngModel"></ion-input>
+							<ion-input type="password" id="password" name="password" [(ngModel)]="newStudent.password" required="true" #password="ngModel"></ion-input>
 						</ion-col>
 						<ion-col>
 							<div *ngIf="password.invalid && (password.dirty || password.touched || submitted)" style="color: red;">
@@ -81,7 +81,7 @@
 							<ion-label>Email</ion-label>
 						</ion-col>
 						<ion-col>
-							<ion-input type="email" id="email" name="email" [(ngModel)]="newStudent.email" required="true" #author="ngModel"></ion-input>
+							<ion-input type="email" id="email" name="email" [(ngModel)]="newStudent.email" required="true" #email="ngModel"></ion-input>
 						</ion-col>
 						<ion-col>
 							<div *ngIf="email.invalid && (email.dirty || email.touched || submitted)" style="color: red;">
@@ -97,7 +97,7 @@
 							<ion-label>Description</ion-label>
 						</ion-col>
 						<ion-col>
-							<ion-input type="text" id="description" name="description" [(ngModel)]="newStudent.description" required="true" #author="ngModel"></ion-input>
+							<ion-input type="text" id="description" name="description" [(ngModel)]="newStudent.description" required="true" #description="ngModel"></ion-input>
 						</ion-col>
 						<ion-col>
 							<div *ngIf="description.invalid && (description.dirty || description.touched || submitted)" style="color: red;">
@@ -113,7 +113,7 @@
 							<ion-label>Bank Account Name</ion-label>
 						</ion-col>
 						<ion-col>
-							<ion-input type="text" id="bankAccountName" name="bankAccountName" [(ngModel)]="newStudent.bankAccountName" required="true" #author="ngModel"></ion-input>
+							<ion-input type="text" id="bankAccountName" name="bankAccountName" [(ngModel)]="newStudent.bankAccountName" required="true" #bankAccountName="ngModel"></ion-input>
 						</ion-col>
 						<ion-col>
 							<div *ngIf="bankAccountName.invalid && (bankAccountName.dirty || bankAccountName.touched || submitted)" style="color: red;">
@@ -129,7 +129,7 @@
 							<ion-label>Bank Account Number</ion-label>
 						</ion-col>
 						<ion-col>
-							<ion-input type="number" id="bankAccountNumber" name="bankAccountNumber" [(ngModel)]="newStudent.bankAccountNumber" required="true" #author="ngModel"></ion-input>
+							<ion-input type="number" id="bankAccountNumber" name="bankAccountNumber" [(ngModel)]="newStudent.bankAccountNumber" required="true" #bankAccountNumber="ngModel"></ion-input>
 						</ion-col>
 						<ion-col>
 							<div *ngIf="bankAccountNumber.invalid && (bankAccountNumber.dirty || bankAccountNumber.touched || submitted)" style="color: red;">
