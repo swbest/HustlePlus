@@ -13,6 +13,7 @@ import entity.Project;
 import entity.Review;
 import java.io.IOException;
 import java.io.Serializable;
+import java.security.Identity;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -50,6 +51,7 @@ public class CompanyManagementManagedBean implements Serializable {
     
     @Inject
     private ViewCompanyManagedBean viewCompanyManagedBean;
+
     
     private List<Company> companies;
     private List<Company> filteredCompanies; 
@@ -65,6 +67,10 @@ public class CompanyManagementManagedBean implements Serializable {
     private Company selectedCompanyToSuspend; 
     
     private Company selectedCompanyToEmail; 
+    
+    private String oldPassword;
+    private String newPassword;
+    private String confirmPassword; 
 
 
     /**
@@ -182,6 +188,55 @@ public class CompanyManagementManagedBean implements Serializable {
 
      }
      
+     
+     
+     public void checkIfVerified(ActionEvent event) {
+        
+         try { 
+         Company companyToCheck = (Company)event.getComponent().getAttributes().get("checkCompany") ;
+         System.out.println(companyToCheck.getUserId());
+        
+         if (companySessionBeanLocal.checkCompany(companyToCheck)) {
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/createNewProject.xhtml");
+         } else {
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/verificationError.xhtml");
+         }
+     }  catch (IOException ex) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+     }
+     }
+     
+     public void doChangePassword(ActionEvent event) {
+         
+         try { 
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/changePassword.xhtml");
+     } catch (IOException ex) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+     }
+         
+     }
+     
+     public void changePassword(ActionEvent event) {
+         
+         System.out.println("CMMB0");
+         
+         Company companyPasswordChange = (Company)event.getComponent().getAttributes().get("selectedCompanyPassword") ;
+         String password = companyPasswordChange.getPassword();
+         System.out.println(password);
+         if (!password.equals(oldPassword)) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Old Password is invalid", null));
+         } else if (!newPassword.equals(confirmPassword)) { 
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password validation Error: Passwords do not match", null));
+     } else {
+           selectedCompanyToUpdate.setPassword(getNewPassword());
+         }
+             
+             }
+         
+         
+     
+
+     
      public void resendEmail(ActionEvent event) {
          
              Company selectedCompanyToEmail = (Company)event.getComponent().getAttributes().get("selectedCompanyToEmail") ; 
@@ -260,6 +315,40 @@ public class CompanyManagementManagedBean implements Serializable {
     public void setSelectedCompanyToSuspend(Company selectedCompanyToSuspend) {
         this.selectedCompanyToSuspend = selectedCompanyToSuspend;
     }
+
+    public Company getSelectedCompanyToEmail() {
+        return selectedCompanyToEmail;
+    }
+
+    public void setSelectedCompanyToEmail(Company selectedCompanyToEmail) {
+        this.selectedCompanyToEmail = selectedCompanyToEmail;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+    
+    
     
     
 

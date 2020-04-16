@@ -19,8 +19,7 @@
         </div>&nbsp;
         
         <div class="box login-box-body">
-            <div style="color: #000000; font-size: x-large; text-align: center">
-            <h:form>
+            <div style="color: #000000; font-size: x-large; text-align: center">            
                 <p class="login-box-msg" style="color: #000000; font-size: x-large"></p>
                 <h:panelGroup rendered="#{sessionScope.isLogin == false}">
                     <h:form id="loginForm">
@@ -36,15 +35,19 @@
                         </p:password>
                         &nbsp;
                         <p:commandButton type="reset" value="Clear" style="font-family: Segoe UI, Tahoma, sans-serif;"/>&nbsp;
-                        <p:commandButton ajax="false" type="submit" value="Login" actionListener="#{loginManagedBean.login}" style="font-family: Segoe UI, Tahoma, sans-serif;" action="/index"/>
+                        <p:commandButton type="submit" value="Login" actionListener="#{loginManagedBean.login}" style="font-family: Segoe UI, Tahoma, sans-serif;" action="/index"/>
+                   
+
                     </h:form>
                     &nbsp;
-                    <h:form id ="signUpForm">
-                        <center><p:outputLabel style="font-family: Segoe UI, Tahoma, sans-serif; font-weight: bold">Create a new account. It is quick and easy.</p:outputLabel></center>
-                        <p:commandButton ajax="false" style="margin-top: 5px" value="Sign Up" action="/companies/createNewCompany"  />
+                    
+                    <h:form>
+                    <center><p:outputLabel style="font-family: Segoe UI, Tahoma, sans-serif; font-weight: bold">Create a new account. It is quick and easy.</p:outputLabel></center>
+                        <p:commandButton style="margin-top: 5px" value="Sign Up" action="/companies/createNewCompany.xhtml?faces-redirect=true"  />
                     </h:form>
+                        
+                 
                 </h:panelGroup>
-            </h:form>
             </div>
         </div>
     </h:body>

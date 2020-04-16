@@ -41,7 +41,7 @@
     <h:body>
         
         <p:panel header="Create Milestone" style="background-color: powderblue; font-size: large">
-            <h:form id="createMilestone" enctype="multipart/form-data">
+            <h:form id="createMilestone">
                 <p:growl>
                     <p:autoUpdate/>
                 </p:growl>
@@ -72,10 +72,10 @@
                          <h:panelGrid columns="2" cellpadding="5">
                         
                             <p:outputLabel for="project" value="Project: * " />
-                            <h:selectOneMenu id="project" value="#{milestoneManagementManagedBean.selectedProject}" style="width: 125px" converter="projectConverter">
+                            <p:selectOneMenu id="project" value="#{milestoneManagementManagedBean.selProjectId}" style="width: 125px">
                               <f:selectItem itemLabel="Select One" itemValue=" "/>
-                              <f:selectItems value="#{milestoneManagementManagedBean.projects}"  var="project" itemLabel="#{project.projectName}" itemValue="project" />
-                            </h:selectOneMenu>
+                              <f:selectItems value="#{milestoneManagementManagedBean.projects}"  var="project" itemLabel="#{project.projectName}" itemValue="#{project.projectId}" />
+                            </p:selectOneMenu>
                         
                             </h:panelGrid>
                     </p:row>
@@ -83,8 +83,8 @@
                     <p:row>
                         <p:column colspan="2">
                             <p:commandButton type="reset" value="Clear" />
-                            <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{milestoneManagementManagedBean.createNewMilestone}" >
-                                <f:attribute name="selectedProject" value="#{milestoneManagementManagedBean.selectedProject}" />
+                            <p:commandButton value="Create" process="@form" update="@form" actionListener="#{milestoneManagementManagedBean.createNewMilestone}" >
+                                
                             </p:commandButton>
 
                         </p:column>

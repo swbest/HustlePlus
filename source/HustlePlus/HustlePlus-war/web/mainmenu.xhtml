@@ -30,9 +30,13 @@
                         </p:submenu>
                         <p:separator/>
                         <p:submenu label="Projects" icon="fa fa-project">
-                            <p:menuitem value="Create New Project" outcome="/companies/createNewProject.xhtml"/>
+                            <p:menuitem value="Create New Project" actionListener="#{companyManagementManagedBean.checkIfVerified}" >
+                            <f:attribute name="checkCompany"  value="#{sessionScope.userEntity}"/>
+                            </p:menuitem>
                            <p:menuitem value="Milestone Management" outcome="/companies/milestoneManagement.xhtml"/> 
-                           <p:menuitem value="Project Management" outcome="/companies/projectManagement.xhtml"/> 
+                           <p:menuitem value="Project Management" actionListener="#{projectManagementManagedBean.viewProjectByCompany}" >
+                               <f:attribute name="companyProjects" value="#{sessionScope.userEntity}"/>
+                           </p:menuitem>
                            <p:menuitem value="Add a Skill" outcome="/companies/addASkill.xhtml"/> 
                            <p:menuitem value="Create New Milestone" outcome="/companies/createNewMilestone.xhtml"/> 
                         </p:submenu>

@@ -47,7 +47,7 @@
                             <p:outputLabel for="password" value="Password" style="font-weight: bold"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="password" value="#{companyManagementManagedBean.newCompany.password}" />
+                            <p:password id="password" value="#{companyManagementManagedBean.newCompany.password}" />
                         </p:column>
                     </p:row>
                     
@@ -81,6 +81,8 @@
                             <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{companyManagementManagedBean.createNewCompany}" action="/index" />
                         </p:column>
                     </p:row>
+                    
+                    
                     
                         
                 </p:panelGrid>

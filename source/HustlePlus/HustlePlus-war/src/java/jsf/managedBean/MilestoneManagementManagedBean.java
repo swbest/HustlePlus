@@ -12,15 +12,16 @@ import entity.Payment;
 import entity.Project;
 import javax.faces.event.ActionEvent;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import util.exception.InputDataValidationException;
 import util.exception.MilestoneIdExistException;
@@ -33,8 +34,8 @@ import util.exception.UnknownPersistenceException;
  * @author amanda
  */
 @Named(value = "milestoneManagementManagedBean")
-@RequestScoped
-public class MilestoneManagementManagedBean {
+@ViewScoped
+public class MilestoneManagementManagedBean implements Serializable{
 
     @EJB(name = "ProjectSessionBeanLocal")
     private ProjectSessionBeanLocal projectSessionBeanLocal;
@@ -74,10 +75,10 @@ public class MilestoneManagementManagedBean {
         setMilestones(milestoneSessionBeanLocal.retrieveAllMilestones());
         setProjects(projectSessionBeanLocal.retrieveAllProjects());
         
-        for (Project project:projects) {
-            selectItems.add(new SelectItem(project));
-        }
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("milestonesProject", projects); 
+//        for (Project project:projects) {
+//            selectItems.add(new SelectItem(project));
+//        }
+//        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("milestonesProject", projects); 
    
     }
     
@@ -90,7 +91,18 @@ public class MilestoneManagementManagedBean {
     
     public void createNewMilestone(ActionEvent event)
     {
-        
+       
+       System.out.println("id" + selProjectId);
+       
+       for(Project p:projects)
+       {
+           if(p.getProjectId().equals(selProjectId))
+           {
+               selectedProject = p;
+               break;
+           }
+       }
+
         if (selectedProject != null) {
             System.out.println("MMMB0");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected Project is " + selectedProject.getProjectName(), "Selected Project is " + selectedProject.getProjectName()));
@@ -101,8 +113,8 @@ public class MilestoneManagementManagedBean {
         try
         {
             System.out.println("MMMB2");
-            Project selectedProject = (Project) event.getComponent().getAttributes().get("selectedProject");
-            Long selProjectId = selectedProject.getProjectId();
+            //Project selectedProject = (Project) event.getComponent().getAttributes().get("selectedProject");
+            //Long selProjectId = selectedProject.getProjectId();
             System.out.println("id" + selectedProject.getProjectId());
             Long milestoneId = milestoneSessionBeanLocal.createNewMilestone(newMilestone, selProjectId);
             System.out.println("MMMB3");

@@ -20,6 +20,7 @@ import javax.enterprise.context.RequestScoped;
 public class ViewProjectManagedBean implements Serializable {
     
     private Project projectToView;
+    private Project projectsToView; 
 
     /**
      * Creates a new instance of ViewProjectManagedBean

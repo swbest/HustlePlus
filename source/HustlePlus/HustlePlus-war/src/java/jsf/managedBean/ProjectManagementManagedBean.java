@@ -74,6 +74,8 @@ public class ProjectManagementManagedBean implements Serializable {
     private ViewProjectManagedBean viewProjectManagedBean;
     
     private List<Project> projects;
+    private List<Project> projectsOfCompany; 
+    private Long projectIdToView;
     
     
     private List<Long> milestoneIdsNew ; 
@@ -103,8 +105,7 @@ public class ProjectManagementManagedBean implements Serializable {
         setReviews(reviewSessionBeanLocal.retrieveAllReviews());
         setApplications(applicationSessionBeanLocal.retrieveAllApplications());
         setSkills(skillSessionBeanLocal.retrieveAllSkills());
-
-        
+       
     }
     
     public void viewProjectDetails(ActionEvent event) throws IOException {
@@ -112,6 +113,38 @@ public class ProjectManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("projectIdToView", projectIdToView);
         FacesContext.getCurrentInstance().getExternalContext().redirect("viewProjectDetails.xhtml");    
     }  
+    
+    public void viewProjectByCompany(ActionEvent event) {
+        
+        try {  
+        System.out.println("VPBC1");
+        Company company = (Company) event.getComponent().getAttributes().get("companyProjects");
+        System.out.println(company.getUserId());
+        setProjectsOfCompany(projectSessionBeanLocal.retrieveProjectsByCompany(company.getUserId()));
+        if (projectsOfCompany.isEmpty()) {
+            System.out.println("null");
+        } else {
+            System.out.println("notnull");
+            }
+        
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/projectManagement.xhtml");
+                System.out.println("VPBC2");
+                        if (projectsOfCompany.isEmpty()) {
+            System.out.println("null");
+        } else {
+            System.out.println("notnull");
+            }
+        
+
+        }  
+    catch (ProjectNotFoundException ex) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving the project: Project not found", null));
+    } catch (IOException ex) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while retrieving the projects: " + ex.getMessage(), null));
+    }
+    }
+    
+
     
      public void createNewProject(ActionEvent event) {
         
@@ -175,7 +208,9 @@ public class ProjectManagementManagedBean implements Serializable {
 
      public void updateProject(ActionEvent event) {
          try {
-             projectSessionBeanLocal.updateProject(getSelectedProjectToUpdate(), getCompanyId());
+             System.out.println("********** updateProject");
+             System.out.println(getSelectedProjectToUpdate().getProjectName());
+             projectSessionBeanLocal.updateProject(getSelectedProjectToUpdate());
              getSelectedProjectToUpdate().getMilestones().clear(); 
              for (Milestone m: getMilestones()) {
                  if (getMilestoneIdsUpdate().contains(m.getMilestoneId())) {
@@ -184,7 +219,7 @@ public class ProjectManagementManagedBean implements Serializable {
              }
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Project updated successfully", null));
    
-         } catch (ProjectNotFoundException | CompanyNotFoundException | UpdateProjectException | InputDataValidationException ex) {
+         } catch (ProjectNotFoundException | UpdateProjectException | InputDataValidationException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating project: " + ex.getMessage(), null));
          }
      }
@@ -316,6 +351,23 @@ public class ProjectManagementManagedBean implements Serializable {
     public void setFilteredProjects(Project filteredProjects) {
         this.filteredProjects = filteredProjects;
     }
+
+    public List<Project> getProjectsOfCompany() {
+        return projectsOfCompany;
+    }
+
+    public void setProjectsOfCompany(List<Project> projectsOfCompany) {
+        this.projectsOfCompany = projectsOfCompany;
+    }
+
+    public Long getProjectIdToView() {
+        return projectIdToView;
+    }
+
+    public void setProjectIdToView(Long projectIdToView) {
+        this.projectIdToView = projectIdToView;
+    }
+    
     
     
     
