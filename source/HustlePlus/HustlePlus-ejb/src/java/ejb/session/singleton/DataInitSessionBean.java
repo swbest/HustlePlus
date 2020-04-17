@@ -34,6 +34,7 @@ import util.exception.CompanySuspendedException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
 import util.exception.SkillNameExistsException;
+import util.exception.SkillNotFoundException;
 import util.exception.StudentNameExistException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UserEmailExistsException;
@@ -162,11 +163,16 @@ public class DataInitSessionBean {
             newStudent.setEmail("studentone@gmail.com");
             newStudent.setDescription("information systems undergraduate");
             studentSessionBeanLocal.createStudentAccount(newStudent);
+            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("1")));
+            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("3")));
+            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("5")));
         } catch (StudentNameExistException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnknownPersistenceException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InputDataValidationException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SkillNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

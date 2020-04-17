@@ -20,6 +20,9 @@
 				{{errorMessage}}
 			</div>
 
+			<ion-searchbar showCancelButton="true" placeholder="Search Companies" (ionInput)="getSearchCompanies($event)"
+				(ionCancel)="onCancel($event)"></ion-searchbar>
+
 			<ion-grid>
 				<ion-row>
 					<ion-col>Company Name</ion-col>
