@@ -267,4 +267,5 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
         }
         return msg;
     }
+    
 }

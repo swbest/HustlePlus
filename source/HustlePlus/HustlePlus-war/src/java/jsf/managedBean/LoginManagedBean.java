@@ -48,7 +48,7 @@ public class LoginManagedBean {
         }
         catch(InvalidLoginCredentialException ex)
         {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid login credential: " + ex.getMessage(), null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid login credentials: " + ex.getMessage(), null));
         }
     }
     
