@@ -154,8 +154,7 @@ public class CompanyManagementManagedBean implements Serializable {
                 getFilteredCompanies().remove(companyToDelete);
         }    
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Company Account deleted successfully", null));
-            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.xhtml");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Company Account deleted successfully", "Please proceed to logout"));
         }
         catch(CompanyNotFoundException | DeleteCompanyException ex)
         {
