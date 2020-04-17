@@ -7,12 +7,16 @@ package ejb.session.singleton;
 
 import ejb.session.stateless.AdminStaffSessionBeanLocal;
 import ejb.session.stateless.CompanySessionBeanLocal;
+import ejb.session.stateless.ProjectSessionBeanLocal;
 import ejb.session.stateless.SkillSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.AdminStaff;
 import entity.Company;
+import entity.Project;
 import entity.Skill;
 import entity.Student;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -25,7 +29,10 @@ import javax.persistence.PersistenceContext;
 import util.enumeration.AccessRightEnum;
 import util.exception.CompanyNameExistException;
 import util.exception.CompanyNotFoundException;
+import util.exception.CompanyNotVerifiedException;
+import util.exception.CompanySuspendedException;
 import util.exception.InputDataValidationException;
+import util.exception.ProjectNameExistException;
 import util.exception.SkillNameExistsException;
 import util.exception.StudentNameExistException;
 import util.exception.UnknownPersistenceException;
@@ -40,20 +47,23 @@ import util.exception.UserEmailExistsException;
 @Startup
 public class DataInitSessionBean {
 
+    @EJB(name = "ProjectSessionBeanLocal")
+    private ProjectSessionBeanLocal projectSessionBeanLocal;
+
     @EJB(name = "StudentSessionBeanLocal")
     private StudentSessionBeanLocal studentSessionBeanLocal;
 
     @EJB(name = "SkillSessionBeanLocal")
     private SkillSessionBeanLocal skillSessionBeanLocal;
 
-    @PersistenceContext(unitName = "HustlePlus-ejbPU")
-    private EntityManager em;
-
     @EJB(name = "AdminStaffSessionBeanLocal")
     private AdminStaffSessionBeanLocal adminStaffSessionBeanLocal;
 
     @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal;
+
+    @PersistenceContext(unitName = "HustlePlus-ejbPU")
+    private EntityManager em;
 
     public DataInitSessionBean() {
     }
@@ -83,6 +93,8 @@ public class DataInitSessionBean {
             newCompany.setIsSuspended(false);
             newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
             companySessionBeanLocal.createNewCompany(newCompany);
+            newCompany.setIsVerified(true);
+            newCompany.setIsSuspended(false);
         } catch (CompanyNameExistException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnknownPersistenceException ex) {
@@ -159,10 +171,36 @@ public class DataInitSessionBean {
         }
     }
 
+    private void createProjects() {
+        try {
+            Project newProject = new Project();
+            newProject.setProjectName("IS3106 Hustle+");
+            newProject.setJobValue(BigDecimal.valueOf(310.60));
+            newProject.setNumStudentsRequired(4);
+            newProject.setProjectDescription("Enterprise Systems");
+            newProject.setStartDate(new Date());
+            newProject.setEndDate(new Date());
+            projectSessionBeanLocal.createNewProject(newProject, Long.valueOf("1"));
+        } catch (CompanyNotFoundException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CompanyNotVerifiedException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CompanySuspendedException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnknownPersistenceException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InputDataValidationException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProjectNameExistException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void initializeData() {
         createCompany();
         createAdmin();
         createSkills();
         createStudents();
+        // createProjects();
     }
 }

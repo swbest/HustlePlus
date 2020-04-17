@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'viewAllStudents', loadChildren: './view-all-students/view-all-students.module#ViewAllStudentsPageModule', canActivate: [AuthGuard] },
   { path: 'viewAllCompanies', loadChildren: './view-all-companies/view-all-companies.module#ViewAllCompaniesPageModule', canActivate: [AuthGuard] },
   { path: 'viewCompanyDetails', loadChildren: './view-company-details/view-company-details.module#ViewCompanyDetailsPageModule', canActivate: [AuthGuard] },
+  { path: 'viewCompanyDetails/:userId', loadChildren: './view-company-details/view-company-details.module#ViewCompanyDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule', canActivate: [AuthGuard] },
 ];
 

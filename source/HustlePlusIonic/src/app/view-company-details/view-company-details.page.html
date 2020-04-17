@@ -17,16 +17,11 @@
 
     <ion-card-content>
 
-      <div *ngIf="retrieveProductError == true" style="color: red;">
+      <div *ngIf="retrieveCompanyError == true" style="color: red;">
         Company ID {{companyId}} does not exist!
       </div>
 
-      <ion-list *ngIf="retrieveProductError == false && productToView != null">
-
-        <ion-item>
-          <ion-label><b>Company ID</b></ion-label>
-          {{companyToView.companyId}}
-        </ion-item>
+      <ion-list *ngIf="retrieveCompanyError == false && companyToView != null">
 
         <ion-item>
           <ion-label><b>Name</b></ion-label>

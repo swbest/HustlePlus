@@ -54,9 +54,9 @@ public class TeamResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/{id}")
+    @Path("/{teamId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveTeamById(@PathParam("id") Long teamId) {
+    public Response retrieveTeamById(@PathParam("teamId") Long teamId) {
         try {
             Team team = teamSessionBean.retrieveTeamByTeamId(teamId);
             RetrieveTeamRsp retrieveTeamRsp = new RetrieveTeamRsp(team);
