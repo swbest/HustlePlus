@@ -18,7 +18,7 @@ const httpOptions = {
 export class StudentService {
 
 	baseUrl: string;
-
+	viewAllStudentsUrl: string;
 
 	constructor(private httpClient: HttpClient,
 		private utilityService: UtilityService) {
@@ -34,11 +34,12 @@ export class StudentService {
 			);
 	}
 
-	getStudents(): Observable<any> {
-		return this.httpClient.get<any>(this.baseUrl).pipe
-		(
-			catchError(this.handleError)
-		);
+	getAllStudents(): Observable<any> {
+		this.viewAllStudentsUrl = this.baseUrl + '/viewAllStudents'
+		return this.httpClient.get<any>(this.viewAllStudentsUrl).pipe
+			(
+				catchError(this.handleError)
+			);
 	}
 
 	private handleError(error: HttpErrorResponse) {
