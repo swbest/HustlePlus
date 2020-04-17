@@ -54,7 +54,6 @@ public class MilestoneManagementManagedBean implements Serializable{
     private List<Project> projects;
     private List<Payment> payments;
     private Project selectedProject; 
-    private List<SelectItem> selectItems; 
     
     private Milestone milestoneToUpdate;
     private Long projectIdUpdate;
@@ -66,7 +65,6 @@ public class MilestoneManagementManagedBean implements Serializable{
      */
     public MilestoneManagementManagedBean() {
         newMilestone = new Milestone();
-        selectItems = new ArrayList(); 
     }
     
     @PostConstruct

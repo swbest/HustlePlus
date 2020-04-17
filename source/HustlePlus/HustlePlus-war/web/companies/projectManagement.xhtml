@@ -21,7 +21,7 @@
             
                 <p:messages id="messages" redisplay="false" closable="true" />
 
-                <p:dataTable id="dataTableAllProjects" value="#{projectManagementManagedBean.projectsOfCompany}" var="project" rowKey="#{project.projectId}" rowIndexVar="row" filteredValue="#{projectManagementManagedBean.filteredProjects}"
+                <p:dataTable id="dataTableAllProjects" value="#{projectManagementManagedBean.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row" filteredValue="#{projectManagementManagedBean.filteredProjects}"
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
                     <f:facet name="header">
@@ -39,32 +39,7 @@
                         <h:outputText value="#{project.projectName}" />
                     </p:column>
                     
-                    <p:column headerText="Job Value" sortBy="#{project.jobValue}" filterBy="#{project.jobValue}" filterMatchMode="contains">
-                        <h:outputText value="#{project.jobValue}" />
-                    </p:column>
-                    
-                    <p:column headerText="Number of Students Required" sortBy="#{project.numStudentsRequired}" filterBy="#{project.numStudentsRequired}" filterMatchMode="contains">
-                        <h:outputText value="#{project.numStudentsRequired}" />
-                    </p:column>
-
-                    <p:column headerText="Project Description" sortBy="#{project.projectDescription}" filterBy="#{project.projectDescription}" filterMatchMode="contains">
-                        <h:outputText value="#{project.projectDescription}" />
-                    </p:column>
-
-                    <p:column headerText="Start Date" sortBy="#{project.startDate}" filterBy="#{project.startDate}" filterMatchMode="contains">
-                        <h:outputText value="#{project.startDate}" />
-                    </p:column>
-
-
-                    <p:column headerText="End Date" sortBy="#{project.endDate}" filterBy="#{project.endDate}" filterMatchMode="contains">
-                        <h:outputText value="#{project.endDate}" />
-                    </p:column>
-                    
-                    <p:column headerText="Reviews">
-                        <p:commandButton icon="ui-icon-pencil" action="/companies/reviewStudent" />
-                    </p:column>
-                    
-
+                   
                     <p:column headerText="Action" >
                         <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View">
                             <f:setPropertyActionListener value="#{project}" target="#{projectManagementManagedBean.viewProjectManagedBean.projectToView}" />
@@ -225,8 +200,26 @@
                             <p:column>
                                 <p:message for="projectDescription" />
                             </p:column>
-                        </p:row>       
-
+                        </p:row>  
+                        
+                        <p:row>
+                        <p:column>
+                            <p:outputLabel for="startDate" value="Project Start Date" />
+                        </p:column>
+                        <p:column>
+                             <p:datePicker id="startDate" value="#{projectManagementManagedBean.selectedProjectToUpdate.startDate}" />
+                        </p:column>
+                    </p:row>
+                   
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="endDate" value="Project End Date" />
+                        </p:column>
+                        <p:column>
+                          <p:datePicker id="endDate" value="#{projectManagementManagedBean.selectedProjectToUpdate.endDate}" />
+                        </p:column>
+                    </p:row>
                        
                         <p:row>
                             <p:column colspan="3">

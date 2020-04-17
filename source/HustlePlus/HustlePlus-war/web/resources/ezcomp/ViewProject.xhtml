@@ -80,7 +80,53 @@
                         </p:column>
                     </p:row>
                     
-                </p:panelGrid>
+                     <p:row>
+                        <p:column>
+                            <h:outputLabel value="Status: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{viewProjectManagedBean.projectToView.isFinished}" />
+                        </p:column>
+                    </p:row>
+                    
+                 <p:row>
+                        <p:column>
+                            <h:outputLabel value="Team: " />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="View Team " actionListener="#{viewProjectManagedBean.viewTeam}"/>
+                        </p:column>
+                    </p:row>
+                    
+                    
+                      <p:row>
+                        <p:column>
+                            <h:outputLabel value="Applications: " />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="View Applications" actionListener="#{viewProjectManagedBean.viewApplications}"/>
+                        </p:column>
+                    </p:row>
+                    
+                   <p:row>
+                        <p:column>
+                            <h:outputLabel value="Reviews: " />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Student Reviews" actionListener="#{viewProjectManagedBean.reviews}"/>
+                        </p:column>
+                    </p:row>
+                    
+                  <p:row>
+                        <p:column>
+                            <h:outputLabel value="Milestones: " />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="View Milestones" actionListener="#{viewProjectManagedBean.viewMilestones}"/>
+                        </p:column>
+                    </p:row>
+                    
+           </p:panelGrid>
 
             </p:dialog>
             

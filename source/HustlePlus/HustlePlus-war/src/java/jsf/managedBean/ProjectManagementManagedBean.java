@@ -75,7 +75,7 @@ public class ProjectManagementManagedBean implements Serializable {
     
     private List<Project> projects;
     private List<Project> projectsOfCompany; 
-    private Long projectIdToView;
+    //private Long projectIdToView;
     
     
     private List<Long> milestoneIdsNew ; 
@@ -114,11 +114,21 @@ public class ProjectManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().redirect("viewProjectDetails.xhtml");    
     }  
     
+    
     public void viewProjectByCompany(ActionEvent event) {
+       /*
+        Company company = (Company) event.getComponent().getAttributes().get("companyToView");
         
+        try {
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("companyToView", company);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/companies/projectManagement.xhtml");    
+        } catch (IOException ex) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while retrieving the projects: " + ex.getMessage(), null));
+    } */
+    
         try {  
         System.out.println("VPBC1");
-        Company company = (Company) event.getComponent().getAttributes().get("companyProjects");
+        Company company = (Company) event.getComponent().getAttributes().get("companyToView");
         System.out.println(company.getUserId());
         setProjectsOfCompany(projectSessionBeanLocal.retrieveProjectsByCompany(company.getUserId()));
         if (projectsOfCompany.isEmpty()) {
@@ -141,8 +151,8 @@ public class ProjectManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving the project: Project not found", null));
     } catch (IOException ex) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while retrieving the projects: " + ex.getMessage(), null));
-    }
-    }
+    } 
+    } 
     
 
     
@@ -360,21 +370,6 @@ public class ProjectManagementManagedBean implements Serializable {
         this.projectsOfCompany = projectsOfCompany;
     }
 
-    public Long getProjectIdToView() {
-        return projectIdToView;
-    }
-
-    public void setProjectIdToView(Long projectIdToView) {
-        this.projectIdToView = projectIdToView;
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-     
+ 
      
 }

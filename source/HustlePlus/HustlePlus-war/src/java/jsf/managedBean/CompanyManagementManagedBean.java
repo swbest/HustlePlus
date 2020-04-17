@@ -13,7 +13,6 @@ import entity.Project;
 import entity.Review;
 import java.io.IOException;
 import java.io.Serializable;
-import java.security.Identity;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -30,6 +29,7 @@ import util.exception.InputDataValidationException;
 import util.exception.SuspendCompanyException;
 import util.exception.UnknownPersistenceException;
 import util.exception.VerifyCompanyException;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -105,7 +105,7 @@ public class CompanyManagementManagedBean implements Serializable {
         
        newCompany = new Company() ; 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + companyId + ")", null));
-        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/emailVerification.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.xhtml");
         
         } catch (CompanyNotFoundException ex) {
           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: The company is not found", null));  
@@ -154,7 +154,7 @@ public class CompanyManagementManagedBean implements Serializable {
                 getFilteredCompanies().remove(companyToDelete);
         }    
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Company Account deleted successfully", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Company Account deleted successfully", "Please proceed to logout"));
         }
         catch(CompanyNotFoundException | DeleteCompanyException ex)
         {
@@ -207,7 +207,6 @@ public class CompanyManagementManagedBean implements Serializable {
      }
      
      public void doChangePassword(ActionEvent event) {
-         
          try { 
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/changePassword.xhtml");
      } catch (IOException ex) {
@@ -217,18 +216,50 @@ public class CompanyManagementManagedBean implements Serializable {
      }
      
      public void changePassword(ActionEvent event) {
-         
+         //old password is the one i keyed in 
+         //password is the original password (in hash) 
          System.out.println("CMMB0");
          
-         Company companyPasswordChange = (Company)event.getComponent().getAttributes().get("selectedCompanyPassword") ;
-         String password = companyPasswordChange.getPassword();
-         System.out.println(password);
-         if (!password.equals(oldPassword)) {
+         selectedCompanyToUpdate = (Company)event.getComponent().getAttributes().get("selectedCompany") ;
+         
+         //Company companyPasswordChange = (Company)event.getComponent().getAttributes().get("selectedCompany") ;
+         //String password = companyPasswordChange.getPassword();
+         
+          if (oldPassword != null) {
+            oldPassword = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(oldPassword + selectedCompanyToUpdate.getSalt()));
+        } else {
+            oldPassword = null;
+        }
+
+         System.out.println(selectedCompanyToUpdate.getPassword()); //in hash 
+         System.out.println(oldPassword);
+         if (!oldPassword.equals(selectedCompanyToUpdate.getPassword())) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Old Password is invalid", null));
          } else if (!newPassword.equals(confirmPassword)) { 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password validation Error: Passwords do not match", null));
      } else {
-           selectedCompanyToUpdate.setPassword(getNewPassword());
+             
+              try
+        {
+            companySessionBeanLocal.updatePassword(selectedCompanyToUpdate, newPassword);
+            
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password changed successfully!", null));
+        }
+        catch(CompanyNotFoundException ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating company: " + ex.getMessage(), null));
+        }
+        catch(Exception ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        } 
+              
+         //selectedCompanyToUpdate.setPassword(newPassword);
+         System.out.println(newPassword); 
+         System.out.println(oldPassword);
+         System.out.println(selectedCompanyToUpdate.getPassword());
+         System.out.println(selectedCompanyToUpdate.getName());
+        //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password changed successfully!", null));
          }
              
              }

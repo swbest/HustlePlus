@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/defaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="content">
+        
+        <h:form id="viewApplicationsForm">
+            
+            <p:dataGrid var="milestone" value="#{viewProjectManagedBean.projectToView.milestones}" columns="2" layout="grid"
+                        rows="3" paginator="true" id="milestone"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Milestones For Project
+                </f:facet>
+                
+                <p:panel header="#{milestone.milestoneId}" style="text-align: center">
+                    <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">
+                        
+                        <h:outputText value ="Title:"/>
+                        <h:outputText value ="#{milestone.title}"/>
+                        
+                        <h:outputText value ="Description: "/>                        
+                        <h:outputText value ="#{milestone.description}"/>
+                        
+                        <h:outputText value ="Payments"/>                        
+                        <h:outputText value ="#{milestone.payments}"/>
+                        
+                    </h:panelGrid>
+                </p:panel>
+            
+            
+            </p:dataGrid>
+        </h:form>
+        
+        
+        
+        
+        
+        
+        
+    </ui:define>
+
+
+</ui:composition>
+
+        
+        
+        
+

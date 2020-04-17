@@ -140,7 +140,6 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
             if (constraintViolations.isEmpty()) {
                 Company companyToUpdate = retrieveCompanyByCompanyId(company.getUserId());
                 companyToUpdate.setUsername(company.getUsername());
-                companyToUpdate.setPassword(company.getPassword());
                 companyToUpdate.setIcon(company.getIcon());
                 companyToUpdate.setEmail(company.getEmail());
                 companyToUpdate.setName(company.getName());
@@ -157,6 +156,21 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
             throw new CompanyNotFoundException("Company Id not provided for company to be updated");
         }
     }
+    
+    @Override
+    public void updatePassword(Company company, String password) throws CompanyNotFoundException, UpdateCompanyException, InputDataValidationException {
+        if (company != null && company.getUserId() != null) {
+            Set<ConstraintViolation<Company>> constraintViolations = validator.validate(company);
+            if (constraintViolations.isEmpty()) {
+            Company companyToUpdate = retrieveCompanyByCompanyId(company.getUserId());
+            companyToUpdate.setPassword(password);
+          } else {
+                throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+            }
+        } else {
+            throw new CompanyNotFoundException("Company Id not provided for company to be updated");
+        }
+    } 
 
     //should companies be able to delete their accounts even when they still have listed projects *but have no one doing them*?
     @Override

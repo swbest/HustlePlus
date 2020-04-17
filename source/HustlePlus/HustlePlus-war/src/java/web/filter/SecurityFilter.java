@@ -100,7 +100,13 @@ public class SecurityFilter implements Filter {
             path.equals("/companies/searchProjectsByName.xhtml") ||
             path.equals("/companies/milestoneManagement.xhtml") ||
             path.equals("/companies/createNewProject.xhtml") ||
-            path.equals("/companies/profilePage.xhtml"))  {
+            path.equals("/companies/viewApplications.xhtml") ||
+            path.equals("/companies/viewMilestones.xhtml") ||
+            path.equals("/companies/viewTeam.xhtml") ||
+            path.equals("/companies/reviews.xhtml") ||
+            path.equals("/companies/reviewStudent.xhtml") ||
+            path.equals("/companies/profilePage.xhtml")  )
+            {
                 return true ; 
             } else {
                 return false ;

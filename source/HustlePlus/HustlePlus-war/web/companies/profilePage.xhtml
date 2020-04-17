@@ -19,8 +19,10 @@
 
             <center><p:graphicImage value="#{sessionScope.userEntity.icon}"  width="20%" /></center>
                         <br/>
-                        
+                           
                         <h:form>
+                   <p:growl id="messages" showDetail="true"/>
+
                         
                       <table class="table" align="center">
                                         <tr>
@@ -60,7 +62,7 @@
              </p:commandButton>
               <br />
               <br />
-              <p:commandButton value="Delete Account" actionListener="#{companyManagementManagedBean.deleteCompany}">
+              <p:commandButton value="Delete Account" actionListener="#{companyManagementManagedBean.deleteCompany}" update="@form">
                 <f:attribute name="companyToDelete" value="#{sessionScope.userEntity}" />
                <p:confirm header="Confirmation" message="Are you sure you want to delete #{userEntity.name} (Your ID: #{userEntity.userId})?" icon="ui-icon-alert" />
         </p:commandButton>
@@ -123,7 +125,10 @@
                                 <p:outputLabel for="password" value="Password " />
                             </p:column>
                             <p:column>
-                                <p:commandButton id="password" value="Update Password" actionListener="#{companyManagementManagedBean.doChangePassword}"/>                            </p:column>
+                                <p:commandButton id="password" value="Update Password" actionListener="#{companyManagementManagedBean.doChangePassword}">
+                                </p:commandButton>
+                                    
+                            </p:column>
                             <p:column>
                                 <p:message for="password" />
                             </p:column>
