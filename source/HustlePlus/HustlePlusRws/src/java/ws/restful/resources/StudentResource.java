@@ -74,7 +74,6 @@ public class StudentResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/viewAllStudents")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllStudents() {
         try {

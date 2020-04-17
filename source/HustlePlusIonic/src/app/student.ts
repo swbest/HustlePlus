@@ -25,7 +25,5 @@ export class Student {
         this.description = description;
         this.bankAccountName = bankAccountName;
         this.bankAccountNumber = bankAccountNumber;
-
     }
-
 }

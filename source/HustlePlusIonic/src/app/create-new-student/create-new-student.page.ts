@@ -5,9 +5,9 @@ import { StudentService } from '../student.service';
 import { Student } from '../student';
 
 @Component({
-  selector: 'app-create-new-student',
-  templateUrl: './create-new-student.page.html',
-  styleUrls: ['./create-new-student.page.scss'],
+	selector: 'app-create-new-student',
+	templateUrl: './create-new-student.page.html',
+	styleUrls: ['./create-new-student.page.scss'],
 })
 export class CreateNewStudentPage implements OnInit {
 
@@ -23,17 +23,16 @@ export class CreateNewStudentPage implements OnInit {
 
 	ngOnInit() {
 	}
-	
+
 	clear() {
-	this.submitted = false;
-	this.newStudent = new Student();
+		this.submitted = false;
+		this.newStudent = new Student();
 	}
 
-	create(createStudentForm: NgForm)
-	{
+	create(createStudentForm: NgForm) {
 		this.submitted = true;
-		
-		if(createStudentForm.valid) {
+
+		if (createStudentForm.valid) {
 			this.studentService.createNewStudent(this.newStudent).subscribe(
 				response => {
 					this.infoMessage = 'New student created ' + response.newBookId;
@@ -43,8 +42,12 @@ export class CreateNewStudentPage implements OnInit {
 					this.infoMessage = null;
 					this.errorMessage = error;
 				}
-			);			
+			);
 		}
+	}
+
+	redirectLogin() {
+		
 	}
 }
 

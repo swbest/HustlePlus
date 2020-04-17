@@ -6,8 +6,6 @@
 package ws.restful.model;
 
 import entity.Company;
-import entity.Student;
-import entity.Team;
 import java.util.List;
 
 /**
@@ -32,5 +30,4 @@ public class RetrieveAllCompaniesRsp {
     public void setCompanies(List<Company> companies) {
         this.companies = companies;
     }
-
 }
