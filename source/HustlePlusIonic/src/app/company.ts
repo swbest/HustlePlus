@@ -1,4 +1,4 @@
-// import { AccessRightEnum } from './access-right-enum.enum';
+import { Project } from './project';
 
 export class Company {
 
@@ -12,6 +12,7 @@ export class Company {
     avgRating: number;
     isVerified: boolean;
     isSuspended: boolean;
+    projects: Project[];
 
 //    constructor(userId?: number, name?: string, username?: string, password?: string, email?: string, accessRightEnum?: AccessRightEnum, description?: string) {
     constructor(userId?: number, name?: string, username?: string, password?: string, email?: string, description?: string) {

@@ -24,7 +24,14 @@ export class CompanyService {
   }
 
   getAllCompanies(): Observable<any> {
-    return this.httpClient.get<any>(this.baseUrl).pipe
+    return this.httpClient.get<any>(this.baseUrl + "/retrieveAllCompanies").pipe
+      (
+        catchError(this.handleError)
+      );
+  }
+
+  getCompanyByCompanyId(userId: number): Observable<any> {
+    return this.httpClient.get<any>(this.baseUrl + "/retrieveCompany/" + userId).pipe
       (
         catchError(this.handleError)
       );

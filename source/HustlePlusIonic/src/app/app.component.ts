@@ -41,6 +41,11 @@ export class AppComponent implements OnInit {
       title: 'View Company Details',
       url: '/viewCompanyDetails',
       icon: 'arrow-forward'
+    },
+    {
+      title: 'Login',
+      url: '/login',
+      icon: 'arrow-forward'
     }
   ];
 

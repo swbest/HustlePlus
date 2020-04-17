@@ -1,9 +1,69 @@
 <ion-header>
+
   <ion-toolbar>
-    <ion-title>ViewCompanyDetails</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>View Company Details</ion-title>
   </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
 
+  <ion-card>
+
+    <ion-card-content>
+
+      <div *ngIf="retrieveProductError == true" style="color: red;">
+        Company ID {{companyId}} does not exist!
+      </div>
+
+      <ion-list *ngIf="retrieveProductError == false && productToView != null">
+
+        <ion-item>
+          <ion-label><b>Company ID</b></ion-label>
+          {{companyToView.companyId}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Name</b></ion-label>
+          {{companyToView.Name}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Description</b></ion-label>
+          {{companyToView.description}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Average Rating</b></ion-label>
+          {{companyToView.avgRating}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Verified?</b></ion-label>
+          {{companyToView.isVerified}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Email</b></ion-label>
+          {{companyToView.email}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Projects</b></ion-label>
+          <ul>
+            <li *ngFor="let project of companyToView.projects">{{project.projectName}}</li>
+          </ul>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+
+<ion-footer>
+  <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+</ion-footer>
