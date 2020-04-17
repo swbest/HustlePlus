@@ -51,8 +51,7 @@ public class User implements Serializable {
     protected String email;
     @Column(columnDefinition = "CHAR(32) NOT NULL")
     protected String salt;
-    @Column(nullable = false)
-    @NotNull
+    @Column(nullable = true) // changed to true for students
     protected AccessRightEnum accessRightEnum;
 
     public User() {

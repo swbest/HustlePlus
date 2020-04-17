@@ -19,7 +19,7 @@ export class ViewAllStudentsPage implements OnInit {
 	{
 		this.studentService.getAllStudents().subscribe(
 			response => {
-				this.studentService = response.projects
+				this.studentService = response.students
 			},
 			error => {
 				this.errorMessage = error

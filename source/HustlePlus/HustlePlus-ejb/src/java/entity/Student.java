@@ -28,7 +28,6 @@ public class Student extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
     @Column(nullable = true)
     private File resume;
     @NotNull
@@ -70,6 +69,8 @@ public class Student extends User implements Serializable {
         this.companyReviews = new ArrayList<Review>();
         this.payments = new ArrayList<Payment>();
         this.applications = new ArrayList<Application>();
+        this.isVerified = Boolean.FALSE;
+        this.isSuspended = Boolean.FALSE;
     }
 
     public File getResume() {
