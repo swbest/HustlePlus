@@ -17,7 +17,7 @@ export class ViewAllStudentsPage implements OnInit {
 
 	ngOnInit()
 	{
-		this.studentService.getStudents().subscribe(
+		this.studentService.getAllStudents().subscribe(
 			response => {
 				this.studentService = response.projects
 			},
