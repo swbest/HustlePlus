@@ -18,14 +18,7 @@ export class ViewAllCompaniesPage implements OnInit {
   constructor(private router: Router, private companyService: CompanyService) { }
 
   ngOnInit() {
-    this.companyService.getAllCompanies().subscribe(
-      response => {
-        this.companies = response.companies
-      },
-      error => {
-        this.errorMessage = error
-      }
-    );
+    this.refreshCompanies();
   }
 
   ionViewWillEnter() {

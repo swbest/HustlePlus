@@ -26,12 +26,18 @@
                     <ion-col>Email</ion-col>
                     <ion-col>Description</ion-col>
                     <ion-col>Average Rating</ion-col>
+                    <ion-col>View</ion-col>
                 </ion-row>
                 <ion-row *ngFor="let student of students">
                     <ion-col>{{student.name}}</ion-col>
                     <ion-col>{{student.email}}</ion-col>
                     <ion-col>{{student.description}}</ion-col>
                     <ion-col>{{student.avgRating}}</ion-col>
+                    <ion-col>
+						<ion-button (click)="viewStudentDetails($event, student)">
+							<ion-icon slot="start" name="eye-outline"></ion-icon>
+						</ion-button>
+					</ion-col>
                 </ion-row>
             </ion-grid>
 

@@ -55,7 +55,7 @@ public class CompanyResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/retrieveCompany/{userId}")
+    @Path("retrieveCompany/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveCompanyById(@PathParam("userId") Long userId) {
         try {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { StudentService } from '../student.service';
 import { Student } from '../student';
@@ -14,12 +15,24 @@ export class ViewAllStudentsPage implements OnInit {
 	students: Student[];
 	errorMessage: string;
 
-	constructor(private studentService: StudentService) { }
+	constructor(private router: Router, private studentService: StudentService) { }
 
 	ngOnInit() {
+		this.refreshStudents()
+	}
+
+	ionViewWillEnter() {
+		this.refreshStudents();
+	}
+
+	viewStudentDetails(event, student) {
+		this.router.navigate(["/viewStudentDetails/" + student.userId]);
+	}
+
+	refreshStudents() {
 		this.studentService.getAllStudents().subscribe(
 			response => {
-				this.studentService = response.students
+				this.students = response.students
 			},
 			error => {
 				this.errorMessage = error

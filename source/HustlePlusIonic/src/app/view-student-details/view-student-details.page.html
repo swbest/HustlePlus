@@ -6,7 +6,7 @@
         <ion-icon slot="start" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>View Company Details</ion-title>
+    <ion-title>View Student Details</ion-title>
   </ion-toolbar>
 
 </ion-header>
@@ -17,41 +17,36 @@
 
     <ion-card-content>
 
-      <div *ngIf="retrieveCompanyError == true" style="color: red;">
-        Company ID {{userId}} does not exist!
+      <div *ngIf="retrieveStudentError == true" style="color: red;">
+        Student ID {{userId}} does not exist!
       </div>
 
-      <ion-list *ngIf="retrieveCompanyError == false && companyToView != null">
+      <ion-list *ngIf="retrieveStudentError == false && studentToView != null">
 
         <ion-item>
           <ion-label><b>Name</b></ion-label>
-          {{companyToView.Name}}
+          {{studentToView.name}}
         </ion-item>
 
         <ion-item>
           <ion-label><b>Description</b></ion-label>
-          {{companyToView.description}}
+          {{studentToView.description}}
         </ion-item>
 
         <ion-item>
           <ion-label><b>Average Rating</b></ion-label>
-          {{companyToView.avgRating}}
-        </ion-item>
-
-        <ion-item>
-          <ion-label><b>Verified?</b></ion-label>
-          {{companyToView.isVerified}}
+          {{studentToView.avgRating}}
         </ion-item>
 
         <ion-item>
           <ion-label><b>Email</b></ion-label>
-          {{companyToView.email}}
+          {{studentToView.email}}
         </ion-item>
 
         <ion-item>
-          <ion-label><b>Projects</b></ion-label>
+          <ion-label><b>Skills</b></ion-label>
           <ul>
-            <li *ngFor="let project of companyToView.projects">{{project.projectName}}</li>
+            <li *ngFor="let skill of studentToView.skills">{{student.skills}}</li>
           </ul>
         </ion-item>
       </ion-list>

@@ -1,3 +1,5 @@
+import { Skill } from './skill'; 
+
 export class Student {
 
     userId: number;
@@ -13,6 +15,7 @@ export class Student {
     isSuspended: boolean;
     bankAccountName: string;
     bankAccountNumber: number;
+    skills: Skill[];
 
 //    constructor(userId?: number, name?: string, username?: string, password?: string, email?: string, accessRightEnum?: AccessRightEnum, description?: string) {
     constructor(userId?: number, name?: string, username?: string, password?: string, email?: string, 

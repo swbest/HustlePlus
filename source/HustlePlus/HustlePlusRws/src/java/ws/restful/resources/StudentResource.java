@@ -54,7 +54,7 @@ public class StudentResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/retrieveStudent/{userId}")
+    @Path("retrieveStudent/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveStudentByStudentId(@PathParam("userId") Long userId) {
         try {

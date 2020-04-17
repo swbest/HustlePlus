@@ -33,6 +33,11 @@ export class AppComponent implements OnInit {
       icon: 'arrow-forward'
     },
     {
+      title: 'View Student Details',
+      url: '/viewStudentDetails',
+      icon: 'arrow-forward'
+    },
+    {
       title: 'View All Companies',
       url: '/viewAllCompanies',
       icon: 'arrow-forward'
@@ -40,6 +45,21 @@ export class AppComponent implements OnInit {
     {
       title: 'View Company Details',
       url: '/viewCompanyDetails',
+      icon: 'arrow-forward'
+    },
+    {
+      title: 'Create New Review',
+      url: '/createNewReview',
+      icon: 'arrow-forward'
+    },
+    {
+      title: 'Create New Student Review',
+      url: '/createNewStudentReview',
+      icon: 'arrow-forward'
+    },
+    {
+      title: 'Create New Company Review',
+      url: '/createNewCompanyReview',
       icon: 'arrow-forward'
     },
     {

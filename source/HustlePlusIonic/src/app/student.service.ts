@@ -34,7 +34,14 @@ export class StudentService {
 	}
 
 	getAllStudents(): Observable<any> {
-		return this.httpClient.get<any>(this.baseUrl).pipe
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveAllStudents").pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+	
+	getStudentByStudentId(userId: number): Observable<any> {
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveStudent/" + userId).pipe
 			(
 				catchError(this.handleError)
 			);
