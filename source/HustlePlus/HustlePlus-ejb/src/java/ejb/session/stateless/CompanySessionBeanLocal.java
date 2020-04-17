@@ -48,5 +48,7 @@ public interface CompanySessionBeanLocal {
     public void suspendCompany(Long companyId) throws CompanyNotFoundException, SuspendCompanyException;
 
     public boolean checkCompany(Company company);
+
+    public void updatePassword(Company company, String password) throws CompanyNotFoundException, UpdateCompanyException, InputDataValidationException;
     
 }

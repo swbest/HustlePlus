@@ -227,6 +227,8 @@ public class Student extends User implements Serializable {
             this.applications.remove(application);
         }
     }
+    
+    
 
     @Override
     public int hashCode() {

@@ -11,7 +11,7 @@
     <h:body>
         
         <p:panel header="Create a new account">
-            <h:form id="signUpForm" enctype="multipart/form-data"> 
+            <h:form id="signUpForm"> 
                 
                 <p:panelGrid>
                     
@@ -78,7 +78,8 @@
                     <p:row>
                         <p:column colspan="2">
                             <p:commandButton type="reset" value="Clear" />
-                            <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{companyManagementManagedBean.createNewCompany}" action="/index" />
+                            <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{companyManagementManagedBean.createNewCompany}" />
+                            <p:commandButton immediate="true" value="Cancel" action="/login.xhtml?faces-redirect=true"/>
                         </p:column>
                     </p:row>
                     

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="content">
+        
+        <h:form id="viewTeamForm">
+            
+            <p:dataGrid var="student" value="#{viewProjectManagedBean.projectToView.team.students}" columns="2" layout="grid"
+                        rows="3" paginator="true" id="student"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Team Members
+                </f:facet>
+                
+                <p:panel header="#{student.name}" style="text-align: center">
+                    <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">
+                        
+                        <h:outputText value ="Rating:"/>
+                        <h:outputText value ="#{student.avgRating}"/>
+                        
+                        <h:outputText value ="Bank Account Name"/>                        
+                        <h:outputText value ="#{student.bankAccountNumber}"/>
+                        
+                        <h:outputText value ="Bank Account Number"/>                        
+                        <h:outputText value ="#{student.bankAccountNumber}"/>
+                        
+                        <p:dataList value="#{student.skills}" var="skill" type="ordered">
+                            <f:facet name="header">
+                                Skills
+                            </f:facet>
+                            #{skill.title}
+                        </p:dataList>
+                        
+                        <p:commandButton value="Leave A Review" action="/companies/reviewStudent.xhtml?faces-redirect=true">
+                            <f:attribute name="studentToReview" value="#{student}"/>
+                            <f:attribute name="projectToReview" value="#{viewProjectManagedBean.projectToView}"/>
+                            <f:attribute name="company" value="#{sessionScope.userEntity}"/>
+                        </p:commandButton>
+                        
+                    </h:panelGrid>
+                </p:panel>
+            
+            
+            </p:dataGrid>
+        </h:form>
+        
+        
+        
+        
+        
+        
+        
+    </ui:define>
+
+
+</ui:composition>
+
+        
+        
+        
+
