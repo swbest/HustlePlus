@@ -6,7 +6,6 @@
 package ws.restful.model;
 
 import entity.Company;
-import entity.Project;
 
 /**
  *

@@ -6,7 +6,6 @@
 package ws.restful.resources;
 
 import ejb.session.stateless.TeamSessionBeanLocal;
-import entity.Student;
 import entity.Team;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,13 +22,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import ws.restful.model.CreateNewStudentReq;
 import ws.restful.model.CreateNewStudentRsp;
 import ws.restful.model.CreateNewTeamReq;
 import ws.restful.model.ErrorRsp;
-import ws.restful.model.RetrieveAllStudentsRsp;
 import ws.restful.model.RetrieveAllTeamsRsp;
-import ws.restful.model.RetrieveStudentRsp;
 import ws.restful.model.RetrieveTeamRsp;
 
 /**
@@ -58,9 +54,9 @@ public class TeamResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/{id}")
+    @Path("/{teamId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveTeamById(@PathParam("id") Long teamId) {
+    public Response retrieveTeamById(@PathParam("teamId") Long teamId) {
         try {
             Team team = teamSessionBean.retrieveTeamByTeamId(teamId);
             RetrieveTeamRsp retrieveTeamRsp = new RetrieveTeamRsp(team);

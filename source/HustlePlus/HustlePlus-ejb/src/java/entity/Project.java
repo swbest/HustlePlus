@@ -65,14 +65,15 @@ public class Project implements Serializable {
     @NotNull
     private Boolean isFinished;
 
-    @ManyToMany(mappedBy = "projects")
-    @JoinColumn(nullable = false)
-    private List<Skill> skills;
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Company company;
     @OneToOne(optional = true, fetch = FetchType.EAGER)
     private Team team;
+
+    @ManyToMany(mappedBy = "projects")
+    @JoinColumn(nullable = false)
+    private List<Skill> skills;
     @OneToMany(mappedBy = "project")
     private List<Milestone> milestones;
     @OneToMany(mappedBy = "project")

@@ -1,0 +1,51 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-menu-button></ion-menu-button>
+		</ion-buttons>
+		<ion-title>
+			View All Companies
+		</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-card>
+		<ion-card-header>
+			<ion-card-title>View All Companies</ion-card-title>
+		</ion-card-header>
+		<ion-card-content>
+
+			<div *ngIf="errorMessage">
+				{{errorMessage}}
+			</div>
+
+			<ion-searchbar showCancelButton="true" placeholder="Search Companies" (ionInput)="getSearchCompanies($event)"
+				(ionCancel)="onCancel($event)"></ion-searchbar>
+
+			<ion-grid>
+				<ion-row>
+					<ion-col>Company Name</ion-col>
+					<ion-col>Description</ion-col>
+					<ion-col>Average Rating</ion-col>
+					<ion-col>View</ion-col>
+				</ion-row>
+				<ion-row *ngFor="let company of companies">
+					<ion-col>{{company.name}}</ion-col>
+					<ion-col>{{company.description}}</ion-col>
+					<ion-col>{{company.avgRating}}</ion-col>
+					<ion-col>
+						<ion-button (click)="viewCompanyDetails($event, company)">
+							<ion-icon slot="start" name="eye-outline"></ion-icon>
+						</ion-button>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+
+		</ion-card-content>
+	</ion-card>
+</ion-content>
+
+<ion-footer>
+	<ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+</ion-footer>

@@ -19,7 +19,9 @@
 			<div *ngIf="errorMessage">
 				{{errorMessage}}
 			</div>
-			
+
+			<ion-searchbar showCancelButton="true" placeholder="Search Projects" (ionInput)="getSearchProjects($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
+
 			<ion-grid>
 				<ion-row>
 					<ion-col>Project Name</ion-col>

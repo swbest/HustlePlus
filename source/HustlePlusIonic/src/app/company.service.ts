@@ -1,9 +1,51 @@
 import { Injectable } from '@angular/core';
 
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+import { UtilityService } from './utility.service';
+import { Company } from './company';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class CompanyService {
 
-  constructor() { }
+  baseUrl: string;
+
+  constructor(private httpClient: HttpClient,
+    private utilityService: UtilityService) {
+    this.baseUrl = this.utilityService.getRootPath() + 'Company';
+  }
+
+  getAllCompanies(): Observable<any> {
+    return this.httpClient.get<any>(this.baseUrl + "/retrieveAllCompanies").pipe
+      (
+        catchError(this.handleError)
+      );
+  }
+
+  getCompanyByCompanyId(userId: number): Observable<any> {
+    return this.httpClient.get<any>(this.baseUrl + "/retrieveCompany/" + userId).pipe
+      (
+        catchError(this.handleError)
+      );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage: string = '';
+
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = 'An unknown error has occurred: ' + error.error.message;
+    }
+    else {
+      errorMessage = 'An HTTP error has occurred: ' + `HTTP ${error.status}: ${error.error.message}`;
+    }
+    return throwError(errorMessage)
+  }
 }

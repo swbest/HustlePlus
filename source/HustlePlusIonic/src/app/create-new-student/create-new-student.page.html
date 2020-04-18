@@ -24,7 +24,7 @@
 				{{errorMessage}}
 			</div>
 			
-			<form #createBookForm="ngForm" (ngSubmit)="create(createStudentForm)">
+			<form #createStudentForm="ngForm" (ngSubmit)="create(createStudentForm)">
 			
 				<ion-grid>
 				
@@ -146,7 +146,7 @@
 							<ion-button (click)="clear()">
 								Clear
 							</ion-button>
-							<ion-button type="submit" ion-button block>
+							<ion-button type="submit" (click)="redirectLogin()" ion-button block>
 								Create
 							</ion-button>
 						</ion-col>

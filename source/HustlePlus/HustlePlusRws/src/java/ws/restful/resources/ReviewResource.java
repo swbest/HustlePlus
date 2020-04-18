@@ -54,7 +54,7 @@ public class ReviewResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/{id}")
+    @Path("retrieveReview/{reviewId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveReviewById(@PathParam("id") Long reviewId) {
         try {
@@ -74,6 +74,7 @@ public class ReviewResource {
      * @return an instance of java.lang.String
      */
     @GET
+    @Path("retrieveAllReviews")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllReviews() {
         try {

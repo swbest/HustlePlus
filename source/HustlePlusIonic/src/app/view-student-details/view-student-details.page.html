@@ -1,0 +1,59 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>View Student Details</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <div *ngIf="retrieveStudentError == true" style="color: red;">
+        Student ID {{userId}} does not exist!
+      </div>
+
+      <ion-list *ngIf="retrieveStudentError == false && studentToView != null">
+
+        <ion-item>
+          <ion-label><b>Name</b></ion-label>
+          {{studentToView.name}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Description</b></ion-label>
+          {{studentToView.description}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Average Rating</b></ion-label>
+          {{studentToView.avgRating}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Email</b></ion-label>
+          {{studentToView.email}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Skills</b></ion-label>
+          <ul>
+            <li *ngFor="let skill of studentToView.skills">{{skill.title}}</li>
+          </ul>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+</ion-footer>

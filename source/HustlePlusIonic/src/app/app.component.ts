@@ -31,6 +31,41 @@ export class AppComponent implements OnInit {
       title: 'View All Student',
       url: '/viewAllStudents',
       icon: 'arrow-forward'
+    },
+    {
+      title: 'View Student Details',
+      url: '/viewStudentDetails',
+      icon: 'arrow-forward'
+    },
+    {
+      title: 'View All Companies',
+      url: '/viewAllCompanies',
+      icon: 'arrow-forward'
+    },
+    {
+      title: 'View Company Details',
+      url: '/viewCompanyDetails',
+      icon: 'arrow-forward'
+    },
+    {
+      title: 'Create New Review',
+      url: '/createNewReview',
+      icon: 'arrow-forward'
+    },
+    {
+      title: 'Create New Student Review',
+      url: '/createNewStudentReview',
+      icon: 'arrow-forward'
+    },
+    {
+      title: 'Create New Company Review',
+      url: '/createNewCompanyReview',
+      icon: 'arrow-forward'
+    },
+    {
+      title: 'Login',
+      url: '/login',
+      icon: 'arrow-forward'
     }
   ];
 

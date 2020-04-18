@@ -6,7 +6,6 @@
 package ws.restful.model;
 
 import entity.Student;
-import entity.Team;
 
 /**
  *
@@ -21,10 +20,6 @@ public class RetrieveStudentRsp {
 
     public RetrieveStudentRsp(Student student) {
         this.student = student;
-    }
-
-    public RetrieveStudentRsp(Team team) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Student getStudent() {

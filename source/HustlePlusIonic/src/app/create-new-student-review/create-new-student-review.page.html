@@ -1,0 +1,123 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Create New Company Review
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Create New Company Review</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+
+      <div *ngIf="infoMessage">
+        {{infoMessage}}
+      </div>
+
+      <div *ngIf="errorMessage">
+        {{errorMessage}}
+      </div>
+
+      <form #createStudentForm="ngForm" (ngSubmit)="create(createReviewForm)">
+
+        <ion-grid>
+
+          <ion-row>
+            <ion-col>
+              <ion-label>Project</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-input type="text" id="project" name="project" [(ngModel)]="newReview.project" required="true"
+                #project="ngModel"></ion-input>
+            </ion-col>
+            <ion-col>
+              <div *ngIf="project.invalid && (project.dirty || project.touched || submitted)" style="color: red;">
+                <div *ngIf="project.errors.required">
+                  Project Name is required
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-label>Review Text</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-input type="text" id="reviewText" name="reviewText" [(ngModel)]="newReview.reviewText"
+                required="true" #reviewText="ngModel"></ion-input>
+            </ion-col>
+            <ion-col>
+              <div *ngIf="reviewText.invalid && (reviewText.dirty || reviewText.touched || submitted)"
+                style="color: red;">
+                <div *ngIf="reviewText.errors.required">
+                  Review Text is required
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-label>Rating</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-input type="number" id="rating" name="rating" [(ngModel)]="newReview.rating" required="true"
+                #rating="ngModel"></ion-input>
+            </ion-col>
+            <ion-col>
+              <div *ngIf="rating.invalid && (rating.dirty || rating.touched || submitted)" style="color: red;">
+                <div *ngIf="rating.errors.required">
+                  Rating is required
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-label>Student</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-input type="text" id="student" name="student" [(ngModel)]="newReview.student" required="true"
+                #student="ngModel"></ion-input>
+            </ion-col>
+            <ion-col>
+              <div *ngIf="student.invalid && (student.dirty || student.touched || submitted)" style="color: red;">
+                <div *ngIf="student.errors.required">
+                  Student is required
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col>
+              <ion-button (click)="clear()">
+                Clear
+              </ion-button>
+              <ion-button type="submit" (click)="redirectHome()" ion-button block>
+                Create
+              </ion-button>
+            </ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+
+        </ion-grid>
+
+      </form>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+</ion-footer>

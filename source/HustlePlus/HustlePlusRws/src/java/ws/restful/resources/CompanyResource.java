@@ -55,11 +55,11 @@ public class CompanyResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/{id}")
+    @Path("retrieveCompany/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveCompanyById(@PathParam("id") Long companyId) {
+    public Response retrieveCompanyById(@PathParam("userId") Long userId) {
         try {
-            Company company = companySessionBean.retrieveCompanyByCompanyId(companyId);
+            Company company = companySessionBean.retrieveCompanyByCompanyId(userId);
             RetrieveCompanyRsp retrieveProjectRsp = new RetrieveCompanyRsp(company);
             return Response.status(Status.OK).entity(retrieveProjectRsp).build();
         } catch (Exception ex) {
@@ -75,6 +75,7 @@ public class CompanyResource {
      * @return an instance of java.lang.String
      */
     @GET
+    @Path("retrieveAllCompanies")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllCompanies() {
         try {
@@ -86,7 +87,7 @@ public class CompanyResource {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
-    
+
     /**
      * PUT method for updating or creating an instance of ProjectResource
      *

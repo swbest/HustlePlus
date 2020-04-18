@@ -54,11 +54,11 @@ public class StudentResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/{id}")
+    @Path("retrieveStudent/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveStudentByStudentId(@PathParam("id") Long studentId) {
+    public Response retrieveStudentByStudentId(@PathParam("userId") Long userId) {
         try {
-            Student student = studentSessionBean.retrieveStudentByStudentId(studentId);
+            Student student = studentSessionBean.retrieveStudentByStudentId(userId);
             RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(student);
             return Response.status(Response.Status.OK).entity(retrieveStudentRsp).build();
         } catch (Exception ex) {
@@ -74,7 +74,7 @@ public class StudentResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/viewAllStudents")
+    @Path("retrieveAllStudents")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllStudents() {
         try {
