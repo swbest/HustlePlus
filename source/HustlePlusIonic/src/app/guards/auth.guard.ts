@@ -32,10 +32,13 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad
 			student: Student;
 			let student = this.sessionService.getCurrentStudent();			
 			
+			//console.log(student.accessRightEnum);
+
 			if(student.accessRightEnum == AccessRightEnum.STUDENT)
 			{
 				return true;		
 			}
+
 			this.router.navigate(['/accessRightError']);
 			return false;
 		}

@@ -47,10 +47,7 @@ export class LoginPage implements OnInit {
           response => {										
             let student: Student = response.student;	
             
-            if(response.student.accessRightEnum == 'STUDENT')
-            {
-              student.accessRightEnum = AccessRightEnum.STUDENT;
-            }
+            student.accessRightEnum = AccessRightEnum.STUDENT;
             
             if(student != null)
             {
