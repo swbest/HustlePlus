@@ -10,7 +10,26 @@
 </ion-header>
 
 <ion-content>
-	<ion-card>      
+
+	<ion-card *ngIf="sessionService.getIsLogin() == false">
+	
+      <ion-card-header>        
+        <ion-card-title>Welcome</ion-card-title>
+      </ion-card-header>
+	  
+      <ion-card-content>
+        <p>
+			This version of the retail Point-Of-Sale (POS) system includes the following enhancements:
+		</p>
+		<ul style="margin-left: 20px;">
+			<li>Enhancement of existing use cases to meet v5.0 expanded logical data model.</li>
+			<li>Implementation of new use cases in v5.0 (except customer related use cases).</li>
+		</ul>
+      </ion-card-content>
+	  
+    </ion-card>	
+	
+	<ion-card *ngIf="sessionService.getIsLogin() == true">
 		<ion-card-header>        
 			<ion-card-title>Hustle Plus Ionic</ion-card-title>
 		</ion-card-header>
