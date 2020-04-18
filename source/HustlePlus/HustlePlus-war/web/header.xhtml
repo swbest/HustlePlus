@@ -15,39 +15,50 @@
 
             <p:menubar style="border-style: none">
 
-                <p:menuitem value="Home" icon="ui-icon-home" outcome="/index"/>
-
-                <p:submenu label="Search" icon="ui-icon-search">
-                            <p:menuitem icon="ui-icon-pencil" value="For Students" outcome="/companies/searchStudentsByName.xhtml" />
+                <p:menuitem icon="fa fa-home" outcome="/index"/>
+                
+                <p:submenu icon="fa fa-plus">
+                            <p:menuitem value="New Project" outcome="/companies/createNewProject.xhtml"/>
                             <p:separator />
-                            <p:menuitem icon="ui-icon-suitcase" value="For Companies" outcome="/companies/searchCompaniesByName.xhtml" />
+                            <p:menuitem value="New Student Review" outcome="/companies/reviewStudent.xhtml"/>
                             <p:separator />
-                            <p:menuitem icon="ui-icon-folder-collapsed" value="For Projects" outcome="/companies/searchProjectsByName.xhtml" />
+                </p:submenu>
+                
+                <p:submenu icon="fa fa-search">
+                            <p:menuitem value="For Students" outcome="/companies/searchStudentsByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="For Companies" outcome="/companies/searchCompaniesByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="For Projects" outcome="/companies/searchProjectsByName.xhtml" />
                 </p:submenu>
 
-                <p:submenu label="Filter" icon="ui-icon-tag">
-                            <p:menuitem icon="ui-icon-lightbulb" value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
+                <p:submenu icon="fa fa-filter">
+                            <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
                             <p:separator />
-                            <p:menuitem icon="ui-icon-star" value="Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml"/>
+                            <p:menuitem value="Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml"/>
                             <p:separator />
-                            <p:menuitem icon="ui-icon-suitcase" value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
+                            <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
                 </p:submenu>
 
-                <p:submenu label="Projects" icon="ui-icon-folder-collapsed">
-                            <p:menuitem icon="ui-icon-plus" value="Create New Project" outcome="/companies/createNewProject.xhtml"/>
-                            <p:menuitem icon="ui-icon-gear" value="My Projects" outcome="/companies/projectManagement.xhtml"/> 
-                            <p:menuitem icon="ui-icon-gear" value="My Project Milestones" outcome="/companies/milestoneManagement.xhtml"/> 
+                <p:submenu icon="fa fa-folder-open">
+                            <p:menuitem value="My Projects" outcome="/companies/projectManagement.xhtml"/> 
+                            <p:separator />
+                            <p:menuitem value="My Project Milestones" outcome="/companies/milestoneManagement.xhtml"/> 
+                </p:submenu>
+                
+                <p:submenu icon="fa fa-star">
+                            <p:menuitem value="My Company Reviews" outcome="/companies/reviews.xhtml"/> 
                 </p:submenu>
 
                 <f:facet name="options">
-                    <p:menuButton icon="ui-icon-person" value="Hello, #{sessionScope.userEntity.name}">
-                        <p:menuitem icon="ui-icon-heart" value="View Profile" outcome="/companies/profilePage.xhtml" >
+                    <p:menuButton icon="fa fa-id-badge" value="Hello, #{sessionScope.userEntity.name}!">
+                        <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml" >
                         </p:menuitem>
                         <p:separator />
-                        <p:menuitem icon="ui-icon-close" value="Log Out" actionListener="#{loginManagedBean.logout}" rendered="#{sessionScope.isLogin == true}"/>
+                        <p:menuitem value="Log Out" actionListener="#{loginManagedBean.logout}" rendered="#{sessionScope.isLogin == true}"/>
                     </p:menuButton> &nbsp;
                     
-                    <p:commandButton style="margin-top: 5px" value="Sign Up" action="/companies/createNewCompany."  />
+                    <p:commandButton style="margin-top: 5px" value="Sign Up" action="/companies/createNewCompany.xhtml"  />
 
                 </f:facet>
             </p:menubar>
