@@ -18,11 +18,7 @@ export class AppComponent implements OnInit {
   public appPages;
 
   public appPagesStudent = [
-    {
-      title: 'Home',
-      url: '/home',
-      icon: 'home'
-    },
+
     {
       title: 'My Profile',
       url: '/viewStudentDetails',

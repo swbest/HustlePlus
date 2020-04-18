@@ -30,10 +30,10 @@
 						Username is required.
 					</div>
 					<div *ngIf="inusername.errors.minlength">
-						Username must be at least 4 characters long.
+						Username must be at least 6 characters long.
 					</div>
 					<div *ngIf="inusername.errors.maxlength">
-						Username cannot exceed 32 characters.
+						Username cannot exceed 64 characters.
 					</div>
 				</div>
 				
@@ -42,10 +42,10 @@
 						Password is required.
 					</div>
 					<div *ngIf="inpassword.errors.minlength">
-						Password must be at least 4 characters long.
+						Password must be at least 6 characters long.
 					</div>
 					<div *ngIf="inpassword.errors.maxlength">
-						Password cannot exceed 32 characters.
+						Password cannot exceed 64 characters.
 					</div>
 				</div>
 				
@@ -84,10 +84,8 @@
 	      
     <ion-card-content>
 	  
-      You are login as {{sessionService.getCurrentStudent().name}}
-        (Access Right: 
-        <span *ngIf="sessionService.getCurrentStudent().accessRightEnum == 0">STUDENT</span>
-          
+      You are login as {{sessionService.getCurrentStudent().name}}.
+
         </ion-card-content>
 	  
     </ion-card>

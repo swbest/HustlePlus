@@ -45,9 +45,9 @@ export class LoginPage implements OnInit {
               
         this.studentService.studentLogin(this.username, this.password).subscribe(
           response => {										
-            let student: Student = response.studentEntity;	
+            let student: Student = response.student;	
             
-            if(response.studentEntity.accessRightEnum == 'STUDENT')
+            if(response.student.accessRightEnum == 'STUDENT')
             {
               student.accessRightEnum = AccessRightEnum.STUDENT;
             }
