@@ -1,0 +1,93 @@
+.profileimg {
+  width:200px;
+  height:200px;
+  position: relative;
+  border:10px;
+  padding:10px;
+  z-index: 1;
+  justify-content: center;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
+.heading{
+    position:relative;
+  }
+  .heading h2{
+    color:#FFFFFF;
+    padding-left:8px;
+    font-weight:300;
+
+  }
+
+  .heading p{
+    position:absolute;
+    right:10px;
+    top:-6px;
+  }
+
+  .news-card{
+    width:35%;
+    color:#FFFFFF;
+    box-shadow: 2px -1px 24px 2px rgba(0,0,0,0.11);
+    border-radius: 8px;
+    margin: 15px;
+    display: inline-block; 
+
+  }
+
+  .news-card img{
+    height:90px;
+    width: 100%;
+    object-fit: cover;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    
+  }
+
+  .news-card h4,p{
+    padding-left:6px;
+    font-weight:300;
+    color:rgb(0, 0, 0);
+
+
+  }
+
+  .news-card p{
+     color: #FFFFFF;
+     padding-left: 4px;
+     padding-bottom: px;
+
+
+  }
+
+  .news-card-container{
+    white-space: nowrap;
+    overflow-x: scroll;
+    padding-bottom:10px;
+
+
+  }
+
+  .item-avatar img {     
+    width:100% !important;  
+    height : 100% !important;  
+    max-width: 100px !important;  //any size
+    max-height: 100px !important; //any size 
+    }
+
+    h2{
+        position: relative;
+        left:20px;
+        top: 10%;
+        display: inline-block;
+    }
+
+
+    ion-badge{
+        display: inline-block;
+        position: absolute;
+        right: 10px;
+    }
+

@@ -16,9 +16,11 @@ export class Student {
     bankAccountName: string;
     bankAccountNumber: number;
     skills: Skill[];
+    resume: File;
 
     constructor(userId?: number, name?: string, username?: string, password?: string, email?: string, 
-        accessRightEnum?: AccessRightEnum, description?: string, bankAccountName?: string, bankAccountNumber?: number) {
+        accessRightEnum?: AccessRightEnum, description?: string, bankAccountName?: string, 
+        bankAccountNumber?: number, resume?: File) {
         this.userId = userId;
         this.name = name;
         this.username = username;
@@ -28,5 +30,6 @@ export class Student {
         this.description = description;
         this.bankAccountName = bankAccountName;
         this.bankAccountNumber = bankAccountNumber;
+        this.resume = resume;
     }
 }
