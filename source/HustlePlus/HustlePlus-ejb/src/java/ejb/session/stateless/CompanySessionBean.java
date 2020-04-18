@@ -251,7 +251,7 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
     // searching for company) rating/ company's name
     @Override
     public List<Company> retrieveCompaniesByName(String cname) throws CompanyNotFoundException {
-        Query query = em.createQuery("SELECT c FROM Company c WHERE c.Name LIKE '%name%'");
+        Query query = em.createQuery("SELECT c FROM Company c WHERE c.name LIKE '%name%'");
         query.setParameter("name", cname);
         
         try {

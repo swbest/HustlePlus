@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.event.RateEvent;
 import util.exception.CompanyNotFoundException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNotFoundException;
@@ -80,7 +81,7 @@ public class ReviewManagementManagedBean implements Serializable {
             setProjectToReview(null); 
             setCompanyToReview(null); 
             
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New project created successfully (Project ID: " + projectId + ")", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New project created successfully! (Project ID: " + projectId + ")", null));
         } catch (StudentNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new project: Project not found", null));
         } catch (ProjectNotFoundException ex) {
@@ -93,6 +94,16 @@ public class ReviewManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: " + ex.getMessage(), null));
         }
     }
+    
+    public void onrate() {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "New Rating", "Rating successfully added!");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    /*public void oncancel() {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancel Event", "Rate Reset");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }*/
 
     public Review getNewReview() {
         return newReview;
