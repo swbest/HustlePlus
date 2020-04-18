@@ -87,26 +87,6 @@ public class StudentResource {
         }
     }
     
-        /**
-     * Retrieves representation of an instance of
-     * ws.restful.resources.StudentResource
-     *
-     * @return an instance of java.lang.String
-     */
-//    @GET
-//    @Path("retrieveStudent/{username}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response retrieveStudentByUsername(@PathParam("username") String username) {
-//        try {
-//            Student student = studentSessionBean.retrieveStudentByUsername(username);
-//            RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(student);
-//            return Response.status(Response.Status.OK).entity(retrieveStudentRsp).build();
-//        } catch (Exception ex) {
-//            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-//        }
-//    }
-
     /**
      * Retrieves representation of an instance of
      * ws.restful.resources.StudentResource
