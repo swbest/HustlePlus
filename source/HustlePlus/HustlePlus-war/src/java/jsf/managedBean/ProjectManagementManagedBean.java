@@ -35,11 +35,8 @@ import util.exception.CompanyNotVerifiedException;
 import util.exception.CompanySuspendedException;
 import util.exception.DeleteProjectException;
 import util.exception.InputDataValidationException;
-import util.exception.MilestoneIdExistException;
-import util.exception.MilestoneNotFoundException;
 import util.exception.ProjectNameExistException;
 import util.exception.ProjectNotFoundException;
-import util.exception.SkillNameExistsException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateProjectException;
 
@@ -68,10 +65,7 @@ public class ProjectManagementManagedBean implements Serializable {
 
     @EJB(name = "ProjectSessionBeanLocal")
     private ProjectSessionBeanLocal projectSessionBeanLocal;
-    
-    
-   
-    
+
     @Inject
     private ViewProjectManagedBean viewProjectManagedBean;
     
@@ -196,21 +190,7 @@ public class ProjectManagementManagedBean implements Serializable {
         }
     }
      
-     public void addNewSkill(ActionEvent event) {
-         try {
-             Long skillId = skillSessionBeanLocal.createNewSkill(getNewSkill()); 
-             //getSkills().add(skillSessionBeanLocal.retrieveSkillBySkillId(skillId));
-             setNewSkill(new Skill()) ; 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New skill created successfully (Skill ID: " + skillId + ")", null));
-             
-       // } catch (SkillNotFoundException ex) {
-        //    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new skill: Skill not found", null));
-         } catch (SkillNameExistsException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new skill: Skill name exists", null));
-         } catch (InputDataValidationException | UnknownPersistenceException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new skill: " + ex.getMessage(), null));
-         }
-     }
+     
      
      public void doUpdateProject(ActionEvent event) {
          setSelectedProjectToUpdate((Project) event.getComponent().getAttributes().get("projectToUpdate"));
@@ -238,6 +218,8 @@ public class ProjectManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating project: " + ex.getMessage(), null));
          }
      }
+     
+    
      
      public void deleteProject(ActionEvent event) {
          try {

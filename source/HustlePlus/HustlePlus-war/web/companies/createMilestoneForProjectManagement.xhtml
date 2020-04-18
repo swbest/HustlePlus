@@ -40,7 +40,7 @@
     </h:head>
     <h:body>
         
-        <p:panel header="Create Milestone" style="background-color: powderblue; font-size: large">
+        <p:panel header="Create Milestone for Project" style="background-color: powderblue; font-size: large">
             <h:form id="createMilestone">
                 <p:growl>
                     <p:autoUpdate/>
@@ -54,7 +54,7 @@
                             <p:outputLabel for="milestoneTitle" value="Title of Milestone: " />
                         </p:column>
                         <p:column>
-                            <p:inputText id="milestoneTitle" value="#{milestoneManagementManagedBean.newMilestone.title}" required="true" requiredMessage="Title of Milestone is requiured" />
+                            <p:inputText id="milestoneTitle" value="#{milestoneManagementManagedBean.newMilestone.title}" required="true" requiredMessage="Title of Milestone is required"/>
                         </p:column>
                     </p:row>
                     
@@ -70,20 +70,19 @@
                     <p:row>
                          <h:panelGrid columns="2" cellpadding="5">
                             <p:outputLabel for="project" value="Project: * " />
-                            <p:selectOneMenu id="project" value="#{milestoneManagementManagedBean.selProjectId}" style="width: 125px" required="true" requiredMessage="Project must be selected">
+                            <p:selectOneMenu id="project" value="#{milestoneManagementManagedBean.selProjectId}" style="width: 125px">
                               <f:selectItem itemLabel="Select One" itemValue=" "/>
                               <f:selectItems value="#{milestoneManagementManagedBean.projects}"  var="project" itemLabel="#{project.projectName}" itemValue="#{project.projectId}" />
                             </p:selectOneMenu>
                          </h:panelGrid> 
                     </p:row>
-                  
-                     
+
 
                     <p:row>
                         <p:column colspan="2">
                             <p:commandButton type="reset" value="Clear" />
-                            <p:commandButton value="Create" process="@form" update="@form" actionListener="#{milestoneManagementManagedBean.createNewMilestone}"/>
-                            <p:commandButton immediate="true" value="Cancel" action="/index.xhtml?faces-redirect=true"/>
+                            <p:commandButton value="Add" process="@form" update="@form" actionListener="#{milestoneManagementManagedBean.createNewMilestone}"/>
+                            <p:commandButton immediate="true" value="Cancel" action="/companies/projectManagement.xhtml?faces-redirect=true"/>
                         </p:column>
                     </p:row>
                     

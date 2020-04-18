@@ -29,20 +29,19 @@
                             <h:outputText value="Search " />
                             <p:inputText id="globalFilter" onkeyup="PF('dataTableAllMilestones').filter()" style="width:200px" placeholder=""/>
                         </p:outputPanel>
-                        <p:spacer width="20"></p:spacer> 
                         <p:commandButton icon="ui-icon-plusthick" update="formCreateNewMilestone" oncomplete="PF('dialogCreateNewMilestone').show()" style="float:right;margin-top: 4px"/>
                     </f:facet>
                     
                     <p:column headerText="Milestone ID" sortBy="#{milestone.milestoneId}" filterBy="#{milestone.milestoneId}" filterMatchMode="contains">
-                        <h:outputText value="#{milestone.milestoneId}" />
+                        <h:outputText value="#{milestone.milestoneId}" style="float:left" />                    
                     </p:column>
                     
                     <p:column headerText="Title" sortBy="#{milestone.title}" filterBy="#{milestone.title}" filterMatchMode="contains">
-                        <h:outputText value="#{milestone.title}" />
+                        <h:outputText value="#{milestone.title}" style="float:center"/>
                     </p:column>
                     
                     <p:column headerText="Description" sortBy="#{milestone.description}" filterBy="#{milestone.description}" filterMatchMode="contains">
-                        <h:outputText value="#{milestone.description}" />
+                        <h:outputText value="#{milestone.description}" style="float:right"/>
                     </p:column>
                     
                     <p:column headerText="Action" >
@@ -80,7 +79,7 @@
                             <p:outputLabel for="milestoneTitle" value="Title of Milestone: " />
                         </p:column>
                         <p:column>
-                            <p:inputText id="milestoneTitle" value="#{milestoneManagementManagedBean.newMilestone.title}" />
+                            <p:inputText id="milestoneTitle" value="#{milestoneManagementManagedBean.newMilestone.title}" required="true" requiredMessage="Milestone title is required" />
                         </p:column>
                     </p:row>
                     
@@ -98,7 +97,7 @@
                          <h:panelGrid columns="2" cellpadding="5">
                         
                             <p:outputLabel for="project" value="Project: * " />
-                            <p:selectOneMenu id="project" value="#{milestoneManagementManagedBean.selProjectId}" style="width: 125px">
+                            <p:selectOneMenu id="project" value="#{milestoneManagementManagedBean.selProjectId}" style="width: 125px" required="true" requiredMessage="Project must be selected">
                               <f:selectItem itemLabel="Select One" itemValue=" "/>
                               <f:selectItems value="#{milestoneManagementManagedBean.projects}"  var="project" itemLabel="#{project.projectName}" itemValue="#{project.projectId}" />
                             </p:selectOneMenu> 

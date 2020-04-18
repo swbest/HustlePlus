@@ -16,11 +16,9 @@
     <h:body>
         
 
-            <h:form id="addProject" enctype="multipart/form-data" >       
+            <h:form id="addProject">       
                 <p:panel header="List a New Project" style="background-color: white; font-size: large">
-                <p:growl>
-                    <p:autoUpdate/>
-                </p:growl>
+
                 <h:messages/>
                 
                 <p:panelGrid>
@@ -30,7 +28,7 @@
                             <p:outputLabel for="projectName" value="Project Name" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="projectName" value="#{projectManagementManagedBean.newProject.projectName}" />
+                            <p:inputText id="projectName" value="#{projectManagementManagedBean.newProject.projectName}" required="true" requiredMessage="Project Name is required!" />
                         </p:column>
                     </p:row>
                     
@@ -39,7 +37,7 @@
                              <p:outputLabel for="jobValue" value="Job Value" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="jobValue" value="#{projectManagementManagedBean.newProject.jobValue}" />
+                            <p:inputText id="jobValue" value="#{projectManagementManagedBean.newProject.jobValue}" required="true" requiredMessage="Job Value is required!" />
                         </p:column>
                     </p:row>
                    
@@ -48,7 +46,7 @@
                             <p:outputLabel for="numStudentsRequired" value="Number of student(s) required" />
                         </p:column>
                         <p:column>
-                            <p:inputText id="numStudentsRequired" value="#{projectManagementManagedBean.newProject.numStudentsRequired}" />
+                            <p:inputText id="numStudentsRequired" value="#{projectManagementManagedBean.newProject.numStudentsRequired}" required="true" requiredMessage="Number of Student(s) is required!" />
                         </p:column>
                     </p:row>
                     
@@ -66,7 +64,7 @@
                             <p:outputLabel for="startDate" value="Project Start Date" />
                         </p:column>
                         <p:column>
-                             <p:datePicker id="startDate" value="#{projectManagementManagedBean.newProject.startDate}" />
+                             <p:datePicker id="startDate" value="#{projectManagementManagedBean.newProject.startDate}" required="true" requiredMessage="Start Date is required!" />
                         </p:column>
                     </p:row>
                    
@@ -76,7 +74,7 @@
                             <p:outputLabel for="endDate" value="Project End Date" />
                         </p:column>
                         <p:column>
-                          <p:datePicker id="endDate" value="#{projectManagementManagedBean.newProject.endDate}" />
+                          <p:datePicker id="endDate" value="#{projectManagementManagedBean.newProject.endDate}" required="true" requiredMessage="End Date is required!" />
                         </p:column>
                     </p:row>
                     
@@ -87,7 +85,6 @@
                             <p:outputLabel for="skills" value="Required Skills: * " />
                             <p:selectCheckboxMenu id="skills" value="#{projectManagementManagedBean.newProject.skills}" label="Skills"
                                                   multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="250px">
-                                <p:ajax event="toggleSelect" listener="#{projectManagementManagedBean.onItemUnselect}" />
                                 <f:selectItems value="#{projectManagementManagedBean.skills}" var="skill" itemLabel="#{skill.title}" />
                             </p:selectCheckboxMenu>
                             <p:commandButton immediate="true" value="Add Skill" action="/companies/addASkill.xhtml?faces-redirect=true"/>
@@ -95,22 +92,6 @@
                             </h:panelGrid>
                     </p:row>
                     
-                     <p:row>
-                         
-                         <h:panelGrid columns="3" cellpadding="5">
-                        
-                            <p:outputLabel for="milestones" value="Milestones for Project: * " />
-                            <p:selectCheckboxMenu id="milestones" value="#{projectManagementManagedBean.newProject.milestones}" label="Milestones"
-                                                  multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="250px">
-                                <p:ajax event="toggleSelect" listener="#{projectManagementManagedBean.onItemUnselect}" />
-                                <f:selectItems value="#{projectManagementManagedBean.milestones}" var="milestone" itemLabel="#{milestone.title}" />
-                            </p:selectCheckboxMenu>
-                            <p:commandButton immediate="true" value="Create Milestones" action="/companies/createNewMilestone.xhtml?faces-redirect=true"/>
-                            </h:panelGrid>
-                    </p:row>
-
-                    
-
                     
                     <p:row>
                         <p:column colspan="2">
@@ -122,11 +103,28 @@
 
                         </p:column>
                     </p:row>
-                    
-                        
+   
                 </p:panelGrid>
                 </p:panel>
             </h:form>
+        
+         <p:panel header="Add Milestone to Project" style="background-color: powderblue; font-size: large">
+            <h:form>
+               
+                <p:panelGrid>
+                    
+                    <p:commandButton value="Create Milestones" action="/companies/createNewMilestone.xhtml?faces-redirect=true"/>
+                    
+
+                        
+                </p:panelGrid>
+
+            </h:form>
+
+        </p:panel>
+        
+            
+            
 
 
         

@@ -109,8 +109,7 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
                 Milestone milestoneToUpdate = retrieveMilestoneByMilestoneId(milestone.getMilestoneId());
                 milestoneToUpdate.setTitle(milestone.getTitle());
                 milestoneToUpdate.setDescription(milestone.getDescription());
-                milestoneToUpdate.setPayments(milestone.getPayments());
-                milestoneToUpdate.setProject(milestone.getProject());
+                //milestoneToUpdate.setPayments(milestone.getPayments());
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

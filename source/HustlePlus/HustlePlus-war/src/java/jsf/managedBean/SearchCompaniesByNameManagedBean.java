@@ -28,7 +28,9 @@ public class SearchCompaniesByNameManagedBean {
     private CompanySessionBeanLocal companySessionBeanLocal;
     
     @Inject
-    private ViewCompanyManagedBean viewCompanyManagedBean;
+    private ViewCompanyManagedBean viewCompanyManagedBean; 
+    
+
 
     private String searchString;
     private List<Company> companies;
@@ -91,18 +93,14 @@ public class SearchCompaniesByNameManagedBean {
         this.companies = companies;
     }
 
-    /**
-     * @return the viewCompanyManagedBean
-     */
     public ViewCompanyManagedBean getViewCompanyManagedBean() {
         return viewCompanyManagedBean;
     }
 
-    /**
-     * @param viewCompanyManagedBean the viewCompanyManagedBean to set
-     */
     public void setViewCompanyManagedBean(ViewCompanyManagedBean viewCompanyManagedBean) {
         this.viewCompanyManagedBean = viewCompanyManagedBean;
     }
+    
+
     
 }

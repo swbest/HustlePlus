@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.Company;
 import entity.Project;
+import entity.Skill;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -67,6 +68,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                 try {
                     System.out.println("PSB1");
                     Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
+                    
                     System.out.println("PSB2");
                     if (company.getIsVerified() == false) {
                         throw new CompanyNotVerifiedException("Company is not yet verified! Please wait a few days for admin staff to verify.");
