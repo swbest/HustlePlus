@@ -35,7 +35,7 @@ export class CreateNewStudentPage implements OnInit {
 		if (createStudentForm.valid) {
 			this.studentService.createNewStudent(this.newStudent).subscribe(
 				response => {
-					this.infoMessage = 'New student created ' + response.newBookId;
+					this.infoMessage = 'Your account was succesfully created with ID: ' + response.newStudentId;
 					this.errorMessage = null;
 				},
 				error => {

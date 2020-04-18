@@ -116,7 +116,12 @@ export class AppComponent implements OnInit {
 				{
 					title: 'Login',
 					url: '/login',
-					icon: 'lock-closed'
+					icon: 'lock-open'
+        },
+        {
+					title: 'Register',
+					url: '/createNewStudent',
+					icon: 'person-add'
 				}
 			];
 		}
