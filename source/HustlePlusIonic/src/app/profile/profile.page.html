@@ -9,7 +9,7 @@
 </ion-header>
 
 
-<ion-content color="primary">
+<ion-content >
 
   <ion-toolbar no-border-top>
     <ion-segment [(ngModel)]="option">
@@ -30,11 +30,11 @@
 
 
         <ion-row justify-content-center>
-          <ion-item color="primary">
+          <ion-item >
             <img class="profileimg" src="../../assets/images/student.jpg">
           </ion-item>
         </ion-row>
-        <ion-row color="primary" justify-content-center>
+        <ion-row  justify-content-center>
           <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
 
             <div padding>
@@ -48,8 +48,25 @@
                 <ion-item>
                   <p><strong>Username :</strong> {{ username }}</p>
                 </ion-item>
-
-
+                <ion-item>
+                  <p><strong>Password :</strong> {{ password }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Email :</strong> {{ email }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Rating :</strong> {{ avgRating }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Bank Name :</strong> {{ bankAccountName }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Bank Account :</strong> {{ bankAccountNumber }}</p>
+                </ion-item>
+                <ion-item>
+                  <p *ngIf="isVerified == true"><strong>Verified? :</strong> Yes </p>
+                  <p *ngIf="isVerified == false"><strong>Verified? :</strong> No </p>
+                </ion-item>
               </ion-card>
             </div>
           </ion-col>
@@ -61,7 +78,7 @@
     <div *ngSwitchCase="'Skills'">
       <ng-container *ngFor="let skills of skills">
         <div item-end>
-          <ion-chip style="float:left; position:absolute;" (click)="viewTutorProfile(rating.sourceUsername)"
+          <ion-chip style="float:left; position:absolute;" 
             color="dark">
             <ion-icon name="person"></ion-icon>
             <ion-label>this skill</ion-label>
@@ -80,11 +97,11 @@
 
 
         <ion-row justify-content-center>
-          <ion-item color="primary">
+          <ion-item >
             <img class="profileimg" src="../../assets/images/student.jpg">
           </ion-item>
         </ion-row>
-        <ion-row color="primary" justify-content-center>
+        <ion-row  justify-content-center>
           <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
 
             <div padding>
@@ -96,10 +113,27 @@
                   <p><strong>Name :</strong> {{ name }}</p>
                 </ion-item>
                 <ion-item>
-                  <p><strong>Username :</strong> {{ userId }}</p>
+                  <p><strong>Username :</strong> {{ username }}</p>
                 </ion-item>
-
-
+                <ion-item>
+                  <p><strong>Password :</strong> {{ password }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Email :</strong> {{ email }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Rating :</strong> {{ avgRating }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Bank Name :</strong> {{ bankAccountName }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Bank Account :</strong> {{ bankAccountNumber }}</p>
+                </ion-item>
+                <ion-item>
+                  <p *ngIf="isVerified == true"><strong>Verified? :</strong> Yes </p>
+                  <p *ngIf="isVerified == false"><strong>Verified? :</strong> No </p>
+                </ion-item>
               </ion-card>
             </div>
           </ion-col>

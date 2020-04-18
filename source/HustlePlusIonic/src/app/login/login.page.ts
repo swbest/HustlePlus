@@ -14,6 +14,7 @@ import { AccessRightEnum } from '../access-right-enum.enum';
 
 export class LoginPage implements OnInit {
 
+    student: Student;  
     submitted: boolean
     username: string;
     password: string;
@@ -51,6 +52,7 @@ export class LoginPage implements OnInit {
             
             if(student != null)
             {
+              this.student = student;
               this.sessionService.setIsLogin(true);
               this.sessionService.setCurrentStudent(student);					
               this.loginError = false;					
@@ -77,6 +79,7 @@ export class LoginPage implements OnInit {
     {
       this.sessionService.setIsLogin(false);
       this.sessionService.setCurrentStudent(null);		
+      console.log('successful logout');
     }
     
     

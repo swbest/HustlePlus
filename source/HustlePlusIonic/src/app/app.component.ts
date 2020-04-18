@@ -85,7 +85,7 @@ export class AppComponent implements OnInit {
 	onActivate(componentReference)
 	{
 		console.log('********** AppComponent.onActivate: ' + componentReference.componentType);
-		this.updateMainMenu();
+    this.updateMainMenu();
 	}
 	
 	updateMainMenu()

@@ -37,7 +37,6 @@ export class ProfilePage implements OnInit {
     private sessionService: SessionService,
     private modalController: ModalController,
     private toastController:ToastController,
-    private activatedRoute: ActivatedRoute, 
     private location: Location
     ) { 
       this.skills = new Array();
@@ -45,10 +44,9 @@ export class ProfilePage implements OnInit {
     }
 
     ngOnInit() {
-
       this.studentToView = this.sessionService.getCurrentStudent();
       this.skills = this.sessionService.getSkills();     
-      this.studentInitialiseFields;
+      this.studentInitialiseFields();
         error => {
           this.infoMessage = null;
           this.errorMessage = "Error retrieving student details.";

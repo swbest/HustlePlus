@@ -1,10 +1,11 @@
 .profileimg {
-  width:200px;
-  height:200px;
+  width:250px;
+  height:250px;
   position: relative;
   border:10px;
   padding:10px;
   z-index: 1;
+  align-items: center;
   justify-content: center;
   object-fit: cover;
   border-radius: 50%;
@@ -83,7 +84,6 @@
         top: 10%;
         display: inline-block;
     }
-
 
     ion-badge{
         display: inline-block;
