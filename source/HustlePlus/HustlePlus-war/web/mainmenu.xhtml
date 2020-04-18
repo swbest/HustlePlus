@@ -39,7 +39,9 @@
                            <p:menuitem value="Project Management" outcome="/companies/projectManagement.xhtml">
                                <f:attribute name="companyToView" value="#{sessionScope.userEntity}"/>
                            </p:menuitem>
-                               
+                           <p:menuitem value="Skill Management" outcome="/companies/skillManagement.xhtml">
+                               <f:attribute name="skillToView" value="#{sessionScope.userEntity}"/>
+                           </p:menuitem>                               
                            <p:menuitem value="Add a Skill" outcome="/companies/addASkill.xhtml"/> 
                            <p:menuitem value="Create New Milestone" outcome="/companies/createNewMilestone.xhtml"/> 
                         </p:submenu>

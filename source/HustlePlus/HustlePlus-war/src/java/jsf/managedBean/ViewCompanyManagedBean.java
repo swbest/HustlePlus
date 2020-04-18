@@ -9,17 +9,17 @@ import entity.Company;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author amanda
  */
 @Named(value = "viewCompanyManagedBean")
-@ViewScoped
+@RequestScoped
 public class ViewCompanyManagedBean implements Serializable {
 
     private Company companyToView;

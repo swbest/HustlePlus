@@ -142,38 +142,25 @@ public class MilestoneManagementManagedBean implements Serializable{
         milestoneToUpdate = (Milestone)event.getComponent().getAttributes().get("milestoneToUpdate");
         
         projectIdUpdate = milestoneToUpdate.getProject().getProjectId();
-        paymentIdsUpdate = new ArrayList<>();
-        
+       // paymentIdsUpdate = new ArrayList<>();
+        /*
         for(Payment payment:milestoneToUpdate.getPayments())
         {
             paymentIdsUpdate.add(payment.getPaymentId());
-        }
+        }*/
 
     }
     
     public void updateMilestone(ActionEvent event)
     {                    
         
-        
-        if(selProjectId == 0)
-        {
-            selProjectId = null;
-        }
-        
+
         try
         {
             milestoneSessionBeanLocal.updateMilestone(milestoneToUpdate);
                         
-            for(Project p: projects)
-            {
-                if(p.getProjectId().equals(projectIdUpdate))
-                {
-                    milestoneToUpdate.setProject(p);
-                    break;
-                }                
-            }
-            
-            milestoneToUpdate.getPayments().clear();
+
+           /* milestoneToUpdate.getPayments().clear();
             
             for(Payment pm:payments)
             {
@@ -181,7 +168,7 @@ public class MilestoneManagementManagedBean implements Serializable{
                 {
                     milestoneToUpdate.getPayments().add(pm);
                 }                
-            }
+            }*/
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Milestone updated successfully!", null));
         }
@@ -195,6 +182,16 @@ public class MilestoneManagementManagedBean implements Serializable{
         }
     }
     
+      public void updateProjectMilestone(ActionEvent event) {
+         try {
+         Project projectUpdate = (Project) event.getComponent().getAttributes().get("selProjectToAddMilestone");
+         selProjectId = projectUpdate.getProjectId();
+         System.out.println(selProjectId); 
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/createMilestoneForProjectManagement.xhtml");
+     } catch (IOException ex) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while updating the project: " + ex.getMessage(), null));
+     }
+     }    
     public void deleteMilestone(ActionEvent event)
     { 
         try
