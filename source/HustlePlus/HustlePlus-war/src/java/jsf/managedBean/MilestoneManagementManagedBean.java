@@ -7,6 +7,7 @@ package jsf.managedBean;
 
 import ejb.session.stateless.MilestoneSessionBeanLocal;
 import ejb.session.stateless.ProjectSessionBeanLocal;
+import entity.Company;
 import entity.Milestone;
 import entity.Payment;
 import entity.Project;
@@ -20,7 +21,6 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import util.exception.InputDataValidationException;
@@ -58,6 +58,11 @@ public class MilestoneManagementManagedBean implements Serializable{
     private Milestone milestoneToUpdate;
     private Long projectIdUpdate;
     private List<Long> paymentIdsUpdate;
+    
+    private List<Milestone> milestonesForSelectedCompany; 
+    private Company selectedMilestoneCompany; 
+    
+    
 
     
     /**
@@ -107,6 +112,7 @@ public class MilestoneManagementManagedBean implements Serializable{
         } else {
             System.out.println("MMMB1");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please select a valid project","Please select a valid project"));
+        }
  
         try
         {
@@ -129,7 +135,7 @@ public class MilestoneManagementManagedBean implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new milestone: " + ex.getMessage(), null));
         }
     }
-    }
+    
     
     public void doUpdateMilestone(ActionEvent event)
     {
@@ -197,7 +203,7 @@ public class MilestoneManagementManagedBean implements Serializable{
             milestoneSessionBeanLocal.deleteMilestone(milestoneToDelete.getMilestoneId());
             
             milestones.remove(milestoneToDelete);
-            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Milestone deleted successfully", null));
         }
         catch(MilestoneNotFoundException ex) //DeleteMilestoneException?
         {
@@ -206,6 +212,18 @@ public class MilestoneManagementManagedBean implements Serializable{
         catch(Exception ex)
         {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+        
+    }
+    
+    public void retrieveMilestonesForCompany() {
+        System.out.println("CALLED");
+        try {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/companies/milestoneManagement.xhtml");
+
+         setMilestonesForSelectedCompany(milestoneSessionBeanLocal.retrieveMilestonesByCompany(selectedMilestoneCompany.getUserId())); 
+        } catch (IOException | ProjectNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving milestones: " + ex.getMessage(), null));
         }
         
     }
@@ -357,6 +375,24 @@ public class MilestoneManagementManagedBean implements Serializable{
     public void setSelectedProject(Project selectedProject) {
         this.selectedProject = selectedProject;
     }
+
+    public List<Milestone> getMilestonesForSelectedCompany() {
+        return milestonesForSelectedCompany;
+    }
+
+    public void setMilestonesForSelectedCompany(List<Milestone> milestonesForSelectedCompany) {
+        this.milestonesForSelectedCompany = milestonesForSelectedCompany;
+    }
+
+    public Company getSelectedMilestoneCompany() {
+        return selectedMilestoneCompany;
+    }
+
+    public void setSelectedMilestoneCompany(Company selectedMilestoneCompany) {
+        this.selectedMilestoneCompany = selectedMilestoneCompany;
+    }
+    
+    
     
     
 

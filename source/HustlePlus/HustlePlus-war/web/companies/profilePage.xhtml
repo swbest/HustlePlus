@@ -15,16 +15,16 @@
         </h:panelGroup>
 
         <h:panelGroup rendered="#{sessionScope.isLogin == true}" style="text-align:center">
-            <center><h2>#{sessionScope.userEntity.name}</h2></center>
+            
+             <center><h2>#{sessionScope.userEntity.name}</h2></center>
+            <center><p:graphicImage value="#{sessionScope.userEntity.icon}"  width="40%" /></center>
+            <br/>
+            
+            <h:form>
+                <p:growl id="messages" showDetail="true"/>
+                
+                                      <table class="table" align="center">
 
-            <center><p:graphicImage value="#{sessionScope.userEntity.icon}"  width="20%" /></center>
-                        <br/>
-                           
-                        <h:form>
-                   <p:growl id="messages" showDetail="true"/>
-
-                        
-                      <table class="table" align="center">
                                         <tr>
                                             <td>Company Name: </td>
                                             <td><h:outputText value="#{sessionScope.userEntity.name}" /></td>
@@ -55,8 +55,11 @@
                           <br />
               <br />
             
-                           
-                
+             <p:commandButton value="Update Profile Picture" actionListener="#{companyManagementManagedBean.setCompanyToUpdatePhoto}" update="formUpdatePhoto" oncomplete="PF('dialogUpdatePhoto').show()" title="Update Profile Picture">
+                  <f:attribute name="companyToUpdatePhoto" value="#{sessionScope.userEntity}"/>
+              </p:commandButton>
+              <br />
+              <br />
              <p:commandButton value="Update Profile" actionListener="#{companyManagementManagedBean.doUpdateCompany}" update="formUpdateCompany" oncomplete="PF('dialogUpdateCompany').show()" title="Update">
                 <f:attribute name="selectedCompanyToUpdate" value="#{sessionScope.userEntity}" />
              </p:commandButton>
@@ -66,11 +69,11 @@
                 <f:attribute name="companyToDelete" value="#{sessionScope.userEntity}" />
                <p:confirm header="Confirmation" message="Are you sure you want to delete #{userEntity.name} (Your ID: #{userEntity.userId})?" icon="ui-icon-alert" />
         </p:commandButton>
-              
+
               <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
+              </p:confirmDialog>
               
 
 
@@ -186,6 +189,22 @@
                 </p:dialog>
 
             </h:form>
+            
+            <h:form id="formUpdatePhoto">
+                <p:dialog id="dialogUpdatePhoto" widgetVar="dialogUpdatePhoto" header="Update Profile Picture" closable="true">
+                    Maximum File Size: 5MB 
+                    <p:messages id="messagesUpdateCompany" redisplay="false"/>
+                    
+                    <p:panelGrid>
+                        <p:messages redisplay="false" />
+                        <p:fileUpload fileUploadListener="#{companyManagementManagedBean.handleFileUpload}" update="@form" sizeLimit="5000000" />
+                        <p:growl id="messages" showDetail="true" />
+                    </p:panelGrid>
+                        
+                </p:dialog>
+                
+            </h:form>
+               
                  
 
         </h:panelGroup>

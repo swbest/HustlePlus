@@ -5,7 +5,6 @@
  */
 package entity;
 
-import java.io.File;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +15,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 import util.enumeration.AccessRightEnum;
 import util.security.CryptographicHelper;
 
@@ -44,7 +44,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     protected String password;
     @Column(nullable = true)
-    protected File icon;
+    protected String icon;
     @NotNull
     @Column(nullable = false, length = 64, unique = true)
     @Size(max = 64)
@@ -94,12 +94,13 @@ public class User implements Serializable {
             this.password = null;
         }
     }
-
-    public File getIcon() {
+   
+   @XmlTransient
+    public String getIcon() {
         return icon;
     }
 
-    public void setIcon(File icon) {
+    public void setIcon(String icon) {
         this.icon = icon;
     }
 

@@ -41,7 +41,7 @@
                     
                    
                     <p:column headerText="Action" >
-                        <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View">
+                        <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View" action="#{viewProjectManagedBean.setStatusText}">
                             <f:setPropertyActionListener value="#{project}" target="#{projectManagementManagedBean.viewProjectManagedBean.projectToView}" />
                         </p:commandButton>
                         <p:commandButton  actionListener="#{projectManagementManagedBean.doUpdateProject}" update="formUpdateProject" oncomplete="PF('dialogUpdateProject').show()" icon="ui-icon-pencil" title="Update">
@@ -135,6 +135,7 @@
             <ez:ViewProject id="ccViewProject" />
 
             <h:form id="formUpdateProject">
+                <p:growl id="msgs"/> 
 
                 <p:dialog id="dialogUpdateProject" widgetVar="dialogUpdateProject" header="Update Project" closable="true">
 
@@ -204,22 +205,46 @@
                         
                         <p:row>
                         <p:column>
-                            <p:outputLabel for="startDate" value="Project Start Date" />
+                            <p:outputLabel for="startDate" value="Project Start Date" style="font-weight: bold;" />
                         </p:column>
                         <p:column>
-                             <p:datePicker id="startDate" value="#{projectManagementManagedBean.selectedProjectToUpdate.startDate}" />
+                             <p:datePicker id="startDate" value="#{projectManagementManagedBean.selectedProjectToUpdate.startDate}" required="true" requiredMessage="Start Date is required!" />
                         </p:column>
-                    </p:row>
+                            <p:column>
+                                <p:message for="startDate" />
+                            </p:column>                    
+                        </p:row>
                    
                     
                     <p:row>
                         <p:column>
-                            <p:outputLabel for="endDate" value="Project End Date" />
+                            <p:outputLabel for="endDate" value="Project End Date" style="font-weight: bold;"/>
                         </p:column>
                         <p:column>
-                          <p:datePicker id="endDate" value="#{projectManagementManagedBean.selectedProjectToUpdate.endDate}" />
+                          <p:datePicker id="endDate" value="#{projectManagementManagedBean.selectedProjectToUpdate.endDate}" required="true" requiredMessage="End Date is required!" />
                         </p:column>
+                            <p:column>
+                                <p:message for="endDate" />
+                            </p:column> 
                     </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="projectStatus" value="Project Status " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:selectBooleanButton id="projectStatus" value="#{projectManagementManagedBean.statusValue}" onLabel="Completed" offLabel="Not Completed" onIcon="pi pi-check" offIcon="pi pi-times" style="width:200px">
+                                <p:ajax update="msgs" listener="#{projectManagementManagedBean.addMessageForStatus}"/>
+                                <p:ajax listener="#{projectManagementManagedBean.changeProjectStatus}"/>
+                                </p:selectBooleanButton>
+                            </p:column>
+                            <p:column>
+                                <p:message for="projectStatus" />
+                            </p:column>
+                        </p:row>  
+                        
+   
+                    
                        
                         <p:row>
                             <p:column colspan="3">

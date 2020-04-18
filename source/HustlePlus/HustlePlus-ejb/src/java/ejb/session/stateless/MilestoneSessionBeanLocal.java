@@ -31,6 +31,8 @@ public interface MilestoneSessionBeanLocal {
     public void deleteMilestone(Long milestoneId) throws MilestoneNotFoundException ;
 
     public List<Milestone> retrieveAllMilestones();
+
+    public List<Milestone> retrieveMilestonesByCompany(Long companyId) throws ProjectNotFoundException;
     
 }
 

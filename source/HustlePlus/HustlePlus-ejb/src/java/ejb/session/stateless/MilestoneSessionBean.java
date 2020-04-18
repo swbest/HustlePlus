@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.Milestone;
 import entity.Project;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
@@ -33,6 +34,9 @@ import util.exception.UpdateMilestoneException;
 @Stateless
 public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
 
+    @EJB(name = "CompanySessionBeanLocal")
+    private CompanySessionBeanLocal companySessionBeanLocal;
+
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
 
@@ -41,6 +45,10 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
     
     @EJB
     private ProjectSessionBeanLocal projectSessionBeanLocal;
+    
+    private List<Milestone> milestoneList; 
+    
+    
 
     public MilestoneSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -124,6 +132,36 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
         return query.getResultList();
 
     }
+    
+    @Override
+    public List<Milestone> retrieveMilestonesByCompany(Long companyId) throws ProjectNotFoundException {
+        
+        
+        try {
+         //retrieve all projects of company 
+        List<Project> projects = projectSessionBeanLocal.retrieveProjectsByCompany(companyId);
+        
+        //in milestone table, the milestone must have these project ids 
+        //iterate through all milestones, if milestone has that id
+        
+        for (Project p:projects)
+       {
+           Query query = em.createQuery("SELECT m FROM Milestone m WHERE m.project.projectId =:pid ");
+           query.setParameter("pid", p.getProjectId());
+           Milestone m = (Milestone)query.getSingleResult();
+           System.out.println("m.getP.getPID " + m.getProject().getProjectId());
+               milestoneList.add(m);
+
+       }
+        
+        return milestoneList; 
+        //retrieve all projects of a company first 
+        //iterate through list, if projectId falls in milestone table retrieve it 
+    } catch (ProjectNotFoundException ex) {
+        throw new ProjectNotFoundException("Project Not Found for ID: " );
+        
+    }
+    }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Milestone>> constraintViolations) {
         String msg = "Input data validation error!:";
@@ -134,4 +172,6 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
 
         return msg;
     }
+    
+    
 }

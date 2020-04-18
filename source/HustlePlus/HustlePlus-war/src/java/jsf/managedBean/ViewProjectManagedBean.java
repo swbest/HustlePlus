@@ -16,6 +16,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 /**
  *
@@ -30,6 +31,7 @@ public class ViewProjectManagedBean implements Serializable {
     
     private Project projectToView;
    private List<Project> projectsToView; 
+   private String displayStatus; 
 
     /**
      * Creates a new instance of ViewProjectManagedBean
@@ -114,6 +116,20 @@ public class ViewProjectManagedBean implements Serializable {
         return projectToView;
     }
     
+    public void setStatusText() {
+        
+        if (projectToView.getIsFinished()) {
+            System.out.println("Called");
+            setDisplayStatus("Project Completed"); 
+        } else {
+            System.out.println("Not called");
+            setDisplayStatus("Project Not Completed"); 
+        }
+        
+    }
+        
+     
+    
     public void viewMilestones() {
        try {
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/viewMilestones.xhtml");
@@ -135,6 +151,16 @@ public class ViewProjectManagedBean implements Serializable {
     public void setProjectsToView(List<Project> projectsToView) {
         this.projectsToView = projectsToView;
     }
+
+    public String getDisplayStatus() {
+        return displayStatus;
+    }
+
+    public void setDisplayStatus(String displayStatus) {
+        this.displayStatus = displayStatus;
+    }
+    
+    
     
     
     

@@ -35,6 +35,8 @@ import util.exception.CompanyNotVerifiedException;
 import util.exception.CompanySuspendedException;
 import util.exception.DeleteProjectException;
 import util.exception.InputDataValidationException;
+import util.exception.MilestoneIdExistException;
+import util.exception.MilestoneNotFoundException;
 import util.exception.ProjectNameExistException;
 import util.exception.ProjectNotFoundException;
 import util.exception.SkillNameExistsException;
@@ -90,6 +92,9 @@ public class ProjectManagementManagedBean implements Serializable {
     
     private Project selectedProjectToUpdate;
     private List<Long>milestoneIdsUpdate;
+    
+    private boolean statusValue;
+    
     /**
      * Creates a new instance of projectManagementManagedBean
      */
@@ -248,6 +253,25 @@ public class ProjectManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
     }
+     
+     public void addMessageForStatus(){
+         String summary = getStatusValue() ? "Project Completed" : "Project Not Completed";
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary)); 
+     }
+     
+     public void changeProjectStatus() {
+         if (getStatusValue() == true) {
+             System.out.println("trueCPS");
+             selectedProjectToUpdate.setIsFinished(true);
+             System.out.println(selectedProjectToUpdate.getIsFinished());
+         } else {
+             System.out.println("falseCPS");
+             selectedProjectToUpdate.setIsFinished(false);
+             System.out.println(selectedProjectToUpdate.getIsFinished());
+         }
+     }
+     
+     
     
      public void onItemUnselect(UnselectEvent event) {
          FacesContext context = FacesContext.getCurrentInstance();
@@ -368,6 +392,14 @@ public class ProjectManagementManagedBean implements Serializable {
 
     public void setProjectsOfCompany(List<Project> projectsOfCompany) {
         this.projectsOfCompany = projectsOfCompany;
+    }
+
+    public boolean getStatusValue() {
+        return statusValue;
+    }
+
+    public void setStatusValue(boolean statusValue) {
+        this.statusValue = statusValue;
     }
 
  

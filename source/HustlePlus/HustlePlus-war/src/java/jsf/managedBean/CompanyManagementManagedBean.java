@@ -11,7 +11,10 @@ import ejb.session.stateless.ReviewSessionBeanLocal;
 import entity.Company;
 import entity.Project;
 import entity.Review;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -22,6 +25,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.inject.Inject;
+import org.primefaces.event.FileUploadEvent;
 import util.exception.CompanyNameExistException;
 import util.exception.CompanyNotFoundException;
 import util.exception.DeleteCompanyException;
@@ -68,6 +72,8 @@ public class CompanyManagementManagedBean implements Serializable {
     
     private Company selectedCompanyToEmail; 
     
+    private Company companyToUpdatePhoto; 
+    
     private String oldPassword;
     private String newPassword;
     private String confirmPassword; 
@@ -103,18 +109,21 @@ public class CompanyManagementManagedBean implements Serializable {
                 getFilteredCompanies().add(companySessionBeanLocal.retrieveCompanyByCompanyId(companyId));
         }
         
-       newCompany = new Company() ; 
+        newCompany = new Company() ; 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + companyId + ")", null));
-        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.xhtml");
         
         } catch (CompanyNotFoundException ex) {
           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: The company is not found", null));  
         } catch (CompanyNameExistException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: The company name already exist", null));
-        } catch ( InputDataValidationException | UnknownPersistenceException | IOException ex) {
+        } catch ( InputDataValidationException | UnknownPersistenceException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: " + ex.getMessage(), null));
         }
     }
+   
+   public void doCreateCompany(ActionEvent event) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + newCompany.getUserId() + ")", null));
+   }
    
    public void doUpdateCompany(ActionEvent event) {
          selectedCompanyToUpdate =(Company)event.getComponent().getAttributes().get("selectedCompanyToUpdate");
@@ -263,9 +272,6 @@ public class CompanyManagementManagedBean implements Serializable {
          }
              
              }
-         
-         
-     
 
      
      public void resendEmail(ActionEvent event) {
@@ -275,11 +281,110 @@ public class CompanyManagementManagedBean implements Serializable {
          
      }
      
+       
+      
+     
+     
+     public void uploadPicture(FileUploadEvent event) {
+         
+         try {
+         //Long newCompanyId = companySessionBeanLocal.createNewCompany(newCompany);
+         //Company newC = companySessionBeanLocal.retrieveCompanyByCompanyId(newCompanyId);
+
+         String uploadedFileName = event.getFile().getFileName();
+       
+          String newFileName = newCompany.getUserId() + "-" + "profile_" + uploadedFileName;
+          String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1")
+                    + System.getProperty("file.separator")
+                    + newFileName;
+          
+            
+          String docRootFilePath = "/uploadedFiles/" + newFileName;
+            newCompany.setIcon(docRootFilePath);
+            companySessionBeanLocal.uploadIcon(newCompany.getUserId(), docRootFilePath);
+
+            File file = new File(newFilePath);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+
+            int a;
+            int BUFFER_SIZE = 8192;
+            byte[] buffer = new byte[BUFFER_SIZE];
+
+            InputStream inputStream = event.getFile().getInputstream();
+
+            while (true) {
+                a = inputStream.read(buffer);
+
+                if (a < 0) {
+                    break;
+                }
+
+                fileOutputStream.write(buffer, 0, a);
+                fileOutputStream.flush();
+            }
+
+            fileOutputStream.close();
+            inputStream.close();
+        } catch (IOException ex) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+     }
+     
+     public void handleFileUpload(FileUploadEvent event) {
+        try {
+
+            String uploadedFileName = event.getFile().getFileName();
+
+            
+            //Append userId + userFirstName in front of every file (UNIQUE KEY)
+            //e.g. "1-FILE_NAME.jpg"
+            String newFileName = getCompanyToUpdatePhoto().getUserId() + "-profile_" + uploadedFileName;
+            String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1")
+                    + System.getProperty("file.separator")
+                    + newFileName;
+
+            companySessionBeanLocal.uploadIcon(getCompanyToUpdatePhoto().getUserId(), "/uploadedFiles/" + newFileName);
+            setCompanies(companySessionBeanLocal.retrieveAllCompanies());
+
+            File file = new File(newFilePath);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+
+            int a;
+            int BUFFER_SIZE = 8192;
+            byte[] buffer = new byte[BUFFER_SIZE];
+
+            InputStream inputStream = event.getFile().getInputstream();
+
+            while (true) {
+                a = inputStream.read(buffer);
+
+                if (a < 0) {
+                    break;
+                }
+
+                fileOutputStream.write(buffer, 0, a);
+                fileOutputStream.flush();
+            }
+
+            fileOutputStream.close();
+            inputStream.close();
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "File uploaded successfully", ""));
+        } catch (IOException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "File upload error: " + ex.getMessage(), ""));
+        }
+    }
+     
+     public void setCompanyToUpdatePhoto(ActionEvent event) {
+         companyToUpdatePhoto = (Company) event.getComponent().getAttributes().get("companyToUpdatePhoto");
+     }
+
+    
      public ViewCompanyManagedBean getViewCompanyManagedBean() {
          return viewCompanyManagedBean; 
      }
      
-     public void setViewCompanyManagedBean(ViewCompanyManagedBean vierwCompanyManagedBean) {
+     public void setViewCompanyManagedBean(ViewCompanyManagedBean viewCompanyManagedBean) {
          this.viewCompanyManagedBean = viewCompanyManagedBean; 
      }
 
@@ -377,6 +482,14 @@ public class CompanyManagementManagedBean implements Serializable {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public Company getCompanyToUpdatePhoto() {
+        return companyToUpdatePhoto;
+    }
+
+    public void setCompanyToUpdatePhoto(Company companyToUpdatePhoto) {
+        this.companyToUpdatePhoto = companyToUpdatePhoto;
     }
     
     

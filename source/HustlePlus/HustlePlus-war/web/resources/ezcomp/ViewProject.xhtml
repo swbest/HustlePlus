@@ -67,7 +67,9 @@
                             <h:outputLabel value="Start Date: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewProjectManagedBean.projectToView.startDate}" />
+                            <h:outputText value="#{viewProjectManagedBean.projectToView.startDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
                         </p:column>
                     </p:row>
                     
@@ -76,7 +78,9 @@
                             <h:outputLabel value="Due Date: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewProjectManagedBean.projectToView.endDate}" />
+                            <h:outputText value="#{viewProjectManagedBean.projectToView.endDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
                         </p:column>
                     </p:row>
                     
@@ -85,7 +89,7 @@
                             <h:outputLabel value="Status: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewProjectManagedBean.projectToView.isFinished}" />
+                            <h:outputText value="#{viewProjectManagedBean.displayStatus}" />
                         </p:column>
                     </p:row>
                     

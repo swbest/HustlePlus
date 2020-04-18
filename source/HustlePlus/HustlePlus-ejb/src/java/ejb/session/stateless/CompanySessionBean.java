@@ -6,8 +6,12 @@
 package ejb.session.stateless;
 
 import entity.Company;
+import static entity.User_.icon;
+import java.io.File;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -140,7 +144,6 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
             if (constraintViolations.isEmpty()) {
                 Company companyToUpdate = retrieveCompanyByCompanyId(company.getUserId());
                 companyToUpdate.setUsername(company.getUsername());
-                companyToUpdate.setIcon(company.getIcon());
                 companyToUpdate.setEmail(company.getEmail());
                 companyToUpdate.setName(company.getName());
                 companyToUpdate.setDescription(company.getDescription());
@@ -171,6 +174,33 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
             throw new CompanyNotFoundException("Company Id not provided for company to be updated");
         }
     } 
+    
+
+    public void uploadIcon(Long companyId , String source) {
+        
+        Company currentCompany = null; 
+        try {
+            currentCompany = retrieveCompanyByCompanyId(companyId); 
+        } catch (CompanyNotFoundException ex)
+        {
+            Logger.getLogger(CompanySessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        currentCompany.setIcon(source);
+        
+        
+                /*
+            if (company != null && company.getUserId() != null) {
+            Set<ConstraintViolation<Company>> constraintViolations = validator.validate(company);
+            if (constraintViolations.isEmpty()) {
+            Company companyToUpdate = retrieveCompanyByCompanyId(company.getUserId());
+            companyToUpdate.setIcon(icon);
+          } else {
+                throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+            }
+        } else {
+            throw new CompanyNotFoundException("Company cannot be updated");
+        }*/
+    }
 
     //should companies be able to delete their accounts even when they still have listed projects *but have no one doing them*?
     @Override

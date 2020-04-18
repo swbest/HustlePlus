@@ -157,11 +157,11 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
         Project projectToRemove = retrieveProjectByProjectId(projectId);
         System.out.println(projectToRemove.getProjectName());
         
-        if (  projectToRemove.getTeam() == null || ( projectToRemove.getTeam().getNumStudents() == 0 && projectToRemove.getReviews().isEmpty() ) ) {
+        if (  projectToRemove.getTeam() == null || ( projectToRemove.getTeam().getNumStudents() == 0 && projectToRemove.getReviews().isEmpty() || projectToRemove.getMilestones().isEmpty() ) ) {
             System.out.println("deleteProjectSB");
             em.remove(projectToRemove);
         } else {
-            throw new DeleteProjectException("Project Id " + projectId + " is associated with existing teams and reviews and cannot be deleted!");
+            throw new DeleteProjectException("Project Id " + projectId + " is associated with existing teams,reviews or milestones and cannot be deleted!");
         }
     }
 
@@ -189,13 +189,20 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     @Override
     public List<Project> retrieveProjectsByCompany(Long cid) throws ProjectNotFoundException {
 
-        
+        System.out.println(cid); 
        Query query = em.createQuery("SELECT p FROM Project p WHERE p.company.userId = :companyId");
         query.setParameter("companyId", cid);
        
+        List<Project> projects = (List<Project>) query.getResultList(); 
         
         try {
-                 System.out.println("PSB1");
+
+                 for(Project p:projects)
+       {   
+           System.out.println("in PSB list" + p.getProjectId()); 
+         
+       }
+                 
             return (List <Project>) query.getResultList();
      
         } catch (NoResultException ex) {

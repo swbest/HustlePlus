@@ -33,7 +33,9 @@
                             <p:menuitem value="Create New Project" actionListener="#{companyManagementManagedBean.checkIfVerified}" >
                             <f:attribute name="checkCompany"  value="#{sessionScope.userEntity}"/>
                             </p:menuitem>
-                           <p:menuitem value="Milestone Management" outcome="/companies/milestoneManagement.xhtml"/> 
+                            <p:menuitem value="Milestone Management" outcome="/companies/milestoneManagement.xhtml" action="#{milestoneManagementManagedBean.retrieveMilestonesForCompany}">
+                                <f:setPropertyActionListener target="#{milestoneManagementManagedBean.selectedMilestoneCompany}" value="#{sessionScope.userEntity}"/>
+                            </p:menuitem> 
                            <p:menuitem value="Project Management" outcome="/companies/projectManagement.xhtml">
                                <f:attribute name="companyToView" value="#{sessionScope.userEntity}"/>
                            </p:menuitem>

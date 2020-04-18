@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
      
     <h:head>
         <title>Hustle+ - Sign Up for Companies</title>
@@ -70,7 +71,7 @@
                             <p:panel id="icon">
                                 <p:messages redisplay="false" />
                                         Maximum File Size: 5MB
-                                        <p:fileUpload fileUploadListener="#{companyManagementManagedBean.newCompany.icon}" sizeLimit="5000000" oncomplete="PF('dialogCreateNewUser').show();" />
+                                        <p:fileUpload mode="advanced" fileUploadListener="#{companyManagementManagedBean.uploadPicture}" sizeLimit="5000000" />
                             </p:panel>
                         </p:column>
                     </p:row>

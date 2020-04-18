@@ -21,14 +21,16 @@
             
                 <p:messages id="messages" redisplay="false" closable="true" />
 
-                <p:dataTable id="dataTableAllMilestones" widgetVar="dataTableAllMilestones" value="#{sessionScope.userEntity.projects.milestones}" var="milestone" rowKey="#{milestone.milestoneId}" rowIndexVar="row"
-                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                <p:dataTable id="dataTableAllMilestones" widgetVar="dataTableAllMilestones" value="#{milestoneManagementManagedBean.milestones}" var="milestone" rowKey="#{milestone.milestoneId}" rowIndexVar="row"
+                             rows="10" paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
                     <f:facet name="header">
                         <p:outputPanel style="text-align: center;">
                             <h:outputText value="Search " />
                             <p:inputText id="globalFilter" onkeyup="PF('dataTableAllMilestones').filter()" style="width:200px" placeholder=""/>
                         </p:outputPanel>
+                        <p:spacer width="20"></p:spacer> 
+                        <p:commandButton icon="ui-icon-plusthick" update="formCreateNewMilestone" oncomplete="PF('dialogCreateNewMilestone').show()" style="float:right;margin-top: 4px"/>
                     </f:facet>
                     
                     <p:column headerText="Milestone ID" sortBy="#{milestone.milestoneId}" filterBy="#{milestone.milestoneId}" filterMatchMode="contains">
@@ -52,7 +54,7 @@
                         </p:commandButton>
                         <p:commandButton icon="ui-icon-trash" actionListener="#{milestoneManagementManagedBean.deleteMilestone}" update="formAllMilestones:dataTableAllMilestones formAllMilestones:messages">
                             <f:attribute name="milestoneToDelete" value="#{milestone}" />
-                            <p:confirm header="Confirmation" message="Are you sure you want to delete #{milestone.milestoneId})?" icon="ui-icon-alert" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to delete Milestone: #{milestone.title}?" icon="ui-icon-alert" />
                         </p:commandButton>
                     </p:column>
                     
@@ -74,51 +76,42 @@
                     <p:panelGrid>
 
                         <p:row>
-                            <p:column>
-                                <p:outputLabel for="title" value="Title: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="title" value="#{milestoneManagementManagedBean.newMilestone.title}" placeholder="e.g. Title" required="true" requiredMessage="Title is required!" />
-                            </p:column>
-                            <p:column>
-                                <p:message for="title" />
-                            </p:column>
-                        </p:row>
+                        <p:column>
+                            <p:outputLabel for="milestoneTitle" value="Title of Milestone: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="milestoneTitle" value="#{milestoneManagementManagedBean.newMilestone.title}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="description" value="Milestone Description: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="description" value="#{milestoneManagementManagedBean.newMilestone.description}" />
+                        </p:column>
+                    </p:row>
+                  
+                     <p:row>
+                         
+                         <h:panelGrid columns="2" cellpadding="5">
+                        
+                            <p:outputLabel for="project" value="Project: * " />
+                            <p:selectOneMenu id="project" value="#{milestoneManagementManagedBean.selProjectId}" style="width: 125px">
+                              <f:selectItem itemLabel="Select One" itemValue=" "/>
+                              <f:selectItems value="#{milestoneManagementManagedBean.projects}"  var="project" itemLabel="#{project.projectName}" itemValue="#{project.projectId}" />
+                            </p:selectOneMenu> 
+                         </h:panelGrid> 
+                     </p:row>
 
                         <p:row>
-                            <p:column>
-                                <p:outputLabel for="description" value="Description: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="description" value="#{milestoneManagementManagedBean.newMilestone.description}" placeholder="e.g. Completed First Draft of Proposal" required="true" requiredMessage="Description is required!" />
-                            </p:column>
-                            <p:column>
-                                <p:message for="description" />
-                            </p:column>
-                        </p:row>
+                        <p:column colspan="2">
+                            <p:commandButton type="reset" value="Clear" />
+                            <p:commandButton value="Create" update="@form formCreateNewMilestone" actionListener="#{milestoneManagementManagedBean.createNewMilestone}" oncomplete="PF('dialogCreateNewMilestone').show();"/>
+                        </p:column>
+                      </p:row>
 
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="selProject" value="Project: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:selectOneMenu id="selProject" value="#{milestoneManagementManagedBean.selProjectId}">
-                                    <f:selectItem itemValue="0" itemLabel="[Select A Project]" noSelectionOption="true" />
-                                    <f:selectItems value="#{milestoneManagementManagedBean.projects}" var="project" itemValue="#{project.projectId}" itemLabel="#{project.projectName}" />
-                                </p:selectOneMenu>
-                            </p:column>
-                            <p:column>
-                                <p:message for="selProject" />
-                            </p:column>     
-                        </p:row>
-
-
-                        <p:row>
-                            <p:column colspan="3">
-                                <p:commandButton type="reset" value="Clear" />&nbsp;
-                                <p:commandButton  value="Create New Milestone" update="@form formCreateNewMilestone" actionListener="#{milestoneManagementManagedBean.createNewMilestone}" oncomplete="PF('dialogCreateNewMilestone').show();" />
-                            </p:column>
-                        </p:row>
 
                     </p:panelGrid>
 
@@ -170,22 +163,21 @@
                             <p:column>
                                 <p:message for="description" />
                             </p:column>
-                        </p:row>                    
-
+                        </p:row> 
+                        
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="selProject" value="Project: " style="font-weight: bold;" />
+                                <h:outputLabel value="Project : " />
                             </p:column>
                             <p:column>
-                                <p:selectOneMenu id="selProject" value="#{milestoneManagementManagedBean.projectIdUpdate}">
-                                    <f:selectItem itemValue="0" itemLabel="[Select A Project]" noSelectionOption="true" />
-                                    <f:selectItems value="#{milestoneManagementManagedBean.projects}" var="project" itemValue="#{project.projectId}" itemLabel="#{project.projectName}" />
-                                </p:selectOneMenu>
+                                <h:outputText value="#{milestoneManagementManagedBean.milestoneToUpdate.project.projectName}" />
                             </p:column>
                             <p:column>
-                                <p:message for="selProject" />
+                                &nbsp;
                             </p:column>
                         </p:row>
+
+                        
 
                         <p:row>
                             <p:column colspan="3">

@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.Company;
+import java.io.File;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CompanyNameExistException;
@@ -50,5 +51,8 @@ public interface CompanySessionBeanLocal {
     public boolean checkCompany(Company company);
 
     public void updatePassword(Company company, String password) throws CompanyNotFoundException, UpdateCompanyException, InputDataValidationException;
+
+    public void uploadIcon(Long companyId, String source);
+
     
 }
