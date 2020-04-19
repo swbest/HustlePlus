@@ -21,7 +21,6 @@ const routes: Routes = [
   { path: 'createNewStudent', loadChildren: './create-new-student/create-new-student.module#CreateNewStudentPageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule', canActivate: [AuthGuard] },
   { path: 'profile/:userId', loadChildren: './profile/profile.module#ProfilePageModule', canActivate: [AuthGuard] },
-
   { path: 'viewStudentDetails', loadChildren: './view-student-details/view-student-details.module#ViewStudentDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'viewStudentDetails/:userId', loadChildren: './view-student-details/view-student-details.module#ViewStudentDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'viewAllProjects', loadChildren: './view-all-projects/view-all-projects.module#ViewAllProjectsPageModule', canActivate: [AuthGuard] },
@@ -32,8 +31,6 @@ const routes: Routes = [
   { path: 'createNewReview', loadChildren: './create-new-review/create-new-review.module#CreateNewReviewPageModule', canActivate: [AuthGuard] },
   { path: 'createNewCompanyReview', loadChildren: './create-new-company-review/create-new-company-review.module#CreateNewCompanyReviewPageModule', canActivate: [AuthGuard] },
   { path: 'createNewStudentReview', loadChildren: './create-new-student-review/create-new-student-review.module#CreateNewStudentReviewPageModule', canActivate: [AuthGuard] }
-
-
 ];
 
 @NgModule({

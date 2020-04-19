@@ -109,11 +109,6 @@ export class AppComponent implements OnInit {
 		{
 			this.appPages  = [
 				{
-					title: 'Home',
-					url: '/home',
-					icon: 'home'
-				},
-				{
 					title: 'Login',
 					url: '/login',
 					icon: 'lock-open'
