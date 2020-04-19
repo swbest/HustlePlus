@@ -1,13 +1,30 @@
 import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular'
 import { Skill } from './skill';
 import { Student } from './student'
+import { AccessRightEnum } from './access-right-enum.enum';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class SessionService {
 
-  constructor() { }
+  constructor(private platform: Platform) { }
+
+  getRootPath(): string
+	{
+		console.log('this.platform.is("hybrid"): ' + this.platform.is('hybrid'));
+		
+		if(this.platform.is('hybrid'))
+		{
+			return "http://192.168.137.1:8080/HustlePlusRws/Resources/";
+		}
+		else
+		{
+			return "/api/";
+		}
+	}
 
   getIsLogin(): boolean {
     if (sessionStorage.isLogin == "true") {
@@ -27,7 +44,7 @@ export class SessionService {
   }
 
   setCurrentStudent(currentStudent: Student): void {
-    sessionStorage.currentStaff = JSON.stringify(currentStudent);
+    sessionStorage.currentStudent = JSON.stringify(currentStudent);
   }
 
   getUsername(): string {
@@ -46,6 +63,36 @@ export class SessionService {
     sessionStorage.password = password;
   }
 
+  checkAccessRight(path): boolean
+	{
+		console.log("********** path: " + path);
+		
+		if(this.getIsLogin())
+		{
+			student: Student;
+			let student = this.getCurrentStudent();
+			
+			if(student.accessRightEnum == AccessRightEnum.STUDENT)
+			{
+				if(path == "/viewAllStudents" ||
+          path == "/viewAllCompanies" 
+        )
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			
+			return false;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
   getSkills(): Skill[] {
     try {

@@ -4,24 +4,33 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { UtilityService } from './utility.service';
+import { SessionService } from './session.service';
 import { Student } from './student';
 
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 }
 
-
 @Injectable({
 	providedIn: 'root'
 })
+
 export class StudentService {
 
 	baseUrl: string;
 
 	constructor(private httpClient: HttpClient,
-		private utilityService: UtilityService) {
-		this.baseUrl = this.utilityService.getRootPath() + 'Student';
+		private sessionService: SessionService) 
+	{
+		this.baseUrl = this.sessionService.getRootPath() + 'Student';
+	}
+
+	studentLogin(username: string, password: string): Observable<any>
+	{
+		return this.httpClient.get<any>(this.baseUrl + "/studentLogin?username=" + username + "&password=" + password).pipe
+		(
+			catchError(this.handleError)
+		);
 	}
 
 	createNewStudent(newStudent: Student): Observable<any> {
@@ -33,15 +42,15 @@ export class StudentService {
 			);
 	}
 
-	getAllStudents(): Observable<any> {
-		return this.httpClient.get<any>(this.baseUrl + "/retrieveAllStudents").pipe
+	getStudentByStudentId(userId: number): Observable<any> {
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveStudent/" + userId).pipe
 			(
 				catchError(this.handleError)
 			);
 	}
-	
-	getStudentByStudentId(userId: number): Observable<any> {
-		return this.httpClient.get<any>(this.baseUrl + "/retrieveStudent/" + userId).pipe
+
+	getAllStudents(): Observable<any> {
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveAllStudents").pipe
 			(
 				catchError(this.handleError)
 			);
