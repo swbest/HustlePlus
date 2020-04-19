@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { StudentService } from '../student.service';
 import { Student } from '../student';
@@ -15,8 +16,10 @@ export class CreateNewStudentPage implements OnInit {
 	newStudent: Student;
 	infoMessage: string;
 	errorMessage: string;
+	hasError: boolean;
 
-	constructor(private studentService: StudentService) {
+	constructor(private studentService: StudentService,
+		private router: Router) {
 		this.submitted = false;
 		this.newStudent = new Student();
 	}
@@ -37,17 +40,21 @@ export class CreateNewStudentPage implements OnInit {
 				response => {
 					this.infoMessage = 'Your account was succesfully created with ID: ' + response.newStudentId;
 					this.errorMessage = null;
+					this.hasError = true;
 				},
 				error => {
 					this.infoMessage = null;
 					this.errorMessage = error;
+					this.hasError = false;
 				}
 			);
 		}
 	}
 
-	redirectLogin() {
-		
+	back() {
+		if (!this.hasError) {
+			this.router.navigate(["/home"]);
+		}
 	}
 }
 

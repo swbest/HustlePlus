@@ -28,9 +28,13 @@ const routes: Routes = [
   { path: 'viewAllCompanies', loadChildren: './view-all-companies/view-all-companies.module#ViewAllCompaniesPageModule', canActivate: [AuthGuard] },
   { path: 'viewCompanyDetails', loadChildren: './view-company-details/view-company-details.module#ViewCompanyDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'viewCompanyDetails/:userId', loadChildren: './view-company-details/view-company-details.module#ViewCompanyDetailsPageModule', canActivate: [AuthGuard] },
+  { path: 'viewMyTeams', loadChildren: './view-my-teams/view-my-teams.module#ViewMyTeamsPageModule', canActivate: [AuthGuard] },
+  { path: 'viewTeamDetails', loadChildren: './view-team-details/view-team-details.module#ViewTeamDetailsPageModule', canActivate: [AuthGuard] },
+  { path: 'viewTeamDetails/:teamId', loadChildren: './view-team-details/view-team-details.module#ViewTeamDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'createNewReview', loadChildren: './create-new-review/create-new-review.module#CreateNewReviewPageModule', canActivate: [AuthGuard] },
   { path: 'createNewCompanyReview', loadChildren: './create-new-company-review/create-new-company-review.module#CreateNewCompanyReviewPageModule', canActivate: [AuthGuard] },
-  { path: 'createNewStudentReview', loadChildren: './create-new-student-review/create-new-student-review.module#CreateNewStudentReviewPageModule', canActivate: [AuthGuard] }
+  { path: 'createNewStudentReview', loadChildren: './create-new-student-review/create-new-student-review.module#CreateNewStudentReviewPageModule', canActivate: [AuthGuard] },
+  { path: 'createNewTeam', loadChildren: './create-new-team/create-new-team.module#CreateNewTeamPageModule', canActivate: [AuthGuard] },
 ];
 
 @NgModule({
