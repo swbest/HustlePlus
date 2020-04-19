@@ -15,15 +15,19 @@
 
                 <div style="text-align: center;">
                 
-                    <p:inputText id="txtSearchString" value="#{searchProjectsByNameManagedBean.searchString}" style="font-size: large;" placeholder="Enter Project Name">
-                        <p:ajax event="keyup" process="@this formMain:txtSearchString" update="formMain:dataTableMain" listener="#{searchProjectsByNameManagedBean.searchProject}" /> 
+                    <p:inputText id="txtSearchString" value="#{searchProjectsByCompanyManagedBean.searchString}" style="font-size: large;" placeholder="Enter Company Name">
+                        <p:ajax event="keyup" process="@this" update="formMain:dataTableMain" listener="#{searchProjectsByCompanyManagedBean.searchProject}" /> 
                     </p:inputText>
+                    &nbsp;
+                    <p:commandButton value="SEARCH" style="font-size: medium; background-color: powderblue; color: black; font-family: helvetica">
+                        <p:ajax event="click" process="@this formMain:txtSearchString" update="formMain:dataTableMain" listener="#{searchProjectsByCompanyManagedBean.searchProject}" />
+                    </p:commandButton>
 
                 </div>
                 
                 <br />
                 
-                <p:dataTable id="dataTableMain" widgetVar="dataTableMain" value="#{searchProjectsByNameManagedBean.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row"                             
+                <p:dataTable id="dataTableMain" widgetVar="dataTableMain" value="#{searchProjectsByCompanyManagedBean.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row"                             
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
                     <p:column headerText="Project ID" style="background-color: powderblue; color: black;" sortBy="#{project.projectId}">
@@ -56,7 +60,7 @@
 
                     <p:column headerText="Action" style="background-color: powderblue; color: black;">
                         <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View Details" action="#{viewProjectManagedBean.setStatusText}">
-                            <f:setPropertyActionListener value="#{project}" target="#{searchProjectsByNameManagedBean.viewProjectManagedBean.projectToView}" />
+                            <f:setPropertyActionListener value="#{project}" target="#{searchProjectsByCompanyManagedBean.viewProjectManagedBean.projectToView}" />
                         </p:commandButton>                        
                     </p:column>
 

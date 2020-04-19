@@ -7,6 +7,7 @@ package jsf.managedBean;
 
 import ejb.session.stateless.ProjectSessionBeanLocal;
 import entity.Project;
+import entity.Skill;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -31,6 +32,7 @@ public class ViewProjectManagedBean implements Serializable {
     private Project projectToView;
    private List<Project> projectsToView; 
    private String displayStatus; 
+   private List<Skill> skills; 
 
     /**
      * Creates a new instance of ViewProjectManagedBean
@@ -158,6 +160,16 @@ public class ViewProjectManagedBean implements Serializable {
     public void setDisplayStatus(String displayStatus) {
         this.displayStatus = displayStatus;
     }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
+    }
+    
+    
     
     
     

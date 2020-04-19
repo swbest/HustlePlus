@@ -187,7 +187,7 @@ public class MilestoneManagementManagedBean implements Serializable{
          Project projectUpdate = (Project) event.getComponent().getAttributes().get("selProjectToAddMilestone");
          selProjectId = projectUpdate.getProjectId();
          System.out.println(selProjectId); 
-        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/createMilestoneForProjectManagement.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/addMilestoneToProject.xhtml");
      } catch (IOException ex) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while updating the project: " + ex.getMessage(), null));
      }

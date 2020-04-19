@@ -51,7 +51,20 @@
                         <p:column>
                             <h:outputText value="#{viewProjectManagedBean.projectToView.numStudentsRequired}" />
                         </p:column>
+                        
                     </p:row>
+                    
+                         <p:row>
+                            <p:column>
+                                <p:outputLabel value="Skills Required: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:dataList value="#{viewProjectManagedBean.skills}" var="skill">
+                                    #{skill.title}
+                                </p:dataList>
+                            </p:column>
+
+                        </p:row>                       
                     
                     <p:row>
                         <p:column>
@@ -135,6 +148,8 @@
             </p:dialog>
             
         </h:form>
+        
+      
         
     </cc:implementation>
 </html>

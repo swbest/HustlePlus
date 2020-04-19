@@ -16,7 +16,9 @@ import entity.Project;
 import entity.Skill;
 import entity.Student;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -89,7 +91,7 @@ public class DataInitSessionBean {
             newCompany.setPassword("password");
             newCompany.setEmail("company1@gmail.com");
             newCompany.setDescription("This is Company1");
-            newCompany.setAvgRating(5.0);
+            newCompany.setAvgRating(4.2);
             newCompany.setIsVerified(true);
             newCompany.setIsSuspended(false);
             newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
@@ -186,6 +188,10 @@ public class DataInitSessionBean {
             newProject.setProjectDescription("Enterprise Systems");
             newProject.setStartDate(new Date());
             newProject.setEndDate(new Date());
+            List<Skill> skills = new ArrayList<Skill>();
+            Skill skill = skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("6"));
+            skills.add(skill);
+            newProject.setSkills(skills);
             projectSessionBeanLocal.createNewProject(newProject, Long.valueOf("1"));
         } catch (CompanyNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -199,6 +205,8 @@ public class DataInitSessionBean {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ProjectNameExistException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SkillNotFoundException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -207,6 +215,6 @@ public class DataInitSessionBean {
         createAdmin();
         createSkills();
         createStudents();
-        // createProjects();
+        createProjects();
     }
 }

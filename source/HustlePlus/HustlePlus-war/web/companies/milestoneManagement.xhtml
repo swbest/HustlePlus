@@ -96,7 +96,7 @@
                          
                          <h:panelGrid columns="2" cellpadding="5">
                         
-                            <p:outputLabel for="project" value="Project: * " />
+                            <p:outputLabel for="project" value="Project: " />
                             <p:selectOneMenu id="project" value="#{milestoneManagementManagedBean.selProjectId}" style="width: 125px" required="true" requiredMessage="Project must be selected">
                               <f:selectItem itemLabel="Select One" itemValue=" "/>
                               <f:selectItems value="#{milestoneManagementManagedBean.projects}"  var="project" itemLabel="#{project.projectName}" itemValue="#{project.projectId}" />

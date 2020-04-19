@@ -6,8 +6,6 @@
 package ejb.session.stateless;
 
 import entity.Company;
-import static entity.User_.icon;
-import java.io.File;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -261,16 +259,27 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
         }
     }
 
+    
+
+    
     @Override
-    public List<Company> retrieveCompaniesByAvgRating(Double avgRating) throws CompanyNotFoundException{
-        Query query = em.createQuery("SELECT c FROM Company c WHERE c.avgRating = :inAvgRating");
-        query.setParameter("inAvgRating", avgRating);
+    public List<Company> searchCompaniesByRating(Double avgRating) {
+       Query query = em.createQuery("SELECT c FROM Company c WHERE c.avgRating = :rating");
+       query.setParameter("rating", avgRating);
+       return (List<Company>) query.getResultList(); 
+     
+    }
+   
+    
+   
+    
+    @Override
+    public List<Company> searchCompaniesByName(String searchString) {
+        Query query = em.createQuery("SELECT c FROM Company c WHERE c.name LIKE :inSearchString ORDER BY c.userId ASC");
+        query.setParameter("inSearchString", "%" + searchString + "%");
+        List<Company> companies = query.getResultList();
         
-        try {
-            return query.getResultList();
-        } catch (NoResultException ex) {
-            throw new CompanyNotFoundException("No companies were found for that rating!");
-        }
+       return companies; 
     }
     
     @Override

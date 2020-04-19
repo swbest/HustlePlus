@@ -56,10 +56,10 @@ public class FilterProjectsByCompanyManagedBean {
     {
         List<Company> companies = companySessionBeanLocal.retrieveAllCompanies();
         setSelectItems(new ArrayList<>());
-        
+
         for (Company c:companies)
         {
-            getSelectItems().add(new SelectItem(c.getUserId(), c.getName(), c.getName()));
+         getSelectItems().add(new SelectItem(c.getUserId(), c.getName(), c.getName()));
         }
         
         setCondition((String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("projectFilterCondition"));
@@ -79,7 +79,7 @@ public class FilterProjectsByCompanyManagedBean {
 
         if(getSelectedCompanyIds()!= null && getSelectedCompanyIds().size() > 0)
         {
-            //projects = projectSessionBeanLocal.retrieveProjectsByCompany(selectedCompanyIds, condition);
+            projects = projectSessionBeanLocal.filterProjectByCompanies(selectedCompanyIds, condition);
         }
         else
         {

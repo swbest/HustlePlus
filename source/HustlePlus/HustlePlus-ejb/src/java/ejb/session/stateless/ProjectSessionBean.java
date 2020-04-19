@@ -214,6 +214,28 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
        
        
     }
+    
+    @Override
+    public List<Project> searchProjectsByCompany(String searchString) {
+        Query query = em.createQuery("SELECT p FROM Project p WHERE p.company.name LIKE :inSearchString ORDER BY p.projectId ASC");
+        query.setParameter("inSearchString", "%" + searchString + "%");
+        List<Project> projects = query.getResultList();
+        
+       return projects; 
+    }
+    
+    
+    
+    
+    @Override
+    public List<Project> searchProjectsByName(String searchString) {
+        Query query = em.createQuery("SELECT p FROM Project p WHERE p.projectName LIKE :inSearchString ORDER BY p.projectId ASC");
+        query.setParameter("inSearchString", "%" + searchString + "%");
+        List<Project> projects = query.getResultList();
+        
+       return projects; 
+    }
+    
 
     @Override
     public List<Project> retrieveProjectsBySkills(String skillTitle) throws ProjectNotFoundException {
@@ -224,6 +246,68 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
             return query.getResultList();
         } catch (NoResultException ex) {
             throw new ProjectNotFoundException("No projects were found by that skill!");
+        }
+    }
+    
+    @Override
+    public List<Project> filterProjectByCompanies(List<Long> companyIds, String condition) {
+        List<Project> projects = new ArrayList<>();
+        
+         if(companyIds == null || companyIds.isEmpty() || (!condition.equals("AND") && !condition.equals("OR")))
+        {
+            return projects;
+        }
+        else
+        {
+            if(condition.equals("OR"))
+            {
+                Query query = em.createQuery("SELECT DISTINCT p FROM Project p, IN (p.companies) ce WHERE ce.userId IN :inCompanyIds ORDER BY p.projectId ASC");
+                query.setParameter("inCompanyIds", companyIds);
+                projects = query.getResultList();                                                          
+            }
+            else // AND
+            {
+                String selectClause = "SELECT p FROM Project p";
+                String whereClause = "";
+                Boolean firstTag = true;
+                Integer tagCount = 1;
+
+                for(Long companyId:companyIds)
+                {
+                    selectClause += ", IN (p.companies) ce" + tagCount;
+
+                    if(firstTag)
+                    {
+                        whereClause = "WHERE ce1.userId = " + companyId;
+                        firstTag = false;
+                    }
+                    else
+                    {
+                        whereClause += " AND ce" + tagCount + ".companyId = " + companyId; 
+                    }
+                    
+                    tagCount++;
+                }
+                
+                String jpql = selectClause + " " + whereClause + " ORDER BY p.projectId ASC";
+                Query query = em.createQuery(jpql);
+                projects = query.getResultList();                                
+            }
+            
+            for(Project project:projects)
+            {
+                project.getCompany();
+
+            }
+            
+            Collections.sort(projects, new Comparator<Project>()
+            {
+                public int compare(Project p1, Project p2) {
+                    return p1.getProjectId().compareTo(p2.getProjectId());
+                }
+            });
+            
+            return projects;
         }
     }
     

@@ -124,8 +124,9 @@ public class ProjectManagementManagedBean implements Serializable {
         } catch (IOException ex) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while retrieving the projects: " + ex.getMessage(), null));
     } */
-    
+
         try {  
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/projectManagement.xhtml");
         System.out.println("VPBC1");
         Company company = (Company) event.getComponent().getAttributes().get("companyToView");
         System.out.println(company.getUserId());
@@ -217,6 +218,10 @@ public class ProjectManagementManagedBean implements Serializable {
          } catch (ProjectNotFoundException | UpdateProjectException | InputDataValidationException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating project: " + ex.getMessage(), null));
          }
+     }
+     
+     public void updateProjectSkills(ActionEvent event) {
+         
      }
      
     

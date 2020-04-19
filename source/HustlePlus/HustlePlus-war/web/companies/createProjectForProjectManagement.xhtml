@@ -78,6 +78,20 @@
                         </p:column>
                     </p:row>
                     
+                     <p:row>
+                         
+                         <h:panelGrid columns="3" cellpadding="5">
+                        
+                            <p:outputLabel for="skills" value="Required Skills: * " />
+                            <p:selectCheckboxMenu id="skills" value="#{projectManagementManagedBean.newProject.skills}" label="Skills"
+                                                  multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="250px">
+                                <f:selectItems value="#{projectManagementManagedBean.skills}" var="skill" itemLabel="#{skill.title}" />
+                            </p:selectCheckboxMenu>
+                            <p:commandButton immediate="true" value="Add Skill" action="/companies/addASkill.xhtml?faces-redirect=true"/>
+                            
+                            </h:panelGrid>
+                    </p:row>
+                    
                     
                     <p:row>
                         <p:column colspan="2">
@@ -85,7 +99,7 @@
                             <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{projectManagementManagedBean.createNewProject}" >
                                <f:attribute name="companyTagged" value="#{sessionScope.userEntity}" />
                             </p:commandButton>
-                            <p:commandButton immediate="true" value="Cancel" action="/index.xhtml?faces-redirect=true"/>
+                            <p:commandButton immediate="true" value="Cancel" action="/companies/projectManagement.xhtml?faces-redirect=true"/>
 
                         </p:column>
                     </p:row>
