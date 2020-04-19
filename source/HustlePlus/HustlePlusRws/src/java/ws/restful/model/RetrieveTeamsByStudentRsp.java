@@ -13,14 +13,14 @@ import java.util.List;
  *
  * @author dtjldamien
  */
-public class RetrieveAllTeamsRsp {
+public class RetrieveTeamsByStudentRsp {
 
     public List<Team> teams;
 
-    public RetrieveAllTeamsRsp() {
+    public RetrieveTeamsByStudentRsp() {
     }
 
-    public RetrieveAllTeamsRsp(List<Team> teams) {
+    public RetrieveTeamsByStudentRsp(List<Team> teams) {
         this.teams = teams;
     }
 

@@ -32,4 +32,6 @@ public interface TeamSessionBeanLocal {
     public void updateTeam(Team team, Long projectId, List<Long> studentIds) throws TeamNotFoundException, /*ProjectNotFoundException, StudentNotFoundException,*/ UpdateTeamException, InputDataValidationException;
 
     public void deleteTeam(Long teamId) throws TeamNotFoundException, DeleteTeamException;
+
+    public List<Team> retrieveTeamsByStudentId(Long studentId);
 }
