@@ -121,7 +121,9 @@
                             <h:outputLabel value="Applications: " />
                         </p:column>
                         <p:column>
-                            <p:commandButton value="View Applications" actionListener="#{viewProjectManagedBean.viewApplications}"/>
+                            <p:commandButton value="View Applications" actionListener="#{applicationManagementManagedBean.viewApplications}">
+                                <f:attribute name="viewProjectApplication" value="#{applicationManagementManagedBean.viewProjectApplication}"/>
+                            </p:commandButton>
                         </p:column>
                     </p:row>
                     

@@ -32,6 +32,7 @@ import util.exception.DeleteCompanyException;
 import util.exception.InputDataValidationException;
 import util.exception.SuspendCompanyException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UpdateCompanyException;
 import util.exception.VerifyCompanyException;
 import util.security.CryptographicHelper;
 
@@ -46,260 +47,268 @@ public class CompanyManagementManagedBean implements Serializable {
 
     @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal;
-    
+
     @EJB(name = "ReviewSessionBeanLocal")
     private ReviewSessionBeanLocal reviewSessionBeanLocal;
 
     @EJB(name = "ProjectSessionBeanLocal")
     private ProjectSessionBeanLocal projectSessionBeanLocal;
-    
+
     @Inject
     private ViewCompanyManagedBean viewCompanyManagedBean;
 
-    
     private List<Company> companies;
-    private List<Company> filteredCompanies; 
-    
+    private List<Company> filteredCompanies;
+
     private Company newCompany;
     private List<Project> projects;
-    private List<Review> reviews; 
-    
+    private List<Review> reviews;
+
     private Company selectedCompanyToUpdate;
-    
-    private Company selectedCompanyToVerify; 
-    
-    private Company selectedCompanyToSuspend; 
-    
-    private Company selectedCompanyToEmail; 
-    
-    private Company companyToUpdatePhoto; 
-    
+
+    private Company selectedCompanyToVerify;
+
+    private Company selectedCompanyToSuspend;
+
+    private Company selectedCompanyToEmail;
+
+    private Company companyToUpdatePhoto;
+
     private String oldPassword;
     private String newPassword;
-    private String confirmPassword; 
-
+    private String confirmPassword;
+    private String companyUsername;
 
     /**
      * Creates a new instance of companyMangementManagedBean
      */
     public CompanyManagementManagedBean() {
-        
-        newCompany = new Company(); 
+
+        newCompany = new Company();
     }
-    
+
     @PostConstruct
     public void postConstruct() {
-        setCompanies(companySessionBeanLocal.retrieveAllCompanies());   
+        setCompanies(companySessionBeanLocal.retrieveAllCompanies());
         setProjects(projectSessionBeanLocal.retrieveAllProjects());
-        setReviews(reviewSessionBeanLocal.retrieveAllReviews()); 
+        setReviews(reviewSessionBeanLocal.retrieveAllReviews());
     }
-    
-    
-   public void createNewCompany(ActionEvent event) {
-        
+
+    public void createNewCompany(ActionEvent event) {
+
         try {
-            
-        System.out.println("createNew1");
-        Long companyId = companySessionBeanLocal.createNewCompany(newCompany);
-        System.out.println("createNew2");
-        companies.add(companySessionBeanLocal.retrieveCompanyByCompanyId(companyId)); 
-        
-        if(getFilteredCompanies() != null)
-        {
+
+            System.out.println("createNew1");
+            Long companyId = companySessionBeanLocal.createNewCompany(newCompany);
+            System.out.println("createNew2");
+            companies.add(companySessionBeanLocal.retrieveCompanyByCompanyId(companyId));
+
+            if (getFilteredCompanies() != null) {
                 getFilteredCompanies().add(companySessionBeanLocal.retrieveCompanyByCompanyId(companyId));
-        }
-        
-        newCompany = new Company() ; 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + companyId + ")", null));
-        
+            }
+
+            newCompany = new Company();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + companyId + ")", null));
+
         } catch (CompanyNotFoundException ex) {
-          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: The company is not found", null));  
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: The company is not found", null));
         } catch (CompanyNameExistException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: The company name already exist", null));
-        } catch ( InputDataValidationException | UnknownPersistenceException ex) {
+        } catch (InputDataValidationException | UnknownPersistenceException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: " + ex.getMessage(), null));
         }
     }
-   
-   public void doCreateCompany(ActionEvent event) {
+
+    public void doCreateCompany(ActionEvent event) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + newCompany.getUserId() + ")", null));
-   }
-   
-   public void doUpdateCompany(ActionEvent event) {
-         selectedCompanyToUpdate =(Company)event.getComponent().getAttributes().get("selectedCompanyToUpdate");
+    }
 
-         }
-  
-   
-    public void updateCompany(ActionEvent event)
-    {
+    public void doUpdateCompany(ActionEvent event) {
+        selectedCompanyToUpdate = (Company) event.getComponent().getAttributes().get("selectedCompanyToUpdate");
 
-        try
-        {
+    }
+
+    public void updateCompany(ActionEvent event) {
+
+        try {
             companySessionBeanLocal.updateCompany(getSelectedCompanyToUpdate());
-            
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Company updated successfully", null));
-        }
-        catch(CompanyNotFoundException ex)
-        {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating company: " + ex.getMessage(), null));
-        }
-        catch(Exception ex)
-        {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
-        }
-}
-    
-     public void deleteCompany(ActionEvent event)
-    {
-        try
-        {
-            Company companyToDelete = (Company) event.getComponent().getAttributes().get("companyToDelete");
-            companySessionBeanLocal.deleteCompany(companyToDelete.getUserId());
-            companies.remove(companyToDelete); 
-            
-          if(getFilteredCompanies() != null)
-        {
-                getFilteredCompanies().remove(companyToDelete);
-        }    
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Company Account deleted successfully", "Please proceed to logout"));
-        }
-        catch(CompanyNotFoundException | DeleteCompanyException ex)
-        {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while deleting company account: " + ex.getMessage(), null));
-        }
-        catch(Exception ex)
-        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Company updated successfully", null));
+        } catch (CompanyNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating company: " + ex.getMessage(), null));
+        } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
     }
-     
-     public void verifyCompany(ActionEvent event) {
-         try {
-         Company selectedCompanyToVerify = (Company)event.getComponent().getAttributes().get("selectedCompanyToVerify") ;
-         companySessionBeanLocal.verifyCompany(selectedCompanyToVerify.getUserId());
-         } catch (CompanyNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while verifying company account: " + ex.getMessage(), null));
-         } catch (VerifyCompanyException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while verifying company account: " + ex.getMessage(), null));
-         }
 
-     }
-     
-     public void suspendCompany(ActionEvent event) {
-         try {
-         Company selectedCompanyToSuspend = (Company)event.getComponent().getAttributes().get("selectedCompanyToSuspend") ;
-         companySessionBeanLocal.suspendCompany(selectedCompanyToSuspend.getUserId());
-         } catch (CompanyNotFoundException | SuspendCompanyException ex) {
+    public void deleteCompany(ActionEvent event) {
+        try {
+            Company companyToDelete = (Company) event.getComponent().getAttributes().get("companyToDelete");
+            companySessionBeanLocal.deleteCompany(companyToDelete.getUserId());
+            companies.remove(companyToDelete);
+
+            if (getFilteredCompanies() != null) {
+                getFilteredCompanies().remove(companyToDelete);
+            }
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Company Account deleted successfully", "Please proceed to logout"));
+        } catch (CompanyNotFoundException | DeleteCompanyException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while deleting company account: " + ex.getMessage(), null));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+    }
+
+    public void verifyCompany(ActionEvent event) {
+        try {
+            Company selectedCompanyToVerify = (Company) event.getComponent().getAttributes().get("selectedCompanyToVerify");
+            companySessionBeanLocal.verifyCompany(selectedCompanyToVerify.getUserId());
+        } catch (CompanyNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while verifying company account: " + ex.getMessage(), null));
+        } catch (VerifyCompanyException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while verifying company account: " + ex.getMessage(), null));
+        }
+
+    }
+
+    public void suspendCompany(ActionEvent event) {
+        try {
+            Company selectedCompanyToSuspend = (Company) event.getComponent().getAttributes().get("selectedCompanyToSuspend");
+            companySessionBeanLocal.suspendCompany(selectedCompanyToSuspend.getUserId());
+        } catch (CompanyNotFoundException | SuspendCompanyException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while suspending company account: " + ex.getMessage(), null));
-         }
+        }
 
-     }
-     
-     
-     
-     public void checkIfVerified(ActionEvent event) {
-        
-         try { 
-         Company companyToCheck = (Company)event.getComponent().getAttributes().get("checkCompany") ;
-         System.out.println(companyToCheck.getUserId());
-        
-         if (companySessionBeanLocal.checkCompany(companyToCheck)) {
-        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/createNewProject.xhtml");
-         } else {
-        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/verificationError.xhtml");
-         }
-     }  catch (IOException ex) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
-     }
-     }
-     
-     public void doChangePassword(ActionEvent event) {
-         try { 
-        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/changePassword.xhtml");
-     } catch (IOException ex) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
-     }
-         
-     }
-     
-     public void changePassword(ActionEvent event) {
-         //old password is the one i keyed in 
-         //password is the original password (in hash) 
-         System.out.println("CMMB0");
-         
-         selectedCompanyToUpdate = (Company)event.getComponent().getAttributes().get("selectedCompany") ;
-         
-         //Company companyPasswordChange = (Company)event.getComponent().getAttributes().get("selectedCompany") ;
-         //String password = companyPasswordChange.getPassword();
-         
-          if (oldPassword != null) {
+    }
+
+    public void checkIfVerified(ActionEvent event) {
+
+        try {
+            Company companyToCheck = (Company) event.getComponent().getAttributes().get("checkCompany");
+            System.out.println(companyToCheck.getUserId());
+
+            if (companySessionBeanLocal.checkCompany(companyToCheck)) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/createNewProject.xhtml");
+            } else {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/verificationError.xhtml");
+            }
+        } catch (IOException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+    }
+
+    public void doChangePassword(ActionEvent event) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/changePassword.xhtml");
+        } catch (IOException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+
+    }
+
+    public void doChangeForgottenPassword(ActionEvent event) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/changeForgottenPassword.xhtml");
+        } catch (IOException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+    }
+
+    public void changeForgottenPassword(ActionEvent event) {
+
+        try {
+            if (newPassword == null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,   "Change Password Error: Password cannot be null", null));  
+               
+           } else if (confirmPassword == null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,   "Change Password Error: Password must be verified", null));  
+           } else if (!newPassword.equals(confirmPassword)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password validation Error: Passwords do not match", null));
+            } else {
+
+                Company company = companySessionBeanLocal.retrieveCompanyByUsername(companyUsername);
+                companySessionBeanLocal.updatePassword(company, newPassword);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password changed successfully!", null));
+                newPassword = null;
+                confirmPassword = null;
+                companyUsername = null;
+            }
+
+        } catch (CompanyNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating company: " + ex.getMessage(), null));
+        } catch (UpdateCompanyException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating company: " + ex.getMessage(), null));
+        } catch (InputDataValidationException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: " + ex.getMessage(), null));
+        }
+    }
+
+    public void changePassword(ActionEvent event) {
+        //old password is the one i keyed in 
+        //password is the original password (in hash) 
+        System.out.println("CMMB0");
+
+        selectedCompanyToUpdate = (Company) event.getComponent().getAttributes().get("selectedCompany");
+
+        //Company companyPasswordChange = (Company)event.getComponent().getAttributes().get("selectedCompany") ;
+        //String password = companyPasswordChange.getPassword();
+        if (oldPassword != null || newPassword != null || confirmPassword != null) {
             oldPassword = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(oldPassword + selectedCompanyToUpdate.getSalt()));
         } else {
-            oldPassword = null;
+     
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password cannot be null", null));
         }
 
-         System.out.println(selectedCompanyToUpdate.getPassword()); //in hash 
-         System.out.println(oldPassword);
-         if (!oldPassword.equals(selectedCompanyToUpdate.getPassword())) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Old Password is invalid", null));
-         } else if (!newPassword.equals(confirmPassword)) { 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password validation Error: Passwords do not match", null));
-     } else {
-             
-              try
-        {
-            companySessionBeanLocal.updatePassword(selectedCompanyToUpdate, newPassword);
-            
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password changed successfully!", null));
-        }
-        catch(CompanyNotFoundException ex)
-        {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating company: " + ex.getMessage(), null));
-        }
-        catch(Exception ex)
-        {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
-        } 
-              
-         //selectedCompanyToUpdate.setPassword(newPassword);
-         System.out.println(newPassword); 
-         System.out.println(oldPassword);
-         System.out.println(selectedCompanyToUpdate.getPassword());
-         System.out.println(selectedCompanyToUpdate.getName());
-        //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password changed successfully!", null));
-         }
-             
-             }
+        System.out.println(selectedCompanyToUpdate.getPassword()); //in hash 
+        System.out.println(oldPassword);
+        if (!oldPassword.equals(selectedCompanyToUpdate.getPassword())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Old Password is invalid", null));
+        } else if (!newPassword.equals(confirmPassword)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password validation Error: Passwords do not match", null));
+        } else {
 
-     
-     public void resendEmail(ActionEvent event) {
-         
-             Company selectedCompanyToEmail = (Company)event.getComponent().getAttributes().get("selectedCompanyToEmail") ; 
-             //companySessionBeanLocal.resendEmail(selectedCompanyToEmail.getUserId());
-         
-     }
-     
-       
-      
-     
-     
-     public void uploadPicture(FileUploadEvent event) {
-         
-         try {
-         //Long newCompanyId = companySessionBeanLocal.createNewCompany(newCompany);
-         //Company newC = companySessionBeanLocal.retrieveCompanyByCompanyId(newCompanyId);
+            try {
+                companySessionBeanLocal.updatePassword(selectedCompanyToUpdate, newPassword);
 
-         String uploadedFileName = event.getFile().getFileName();
-       
-          String newFileName = newCompany.getUserId() + "-" + "profile_" + uploadedFileName;
-          String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1")
+
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password changed successfully!", null));
+            } catch (CompanyNotFoundException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating company: " + ex.getMessage(), null));
+            } catch (Exception ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+            }
+
+            //selectedCompanyToUpdate.setPassword(newPassword);
+            System.out.println(newPassword);
+            System.out.println(oldPassword);
+            System.out.println(selectedCompanyToUpdate.getPassword());
+            System.out.println(selectedCompanyToUpdate.getName());
+            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password changed successfully!", null));
+        }
+
+    }
+
+    public void resendEmail(ActionEvent event) {
+
+        Company selectedCompanyToEmail = (Company) event.getComponent().getAttributes().get("selectedCompanyToEmail");
+        //companySessionBeanLocal.resendEmail(selectedCompanyToEmail.getUserId());
+
+    }
+
+    public void uploadPicture(FileUploadEvent event) {
+
+        try {
+            //Long newCompanyId = companySessionBeanLocal.createNewCompany(newCompany);
+            //Company newC = companySessionBeanLocal.retrieveCompanyByCompanyId(newCompanyId);
+
+            String uploadedFileName = event.getFile().getFileName();
+
+            String newFileName = newCompany.getUserId() + "-" + "profile_" + uploadedFileName;
+            String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1")
                     + System.getProperty("file.separator")
                     + newFileName;
-          
-            
-          String docRootFilePath = "/uploadedFiles/" + newFileName;
+
+            String docRootFilePath = "/uploadedFiles/" + newFileName;
             newCompany.setIcon(docRootFilePath);
             companySessionBeanLocal.uploadIcon(newCompany.getUserId(), docRootFilePath);
 
@@ -326,16 +335,15 @@ public class CompanyManagementManagedBean implements Serializable {
             fileOutputStream.close();
             inputStream.close();
         } catch (IOException ex) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
-     }
-     
-     public void handleFileUpload(FileUploadEvent event) {
+    }
+
+    public void handleFileUpload(FileUploadEvent event) {
         try {
 
             String uploadedFileName = event.getFile().getFileName();
 
-            
             //Append userId + userFirstName in front of every file (UNIQUE KEY)
             //e.g. "1-FILE_NAME.jpg"
             String newFileName = getCompanyToUpdatePhoto().getUserId() + "-profile_" + uploadedFileName;
@@ -374,19 +382,18 @@ public class CompanyManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "File upload error: " + ex.getMessage(), ""));
         }
     }
-     
-     public void setCompanyToUpdatePhoto(ActionEvent event) {
-         companyToUpdatePhoto = (Company) event.getComponent().getAttributes().get("companyToUpdatePhoto");
-     }
 
-    
-     public ViewCompanyManagedBean getViewCompanyManagedBean() {
-         return viewCompanyManagedBean; 
-     }
-     
-     public void setViewCompanyManagedBean(ViewCompanyManagedBean viewCompanyManagedBean) {
-         this.viewCompanyManagedBean = viewCompanyManagedBean; 
-     }
+    public void setCompanyToUpdatePhoto(ActionEvent event) {
+        companyToUpdatePhoto = (Company) event.getComponent().getAttributes().get("companyToUpdatePhoto");
+    }
+
+    public ViewCompanyManagedBean getViewCompanyManagedBean() {
+        return viewCompanyManagedBean;
+    }
+
+    public void setViewCompanyManagedBean(ViewCompanyManagedBean viewCompanyManagedBean) {
+        this.viewCompanyManagedBean = viewCompanyManagedBean;
+    }
 
     public List<Company> getCompanies() {
         return companies;
@@ -442,7 +449,7 @@ public class CompanyManagementManagedBean implements Serializable {
 
     public void setSelectedCompanyToVerify(Company selectedCompanyToVerify) {
         this.selectedCompanyToVerify = selectedCompanyToVerify;
-    } 
+    }
 
     public Company getSelectedCompanyToSuspend() {
         return selectedCompanyToSuspend;
@@ -491,9 +498,13 @@ public class CompanyManagementManagedBean implements Serializable {
     public void setCompanyToUpdatePhoto(Company companyToUpdatePhoto) {
         this.companyToUpdatePhoto = companyToUpdatePhoto;
     }
-    
-    
-    
-    
+
+    public String getCompanyUsername() {
+        return companyUsername;
+    }
+
+    public void setCompanyUsername(String companyUsername) {
+        this.companyUsername = companyUsername;
+    }
 
 }

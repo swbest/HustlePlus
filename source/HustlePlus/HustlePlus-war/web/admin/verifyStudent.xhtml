@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+                
+        <div>
+            <h:form id="formAllStudents">
+            
+                <p:messages id="messages" redisplay="false" closable="true" />
+
+                <p:dataTable id="dataTableAllStudents" widgetVar="dataTableAllStudents" value="#{studentManagementManagedBean.students}" var="student" rowKey="#{student.userId}" rowIndexVar="row" filteredValue="#{studentManagementManagedBean.filteredStudents}"  
+                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                    
+                    <f:facet name="header">
+                        <p:outputPanel style="text-align: center;">
+                            <h:outputText value="Search " />
+                            <p:inputText id="globalFilter" onkeyup="PF('dataTableAllStudents').filter()" style="width:200px"/>
+                        </p:outputPanel>
+                    </f:facet>
+                    
+                    <p:column headerText="Student ID" sortBy="#{student.userId}" filterBy="#{student.userId}" filterMatchMode="contains">
+                        <h:outputText value="#{student.userId}" />
+                    </p:column>
+                    
+                    <p:column headerText="Student Name" sortBy="#{student.name}" filterBy="#{student.name}" filterMatchMode="contains">
+                        <h:outputText value="#{student.name}" />
+                    </p:column>
+                    
+                    <p:column headerText="Username" sortBy="#{student.username}" filterBy="#{student.username}" filterMatchMode="contains">
+                        <h:outputText value="#{student.username}" />
+                    </p:column>
+                    
+                    <p:column headerText="Average Rating" sortBy="#{student.avgRating}" filterBy="#{student.avgRating}" filterMatchMode="contains">
+                        <h:outputText value="#{student.avgRating}" />
+                    </p:column>                    
+                    
+                    <p:column headerText="Email" sortBy="#{student.email}" filterBy="#{student.email}" filterMatchMode="contains">
+                        <h:outputText value="#{student.email}" />
+                    </p:column>
+                    
+                    <p:column headerText="Description" sortBy="#{student.description}" filterBy="#{student.description}" filterMatchMode="contains">
+                        <h:outputText value="#{student.description}" />
+                    </p:column>
+                    
+                    <p:column headerText="Verified" sortBy="#{student.isVerified}" filterBy="#{student.isVerified}" filterMatchMode="contains">
+                        <h:outputText value="#{student.isVerified}" />
+                    </p:column>
+                    
+                    <p:column headerText="Suspended" sortBy="#{student.isSuspended}" filterBy="#{student.isSuspended}" filterMatchMode="contains">
+                        <h:outputText value="#{student.isSuspended}" />
+                    </p:column>                    
+                    
+                    <p:column headerText="Action" >
+                        <p:commandButton actionListener="#{studentManagementManagedBean.verifyStudent}" value="Verify">
+                            <f:attribute name="selectedStudentToVerify" value="#{student}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to verify #{student.name} (Student ID: #{student.userId})?" icon="ui-icon-alert" rendered="#{student.isVerified == TRUE}"/>
+                        </p:commandButton>
+                            <br />
+                       <br /> 
+                        <p:commandButton actionListener="#{studentManagementManagedBean.verifyStudent}" value="Suspend">
+                            <f:attribute name="selectedStudentToSuspend" value="#{student}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to suspend #{student.name} (Student ID: #{student.userId})?" icon="ui-icon-alert" rendered="#{student.isSuspended == TRUE}"/>
+                        </p:commandButton>                
+                    </p:column>                                         
+
+                </p:dataTable>
+                
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+            </h:form>
+
+    
+        </div>
+        
+    </ui:define>
+
+</ui:composition>

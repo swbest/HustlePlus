@@ -18,10 +18,7 @@
                     <p:inputText id="txtSearchString" value="#{searchProjectsByCompanyManagedBean.searchString}" style="font-size: large;" placeholder="Enter Company Name">
                         <p:ajax event="keyup" process="@this" update="formMain:dataTableMain" listener="#{searchProjectsByCompanyManagedBean.searchProject}" /> 
                     </p:inputText>
-                    &nbsp;
-                    <p:commandButton value="SEARCH" style="font-size: medium; background-color: powderblue; color: black; font-family: helvetica">
-                        <p:ajax event="click" process="@this formMain:txtSearchString" update="formMain:dataTableMain" listener="#{searchProjectsByCompanyManagedBean.searchProject}" />
-                    </p:commandButton>
+                 
 
                 </div>
                 

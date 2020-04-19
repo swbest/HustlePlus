@@ -35,6 +35,7 @@
                     <p:column headerText="Project ID" sortBy="#{project.projectId}" filterBy="#{project.projectId}" filterMatchMode="contains">
                         <h:outputText value="#{project.projectId}" />
                     </p:column>
+
                     
                     <p:column headerText="Project Name" sortBy="#{project.projectName}" filterBy="#{project.projectName}" filterMatchMode="contains">
                         <h:outputText value="#{project.projectName}" />
@@ -190,25 +191,7 @@
                             </p:column> 
                     </p:row>
                         
-                     <p:row>
-                                         
-                        <p:column>
-                            <p:outputLabel for="projectMilestone" value="Project Milestones" style="font-weight: bold;"/>
-                        </p:column>
-                         <p:column>
-                            <p:outputLabel for="skills" value="Required Skills: * " />
-                            <p:selectCheckboxMenu id="skills" value="#{projectManagementManagedBean.selectedProjectToUpdate.skills}" label="Skills"
-                                                  multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="250px">
-                                <f:selectItems value="#{projectManagementManagedBean.skills}" var="skill" itemLabel="#{skill.title}" />
-                            </p:selectCheckboxMenu>
-                             </p:column>
-                         <p:column>
-                            <p:commandButton immediate="true" value="Add Skill" action="/companies/addASkill.xhtml?faces-redirect=true"/>
-                         </p:column>
-                            
-                    </p:row>                        
-                    
-                       
+  
                         <p:row>
                             <p:column colspan="3">
                                 <p:commandButton value="Update Project" update="@form formUpdateProject" actionListener="#{projectManagementManagedBean.updateProject}" oncomplete="PF('dialogUpdateProject').show();" />

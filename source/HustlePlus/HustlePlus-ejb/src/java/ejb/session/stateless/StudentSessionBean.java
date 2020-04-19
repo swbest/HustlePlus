@@ -5,7 +5,6 @@
  */
 package ejb.session.stateless;
 
-import entity.Project;
 import entity.Student;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,8 +27,10 @@ import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.StudentNameExistException;
 import util.exception.StudentNotFoundException;
+import util.exception.SuspendStudentException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateStudentException;
+import util.exception.VerifyStudentException;
 import util.security.CryptographicHelper;
 
 /**
@@ -56,6 +57,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             Set<ConstraintViolation<Student>> constraintViolations = validator.validate(newStudent);
 
             if (constraintViolations.isEmpty()) {
+                newStudent.setIsSuspended(Boolean.FALSE);
                 em.persist(newStudent);
                 em.flush();
                 return newStudent.getUserId();
@@ -243,6 +245,39 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             
             return students;
         }
+    }
+    
+    @Override
+    public void verifyStudent(Long studentId) throws StudentNotFoundException, VerifyStudentException {
+       try {  
+        Student studentToVerify = retrieveStudentByStudentId(studentId);
+        
+            if (studentToVerify.getIsVerified() == false) {
+                System.out.println("*****FALSE******");
+              studentToVerify.setIsVerified(Boolean.TRUE);   
+            } else {
+             System.out.println("*****TRUE******");
+             throw new VerifyStudentException("Student has been verified!"); 
+            }      
+       } catch (StudentNotFoundException ex) {
+             throw new StudentNotFoundException("Student id does not exist!"); 
+               }
+    }
+    
+    @Override
+        public void suspendStudent(Long studentId) throws StudentNotFoundException, SuspendStudentException {
+        Student studentToSuspend = retrieveStudentByStudentId(studentId);
+        
+        if (studentToSuspend != null) {
+            
+            if (studentToSuspend.getIsSuspended() == false) {
+              studentToSuspend.setIsSuspended(Boolean.TRUE);   
+            } else {
+             throw new SuspendStudentException("Student has been suspended"); 
+            }
+        } else {
+            throw new StudentNotFoundException("Student Id does not exist");
+               }
     }
 
     @Override

@@ -10,8 +10,8 @@
         
         <h:form id="viewApplicationsForm">
             
-            <p:dataGrid var="application" value="#{viewProjectManagedBean.projectToView.applications}" columns="2" layout="grid"
-                        rows="3" paginator="true" id="application"
+            <p:dataGrid var="application" value="#{applicationManagementManagedBean.applications}" columns="2" layout="grid"
+                        rows="3" paginator="true" id="applications"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,16">
                 <f:facet name="header">

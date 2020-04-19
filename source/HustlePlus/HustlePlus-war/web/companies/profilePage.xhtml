@@ -128,7 +128,7 @@
                                 <p:outputLabel for="password" value="Password " />
                             </p:column>
                             <p:column>
-                                <p:commandButton id="password" value="Update Password" actionListener="#{companyManagementManagedBean.doChangePassword}">
+                                <p:commandButton ajax="false" id="password" value="Update Password" actionListener="#{companyManagementManagedBean.doChangePassword}">
                                 </p:commandButton>
                                     
                             </p:column>
@@ -142,7 +142,7 @@
                                 <p:outputLabel for="description" value="Description " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="description" value="#{companyManagementManagedBean.selectedCompanyToUpdate.description}" placeholder="Company 1" required="true" requiredMessage="Description is required" />
+                                <p:inputText id="description" value="#{companyManagementManagedBean.selectedCompanyToUpdate.description}" placeholder="Company 1" />
                             </p:column>
                             <p:column>
                                 <p:message for="description" />

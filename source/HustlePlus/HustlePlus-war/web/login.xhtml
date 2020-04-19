@@ -23,6 +23,7 @@
                 <p class="login-box-msg" style="color: #000000; font-size: x-large"></p>
                 <h:panelGroup rendered="#{sessionScope.isLogin == false}">
                     <h:form id="loginForm">
+                        <p:messages/>
                         
                         <p:outputLabel style="font-family: Segoe UI, Tahoma, sans-serif;" for="username" value="Username" />&nbsp;
                         <p:inputText id="username" value="#{loginManagedBean.username}" style="font-family: Segoe UI, Tahoma, sans-serif;" size="14" required="true" requiredMessage="Username is required to login!" maxlength="32">
@@ -38,6 +39,11 @@
                         <p:commandButton type="submit" value="Login" actionListener="#{loginManagedBean.login}" style="font-family: Segoe UI, Tahoma, sans-serif;"/>
                    
 
+                    </h:form>
+                    &nbsp;
+                    
+                    <h:form>
+                        <center><p:commandLink immediate="true" value="Forgot Password?" actionListener="#{companyManagementManagedBean.doChangeForgottenPassword}"/></center>
                     </h:form>
                     &nbsp;
                     

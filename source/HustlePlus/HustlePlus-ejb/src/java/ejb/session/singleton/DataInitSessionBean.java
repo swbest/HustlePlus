@@ -6,11 +6,13 @@
 package ejb.session.singleton;
 
 import ejb.session.stateless.AdminStaffSessionBeanLocal;
+import ejb.session.stateless.ApplicationSessionBeanLocal;
 import ejb.session.stateless.CompanySessionBeanLocal;
 import ejb.session.stateless.ProjectSessionBeanLocal;
 import ejb.session.stateless.SkillSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.AdminStaff;
+import entity.Application;
 import entity.Company;
 import entity.Project;
 import entity.Skill;
@@ -29,15 +31,20 @@ import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import util.enumeration.AccessRightEnum;
+import util.exception.ApplicationExistException;
 import util.exception.CompanyNameExistException;
 import util.exception.CompanyNotFoundException;
 import util.exception.CompanyNotVerifiedException;
 import util.exception.CompanySuspendedException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
+import util.exception.ProjectNotFoundException;
 import util.exception.SkillNameExistsException;
 import util.exception.SkillNotFoundException;
 import util.exception.StudentNameExistException;
+import util.exception.StudentNotFoundException;
+import util.exception.StudentNotVerifiedException;
+import util.exception.StudentSuspendedException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UserEmailExistsException;
 
@@ -49,6 +56,9 @@ import util.exception.UserEmailExistsException;
 @LocalBean
 @Startup
 public class DataInitSessionBean {
+
+    @EJB(name = "ApplicationSessionBeanLocal")
+    private ApplicationSessionBeanLocal applicationSessionBeanLocal;
 
     @EJB(name = "ProjectSessionBeanLocal")
     private ProjectSessionBeanLocal projectSessionBeanLocal;
@@ -64,6 +74,8 @@ public class DataInitSessionBean {
 
     @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal;
+    
+    
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
@@ -164,7 +176,37 @@ public class DataInitSessionBean {
             newStudent.setPassword("password");
             newStudent.setEmail("studentone@gmail.com");
             newStudent.setDescription("information systems undergraduate");
+            newStudent.setIsVerified(Boolean.TRUE);
             studentSessionBeanLocal.createStudentAccount(newStudent);
+            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("1")));
+            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("3")));
+            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("5")));
+            
+            Student newStudent2 = new Student();
+            newStudent2.setBankAccountName("posb");
+            newStudent2.setBankAccountNumber(Long.valueOf("12345678"));
+            newStudent2.setName("student two");
+            newStudent2.setUsername("studenttwo");
+            newStudent2.setPassword("password");
+            newStudent2.setEmail("studenttwo@gmail.com");
+            newStudent2.setDescription("information systems undergraduate");
+            newStudent2.setIsVerified(Boolean.TRUE);
+            studentSessionBeanLocal.createStudentAccount(newStudent2);
+            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("1")));
+            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("3")));
+            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("5")));
+            
+            
+            Student newStudent3 = new Student();
+            newStudent3.setBankAccountName("uob");
+            newStudent3.setBankAccountNumber(Long.valueOf("12345678"));
+            newStudent3.setName("student three");
+            newStudent3.setUsername("studentthree");
+            newStudent3.setPassword("password");
+            newStudent3.setEmail("studentthree@gmail.com");
+            newStudent3.setDescription("information systems undergraduate");
+            newStudent3.setIsVerified(Boolean.TRUE);
+            studentSessionBeanLocal.createStudentAccount(newStudent3);
             newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("1")));
             newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("3")));
             newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("5")));
@@ -209,6 +251,29 @@ public class DataInitSessionBean {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void createApplications() {
+        try {
+            Application application = new Application(); 
+            applicationSessionBeanLocal.createApplication(application, Long.valueOf("1"), Long.valueOf("3") );
+        } catch (StudentSuspendedException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (StudentNotVerifiedException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ApplicationExistException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnknownPersistenceException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InputDataValidationException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProjectNotFoundException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (StudentNotFoundException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
 
     private void initializeData() {
         createCompany();
@@ -216,5 +281,10 @@ public class DataInitSessionBean {
         createSkills();
         createStudents();
         createProjects();
+        createApplications(); 
+    }
+
+    public void persist(Object object) {
+        em.persist(object);
     }
 }
