@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      View My Teams
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>View My Teams</ion-card-title>
+    </ion-card-header>
+    <!-- Default Searchbar -->
+    <ion-card-content>
+
+      <div *ngIf="errorMessage">
+        {{errorMessage}}
+      </div>
+
+      <ion-searchbar showCancelButton="true" placeholder="Search Teams" (ionInput)="getSearchTeams($event)"
+        (ionCancel)="onCancel($event)"></ion-searchbar>
+
+      <ion-list *ngIf="isStudentAvailable">
+        <ion-item *ngFor="let student of students">{{ item }}</ion-item>
+      </ion-list>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col>Team Name</ion-col>
+          <ion-col>Students</ion-col>
+          <ion-col>Project</ion-col>
+        </ion-row>
+        <ion-row *ngFor="let team of teams">
+          <ion-col>{{team.teamName}}</ion-col>
+          <ion-col>
+            <ul>
+              <li *ngFor="let student of team.students">{{student.name}}</li>
+            </ul>
+          </ion-col>
+          <ion-col>{{team.project.projectName}}</ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+</ion-footer>
