@@ -1,10 +1,8 @@
-//import { UpdateTuteePage } from './../update-tutee/update-tutee.page';
-//import { UpdateTutorPage } from './../update-tutor/update-tutor.page';
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../student.service';
 import { SessionService } from '../session.service';
 import { ModalController, ToastController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Student } from '../student';
 import { Skill } from '../skill';
@@ -37,7 +35,7 @@ export class ProfilePage implements OnInit {
     private sessionService: SessionService,
     private modalController: ModalController,
     private toastController:ToastController,
-    private location: Location
+    private location: Location,
     ) { 
       this.skills = new Array();
 
