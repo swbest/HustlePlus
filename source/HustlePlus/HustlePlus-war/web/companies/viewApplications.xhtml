@@ -10,7 +10,7 @@
         
         <h:form id="viewApplicationsForm">
             
-            <p:dataGrid var="application" value="#{applicationManagementManagedBean.applications}" columns="2" layout="grid"
+            <p:dataGrid var="myapp" value="#{applicationManagementManagedBean.applications}" columns="2" layout="grid"
                         rows="3" paginator="true" id="applications"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,16">
@@ -18,19 +18,19 @@
                     Applications For Project
                 </f:facet>
                 
-                <p:panel header="#{application.applicationId}" style="text-align: center">
+                <p:panel header="#{myapp.applicationId}" style="text-align: center">
                     <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">
                         
                         <h:outputText value ="Name of Student:"/>
-                        <h:outputText value ="#{application.student.name}"/>
+                        <h:outputText value ="#{myapp.student.name}"/>
                         
                         <h:outputText value ="Rating: "/>                        
-                        <h:outputText value ="#{application.student.avgRating}"/>
+                        <h:outputText value ="#{myapp.student.avgRating}"/>
                         
                         <h:outputText value ="Resume:"/>                        
-                        <h:outputText value ="#{application.student.resume}"/>
+                        <h:outputText value ="#{myapp.student.resume}"/>
                         
-                        <p:dataList value="#{application.student.skills}" var="skill" type="ordered">
+                        <p:dataList value="#{myapp.student.skills}" var="skill" type="ordered">
                             <f:facet name="header">
                                 Skills
                             </f:facet>

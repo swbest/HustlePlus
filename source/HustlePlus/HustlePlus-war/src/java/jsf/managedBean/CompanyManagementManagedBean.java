@@ -151,7 +151,8 @@ public class CompanyManagementManagedBean implements Serializable {
                 getFilteredCompanies().remove(companyToDelete);
             }
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Company Account deleted successfully", "Please proceed to logout"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Company Account deleted successfully", null));
+            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.xhtml");
         } catch (CompanyNotFoundException | DeleteCompanyException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while deleting company account: " + ex.getMessage(), null));
         } catch (Exception ex) {
@@ -163,6 +164,7 @@ public class CompanyManagementManagedBean implements Serializable {
         try {
             Company selectedCompanyToVerify = (Company) event.getComponent().getAttributes().get("selectedCompanyToVerify");
             companySessionBeanLocal.verifyCompany(selectedCompanyToVerify.getUserId());
+            selectedCompanyToVerify.setIsVerified(Boolean.TRUE);
         } catch (CompanyNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while verifying company account: " + ex.getMessage(), null));
         } catch (VerifyCompanyException ex) {
@@ -175,6 +177,7 @@ public class CompanyManagementManagedBean implements Serializable {
         try {
             Company selectedCompanyToSuspend = (Company) event.getComponent().getAttributes().get("selectedCompanyToSuspend");
             companySessionBeanLocal.suspendCompany(selectedCompanyToSuspend.getUserId());
+            selectedCompanyToSuspend.setIsSuspended(Boolean.TRUE);
         } catch (CompanyNotFoundException | SuspendCompanyException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while suspending company account: " + ex.getMessage(), null));
         }
@@ -303,14 +306,14 @@ public class CompanyManagementManagedBean implements Serializable {
 
             String uploadedFileName = event.getFile().getFileName();
 
-            String newFileName = newCompany.getUserId() + "-" + "profile_" + uploadedFileName;
+            String newFileName = CryptographicHelper.getInstance().generateUUID().toString() + "profile_" + uploadedFileName;
             String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1")
                     + System.getProperty("file.separator")
                     + newFileName;
 
             String docRootFilePath = "/uploadedFiles/" + newFileName;
-            newCompany.setIcon(docRootFilePath);
-            companySessionBeanLocal.uploadIcon(newCompany.getUserId(), docRootFilePath);
+            newCompany.setIcon(newFileName);
+            // companySessionBeanLocal.uploadIcon(newCompany.getUserId(), docRootFilePath);
 
             File file = new File(newFilePath);
             FileOutputStream fileOutputStream = new FileOutputStream(file);

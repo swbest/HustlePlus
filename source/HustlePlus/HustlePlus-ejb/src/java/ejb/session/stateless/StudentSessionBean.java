@@ -295,6 +295,13 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             throw new InvalidLoginCredentialException("Username does not exist or invalid password!");
         }
     }
+    
+    
+    public void addSkillToStudent(Long skillId, Long studentId)
+    {
+        
+    }
+    
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Student>> constraintViolations) {
         String msg = "Input data validation error!:";

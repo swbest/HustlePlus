@@ -48,6 +48,14 @@ import util.exception.UpdateProjectException;
 @ViewScoped
 public class ProjectManagementManagedBean implements Serializable {
 
+    public List<Long> getSkillIdsToAddToNewProject() {
+        return skillIdsToAddToNewProject;
+    }
+
+    public void setSkillIdsToAddToNewProject(List<Long> skillIdsToAddToNewProject) {
+        this.skillIdsToAddToNewProject = skillIdsToAddToNewProject;
+    }
+
     @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal;
 
@@ -70,8 +78,11 @@ public class ProjectManagementManagedBean implements Serializable {
     private ViewProjectManagedBean viewProjectManagedBean;
     
     private List<Project> projects;
+    
     private List<Project> projectsOfCompany; 
-    //private Long projectIdToView;
+    private Company companyToView; 
+    
+    private List<Long> skillIdsToAddToNewProject;
     
     
     private List<Long> milestoneIdsNew ; 
@@ -126,11 +137,11 @@ public class ProjectManagementManagedBean implements Serializable {
     } */
 
         try {  
-        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/projectManagement.xhtml");
+        //FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/projectManagement.xhtml");
         System.out.println("VPBC1");
-        Company company = (Company) event.getComponent().getAttributes().get("companyToView");
-        System.out.println(company.getUserId());
-        setProjectsOfCompany(projectSessionBeanLocal.retrieveProjectsByCompany(company.getUserId()));
+        companyToView = (Company) event.getComponent().getAttributes().get("companyToView");
+        System.out.println(companyToView.getUserId());
+        setProjectsOfCompany(projectSessionBeanLocal.retrieveProjectsByCompany(companyToView.getUserId()));
         if (projectsOfCompany.isEmpty()) {
             System.out.println("null");
         } else {
@@ -165,6 +176,8 @@ public class ProjectManagementManagedBean implements Serializable {
             //int i = 1;
             //long l = i;
             Long projectId = projectSessionBeanLocal.createNewProject(newProject, companyTagged.getUserId());
+            //Long projectId = projectSessionBeanLocal.createNewProject(newProject, companyTagged.getUserId(), skillIdsToAddToNewProject);
+
             System.out.println("PMMB1");
             projects.add(projectSessionBeanLocal.retrieveProjectByProjectId(projectId)); 
             System.out.println("PMMB2");
@@ -268,6 +281,8 @@ public class ProjectManagementManagedBean implements Serializable {
          context.addMessage(null,msg); 
          
      }
+     
+     
      
      public ViewProjectManagedBean getViewProjectManagedBean() {
          return viewProjectManagedBean;
@@ -387,6 +402,14 @@ public class ProjectManagementManagedBean implements Serializable {
 
     public void setStatusValue(boolean statusValue) {
         this.statusValue = statusValue;
+    }
+
+    public Company getCompanyToView() {
+        return companyToView;
+    }
+
+    public void setCompanyToView(Company companyToView) {
+        this.companyToView = companyToView;
     }
 
  

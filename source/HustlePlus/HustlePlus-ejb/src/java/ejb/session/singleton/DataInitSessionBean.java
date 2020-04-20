@@ -177,7 +177,7 @@ public class DataInitSessionBean {
             newStudent.setEmail("studentone@gmail.com");
             newStudent.setDescription("information systems undergraduate");
             newStudent.setIsVerified(Boolean.TRUE);
-            studentSessionBeanLocal.createStudentAccount(newStudent);
+            Long newStudentId = studentSessionBeanLocal.createStudentAccount(newStudent);
             newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("1")));
             newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("3")));
             newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("5")));

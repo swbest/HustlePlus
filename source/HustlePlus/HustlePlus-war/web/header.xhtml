@@ -47,7 +47,7 @@
                 </p:submenu>
 
                 <p:submenu icon="fa fa-folder-open">
-                    <p:menuitem value="My Projects"  outcome="/companies/projectManagement.xhtml">
+                    <p:menuitem value="My Projects"  actionListener="#{projectManagementManagedBean.viewProjectByCompany}">
                         <f:attribute name="companyToView" value="#{sessionScope.userEntity}"/>
                     </p:menuitem> 
                             <p:separator />
@@ -60,8 +60,7 @@
 
                 <f:facet name="options">
                     <p:menuButton icon="fa fa-id-badge" value="Hello, #{sessionScope.userEntity.name}!">
-                        <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml" >
-                        </p:menuitem>
+                        <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml" />
                         <p:separator />
                         <p:menuitem value="Log Out" actionListener="#{loginManagedBean.logout}" rendered="#{sessionScope.isLogin == true}"/>
                     </p:menuButton> &nbsp;

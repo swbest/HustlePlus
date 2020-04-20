@@ -57,13 +57,13 @@
                     </p:column>                    
                     
                     <p:column headerText="Action" >
-                        <p:commandButton actionListener="#{companyManagementManagedBean.verifyCompany}" value="Verify">
+                        <p:commandButton actionListener="#{companyManagementManagedBean.verifyCompany}" value="Verify" update="formAllCompanies:dataTableAllCompanies">
                             <f:attribute name="selectedCompanyToVerify" value="#{company}" />
                             <p:confirm header="Confirmation" message="Are you sure you want to verify #{company.name} (Company ID #{company.userId})?" icon="ui-icon-alert" rendered="#{company.isVerified == TRUE}"/>
                         </p:commandButton>
                             <br />
                        <br /> 
-                        <p:commandButton actionListener="#{companyManagementManagedBean.suspendCompany}" value="Suspend">
+                        <p:commandButton actionListener="#{companyManagementManagedBean.suspendCompany}" value="Suspend" update="formAllCompanies:dataTableAllCompanies">
                             <f:attribute name="selectedCompanyToSuspend" value="#{company}" />
                             <p:confirm header="Confirmation" message="Are you sure you want to suspend #{company.name} (Company ID: #{company.userId})?" icon="ui-icon-alert" rendered="#{company.isSuspended == TRUE}"/>
                         </p:commandButton>                

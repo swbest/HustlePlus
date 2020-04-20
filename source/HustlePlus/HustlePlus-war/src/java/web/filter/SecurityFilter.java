@@ -113,7 +113,8 @@ public class SecurityFilter implements Filter {
             path.equals("/companies/viewTeam.xhtml") ||
             path.equals("/companies/reviews.xhtml") ||
             path.equals("/companies/reviewStudent.xhtml") ||
-            path.equals("/companies/profilePage.xhtml")  )
+            path.equals("/companies/profilePage.xhtml")  ||
+            path.startsWith("/uploadedFiles"))
             {
                 return true ; 
             } else {
@@ -131,7 +132,7 @@ public class SecurityFilter implements Filter {
             path.equals("/companies/createNewCompany.xhtml") ||
             path.equals("/login.xhtml") ||
             path.equals("/companies/emailVerification.xhtml") ||
-            path.startsWith("/javax.faces.resource")
+            path.startsWith("/javax.faces.resource") 
             )  {
                 return true ; 
             } else {

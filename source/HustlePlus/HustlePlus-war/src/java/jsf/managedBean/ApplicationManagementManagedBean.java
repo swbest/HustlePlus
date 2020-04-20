@@ -32,6 +32,7 @@ public class ApplicationManagementManagedBean implements Serializable {
      
      private List<Application> applications;
      private Project viewProjectApplication; 
+     private Application newApplication; 
 
      
 
@@ -40,6 +41,7 @@ public class ApplicationManagementManagedBean implements Serializable {
      * Creates a new instance of ApplicationManagementManagedBean
      */
     public ApplicationManagementManagedBean() {
+        newApplication = new Application(); 
         
     }
     
@@ -78,6 +80,16 @@ public class ApplicationManagementManagedBean implements Serializable {
     public void setViewProjectApplication(Project viewProjectApplication) {
         this.viewProjectApplication = viewProjectApplication;
     }
+
+    public Application getNewApplication() {
+        return newApplication;
+    }
+
+    public void setNewApplication(Application newApplication) {
+        this.newApplication = newApplication;
+    }
+    
+    
     
     
     
