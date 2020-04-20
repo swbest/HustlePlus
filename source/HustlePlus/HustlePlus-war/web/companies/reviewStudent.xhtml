@@ -27,7 +27,7 @@
                 <p:selectOneMenu id="student" value="#{reviewManagementManagedBean.studentToReview.userId}" style="width: 125px" required="true">
                     <f:selectItem itemLabel="Select One" itemValue=" "/>
                 </p:selectOneMenu> 
-                <h:outputLabel value="Rating " for="rating"></h:outputLabel>   
+                <h:outputLabel value="Rating " for="rating" ></h:outputLabel>   
                 <p:rating value="#{reviewManagementManagedBean.newReview.rating}" required="true">
                     <p:ajax event="rate" listener="#{reviewManagementManagedBean.onrate}" update="msgs" />
                 </p:rating>
