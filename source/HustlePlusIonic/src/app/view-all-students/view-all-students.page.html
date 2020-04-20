@@ -9,55 +9,42 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-card>
-        <ion-card-header>
-            <ion-card-title>View All Students</ion-card-title>
-        </ion-card-header>
-        <!-- Default Searchbar -->
-        <ion-card-content>
 
-            <div *ngIf="errorMessage">
-                {{errorMessage}}
-            </div>
+<ion-content fullscreen>
+    <ion-list>
 
-            <ion-searchbar showCancelButton="true" placeholder="Search Students" (ionInput)="getSearchStudents($event)"
-                (ionCancel)="onCancel($event)"></ion-searchbar>
+        <div *ngIf="errorMessage">
+            {{errorMessage}}
+        </div>
 
-            <ion-list *ngIf="isStudentAvailable">
-                <ion-item *ngFor="let student of students">{{ item }}</ion-item>
-            </ion-list>
+        <ion-searchbar showCancelButton="true" placeholder="Search Students" (ionInput)="getSearchStudents($event)"
+            (ionCancel)="onCancel($event)"></ion-searchbar>
 
-            <ion-grid>
+        <ion-item *ngFor="let student of students">
+            <ion-avatar slot="start">
+                <img src="../../assets/images/student.jpg">
+            </ion-avatar>
+            <!-- <ion-list *ngIf="isStudentAvailable">
+            <ion-item *ngFor="let student of students">{{ item }}</ion-item>
+        </ion-list> -->
+            <ion-label>
                 <ion-row>
-                    <ion-col>Name</ion-col>
-                    <ion-col>Email</ion-col>
-                    <ion-col>Description</ion-col>
-                    <ion-col>Average Rating</ion-col>
-                    <ion-col>Skills</ion-col>
-                    <ion-col>View</ion-col>
-                </ion-row>
-                <ion-row *ngFor="let student of students">
-                    <ion-col>{{student.name}}</ion-col>
-                    <ion-col>{{student.email}}</ion-col>
-                    <ion-col>{{student.description}}</ion-col>
-                    <ion-col>{{student.avgRating}}</ion-col>
                     <ion-col>
-                        <ul>
-                            <li *ngFor="let skill of student.skills">{{skill.title}}</li>
-                        </ul>
+                        <h2>{{student.name}}</h2>
+                        <h3>Average Rating: {{student.avgRating}}/5</h3>
+                        <p>{{student.description}}</p>
                     </ion-col>
-                    <ion-col>
+                    <ion-col align="right">
                         <ion-button (click)="viewStudentDetails($event, student)">
                             <ion-icon slot="start" name="eye-outline"></ion-icon>
                         </ion-button>
                     </ion-col>
                 </ion-row>
-            </ion-grid>
-
-        </ion-card-content>
-    </ion-card>
+            </ion-label>
+        </ion-item>
+    </ion-list>
 </ion-content>
+
 
 <ion-footer>
     <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
