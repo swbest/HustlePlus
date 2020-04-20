@@ -44,7 +44,10 @@ public class ReviewManagementManagedBean implements Serializable {
     private List<Review> reviews; 
     private Student studentToReview;
     private Project projectToReview;
+    private List<Project> projects;
     private Company companyToReview;
+    private Long selProjectId;
+    private Project selectedProject; 
             
     
 
@@ -65,6 +68,25 @@ public class ReviewManagementManagedBean implements Serializable {
     
     public void createReview(ActionEvent event) {
         
+       System.out.println("id" + selProjectId);
+       
+       for(Project p:projects)
+       {
+           if(p.getProjectId().equals(selProjectId))
+           {
+               selectedProject = p;
+               break;
+           }
+       }
+
+        if (selectedProject != null) {
+            System.out.println("RMMB0");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected Project is " + selectedProject.getProjectName(), "Selected Project is " + selectedProject.getProjectName()));
+        } else {
+            System.out.println("RMMB1");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please select a valid project","Please select a valid project"));
+        }
+        
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/reviewStudent.xhtml");
             studentToReview = (Student) event.getComponent().getAttributes().get("studentToReview");
@@ -73,9 +95,9 @@ public class ReviewManagementManagedBean implements Serializable {
             //int i = 1;
             //long l = i;
             Long reviewId = reviewSessionBeanLocal.createNewReview(getNewReview(), projectToReview.getProjectId() , studentToReview.getUserId(), companyToReview.getUserId());
-            System.out.println("RMM1");
-            getReviews().add(reviewSessionBeanLocal.retrieveReviewByReviewId(reviewId)); 
             System.out.println("RMM2");
+            getReviews().add(reviewSessionBeanLocal.retrieveReviewByReviewId(reviewId)); 
+            System.out.println("RMM3");
             setNewReview(new Review());
             setStudentToReview(null); 
             setProjectToReview(null); 
@@ -143,6 +165,48 @@ public class ReviewManagementManagedBean implements Serializable {
 
     public void setCompanyToReview(Company companyToReview) {
         this.companyToReview = companyToReview;
+    }
+
+    /**
+     * @return the selProjectId
+     */
+    public Long getSelProjectId() {
+        return selProjectId;
+    }
+
+    /**
+     * @param selProjectId the selProjectId to set
+     */
+    public void setSelProjectId(Long selProjectId) {
+        this.selProjectId = selProjectId;
+    }
+
+    /**
+     * @return the selectedProject
+     */
+    public Project getSelectedProject() {
+        return selectedProject;
+    }
+
+    /**
+     * @param selectedProject the selectedProject to set
+     */
+    public void setSelectedProject(Project selectedProject) {
+        this.selectedProject = selectedProject;
+    }
+
+    /**
+     * @return the projects
+     */
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    /**
+     * @param projects the projects to set
+     */
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 
     

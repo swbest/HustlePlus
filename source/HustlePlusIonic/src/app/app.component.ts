@@ -25,17 +25,22 @@ export class AppComponent implements OnInit {
       icon: 'person'
     },
     {
+      title: 'My Applications',
+      url: '/view-all-applications',
+      icon: 'code-slash'
+    },
+    {
       title: 'Apply for Projects',
       url: '/viewAllProjects',
       icon: 'code-working'
     },
     {
-      title: 'Find Your Teamates',
+      title: 'Form A Team',
       url: '/viewAllStudents',
       icon: 'people'
     },
     {
-      title: 'View All Companies',
+      title: 'Find A Company',
       url: '/viewAllCompanies',
       icon: 'business'
     },
@@ -43,12 +48,6 @@ export class AppComponent implements OnInit {
       title: 'Leave A Review',
       url: '/createNewReview',
       icon: 'create'
-    },
-    // temporary
-    {
-      title: 'Create A Team',
-      url: '/createNewTeam',
-      icon: 'people-outline'
     },
   ];
 

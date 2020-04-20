@@ -4,10 +4,21 @@
 			<ion-menu-button></ion-menu-button>
 		</ion-buttons>
 		<ion-title>
-			View All Projects
+			Apply for Projects
 		</ion-title>
 	</ion-toolbar>
 </ion-header>
+
+<ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="option">
+      <ion-segment-button value="Search">
+        Search
+      </ion-segment-button>
+      <ion-segment-button value="My Projects">
+        My Projects
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 
 <ion-content>
 	<ion-card>      
