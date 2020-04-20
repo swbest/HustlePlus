@@ -4,10 +4,42 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+    
+    
     <h:head>
         <title>Hustle+ - log in or sign up</title>
+        <style type="text/css">
+            .ui-layout-north {
+                z-index:2 !important;
+                overflow:visible !important;
+            }
+            .ui-layout-north .ui-layout-unit-content {
+                overflow:visible !important;
+            }
+
+            .ui-layout-center {
+                overflow:auto !important;
+            }
+
+            .ui-layout-center .ui-layout-unit-content {
+                overflow: visible !important;
+            }
+
+            body {
+                background: url("#{resource['primefaces-start:images/website-login-background.jpg']}");
+            }
+
+            .ui-widget {
+                font-size: large;
+                box-shadow: none;
+            }
+
+            .ui-menubar, .ui-menu-child {
+                box-shadow: none;
+            }
+        </style>
     </h:head>
-    <h:body>
+    <h:body styleClass="Bimage">
         <div class="login-box">
             <div class="login-logo">
                 <center>
@@ -19,7 +51,7 @@
         </div>&nbsp;
         
         <div class="box login-box-body">
-            <div style="color: #000000; font-size: x-large; text-align: center">            
+            <div style="color: #000000; font-size: large; text-align: center">            
                 <p class="login-box-msg" style="color: #000000; font-size: x-large"></p>
                 <h:panelGroup rendered="#{sessionScope.isLogin == false}">
                     <h:form id="loginForm">

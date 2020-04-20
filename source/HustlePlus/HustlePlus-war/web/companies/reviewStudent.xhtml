@@ -18,27 +18,31 @@
 
         <p:panel header="New Student Review" style="margin-bottom:20px">
             <h:panelGrid columns="2" cellpadding="5">
-                <p:outputLabel for="project" value="Select Project" />
-                <p:selectOneListbox id="project" value="#{reviewManagementManagedBean.projectToReview.projectName}">
-                <f:selectItem itemLabel="Option 1" itemValue="1" />
-                <f:selectItem itemLabel="Option 2" itemValue="2" />
-                <f:selectItem itemLabel="Option 3" itemValue="3" />
-        </p:selectOneListbox>
+                <p:outputLabel for="project" value="Project" />
+                <p:selectOneMenu id="project" value="#{reviewManagementManagedBean.selProjectId}" style="width: 125px" required="true">
+                    <f:selectItem itemLabel="Select One" itemValue=" "/>
+                    <f:selectItems value="#{milestoneManagementManagedBean.projects}"  var="project" itemLabel="#{project.projectName}" itemValue="#{project.projectId}" />
+                </p:selectOneMenu> 
+                <p:outputLabel for="student" value="Student" />
+                <p:selectOneMenu id="student" value="#{reviewManagementManagedBean.studentToReview.userId}" style="width: 125px" required="true">
+                    <f:selectItem itemLabel="Select One" itemValue=" "/>
+                </p:selectOneMenu> 
                 <h:outputLabel value="Rating " for="rating"></h:outputLabel>   
-                <p:rating value="#{reviewManagementManagedBean.newReview.rating}">
+                <p:rating value="#{reviewManagementManagedBean.newReview.rating}" required="true">
                     <p:ajax event="rate" listener="#{reviewManagementManagedBean.onrate}" update="msgs" />
                 </p:rating>
                 <h:outputLabel value="Your Review " for="reviewTxt"></h:outputLabel>
-                <p:textEditor widgetVar="editor" value="#{reviewManagementManagedBean.newReview.reviewText}" height="200" style="margin-bottom:10px; margin-top:10px; width: 500px" placeholder="Type here">
-                <f:facet name="toolbar">
-                     <span class="ql-formats">
-                        <button class="ql-bold"></button>
-                        <button class="ql-italic"></button>
-                        <button class="ql-underline"></button>
-                        <button class="ql-strike"></button>
-                    </span>
-                    
-                </f:facet>
+                <p:textEditor widgetVar="editor" value="#{reviewManagementManagedBean.newReview.reviewText}" height="200" style="margin-bottom:10px; margin-top:10px; width: 500px" placeholder="Type here" required="true">
+                    <f:validateLength minimum="10" />
+                    <f:facet name="toolbar">
+                         <span class="ql-formats">
+                            <button class="ql-bold"></button>
+                            <button class="ql-italic"></button>
+                            <button class="ql-underline"></button>
+                            <button class="ql-strike"></button>
+                        </span>
+
+                    </f:facet>
                 </p:textEditor>
 
                 <p:commandButton id="btn_reset" value="Clear" type="reset"/>
