@@ -60,26 +60,28 @@
                     </p:row>
                     
                      <p:row>
-                        <p:column>
+                         <p:column>
                             <p:outputLabel for="startDate" value="Project Start Date" />
                         </p:column>
-                        <p:column>
-                             <p:datePicker id="startDate" value="#{projectManagementManagedBean.newProject.startDate}" required="true" requiredMessage="Start Date is required!" />
-                        </p:column>
-                    </p:row>
-                   
+                 <p:column>
+                    <p:calendar id="startDate" binding="#{startDateComponent}" value="#{projectManagementManagedBean.newProject.startDate}" pattern="dd/MM/yyyy" required="true" />
+                  </p:column>
+                     </p:row>
                     
                     <p:row>
                         <p:column>
                             <p:outputLabel for="endDate" value="Project End Date" />
                         </p:column>
-                        <p:column>
-                          <p:datePicker id="endDate" value="#{projectManagementManagedBean.newProject.endDate}" required="true" requiredMessage="End Date is required!" />
-                        </p:column>
+                 <p:column>
+                   <p:calendar id="endDate" value="#{projectManagementManagedBean.newProject.endDate}" pattern="dd/MM/yyyy" required="true">
+                       <f:validator validatorId="dateRangeValidator" />
+                       <f:attribute name="startDateComponent" value="#{startDateComponent}" />
+                    </p:calendar>
+                  </p:column>
                     </p:row>
+                     
                     
-                     <p:row>
-                         
+                      <p:row>
                          <h:panelGrid columns="3" cellpadding="5">
                         
                             <p:outputLabel for="skills" value="Required Skills: * " />

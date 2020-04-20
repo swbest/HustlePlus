@@ -54,6 +54,12 @@
             <li *ngFor="let project of companyToView.projects">{{project.projectName}}</li>
           </ul>
         </ion-item>
+
+        <ion-item>
+          <ion-button size="small" icon="mail-outline" (click)="emailCompany()">
+            Email Company
+          </ion-button>
+        </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>

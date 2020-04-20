@@ -45,11 +45,7 @@ public class SearchCompaniesByNameManagedBean {
         if (getSearchString() == null || getSearchString().trim().length() == 0) {
             setCompanies(companySessionBeanLocal.retrieveAllCompanies());
         } else {
-            try {
-                setCompanies(companySessionBeanLocal.retrieveCompaniesByName(getSearchString()));
-            } catch (CompanyNotFoundException ex) {
-                
-            }
+                setCompanies(companySessionBeanLocal.searchCompaniesByName(getSearchString()));   
         }
     }
 
@@ -57,13 +53,13 @@ public class SearchCompaniesByNameManagedBean {
         if (getSearchString() == null || getSearchString().trim().length() == 0) {
             setCompanies(companySessionBeanLocal.retrieveAllCompanies());
         } else {
-            try {
-                setCompanies(companySessionBeanLocal.retrieveCompaniesByName(getSearchString()));
-            } catch (CompanyNotFoundException ex) {
-                
-            }
+            
+       setCompanies(companySessionBeanLocal.searchCompaniesByName(getSearchString()));
+           
         }
     }
+    
+      
 
     /**
      * @return the searchString

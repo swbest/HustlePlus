@@ -15,13 +15,9 @@
 
                 <div style="text-align: center;">
                 
-                    <p:inputText id="txtSearchString" value="#{searchProjectsByNameManagedBean.searchString}" style="font-size: large;" placeholder="Search Project">
-                        <p:ajax event="keyup" process="@this" update="formMain:dataTableMain" listener="#{searchProjectsByNameManagedBean.searchProject}" />
+                    <p:inputText id="txtSearchString" value="#{searchProjectsByNameManagedBean.searchString}" style="font-size: large;" placeholder="Enter Project Name">
+                        <p:ajax event="keyup" process="@this formMain:txtSearchString" update="formMain:dataTableMain" listener="#{searchProjectsByNameManagedBean.searchProject}" /> 
                     </p:inputText>
-                    &nbsp;
-                    <p:commandButton value="GO" style="font-size: medium; background-color: powderblue; color: black; font-family: helvetica">
-                        <p:ajax event="click" process="@this formMain:txtSearchString" update="formMain:dataTableMain" listener="#{searchProjectsByNameManagedBean.searchProject}" />
-                    </p:commandButton>
 
                 </div>
                 
@@ -47,15 +43,19 @@
                     </p:column>
                     
                     <p:column headerText="Start Date" style="background-color: powderblue; color: black;" sortBy="#{project.startDate}">
-                        <h:outputText value="#{project.startDate}" />
+                        <h:outputText value="#{project.startDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
                     </p:column>
                     
                     <p:column headerText="Due Date" style="background-color: powderblue; color: black;" sortBy="#{project.endDate}">
-                        <h:outputText value="#{project.endDate}" />
+                        <h:outputText value="#{project.endDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
                     </p:column>
 
                     <p:column headerText="Action" style="background-color: powderblue; color: black;">
-                        <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View Details">
+                        <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View Details" action="#{viewProjectManagedBean.setStatusText}">
                             <f:setPropertyActionListener value="#{project}" target="#{searchProjectsByNameManagedBean.viewProjectManagedBean.projectToView}" />
                         </p:commandButton>                        
                     </p:column>

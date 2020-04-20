@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Create New Milestone</title>
+        <style type="text/css">
+            .ui-layout-north {
+                z-index:2 !important;
+                overflow:visible !important;
+            }
+            .ui-layout-north .ui-layout-unit-content {
+                overflow:visible !important;
+            }
+
+            .ui-layout-center {
+                overflow:auto !important;
+            }
+
+            .ui-layout-center .ui-layout-unit-content {
+                overflow: visible !important;
+            }
+
+            body {
+                background-color: powderblue;
+            }
+
+            .ui-widget {
+                font-size: small;
+                box-shadow: none;
+            }
+
+            .ui-menubar, .ui-menu-child {
+                box-shadow: none;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        
+        <p:panel header="Create Milestone for Project" style="background-color: powderblue; font-size: large">
+            <h:form id="createMilestone">
+                <p:growl>
+                    <p:autoUpdate/>
+                </p:growl>
+                <h:messages/>
+                
+                <p:panelGrid>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="milestoneTitle" value="Title of Milestone: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="milestoneTitle" value="#{milestoneManagementManagedBean.newMilestone.title}" required="true" requiredMessage="Title of Milestone is required"/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="description" value="Milestone Description: " />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="description" value="#{milestoneManagementManagedBean.newMilestone.description}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                         <h:panelGrid columns="2" cellpadding="5">
+                            <p:outputLabel for="project" value="Project: * " />
+                            <p:selectOneMenu id="project" value="#{milestoneManagementManagedBean.selProjectId}" style="width: 125px">
+                              <f:selectItem itemLabel="Select One" itemValue=" "/>
+                              <f:selectItems value="#{milestoneManagementManagedBean.projects}"  var="project" itemLabel="#{project.projectName}" itemValue="#{project.projectId}" />
+                            </p:selectOneMenu>
+                         </h:panelGrid> 
+                    </p:row>
+
+
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:commandButton type="reset" value="Clear" />
+                            <p:commandButton value="Add" process="@form" update="@form" actionListener="#{milestoneManagementManagedBean.createNewMilestone}"/>
+                            <p:commandButton immediate="true" value="Cancel" action="/companies/projectManagement.xhtml?faces-redirect=true"/>
+                        </p:column>
+                    </p:row>
+                    
+                        
+                </p:panelGrid>
+
+            </h:form>
+
+        </p:panel>
+        
+        
+    </h:body>
+</ui:composition>

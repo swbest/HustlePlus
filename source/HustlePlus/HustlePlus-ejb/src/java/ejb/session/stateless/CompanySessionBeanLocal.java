@@ -42,8 +42,6 @@ public interface CompanySessionBeanLocal {
 
     public List<Company> retrieveCompaniesByName(String cname) throws CompanyNotFoundException;
 
-    public List<Company> retrieveCompaniesByAvgRating(Double avgRating) throws CompanyNotFoundException;
-
     public void verifyCompany(Long companyId) throws CompanyNotFoundException, VerifyCompanyException;
 
     public void suspendCompany(Long companyId) throws CompanyNotFoundException, SuspendCompanyException;
@@ -53,6 +51,10 @@ public interface CompanySessionBeanLocal {
     public void updatePassword(Company company, String password) throws CompanyNotFoundException, UpdateCompanyException, InputDataValidationException;
 
     public void uploadIcon(Long companyId, String source);
+
+    public List<Company> searchCompaniesByName(String searchString);
+
+    public List<Company> searchCompaniesByRating(Double avgRating);
 
     
 }

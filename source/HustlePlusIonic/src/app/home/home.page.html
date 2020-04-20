@@ -10,12 +10,20 @@
 </ion-header>
 
 <ion-content>
-	<ion-card>      
+
+	<ion-card *ngIf="sessionService.getIsLogin() == false">
+	
+      <ion-card-header>        
+        <ion-card-title>Welcome to HustlePlus</ion-card-title>
+      </ion-card-header>	  
+    </ion-card>	
+	
+	<ion-card *ngIf="sessionService.getIsLogin() == true">
 		<ion-card-header>        
 			<ion-card-title>Hustle Plus Ionic</ion-card-title>
 		</ion-card-header>
 		<ion-card-content>
-			<p>Use the side menu to navigate around this demo app.</p>
+			<p>Use the side menu to navigate around this app.</p>
 		</ion-card-content>
 	</ion-card>
 </ion-content>

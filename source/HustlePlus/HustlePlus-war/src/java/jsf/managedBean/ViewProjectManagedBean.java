@@ -5,8 +5,11 @@
  */
 package jsf.managedBean;
 
+import ejb.session.stateless.ApplicationSessionBeanLocal;
 import ejb.session.stateless.ProjectSessionBeanLocal;
+import entity.Application;
 import entity.Project;
+import entity.Skill;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +19,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 /**
  *
@@ -25,12 +29,19 @@ import javax.faces.context.FacesContext;
 @RequestScoped
 public class ViewProjectManagedBean implements Serializable {
 
+    @EJB(name = "ApplicationSessionBeanLocal")
+    private ApplicationSessionBeanLocal applicationSessionBeanLocal;
+
     @EJB(name = "ProjectSessionBeanLocal")
     private ProjectSessionBeanLocal projectSessionBeanLocal;
+    
+    
     
     private Project projectToView;
    private List<Project> projectsToView; 
    private String displayStatus; 
+   private List<Skill> skills; 
+
 
     /**
      * Creates a new instance of ViewProjectManagedBean
@@ -42,16 +53,7 @@ public class ViewProjectManagedBean implements Serializable {
     @PostConstruct
     public void postConstruct()
     {
-        
-    /*  Company company = (Company) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("companyToView");
-      
-      try {
-        setProjectsToView(projectSessionBeanLocal.retrieveProjectsByCompany(company.getUserId()));
-
-    } catch (ProjectNotFoundException ex)  {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving the project: Project not found", null));
-    }*/
-        
+  
     }
     
        /* public void viewProjectByCompany(ActionEvent event) {
@@ -84,17 +86,7 @@ public class ViewProjectManagedBean implements Serializable {
     }
     } */
 
-    /**
-     * @return the projectToView
-     */
     
-    public void viewApplications() {
-       try {
-        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/viewApplications.xhtml");
-    } catch (IOException ex) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while retrieving the projects: " + ex.getMessage(), null));
-    }
-    }
     
         public void viewTeam() {
        try {
@@ -158,6 +150,21 @@ public class ViewProjectManagedBean implements Serializable {
     public void setDisplayStatus(String displayStatus) {
         this.displayStatus = displayStatus;
     }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
+    }
+
+
+    
+    
+    
+    
+    
     
     
     

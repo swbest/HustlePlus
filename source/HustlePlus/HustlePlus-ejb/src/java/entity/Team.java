@@ -36,7 +36,7 @@ public class Team implements Serializable {
     @NotNull
     @Column(nullable = false)
     private int numStudents;
-    
+
     @ManyToMany
     private List<Student> students;
     @OneToOne(optional = false)
@@ -81,11 +81,13 @@ public class Team implements Serializable {
 
     public void setStudents(List<Student> students) {
         this.students = students;
+        this.numStudents = this.students.size();
     }
 
     public void addStudent(Student student) {
         if (!this.students.contains(student)) {
             this.students.add(student);
+            this.numStudents = this.students.size();
         }
     }
 

@@ -61,11 +61,16 @@
                             </p:column>
 
                             <p:column headerText="Start Date" sortBy="#{project.startDate}">
-                                <h:outputText value="#{project.startDate}" />
+                                <h:outputText value="#{project.startDate}">
+                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                                    
                             </p:column>
 
                             <p:column headerText="Due Date" sortBy="#{project.endDate}">
-                                <h:outputText value="#{project.endDate}" />
+                                <h:outputText value="#{project.endDate}">
+                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
                             </p:column>
 
                             <p:column headerText="Action" >
@@ -82,7 +87,7 @@
                 
             </h:form>
             
-            <ez:ViewStudent id="ccViewProject" />
+            <ez:ViewProject id="ccViewProject" />
         </div>
         
     </ui:define>

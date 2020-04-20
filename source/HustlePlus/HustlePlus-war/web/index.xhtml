@@ -5,6 +5,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/template/defaultTemplate.xhtml"
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
                 xmlns:p="http://primefaces.org/ui">
     
     <ui:define name="content">
@@ -17,11 +18,57 @@
         </h:panelGroup>
         </h:form>
 
-        <h:panelGroup rendered="#{sessionScope.isLogin == true}">
+    <h:panelGroup rendered="#{sessionScope.isLogin == true &amp;&amp; sessionScope.userEntity.accessRightEnum == 'COMPANY'}">
+            <article style="font-family: Segoe UI, Tahoma, sans-serif; color: coral; font-size: xx-large">
+                <center><h1>What would you like to do today?</h1></center>
+            </article>    
+            
+            &nbsp;
+            
+            <h:form id="form">
+                <p:carousel value="#{projectManagementManagedBean.projects}" headerText="Your Projects" var="project" itemStyle="text-align:center" responsive="true">
+        <p:panelGrid columns="2" style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid" styleClass="ui-panelgrid-blank">
+            <f:facet name="header">
+                <h1>#{project.projectName}</h1>
+            </f:facet>
+            
+            <h:outputText value="Project ID: " />
+            <h:outputText value="#{project.projectId}" />
+            
+            <h:outputText value="Job Value: " />
+            <h:outputText value="#{project.jobValue}" />
+ 
+            <h:outputText value="Number of Students: " />
+            <h:outputText value="#{project.numStudentsRequired}" />
+ 
+            <h:outputText value="Project Description: " />
+            <h:outputText value="#{project.projectDescription}"/>
+ 
+            <h:outputText value="Start Date: " />
+            <h:outputText value="#{project.startDate}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </h:outputText>
+           
+            
+            <h:outputText value="End Date: " />
+            <h:outputText value="#{project.endDate}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </h:outputText> 
+        </p:panelGrid>
+ 
+        <f:facet name="footer">
+                You have #{fn:length(projectManagementManagedBean.projects)} project(s).
+        </f:facet>
+    </p:carousel>
+            </h:form>
+
+        </h:panelGroup>
+        
+    <h:panelGroup rendered="#{sessionScope.isLogin == true &amp;&amp; sessionScope.userEntity.accessRightEnum == 'ADMIN'}">
             <article style="margin-top: 225px; font-family: Segoe UI, Tahoma, sans-serif; color: coral; font-size: xx-large">
                 <center><h1>What would you like to do today?</h1></center>
                 <center><p:clock pattern="HH:mm"/></center>
-            </article>
+            </article> 
         </h:panelGroup>
         
     </ui:define>

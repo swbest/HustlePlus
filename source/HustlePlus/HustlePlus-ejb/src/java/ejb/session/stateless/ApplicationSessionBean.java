@@ -65,12 +65,14 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
             if (student.getIsVerified() == false) {
                 throw new StudentNotVerifiedException("Student is not yet verified! Please wait a few days for admin staff to verify.");
             }
-            if (student.getIsSuspended() == false) {
+            if (student.getIsSuspended() == true) {
                 throw new StudentSuspendedException("Student is suspended. Please contact admin staff for details.");
             }
             if (constraintViolations.isEmpty()) {
                 newApplication.setProject(project);
                 newApplication.setStudent(student);
+                newApplication.setIsApproved(Boolean.FALSE);
+                newApplication.setIsPending(Boolean.TRUE);
                 project.addApplication(newApplication);
                 student.addApplication(newApplication);
                 em.persist(newApplication);
@@ -133,6 +135,7 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
 
     @Override
     public List<Application> retrieveAllApplications() {
+        System.out.println("retrievedApplications");
         Query query = em.createQuery("SELECT a FROM Application a");
         return query.getResultList();
     }

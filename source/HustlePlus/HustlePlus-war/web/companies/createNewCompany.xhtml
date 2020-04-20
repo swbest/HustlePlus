@@ -13,6 +13,7 @@
         
         <p:panel header="Create a new account">
             <h:form id="signUpForm"> 
+                <p:messages/>
                 
                 <p:panelGrid>
                     
@@ -21,7 +22,7 @@
                             <p:outputLabel for="companyName" value="Company Name" style="font-weight: bold"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="companyName" value="#{companyManagementManagedBean.newCompany.name}" />
+                            <p:inputText id="companyName" value="#{companyManagementManagedBean.newCompany.name}" required="true" requiredMessage="Company Name required"/>
                         </p:column>
                     </p:row>
                     
@@ -30,7 +31,7 @@
                             <p:outputLabel for="email" value="Email" style="font-weight: bold"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="email" value="#{companyManagementManagedBean.newCompany.email}" />
+                            <p:inputText id="email" value="#{companyManagementManagedBean.newCompany.email}" required="true" requiredMessage="Email required" />
                         </p:column>
                     </p:row>
                    
@@ -39,7 +40,7 @@
                             <p:outputLabel for="username" value="Username" style="font-weight: bold"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="username" value="#{companyManagementManagedBean.newCompany.username}" />
+                            <p:inputText id="username" value="#{companyManagementManagedBean.newCompany.username}" required="true" requiredMessage="Username required"/>
                         </p:column>
                     </p:row>
                     
@@ -48,7 +49,7 @@
                             <p:outputLabel for="password" value="Password" style="font-weight: bold"/>
                         </p:column>
                         <p:column>
-                            <p:password id="password" value="#{companyManagementManagedBean.newCompany.password}" />
+                            <p:password id="password" value="#{companyManagementManagedBean.newCompany.password}" required="true" requiredMessage="Password required" />
                         </p:column>
                     </p:row>
                     
@@ -59,7 +60,7 @@
                             <p:outputLabel for="description" value="Description" style="font-weight: bold"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="description" value="#{companyManagementManagedBean.newCompany.description}" />
+                            <p:inputText id="description" value="#{companyManagementManagedBean.newCompany.description}"  />
                         </p:column>
                     </p:row>
                     
@@ -69,7 +70,6 @@
                         </p:column>
                         <p:column>
                             <p:panel id="icon">
-                                <p:messages redisplay="false" />
                                         Maximum File Size: 5MB
                                         <p:fileUpload mode="advanced" fileUploadListener="#{companyManagementManagedBean.uploadPicture}" sizeLimit="5000000" />
                             </p:panel>

@@ -29,12 +29,13 @@
                             <h:outputText value="Search " />
                             <p:inputText id="globalFilter" onkeyup="PF('dataTableAllProjects').filter()" style="width:200px"/>
                         </p:outputPanel>
-                        <p:commandButton icon="ui-icon-plusthick" action="/companies/createNewProject.xhtml?faces-redirect=true" style="float:right;margin-top: 4px"/>
+                        <p:commandButton icon="ui-icon-plusthick" action="/companies/createProjectForProjectManagement.xhtml?faces-redirect=true" style="float:right;margin-top: 4px"/>
                     </f:facet>
                     
                     <p:column headerText="Project ID" sortBy="#{project.projectId}" filterBy="#{project.projectId}" filterMatchMode="contains">
                         <h:outputText value="#{project.projectId}" />
                     </p:column>
+
                     
                     <p:column headerText="Project Name" sortBy="#{project.projectName}" filterBy="#{project.projectName}" filterMatchMode="contains">
                         <h:outputText value="#{project.projectName}" />
@@ -122,6 +123,8 @@
                             </p:column>
                         </p:row>
                         
+                    
+                        
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="projectDescription" value="Project Description: " style="font-weight: bold;" />
@@ -187,8 +190,8 @@
                                 <p:message for="projectMilestone" />
                             </p:column> 
                     </p:row>
-                    
-                       
+                        
+  
                         <p:row>
                             <p:column colspan="3">
                                 <p:commandButton value="Update Project" update="@form formUpdateProject" actionListener="#{projectManagementManagedBean.updateProject}" oncomplete="PF('dialogUpdateProject').show();" />

@@ -1,0 +1,145 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{name}}'s Profile</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content fullscreen>
+
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="option">
+      <ion-segment-button value="Profile">
+        About
+      </ion-segment-button>
+      <ion-segment-button value="Skills">
+        Skills
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+
+
+  <div [ngSwitch]="option">
+    <div *ngSwitchCase="'Profile'">
+      <ion-grid>
+
+
+        <ion-row justify-content-center>
+          <ion-item >
+            <img class="profileimg" src="../../assets/images/student.jpg">
+          </ion-item>
+        </ion-row>
+        <ion-row  justify-content-center>
+          <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+
+            <div padding>
+              <ion-card>
+                <ion-item>
+                  <p><strong>" {{description}} "</strong></p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Name :</strong> {{ name }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Username :</strong> {{ username }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Password :</strong> {{ password }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Email :</strong> {{ email }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Rating :</strong> {{ avgRating }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Bank Name :</strong> {{ bankAccountName }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Bank Account :</strong> {{ bankAccountNumber }}</p>
+                </ion-item>
+                <ion-item>
+                  <p *ngIf="isVerified == true"><strong>Verified? :</strong> Yes </p>
+                  <p *ngIf="isVerified == false"><strong>Verified? :</strong> No </p>
+                </ion-item>
+              </ion-card>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+    </div>
+    <div *ngSwitchCase="'Skills'">
+      <ng-container *ngFor="let skills of skills">
+        <div item-end>
+          <ion-chip style="float:left; position:absolute;" 
+            color="dark">
+            <ion-icon name="person"></ion-icon>
+            <ion-label>this skill</ion-label>
+          </ion-chip>
+          <h2 style="top:23px; float: left;">"what a skill"</h2>
+
+          <ion-badge color="medium">
+            <ion-icon name="star"></ion-icon>"skill stuff"
+          </ion-badge>
+        </div>
+      </ng-container>
+
+    </div>
+    <div *ngSwitchDefault>
+      <ion-grid>
+
+
+        <ion-row justify-content-center>
+          <ion-item >
+            <img class="profileimg" src="../../assets/images/student.jpg">
+          </ion-item>
+        </ion-row>
+        <ion-row  justify-content-center>
+          <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+
+            <div padding>
+              <ion-card>
+                <ion-item>
+                  <p><strong>" {{description}} "</strong></p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Name :</strong> {{ name }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Username :</strong> {{ username }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Password :</strong> {{ password }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Email :</strong> {{ email }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Rating :</strong> {{ avgRating }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Bank Name :</strong> {{ bankAccountName }}</p>
+                </ion-item>
+                <ion-item>
+                  <p><strong>Bank Account :</strong> {{ bankAccountNumber }}</p>
+                </ion-item>
+                <ion-item>
+                  <p *ngIf="isVerified == true"><strong>Verified? :</strong> Yes </p>
+                  <p *ngIf="isVerified == false"><strong>Verified? :</strong> No </p>
+                </ion-item>
+              </ion-card>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+    </div>
+  </div>

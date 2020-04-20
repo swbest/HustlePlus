@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { AlertController } from '@ionic/angular';
 
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
+
 import { CompanyService } from '../company.service';
 import { Company } from '../company';
 
@@ -23,7 +25,8 @@ export class ViewCompanyDetailsPage implements OnInit {
   constructor(private router: Router,
     private activatedRoute: ActivatedRoute,
     private companyService: CompanyService,
-    public alertController: AlertController) {
+    public alertController: AlertController,
+    private emailComposer: EmailComposer) {
     this.retrieveCompanyError = false;
     this.error = false;
     this.resultSuccess = false;
@@ -52,5 +55,12 @@ export class ViewCompanyDetailsPage implements OnInit {
 
   back() {
     this.router.navigate(["/viewAllCompanies"]);
+  }
+
+  emailCompany() {
+    this.emailComposer.open({
+      to: this.companyToView.email,
+      body: 'Sent from HustlePlus'
+    })
   }
 }

@@ -39,7 +39,7 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
 
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
-    
+
     @EJB
     private ProjectSessionBeanLocal projectSessionBeanLocal;
 
@@ -97,6 +97,13 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
         } else {
             throw new TeamNotFoundException("Team ID " + teamId + " does not exist!");
         }
+    }
+
+    @Override
+    public List<Team> retrieveTeamsByStudentId(Long studentId) {
+        Query query = em.createQuery("SELECT t FROM Team t WHERE t.students.userId = :inStudentId");
+        query.setParameter("inStudentId", studentId);
+        return query.getResultList();
     }
 
     @Override

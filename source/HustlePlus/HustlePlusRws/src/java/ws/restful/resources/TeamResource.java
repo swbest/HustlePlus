@@ -25,7 +25,7 @@ import javax.ws.rs.core.Response;
 import ws.restful.model.CreateNewStudentRsp;
 import ws.restful.model.CreateNewTeamReq;
 import ws.restful.model.ErrorRsp;
-import ws.restful.model.RetrieveAllTeamsRsp;
+import ws.restful.model.RetrieveTeamsByStudentRsp;
 import ws.restful.model.RetrieveTeamRsp;
 
 /**
@@ -54,7 +54,7 @@ public class TeamResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/{teamId}")
+    @Path("/retrieveTeam/{teamId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveTeamById(@PathParam("teamId") Long teamId) {
         try {
@@ -74,11 +74,12 @@ public class TeamResource {
      * @return an instance of java.lang.String
      */
     @GET
+    @Path("/retrieveTeamsByStudentId/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveAllTeams() {
+    public Response retrieveTeamsByStudentId(@PathParam("studentId") Long studentId) {
         try {
-            List<Team> teams = teamSessionBean.retrieveAllTeams();
-            RetrieveAllTeamsRsp retrieveAllTeamsRsp = new RetrieveAllTeamsRsp(teams);
+            List<Team> teams = teamSessionBean.retrieveTeamsByStudentId(studentId);
+            RetrieveTeamsByStudentRsp retrieveAllTeamsRsp = new RetrieveTeamsByStudentRsp(teams);
             return Response.status(Response.Status.OK).entity(retrieveAllTeamsRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());

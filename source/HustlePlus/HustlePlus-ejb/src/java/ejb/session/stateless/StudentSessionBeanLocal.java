@@ -13,8 +13,10 @@ import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.StudentNameExistException;
 import util.exception.StudentNotFoundException;
+import util.exception.SuspendStudentException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateStudentException;
+import util.exception.VerifyStudentException;
 
 /**
  *
@@ -44,5 +46,9 @@ public interface StudentSessionBeanLocal {
     public List retrieveStudentsByName(String name) throws StudentNotFoundException;
 
     public List<Student> filterStudentsBySkills(List<Long> skillIds, String condition);
+
+    public void verifyStudent(Long studentId) throws StudentNotFoundException, VerifyStudentException;
+
+    public void suspendStudent(Long studentId) throws StudentNotFoundException, SuspendStudentException;
 
 }
