@@ -58,17 +58,16 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     @Override
     public Long createNewProject(Project newProject, Long companyId) throws CompanyNotVerifiedException, CompanySuspendedException, UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException {
         try {
-                                System.out.println("PSB0");
+            System.out.println("PSB0");
 
             Set<ConstraintViolation<Project>> constraintViolations = validator.validate(newProject);
-                                System.out.println("PSB0.5");
-
+            System.out.println("PSB0.5");
 
             if (constraintViolations.isEmpty()) {
                 try {
                     System.out.println("PSB1");
                     Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
-                    
+
                     System.out.println("PSB2");
                     if (company.getIsVerified() == false) {
                         throw new CompanyNotVerifiedException("Company is not yet verified! Please wait a few days for admin staff to verify.");
@@ -128,24 +127,24 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
             if (constraintViolations.isEmpty()) {
                 System.out.println("project1");
-               // try {
-                    //Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
-                    Project projectToUpdate = retrieveProjectByProjectId(project.getProjectId());
-                    System.out.println(projectToUpdate.getProjectName() + "test");
-                    System.out.println(project.getProjectName());
-                    projectToUpdate.setProjectName(project.getProjectName());
-                    projectToUpdate.setJobValue(project.getJobValue());
-                    projectToUpdate.setNumStudentsRequired(project.getNumStudentsRequired());
-                    projectToUpdate.setProjectDescription(project.getProjectDescription());
-                    projectToUpdate.setStartDate(project.getStartDate());
-                    projectToUpdate.setEndDate(project.getEndDate());
-                    projectToUpdate.setSkills(project.getSkills());
-                   // projectToUpdate.setCompany(company);
-                    projectToUpdate.setTeam(project.getTeam());
-                    projectToUpdate.setMilestones(project.getMilestones());
-                    projectToUpdate.setReviews(project.getReviews());
-                    projectToUpdate.setApplications(project.getApplications());
-               // } 
+                // try {
+                //Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
+                Project projectToUpdate = retrieveProjectByProjectId(project.getProjectId());
+                System.out.println(projectToUpdate.getProjectName() + "test");
+                System.out.println(project.getProjectName());
+                projectToUpdate.setProjectName(project.getProjectName());
+                projectToUpdate.setJobValue(project.getJobValue());
+                projectToUpdate.setNumStudentsRequired(project.getNumStudentsRequired());
+                projectToUpdate.setProjectDescription(project.getProjectDescription());
+                projectToUpdate.setStartDate(project.getStartDate());
+                projectToUpdate.setEndDate(project.getEndDate());
+                projectToUpdate.setSkills(project.getSkills());
+                projectToUpdate.setCompany(project.getCompany());
+                projectToUpdate.setMilestones(project.getMilestones());
+                projectToUpdate.setReviews(project.getReviews());
+                projectToUpdate.setApplications(project.getApplications());
+                projectToUpdate.setStudents(project.getStudents());
+                // } 
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
@@ -158,8 +157,8 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     public void deleteProject(Long projectId) throws ProjectNotFoundException, DeleteProjectException {
         Project projectToRemove = retrieveProjectByProjectId(projectId);
         System.out.println(projectToRemove.getProjectName());
-        
-        if (  projectToRemove.getTeam() == null || ( projectToRemove.getTeam().getNumStudents() == 0 && projectToRemove.getReviews().isEmpty() || projectToRemove.getMilestones().isEmpty() ) ) {
+
+        if (projectToRemove.getStudents().size() == 0 && projectToRemove.getReviews().isEmpty() && projectToRemove.getMilestones().isEmpty()) {
             System.out.println("deleteProjectSB");
             em.remove(projectToRemove);
         } else {
@@ -180,7 +179,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     public List<Project> retrieveProjectsByName(String pname) throws ProjectNotFoundException {
         Query query = em.createQuery("SELECT p FROM Project p WHERE p.projectName LIKE '%inProjectName%'");
         query.setParameter("inProjectName", pname);
-        
+
         try {
             return query.getResultList();
         } catch (NoResultException ex) {
@@ -191,186 +190,157 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     @Override
     public List<Project> retrieveProjectsByCompany(Long cid) throws ProjectNotFoundException {
 
-        System.out.println(cid); 
-       Query query = em.createQuery("SELECT p FROM Project p WHERE p.company.userId = :companyId");
+        System.out.println(cid);
+        Query query = em.createQuery("SELECT p FROM Project p WHERE p.company.userId = :companyId");
         query.setParameter("companyId", cid);
-       
-        List<Project> projects = (List<Project>) query.getResultList(); 
-        
+
+        List<Project> projects = (List<Project>) query.getResultList();
+
         try {
 
-                 for(Project p:projects)
-       {   
-           System.out.println("in PSB list" + p.getProjectId()); 
-         
-       }
-                 
-            return (List <Project>) query.getResultList();
-     
+            for (Project p : projects) {
+                System.out.println("in PSB list" + p.getProjectId());
+
+            }
+
+            return (List<Project>) query.getResultList();
+
         } catch (NoResultException ex) {
             System.out.println("PSB1");
             throw new ProjectNotFoundException("No projects were found by that Company!");
         }
-       
-       
+
     }
-    
+
     @Override
     public List<Project> searchProjectsByCompany(String searchString) {
         Query query = em.createQuery("SELECT p FROM Project p WHERE p.company.name LIKE :inSearchString ORDER BY p.projectId ASC");
         query.setParameter("inSearchString", "%" + searchString + "%");
         List<Project> projects = query.getResultList();
-        
-       return projects; 
+
+        return projects;
     }
-    
-    
-    
-    
+
     @Override
     public List<Project> searchProjectsByName(String searchString) {
         Query query = em.createQuery("SELECT p FROM Project p WHERE p.projectName LIKE :inSearchString ORDER BY p.projectId ASC");
         query.setParameter("inSearchString", "%" + searchString + "%");
         List<Project> projects = query.getResultList();
-        
-       return projects; 
+
+        return projects;
     }
-    
 
     @Override
     public List<Project> retrieveProjectsBySkills(String skillTitle) throws ProjectNotFoundException {
         Query query = em.createQuery("SELECT p FROM Project p WHERE p.skills.title = :inSkillTitle");
         query.setParameter("inSkillTitle", skillTitle);
-        
+
         try {
             return query.getResultList();
         } catch (NoResultException ex) {
             throw new ProjectNotFoundException("No projects were found by that skill!");
         }
     }
-    
+
     @Override
     public List<Project> filterProjectByCompanies(List<Long> companyIds, String condition) {
         List<Project> projects = new ArrayList<>();
-        
-         if(companyIds == null || companyIds.isEmpty() || (!condition.equals("AND") && !condition.equals("OR")))
-        {
+
+        if (companyIds == null || companyIds.isEmpty() || (!condition.equals("AND") && !condition.equals("OR"))) {
             return projects;
-        }
-        else
-        {
-            if(condition.equals("OR"))
-            {
+        } else {
+            if (condition.equals("OR")) {
                 Query query = em.createQuery("SELECT DISTINCT p FROM Project p, IN (p.companies) ce WHERE ce.userId IN :inCompanyIds ORDER BY p.projectId ASC");
                 query.setParameter("inCompanyIds", companyIds);
-                projects = query.getResultList();                                                          
-            }
-            else // AND
+                projects = query.getResultList();
+            } else // AND
             {
                 String selectClause = "SELECT p FROM Project p";
                 String whereClause = "";
                 Boolean firstTag = true;
                 Integer tagCount = 1;
 
-                for(Long companyId:companyIds)
-                {
+                for (Long companyId : companyIds) {
                     selectClause += ", IN (p.companies) ce" + tagCount;
 
-                    if(firstTag)
-                    {
+                    if (firstTag) {
                         whereClause = "WHERE ce1.userId = " + companyId;
                         firstTag = false;
+                    } else {
+                        whereClause += " AND ce" + tagCount + ".companyId = " + companyId;
                     }
-                    else
-                    {
-                        whereClause += " AND ce" + tagCount + ".companyId = " + companyId; 
-                    }
-                    
+
                     tagCount++;
                 }
-                
+
                 String jpql = selectClause + " " + whereClause + " ORDER BY p.projectId ASC";
                 Query query = em.createQuery(jpql);
-                projects = query.getResultList();                                
+                projects = query.getResultList();
             }
-            
-            for(Project project:projects)
-            {
+
+            for (Project project : projects) {
                 project.getCompany();
 
             }
-            
-            Collections.sort(projects, new Comparator<Project>()
-            {
+
+            Collections.sort(projects, new Comparator<Project>() {
                 public int compare(Project p1, Project p2) {
                     return p1.getProjectId().compareTo(p2.getProjectId());
                 }
             });
-            
+
             return projects;
         }
     }
-    
+
     @Override
-    public List<Project> filterProjectsBySkills(List<Long> skillIds, String condition)
-    {
+    public List<Project> filterProjectsBySkills(List<Long> skillIds, String condition) {
         List<Project> projects = new ArrayList<>();
-        
-        if(skillIds == null || skillIds.isEmpty() || (!condition.equals("AND") && !condition.equals("OR")))
-        {
+
+        if (skillIds == null || skillIds.isEmpty() || (!condition.equals("AND") && !condition.equals("OR"))) {
             return projects;
-        }
-        else
-        {
-            if(condition.equals("OR"))
-            {
+        } else {
+            if (condition.equals("OR")) {
                 Query query = em.createQuery("SELECT DISTINCT p FROM Project p, IN (p.skills) s WHERE s.skillId IN :inSkillIds ORDER BY p.projectName ASC");
                 query.setParameter("inSkillIds", skillIds);
-                projects = query.getResultList();                                                          
-            }
-            else // AND
+                projects = query.getResultList();
+            } else // AND
             {
                 String selectClause = "SELECT p FROM Project p";
                 String whereClause = "";
                 Boolean firstSkill = true;
                 Integer skillCount = 1;
 
-                for(Long skillId : skillIds)
-                {
+                for (Long skillId : skillIds) {
                     selectClause += ", IN (p.skills) s" + skillCount;
 
-                    if(firstSkill)
-                    {
+                    if (firstSkill) {
                         whereClause = "WHERE p1.skillId = " + skillId;
                         firstSkill = false;
+                    } else {
+                        whereClause += " AND p" + skillCount + ".skillId = " + skillId;
                     }
-                    else
-                    {
-                        whereClause += " AND p" + skillCount + ".skillId = " + skillId; 
-                    }
-                    
+
                     skillCount++;
                 }
-                
+
                 String jpql = selectClause + " " + whereClause + " ORDER BY p.projectName ASC";
                 Query query = em.createQuery(jpql);
-                projects = query.getResultList();                                
+                projects = query.getResultList();
             }
-            
-            for(Project project : projects)
-            {
+
+            for (Project project : projects) {
                 project.getSkills().size();
             }
-            
-            Collections.sort(projects, new Comparator<Project>()
-            {
+
+            Collections.sort(projects, new Comparator<Project>() {
                 public int compare(Project p1, Project p2) {
                     return p1.getProjectName().compareTo(p2.getProjectName());
                 }
             });
-            
+
             return projects;
         }
     }
-    
+
 }

@@ -68,8 +68,6 @@ public class Project implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Company company;
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
-    private Team team;
 
     @ManyToMany(mappedBy = "projects")
     @JoinColumn(nullable = false)
@@ -80,12 +78,16 @@ public class Project implements Serializable {
     private List<Review> reviews;
     @OneToMany(mappedBy = "project")
     private List<Application> applications;
+    @ManyToMany(mappedBy = "projects")
+    @JoinColumn(nullable = false)
+    private List<Student> students;
 
     public Project() {
         this.skills = new ArrayList<>();
         this.milestones = new ArrayList<>();
         this.reviews = new ArrayList<>();
         this.applications = new ArrayList<>();
+        this.students = new ArrayList<>();
         this.isFinished = Boolean.FALSE;
     }
 
@@ -182,14 +184,6 @@ public class Project implements Serializable {
         this.company = company;
     }
 
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
     public List<Milestone> getMilestones() {
         return milestones;
     }
@@ -255,6 +249,26 @@ public class Project implements Serializable {
     public void removeApplication(Application application) {
         if (this.applications.contains(application)) {
             this.applications.remove(application);
+        }
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public void addStudent(Student student) {
+        if (!this.students.contains(student)) {
+            this.students.add(student);
+        }
+    }
+
+    public void removeStudent(Student student) {
+        if (this.students.contains(student)) {
+            this.students.remove(student);
         }
     }
 
