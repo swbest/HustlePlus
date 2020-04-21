@@ -49,6 +49,17 @@ export class AppComponent implements OnInit {
       url: '/createNewReview',
       icon: 'create'
     },
+    // temporary
+    {
+      title: 'Leave A Review Student',
+      url: '/createNewStudentReview',
+      icon: 'create'
+    },
+    {
+      title: 'Leave A Review Company',
+      url: '/createNewCompanyReview',
+      icon: 'create'
+    },
   ];
 
   constructor(

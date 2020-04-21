@@ -11,14 +11,14 @@
 
 <ion-toolbar no-border-top>
     <ion-segment [(ngModel)]="option">
-      <ion-segment-button value="Search">
-        Search
-      </ion-segment-button>
-      <ion-segment-button value="My Team">
-        My Team
-      </ion-segment-button>
+        <ion-segment-button value="Search">
+            Search
+        </ion-segment-button>
+        <ion-segment-button value="My Team">
+            My Team
+        </ion-segment-button>
     </ion-segment>
-  </ion-toolbar>
+</ion-toolbar>
 
 
 <ion-content fullscreen>
@@ -35,9 +35,6 @@
             <ion-avatar slot="start">
                 <img src="../../assets/images/student.jpg">
             </ion-avatar>
-            <!-- <ion-list *ngIf="isStudentAvailable">
-            <ion-item *ngFor="let student of students">{{ item }}</ion-item>
-        </ion-list> -->
             <ion-label>
                 <ion-row>
                     <ion-col>

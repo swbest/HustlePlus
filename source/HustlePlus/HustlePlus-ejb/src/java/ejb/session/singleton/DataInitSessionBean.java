@@ -280,7 +280,7 @@ public class DataInitSessionBean {
         createAdmin();
         createSkills();
         createStudents();
-        createProjects();
+        // createProjects();
         createApplications(); 
     }
 

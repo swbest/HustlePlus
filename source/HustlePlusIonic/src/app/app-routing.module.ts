@@ -34,11 +34,8 @@ const routes: Routes = [
   { path: 'createNewReview', loadChildren: './create-new-review/create-new-review.module#CreateNewReviewPageModule', canActivate: [AuthGuard] },
   { path: 'createNewCompanyReview', loadChildren: './create-new-company-review/create-new-company-review.module#CreateNewCompanyReviewPageModule', canActivate: [AuthGuard] },
   { path: 'createNewStudentReview', loadChildren: './create-new-student-review/create-new-student-review.module#CreateNewStudentReviewPageModule', canActivate: [AuthGuard] },
-  { path: 'createNewTeam', loadChildren: './create-new-team/create-new-team.module#CreateNewTeamPageModule', canActivate: [AuthGuard] },  {
-    path: 'view-all-applications',
-    loadChildren: () => import('./view-all-applications/view-all-applications.module').then( m => m.ViewAllApplicationsPageModule)
-  },
-
+  { path: 'createNewTeam', loadChildren: './create-new-team/create-new-team.module#CreateNewTeamPageModule', canActivate: [AuthGuard] },
+  { path: 'viewAllApplications', loadChildren: './view-all-applications/view-all-applications.module#ViewAllApplicationsPageModule', canActivate: [AuthGuard] },
 ];
 
 @NgModule({
