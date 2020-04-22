@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Update Profile Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+
+  <div *ngIf="resultSuccess == true" style="color: blue;">
+    {{message}}
+  </div>
+  
+  <div *ngIf="resultError == true" style="color: red;">
+    {{message}}
+  </div>
+
+  <form *ngIf="studentToUpdate != null" #updateStudentForm="ngForm" (ngSubmit)="updateStudentAccount(updateStudentForm)">
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+      
+      <ion-item>
+        <ion-label position="stacked">Name</ion-label>
+        <ion-input placeholder="{{name}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Username</ion-label>
+        <ion-input placeholder="{{username}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input placeholder="{{password}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Description</ion-label>
+        <ion-input placeholder="{{description}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input placeholder="{{email}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Bank Name</ion-label>
+        <ion-input placeholder="{{bankAccountName}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Bank Account</ion-label>
+        <ion-input placeholder="{{bankAccountNumber}}"></ion-input>
+      </ion-item>
+
+    </ion-list>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit" class="ion-no-margin">Save</ion-button>
+    </div>
+  </form>
+</ion-content>

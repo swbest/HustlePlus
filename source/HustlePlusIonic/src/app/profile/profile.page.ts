@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../student.service';
 import { SessionService } from '../session.service';
 import { ModalController, ToastController } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Student } from '../student';
 import { Skill } from '../skill';
@@ -30,12 +30,17 @@ export class ProfilePage implements OnInit {
   resume: File;
   errorMessage: string;
   infoMessage: string;
+  resultSuccess: boolean;
+  resultError: boolean
+  error: boolean;
+  message: string;
 
   constructor(private studentService: StudentService,
     private sessionService: SessionService,
     private modalController: ModalController,
     private toastController:ToastController,
     private location: Location,
+    private router: Router
     ) { 
       this.skills = new Array();
 
@@ -69,8 +74,25 @@ export class ProfilePage implements OnInit {
       this.skills = this.studentToView.skills;
       this.resume = this.studentToView.resume;
     }
-  
-  
+
+    deleteStudentAccount() {
+      this.studentService.deleteStudentAccount(this.studentToView.userId).subscribe(
+        response => {
+          this.resultSuccess = true;
+        },
+        error => {
+          this.error = true;
+          this.errorMessage = error;
+        }
+      );	
+      this.studentService.studentLogout();	
+      this.router.navigate(["/home"]);
+    }
+
+    updateStudentAccount() {
+      this.router.navigate(["/update-profile-modal"]);
+    }
+
     async successToast() {
       const toast = await this.toastController.create({
         message: this.infoMessage,
@@ -97,4 +119,6 @@ export class ProfilePage implements OnInit {
    
     
   }
+
+  
   

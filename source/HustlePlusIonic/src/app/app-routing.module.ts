@@ -35,7 +35,15 @@ const routes: Routes = [
   { path: 'createNewCompanyReview', loadChildren: './create-new-company-review/create-new-company-review.module#CreateNewCompanyReviewPageModule', canActivate: [AuthGuard] },
   { path: 'createNewStudentReview', loadChildren: './create-new-student-review/create-new-student-review.module#CreateNewStudentReviewPageModule', canActivate: [AuthGuard] },
   { path: 'createNewTeam', loadChildren: './create-new-team/create-new-team.module#CreateNewTeamPageModule', canActivate: [AuthGuard] },
-  { path: 'viewAllApplications', loadChildren: './view-all-applications/view-all-applications.module#ViewAllApplicationsPageModule', canActivate: [AuthGuard] },
+  { path: 'viewAllApplications', loadChildren: './view-all-applications/view-all-applications.module#ViewAllApplicationsPageModule', canActivate: [AuthGuard] },  {
+    path: 'create-new-skill',
+    loadChildren: () => import('./create-new-skill/create-new-skill.module').then( m => m.CreateNewSkillPageModule)
+  },
+  {
+    path: 'update-profile-modal',
+    loadChildren: () => import('./update-profile-modal/update-profile-modal.module').then( m => m.UpdateProfileModalPageModule)
+  },
+
 ];
 
 @NgModule({
