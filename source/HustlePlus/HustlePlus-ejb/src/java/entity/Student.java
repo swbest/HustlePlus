@@ -62,6 +62,8 @@ public class Student extends User implements Serializable {
     private List<Payment> payments;
     @OneToMany(mappedBy = "student")
     private List<Application> applications;
+    @ManyToMany
+    private List<Project> projects;
 
     public Student() {
         this.skills = new ArrayList<Skill>();
@@ -69,6 +71,7 @@ public class Student extends User implements Serializable {
         this.companyReviews = new ArrayList<Review>();
         this.payments = new ArrayList<Payment>();
         this.applications = new ArrayList<Application>();
+        this.projects = new ArrayList<Project>();
         this.isVerified = Boolean.FALSE;
         this.isSuspended = Boolean.FALSE;
     }
@@ -169,6 +172,26 @@ public class Student extends User implements Serializable {
         }
     }
 
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    public void addProject(Project project) {
+        if (!this.projects.contains(project)) {
+            this.projects.add(project);
+        }
+    }
+
+    public void removeProject(Project project) {
+        if (this.projects.contains(project)) {
+            this.projects.remove(project);
+        }
+    }
+
     public List<Review> getCompanyReviews() {
         return companyReviews;
     }
@@ -228,8 +251,6 @@ public class Student extends User implements Serializable {
             this.applications.remove(application);
         }
     }
-    
-    
 
     @Override
     public int hashCode() {

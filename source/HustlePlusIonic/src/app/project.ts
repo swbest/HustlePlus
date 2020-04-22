@@ -1,3 +1,7 @@
+import { Company } from './company';
+import { Review } from './review';
+import { Student } from './student';
+
 export class Project {
 
     projectId: number;
@@ -8,6 +12,9 @@ export class Project {
     startDate: Date;
     endDate: Date;
     isFinished: boolean;
+    company: Company;
+    reviews: Review[];
+    students: Student[];
 
     constructor(projectId?: number, projectName?:string, jobValue?:number, numStudentsRequired?:number, 
         projectDescription?:string, startDate?:Date, endDate?:Date) {

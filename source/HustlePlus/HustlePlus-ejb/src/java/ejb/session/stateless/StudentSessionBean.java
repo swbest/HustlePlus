@@ -112,6 +112,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
                 studentToUpdate.setBankAccountName(student.getBankAccountName());
                 studentToUpdate.setBankAccountNumber(student.getBankAccountNumber());
                 studentToUpdate.setApplications(student.getApplications());
+                studentToUpdate.setProjects(student.getProjects());
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

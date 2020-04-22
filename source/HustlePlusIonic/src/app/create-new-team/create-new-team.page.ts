@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { TeamService } from '../team.service';
 import { Team } from '../team';
+import { SessionService } from '../session.service';
 
 @Component({
   selector: 'app-create-new-team',
@@ -19,12 +20,14 @@ export class CreateNewTeamPage implements OnInit {
   hasError: boolean;
 
   constructor(private teamService: TeamService,
-    private router: Router) {
+    private router: Router,
+    private sessionService: SessionService) {
     this.submitted = false;
     this.newTeam = new Team();
   }
 
   ngOnInit() {
+    this.newTeam.students.push(this.sessionService.getCurrentStudent());
   }
 
   clear() {
