@@ -39,6 +39,10 @@ const routes: Routes = [
     path: 'create-new-skill',
     loadChildren: () => import('./create-new-skill/create-new-skill.module').then( m => m.CreateNewSkillPageModule)
   },
+  {
+    path: 'update-profile-modal',
+    loadChildren: () => import('./update-profile-modal/update-profile-modal.module').then( m => m.UpdateProfileModalPageModule)
+  },
 
 ];
 

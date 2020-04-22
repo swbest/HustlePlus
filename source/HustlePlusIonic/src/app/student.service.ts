@@ -63,6 +63,21 @@ export class StudentService {
 			);
 	}
 
+	updateStudent(studentToUpdate: Student): Observable<any>
+	{
+		let updateStudentReq = {
+			"username": this.sessionService.getUsername(),
+			"password": this.sessionService.getPassword(),
+			"student": studentToUpdate,
+		};
+
+		console.log(sessionStorage.currentStudent);
+		return this.httpClient.post<any>(this.baseUrl, updateStudentReq, httpOptions).pipe
+		(
+			catchError(this.handleError)
+		);
+	}
+
 	deleteStudentAccount(userId: number): Observable<any>{
 		return this.httpClient.delete<any>(this.baseUrl + "/" + userId + "?username=" + this.sessionService.getUsername() + "&password=" + this.sessionService.getPassword()).pipe
 		(

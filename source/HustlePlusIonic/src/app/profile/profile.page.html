@@ -68,9 +68,9 @@
                 </ion-item>
               </ion-card>
               <ion-toolbar position="bottom">
-                <!-- <ion-button  color="success" (click)="updateStudentAccount($event, studentToView)">
+                <ion-button  color="success" (click)="updateStudentAccount($event, studentToView)">
                   <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>  Update Profile
-                </ion-button> -->
+                </ion-button>
                 <ion-button  color="danger" (click)="deleteStudentAccount($event, studentToView)">
                   <ion-icon slot="icon-only" name="trash-outline"></ion-icon> Delete Account
                 </ion-button>
@@ -145,10 +145,10 @@
                 </ion-item>
               </ion-card>
               <ion-toolbar position="bottom">
-                <!-- <ion-button  color="success" (click)="updateStudentAccount($event, studentToView)">
+                <ion-button slot="start" color="success" (click)="updateStudentAccount()">
                   <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>  Update Profile
-                </ion-button> -->
-                <ion-button  color="danger" (click)="deleteStudentAccount($event, studentToView)">
+                </ion-button>
+                <ion-button slot="end" color="danger" (click)="deleteStudentAccount($event, studentToView)">
                   <ion-icon slot="icon-only" name="trash-outline"></ion-icon> Delete Account
                 </ion-button>
               </ion-toolbar>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../student.service';
 import { SessionService } from '../session.service';
 import { ModalController, ToastController } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Student } from '../student';
 import { Skill } from '../skill';
@@ -31,7 +31,9 @@ export class ProfilePage implements OnInit {
   errorMessage: string;
   infoMessage: string;
   resultSuccess: boolean;
+  resultError: boolean
   error: boolean;
+  message: string;
 
   constructor(private studentService: StudentService,
     private sessionService: SessionService,
@@ -87,6 +89,10 @@ export class ProfilePage implements OnInit {
       this.router.navigate(["/home"]);
     }
 
+    updateStudentAccount() {
+      this.router.navigate(["/update-profile-modal"]);
+    }
+
     async successToast() {
       const toast = await this.toastController.create({
         message: this.infoMessage,
@@ -113,4 +119,6 @@ export class ProfilePage implements OnInit {
    
     
   }
+
+  
   
