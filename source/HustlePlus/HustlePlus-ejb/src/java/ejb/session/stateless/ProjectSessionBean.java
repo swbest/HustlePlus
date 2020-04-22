@@ -53,8 +53,6 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
     @EJB
     private CompanySessionBeanLocal companySessionBeanLocal;
-    
-    
 
     public ProjectSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -82,17 +80,17 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                         throw new CompanySuspendedException("Company is suspended. Please contact admin staff for details.");
                     }
                     newProject.setCompany(company);
-                    
+
                     //Associate skills with project 
-                    List <Skill> skills = new ArrayList();
-                    List <Project> projectsAdded = new ArrayList(); 
+                    List<Skill> skills = new ArrayList();
+                    List<Project> projectsAdded = new ArrayList();
                     projectsAdded.add(newProject);
-                   for(Long skillIdsToSet:skillIds) {
-                   skills.add(skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToSet));
-                   skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToSet).setProjects(projectsAdded);
-                 }
+                    for (Long skillIdsToSet : skillIds) {
+                        skills.add(skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToSet));
+                        skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToSet).setProjects(projectsAdded);
+                    }
                     newProject.setSkills(skills);
-                    
+
                     System.out.println("PSB3");
                     company.getProjects().add(newProject);
                     System.out.println("PSB4");
@@ -146,36 +144,30 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
             if (constraintViolations.isEmpty()) {
                 System.out.println("project1");
-                
+
                 List<Skill> skillsOfProject = project.getSkills();
-                List <Project> projectsAdded = new ArrayList(); 
+                List<Project> projectsAdded = new ArrayList();
                 projectsAdded.add(project);
-                for(Long skillIdsToAdd: skillIds) {
+                for (Long skillIdsToAdd : skillIds) {
                     skillsOfProject.add(skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToAdd));
                     skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToAdd).setProjects(projectsAdded);
                 }
                 project.setSkills(skillsOfProject);
-                
-                    
-               // try {
-                    //Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
-                    Project projectToUpdate = retrieveProjectByProjectId(project.getProjectId());
-                    System.out.println(projectToUpdate.getProjectName() + "test");
-                    System.out.println(project.getProjectName());
-                    projectToUpdate.setProjectName(project.getProjectName());
-                    projectToUpdate.setJobValue(project.getJobValue());
-                    projectToUpdate.setNumStudentsRequired(project.getNumStudentsRequired());
-                    projectToUpdate.setProjectDescription(project.getProjectDescription());
-                    projectToUpdate.setStartDate(project.getStartDate());
-                    projectToUpdate.setEndDate(project.getEndDate());
-                    projectToUpdate.setSkills(project.getSkills());
-                   // projectToUpdate.setCompany(company);
-                  //  projectToUpdate.setTeam(project.getTeam());
-                    projectToUpdate.setMilestones(project.getMilestones());
-                    projectToUpdate.setReviews(project.getReviews());
-                    projectToUpdate.setApplications(project.getApplications());
-                    projectToUpdate.setStudents(project.getStudents());
-               // } 
+
+                Project projectToUpdate = retrieveProjectByProjectId(project.getProjectId());
+                System.out.println(projectToUpdate.getProjectName() + "test");
+                System.out.println(project.getProjectName());
+                projectToUpdate.setProjectName(project.getProjectName());
+                projectToUpdate.setJobValue(project.getJobValue());
+                projectToUpdate.setNumStudentsRequired(project.getNumStudentsRequired());
+                projectToUpdate.setProjectDescription(project.getProjectDescription());
+                projectToUpdate.setStartDate(project.getStartDate());
+                projectToUpdate.setEndDate(project.getEndDate());
+                projectToUpdate.setSkills(project.getSkills());
+                projectToUpdate.setCompany(project.getCompany());
+                projectToUpdate.setMilestones(project.getMilestones());
+                projectToUpdate.setReviews(project.getReviews());
+                projectToUpdate.setApplications(project.getApplications());
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

@@ -10,28 +10,29 @@
 </ion-header>
 
 <ion-toolbar no-border-top>
-    <ion-segment [(ngModel)]="option">
-      <ion-segment-button value="Search">
-        Search
-      </ion-segment-button>
-      <ion-segment-button value="My Projects">
-        My Projects
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
+	<ion-segment [(ngModel)]="option">
+		<ion-segment-button value="Search">
+			Search
+		</ion-segment-button>
+		<ion-segment-button value="My Projects">
+			My Projects
+		</ion-segment-button>
+	</ion-segment>
+</ion-toolbar>
 
 <ion-content>
-	<ion-card>      
-		<ion-card-header>        
+	<ion-card>
+		<ion-card-header>
 			<ion-card-title>View All Projects</ion-card-title>
 		</ion-card-header>
 		<ion-card-content>
-		
+
 			<div *ngIf="errorMessage">
 				{{errorMessage}}
 			</div>
 
-			<ion-searchbar showCancelButton="true" placeholder="Search Projects" (ionInput)="getSearchProjects($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
+			<ion-searchbar showCancelButton="true" placeholder="Search Projects" (ionInput)="getSearchProjects($event)"
+				(ionCancel)="onCancel($event)"></ion-searchbar>
 
 			<ion-grid>
 				<ion-row>
@@ -45,7 +46,7 @@
 					<ion-col>{{project.projectDescription}}</ion-col>
 				</ion-row>
 			</ion-grid>
-			
+
 		</ion-card-content>
 	</ion-card>
 </ion-content>

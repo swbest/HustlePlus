@@ -74,8 +74,6 @@ public class DataInitSessionBean {
 
     @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal;
-    
-    
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
@@ -181,7 +179,7 @@ public class DataInitSessionBean {
             newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("1")));
             newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("3")));
             newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("5")));
-            
+
             Student newStudent2 = new Student();
             newStudent2.setBankAccountName("posb");
             newStudent2.setBankAccountNumber(Long.valueOf("12345678"));
@@ -195,8 +193,7 @@ public class DataInitSessionBean {
             newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("1")));
             newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("3")));
             newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("5")));
-            
-            
+
             Student newStudent3 = new Student();
             newStudent3.setBankAccountName("uob");
             newStudent3.setBankAccountNumber(Long.valueOf("12345678"));
@@ -220,7 +217,7 @@ public class DataInitSessionBean {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-/*
+
     private void createProjects() {
         try {
             Project newProject = new Project();
@@ -230,11 +227,9 @@ public class DataInitSessionBean {
             newProject.setProjectDescription("Enterprise Systems");
             newProject.setStartDate(new Date());
             newProject.setEndDate(new Date());
-            List<Skill> skills = new ArrayList<Skill>();
-            Skill skill = skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("6"));
-            skills.add(skill);
-            //newProject.setSkills(skills);
-            projectSessionBeanLocal.createNewProject(newProject, Long.valueOf("1"), skills);
+            List<Long> skillIds = new ArrayList<Long>();
+            skillIds.add(Long.valueOf("6"));
+            projectSessionBeanLocal.createNewProject(newProject, Long.valueOf("1"), skillIds);
         } catch (CompanyNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CompanyNotVerifiedException ex) {
@@ -250,12 +245,12 @@ public class DataInitSessionBean {
         } catch (SkillNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } */
-    
+    }
+
     private void createApplications() {
         try {
-            Application application = new Application(); 
-            applicationSessionBeanLocal.createApplication(application, Long.valueOf("1"), Long.valueOf("3") );
+            Application application = new Application();
+            applicationSessionBeanLocal.createApplication(application, Long.valueOf("1"), Long.valueOf("3"));
         } catch (StudentSuspendedException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (StudentNotVerifiedException ex) {
@@ -271,17 +266,16 @@ public class DataInitSessionBean {
         } catch (StudentNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
 
     private void initializeData() {
         createCompany();
         createAdmin();
         createSkills();
         createStudents();
-        // createProjects();
-        createApplications(); 
+        createProjects();
+        createApplications();
     }
 
     public void persist(Object object) {
