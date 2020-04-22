@@ -30,12 +30,15 @@ export class ProfilePage implements OnInit {
   resume: File;
   errorMessage: string;
   infoMessage: string;
+  resultSuccess: boolean;
+  error: boolean;
 
   constructor(private studentService: StudentService,
     private sessionService: SessionService,
     private modalController: ModalController,
     private toastController:ToastController,
     private location: Location,
+    private router: Router
     ) { 
       this.skills = new Array();
 
@@ -69,8 +72,21 @@ export class ProfilePage implements OnInit {
       this.skills = this.studentToView.skills;
       this.resume = this.studentToView.resume;
     }
-  
-  
+
+    deleteStudentAccount() {
+      this.studentService.deleteStudentAccount(this.studentToView.userId).subscribe(
+        response => {
+          this.resultSuccess = true;
+        },
+        error => {
+          this.error = true;
+          this.errorMessage = error;
+        }
+      );	
+      this.studentService.studentLogout();	
+      this.router.navigate(["/home"]);
+    }
+
     async successToast() {
       const toast = await this.toastController.create({
         message: this.infoMessage,

@@ -16,6 +16,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
@@ -24,7 +25,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import util.exception.DeleteStudentException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.StudentNotFoundException;
 import ws.restful.model.CreateNewStudentReq;
 import ws.restful.model.CreateNewStudentRsp;
 import ws.restful.model.ErrorRsp;
@@ -148,6 +151,43 @@ public class StudentResource {
         } else {
             ErrorRsp errorRsp = new ErrorRsp("Invalid Request");
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("{studentId}")
+    @DELETE
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteStudent(@QueryParam("username") String username, 
+                                        @QueryParam("password") String password,
+                                        @PathParam("studentId") Long studentId)
+    {
+        try
+        {
+            Student student = studentSessionBean.studentLogin(username, password);
+            System.out.println("********** StudentResource.deleteStudent(): Student " + student.getUsername() + " login remotely via web service");
+
+            studentSessionBean.deleteStudentAccount(studentId);
+            
+            return Response.status(Status.OK).build();
+        }
+        catch(InvalidLoginCredentialException ex)
+        {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+            return Response.status(Status.UNAUTHORIZED).entity(errorRsp).build();
+        }
+        catch(StudentNotFoundException | DeleteStudentException ex)
+        {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+            return Response.status(Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+        catch(Exception ex)
+        {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
 

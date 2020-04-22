@@ -33,6 +33,13 @@ export class StudentService {
 		);
 	}
 
+	studentLogout(): void
+    {
+      this.sessionService.setIsLogin(false);
+      this.sessionService.setCurrentStudent(null);		
+      console.log('successful logout');
+    }
+
 	createNewStudent(newStudent: Student): Observable<any> {
 		let createNewStudentReq = { 'newStudent': newStudent };
 
@@ -56,6 +63,13 @@ export class StudentService {
 			);
 	}
 
+	deleteStudentAccount(userId: number): Observable<any>{
+		return this.httpClient.delete<any>(this.baseUrl + "/" + userId + "?username=" + this.sessionService.getUsername() + "&password=" + this.sessionService.getPassword()).pipe
+		(
+			catchError(this.handleError)
+		);
+	}
+	
 	private handleError(error: HttpErrorResponse) {
 		let errorMessage: string = '';
 
