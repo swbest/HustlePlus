@@ -144,8 +144,8 @@
                             <h:outputLabel value="Milestones: " />
                         </p:column>
                         <p:column>
-                            <p:commandButton value="View Milestones" actionListener="#{projectManagementManagedBean.viewMilestones}">
-                                <f:attribute name="projectToViewMilestone" value="#{projectManagementManagedBean.projectToView}"/>
+                            <p:commandButton value="View Milestones" actionListener="#{getMilestonesManagedBean.retrieveMilestonesForProject}">
+                                <f:attribute name="projectToView" value="#{projectManagementManagedBean.projectToView}"/>
                             </p:commandButton>
                         </p:column>
                     </p:row>

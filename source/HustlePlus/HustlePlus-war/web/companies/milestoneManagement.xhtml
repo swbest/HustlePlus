@@ -21,7 +21,7 @@
             
                 <p:messages id="messages" redisplay="false" closable="true" />
 
-                <p:dataTable id="dataTableAllMilestones" widgetVar="dataTableAllMilestones" value="#{milestoneManagementManagedBean.milestones}" var="milestone" rowKey="#{milestone.milestoneId}" rowIndexVar="row"
+                <p:dataTable id="dataTableAllMilestones" widgetVar="dataTableAllMilestones" value="#{getMilestonesManagedBean.milestonesForSelectedCompany}" var="milestone" rowKey="#{milestone.milestoneId}" rowIndexVar="row"
                              rows="10" paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
                     <f:facet name="header">
@@ -154,13 +154,13 @@
 
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="description" value="Description: " />
+                                <p:outputLabel for="descriptionToUpdate" value="Description: " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="description" value="#{milestoneManagementManagedBean.milestoneToUpdate.description}" placeholder="e.g. Completed First Draft of Proposal" required="true" requiredMessage="Description is required!" />
+                                <p:inputText id="descriptionToUpdate" value="#{milestoneManagementManagedBean.milestoneToUpdate.description}" placeholder="e.g. Completed First Draft of Proposal" required="true" requiredMessage="Description is required!" />
                             </p:column>
                             <p:column>
-                                <p:message for="description" />
+                                <p:message for="descriptionToUpdate" />
                             </p:column>
                         </p:row> 
                         

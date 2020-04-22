@@ -51,7 +51,9 @@
                         <f:attribute name="companyToView" value="#{sessionScope.userEntity}"/>
                     </p:menuitem> 
                             <p:separator />
-                            <p:menuitem value="My Project Milestones" outcome="/companies/milestoneManagement.xhtml"/> 
+                            <p:menuitem value="My Project Milestones" actionListener="#{getMilestonesManagedBean.retrieveMilestonesForCompany}">
+                                <f:attribute name="company" value="#{sessionScope.userEntity}"/>
+                            </p:menuitem>
                 </p:submenu>
                 
                 <p:submenu icon="fa fa-star">

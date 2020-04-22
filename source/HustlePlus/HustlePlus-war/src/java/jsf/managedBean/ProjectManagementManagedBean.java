@@ -107,8 +107,8 @@ public class ProjectManagementManagedBean implements Serializable {
     
     private String displayStatus; 
 
-    private Project projectToView; 
-    private Project projectToViewMS ; 
+    private Project projectToView; //to display milestones
+    private Project projectToViewMS ; //to display milestones 
 
     
     /**
@@ -314,6 +314,7 @@ public class ProjectManagementManagedBean implements Serializable {
      }
      }
      
+     //in the view tab in projectManagement 
          public void viewMilestones(ActionEvent event) {
        try {
             setProjectToViewMS((Project) event.getComponent().getAttributes().get("projectToViewMilestone"));

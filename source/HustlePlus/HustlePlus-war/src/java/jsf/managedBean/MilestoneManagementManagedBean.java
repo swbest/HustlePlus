@@ -14,7 +14,6 @@ import entity.Project;
 import javax.faces.event.ActionEvent;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -23,6 +22,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import util.exception.InputDataValidationException;
 import util.exception.MilestoneIdExistException;
 import util.exception.MilestoneNotFoundException;
@@ -60,7 +60,7 @@ public class MilestoneManagementManagedBean implements Serializable{
     private List<Long> paymentIdsUpdate;
     
     private List<Milestone> milestonesForSelectedCompany; 
-    private Company selectedMilestoneCompany; 
+    private Company companyToDisplayMilestones; 
     
     
 
@@ -78,6 +78,8 @@ public class MilestoneManagementManagedBean implements Serializable{
         setMilestones(milestoneSessionBeanLocal.retrieveAllMilestones());
         setProjects(projectSessionBeanLocal.retrieveAllProjects());
         
+        //companyToDisplayMilestones = (Company)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("companyToDisplayMilestones");
+        milestonesForSelectedCompany = (List<Milestone>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("milestonesForSelectedCompany");
 //        for (Project project:projects) {
 //            selectItems.add(new SelectItem(project));
 //        }
@@ -213,13 +215,18 @@ public class MilestoneManagementManagedBean implements Serializable{
         
     }
     
-    public void retrieveMilestonesForCompany() {
+    public void retrieveMilestonesForCompany(ActionEvent event) {
         System.out.println("CALLED");
         try {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("/companies/milestoneManagement.xhtml");
+         companyToDisplayMilestones = (Company) event.getComponent().getAttributes().get("company");
+       //((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("companyToDisplayMilestones", companyToDisplayMilestones); 
+        
+        milestonesForSelectedCompany = milestoneSessionBeanLocal.retrieveMilestonesByCompany(companyToDisplayMilestones.getUserId());
+       ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("milestonesForSelectedCompany", milestonesForSelectedCompany); 
+        System.out.println("CALLED2"); 
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/milestoneManagement.xhtml");
 
-         setMilestonesForSelectedCompany(milestoneSessionBeanLocal.retrieveMilestonesByCompany(selectedMilestoneCompany.getUserId())); 
-        } catch (IOException | ProjectNotFoundException ex) {
+        } catch (ProjectNotFoundException | IOException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving milestones: " + ex.getMessage(), null));
         }
         
@@ -381,12 +388,12 @@ public class MilestoneManagementManagedBean implements Serializable{
         this.milestonesForSelectedCompany = milestonesForSelectedCompany;
     }
 
-    public Company getSelectedMilestoneCompany() {
-        return selectedMilestoneCompany;
+    public Company getCompanyToDisplayMilestones() {
+        return companyToDisplayMilestones;
     }
 
-    public void setSelectedMilestoneCompany(Company selectedMilestoneCompany) {
-        this.selectedMilestoneCompany = selectedMilestoneCompany;
+    public void setCompanyToDisplayMilestones(Company companyToDisplayMilestones) {
+        this.companyToDisplayMilestones = companyToDisplayMilestones;
     }
     
     

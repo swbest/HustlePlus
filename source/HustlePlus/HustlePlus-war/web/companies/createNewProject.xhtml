@@ -17,11 +17,12 @@
         
 
             <h:form id="addProject">       
-                <p:panel header="List a New Project" style="background-color: white; font-size: large">
 
                 <h:messages/>
                 
-                <p:panelGrid>
+                <p:panelGrid rendered="#{sessionScope.userEntity.isVerified == true}">
+                         <p:panel header="List a New Project" style="background-color: white; font-size: large" >
+
                     
                     <p:row>
                         <p:column>
@@ -105,25 +106,39 @@
 
                         </p:column>
                     </p:row>
+                   </p:panel>
+
    
                 </p:panelGrid>
-                </p:panel>
             </h:form>
         
-         <p:panel header="Add Milestone to Project" style="background-color: powderblue; font-size: large">
             <h:form>
                
-                <p:panelGrid>
+                <p:panelGrid rendered="#{sessionScope.userEntity.isVerified == true}">
+                             <p:panel header="Add Milestone to Project" style="background-color: powderblue; font-size: large">
+
                     
                     <p:commandButton value="Create Milestones" action="/companies/createNewMilestone.xhtml?faces-redirect=true"/>
                     
 
-                        
+                            </p:panel>
+    
                 </p:panelGrid>
 
             </h:form>
 
-        </p:panel>
+        
+                        <p:panelGrid rendered="#{sessionScope.userEntity.isVerified == false}">
+
+        <h:form id="addProjectNotVerified"> 
+                <article style="font-size: xx-large; color: coral; font-family: Segoe UI, Tahoma, sans-serif">
+                    <center><h1>Uh Oh...</h1></center>
+                    <center><p>
+                        Please wait to be verified by our Hustle+ team. This will take no more than 24 hours. We apologize for the inconvenience caused.
+                    </p></center>            
+                </article>
+        </h:form>
+                        </p:panelGrid>
         
             
             

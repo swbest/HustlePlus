@@ -170,10 +170,11 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                     projectToUpdate.setEndDate(project.getEndDate());
                     projectToUpdate.setSkills(project.getSkills());
                    // projectToUpdate.setCompany(company);
-                    projectToUpdate.setTeam(project.getTeam());
+                  //  projectToUpdate.setTeam(project.getTeam());
                     projectToUpdate.setMilestones(project.getMilestones());
                     projectToUpdate.setReviews(project.getReviews());
                     projectToUpdate.setApplications(project.getApplications());
+                    projectToUpdate.setStudents(project.getStudents());
                // } 
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));

@@ -133,27 +133,47 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
     }
     
     @Override
+    public List<Milestone> retrieveMilestonesByProject(Long projectId) {
+           Query query = em.createQuery("SELECT m FROM Milestone m WHERE m.project.projectId =:pid ");
+           query.setParameter("pid", projectId);
+           
+           return query.getResultList();
+    }   
+    
+    @Override
     public List<Milestone> retrieveMilestonesByCompany(Long companyId) throws ProjectNotFoundException {
         
         
         try {
          //retrieve all projects of company 
         List<Project> projects = projectSessionBeanLocal.retrieveProjectsByCompany(companyId);
+//        List<Milestone> milestonesForOneProject = new ArrayList(); 
+        List<Milestone> msList = new ArrayList(); 
+//        for (Project p:projects) {
+//            milestonesForOneProject = p.getMilestones();
+//            for(Milestone m:milestonesForOneProject) {
+//                System.out.println(m.getMilestoneId());
+//                milestoneList.add(m); 
+//            }
+//        } 
         
         //in milestone table, the milestone must have these project ids 
         //iterate through all milestones, if milestone has that id
-        
+       
         for (Project p:projects)
        {
            Query query = em.createQuery("SELECT m FROM Milestone m WHERE m.project.projectId =:pid ");
            query.setParameter("pid", p.getProjectId());
-           Milestone m = (Milestone)query.getSingleResult();
-           System.out.println("m.getP.getPID " + m.getProject().getProjectId());
-               milestoneList.add(m);
+           List<Milestone> milestones = (List<Milestone>)query.getResultList();
+           for (Milestone m: milestones) {
+               msList.add(m);
+               System.out.println("m.getP.getPID " + m.getProject().getProjectId());
+           }
 
        }
         
-        return milestoneList; 
+        
+        return msList; 
         //retrieve all projects of a company first 
         //iterate through list, if projectId falls in milestone table retrieve it 
     } catch (ProjectNotFoundException ex) {

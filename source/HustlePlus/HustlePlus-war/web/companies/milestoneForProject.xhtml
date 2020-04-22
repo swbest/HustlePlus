@@ -8,10 +8,10 @@
     
     <ui:define name="content">
         
-        <h:form id="viewApplicationsForm">
+        <h:form id="viewMilestonesForm">
             
-            <p:dataGrid var="milestone" value="#{viewProjectManagedBean.projectToViewMS.milestones}" columns="2" layout="grid"
-                        rows="3" paginator="true" id="milestone"
+            <p:dataGrid var="milestone" value="#{getMilestonesManagedBean.milestonesForSelectedProject}" columns="2" layout="grid"
+                        rows="3" paginator="true" paginatorPosition="Bottom" id="milestone"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,16">
                 <f:facet name="header">
