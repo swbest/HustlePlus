@@ -27,7 +27,7 @@ export class CreateNewTeamPage implements OnInit {
   }
 
   ngOnInit() {
-    this.newTeam.students.push(this.sessionService.getCurrentStudent());
+    // this.newTeam.students.push(this.sessionService.getCurrentStudent());
   }
 
   clear() {

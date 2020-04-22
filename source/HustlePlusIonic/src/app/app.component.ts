@@ -60,6 +60,11 @@ export class AppComponent implements OnInit {
       url: '/createNewCompanyReview',
       icon: 'create'
     },
+    {
+      title: 'Form a new Team',
+      url: '/createNewTeam',
+      icon: 'create'
+    },
   ];
 
   constructor(

@@ -15,16 +15,12 @@ import javax.naming.NamingException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import ws.restful.model.CreateNewProjectReq;
-import ws.restful.model.CreateNewProjectRsp;
 import ws.restful.model.ErrorRsp;
 import ws.restful.model.RetrieveAllProjectsRsp;
 import ws.restful.model.RetrieveProjectRsp;
@@ -60,6 +56,13 @@ public class ProjectResource {
     public Response retrieveProjectById(@PathParam("id") Long projectId) {
         try {
             Project project = projectSessionBean.retrieveProjectByProjectId(projectId);
+            project.getMilestones().clear();
+            project.getCompany().getProjects().clear();
+            project.getReviews().clear();
+            project.getApplications().clear();
+            project.getStudents().clear();
+            project.setStartDate(null);
+            project.setEndDate(null);
             RetrieveProjectRsp retrieveProjectRsp = new RetrieveProjectRsp(project);
             return Response.status(Status.OK).entity(retrieveProjectRsp).build();
         } catch (Exception ex) {
@@ -79,6 +82,19 @@ public class ProjectResource {
     public Response retrieveAllProjects() {
         try {
             List<Project> projects = projectSessionBean.retrieveAllProjects();
+
+            for (Project p : projects) {
+                // clear bidirectional mappings or set the inverse side to null
+                // skills - not bidirectional
+                // milestones not needed
+                p.getMilestones().clear();
+                p.getCompany().getProjects().clear();
+                p.getReviews().clear();
+                p.getApplications().clear();
+                p.getStudents().clear();
+                p.setStartDate(null);
+                p.setEndDate(null);
+            }
             RetrieveAllProjectsRsp retrieveAllProjectsRsp = new RetrieveAllProjectsRsp(projects);
             return Response.status(Status.OK).entity(retrieveAllProjectsRsp).build();
         } catch (Exception ex) {
@@ -92,6 +108,8 @@ public class ProjectResource {
      *
      * @param content representation for the resource
      */
+    /*
+    no need for put method for projects
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -110,7 +128,7 @@ public class ProjectResource {
             return Response.status(Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
-
+     */
     private ProjectSessionBeanLocal lookupProjectSessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();
