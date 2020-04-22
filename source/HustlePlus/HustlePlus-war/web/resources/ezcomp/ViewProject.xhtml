@@ -22,7 +22,7 @@
                             <h:outputLabel value="Project ID: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewProjectManagedBean.projectToView.projectId}" />
+                            <h:outputText value="#{projectManagementManagedBean.projectToView.projectId}" />
                         </p:column>
                     </p:row>
                     
@@ -31,7 +31,7 @@
                             <h:outputLabel value="Project Name: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewProjectManagedBean.projectToView.projectName}" />
+                            <h:outputText value="#{projectManagementManagedBean.projectToView.projectName}" />
                         </p:column>
                     </p:row>
                     
@@ -40,7 +40,7 @@
                             <h:outputLabel value="Job Value: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewProjectManagedBean.projectToView.jobValue}" />
+                            <h:outputText value="#{projectManagementManagedBean.projectToView.jobValue}" />
                         </p:column>
                     </p:row>
                     
@@ -49,7 +49,7 @@
                             <h:outputLabel value="No. Students: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewProjectManagedBean.projectToView.numStudentsRequired}" />
+                            <h:outputText value="#{projectManagementManagedBean.projectToView.numStudentsRequired}" />
                         </p:column>
                         
                     </p:row>
@@ -59,19 +59,22 @@
                                 <p:outputLabel value="Skills Required: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:dataList value="#{viewProjectManagedBean.skills}" var="skill">
+                                <p:dataList value="#{projectManagementManagedBean.projectToView.skills}" var="skill">
                                     #{skill.title}
                                 </p:dataList>
                             </p:column>
 
-                        </p:row>                       
+                        </p:row>   
+                    
+                    
+                    
                     
                     <p:row>
                         <p:column>
                             <h:outputLabel value="Project Description: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewProjectManagedBean.projectToView.projectDescription}" />
+                            <h:outputText value="#{projectManagementManagedBean.projectToView.projectDescription}" />
                         </p:column>
                     </p:row>
                     
@@ -80,7 +83,7 @@
                             <h:outputLabel value="Start Date: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewProjectManagedBean.projectToView.startDate}">
+                            <h:outputText value="#{projectManagementManagedBean.projectToView.startDate}">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
                         </p:column>
@@ -91,7 +94,7 @@
                             <h:outputLabel value="Due Date: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewProjectManagedBean.projectToView.endDate}">
+                            <h:outputText value="#{projectManagementManagedBean.projectToView.endDate}">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
                         </p:column>
@@ -102,7 +105,7 @@
                             <h:outputLabel value="Status: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{viewProjectManagedBean.displayStatus}" />
+                            <h:outputText value="#{projectManagementManagedBean.displayStatus}" />
                         </p:column>
                     </p:row>
                     
@@ -111,7 +114,7 @@
                             <h:outputLabel value="Team: " />
                         </p:column>
                         <p:column>
-                            <p:commandButton value="View Team " actionListener="#{viewProjectManagedBean.viewTeam}"/>
+                            <p:commandButton value="View Team " actionListener="#{projectManagementManagedBean.viewTeam}"/>
                         </p:column>
                     </p:row>
                     
@@ -132,7 +135,7 @@
                             <h:outputLabel value="Reviews: " />
                         </p:column>
                         <p:column>
-                            <p:commandButton value="Student Reviews" actionListener="#{viewProjectManagedBean.reviews}"/>
+                            <p:commandButton value="Student Reviews" actionListener="#{projectManagementManagedBean.reviews}"/>
                         </p:column>
                     </p:row>
                     
@@ -141,7 +144,9 @@
                             <h:outputLabel value="Milestones: " />
                         </p:column>
                         <p:column>
-                            <p:commandButton value="View Milestones" actionListener="#{viewProjectManagedBean.viewMilestones}"/>
+                            <p:commandButton value="View Milestones" actionListener="#{projectManagementManagedBean.viewMilestones}">
+                                <f:attribute name="projectToViewMilestone" value="#{projectManagementManagedBean.projectToView}"/>
+                            </p:commandButton>
                         </p:column>
                     </p:row>
                     

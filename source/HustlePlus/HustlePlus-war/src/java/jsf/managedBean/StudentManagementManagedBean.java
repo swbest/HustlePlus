@@ -55,6 +55,7 @@ public class StudentManagementManagedBean implements Serializable {
         try {
             Student selectedStudentToVerify = (Student) event.getComponent().getAttributes().get("selectedStudentToVerify");
             studentSessionBeanLocal.verifyStudent(selectedStudentToVerify.getUserId());
+            selectedStudentToVerify.setIsVerified(Boolean.TRUE);
         } catch (StudentNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while verifying student account: " + ex.getMessage(), null));
         } catch (VerifyStudentException ex) {
@@ -67,6 +68,7 @@ public class StudentManagementManagedBean implements Serializable {
         try {
             Student selectedStudentToSuspend = (Student) event.getComponent().getAttributes().get("selectedStudentToSuspend");
             studentSessionBeanLocal.suspendStudent(selectedStudentToSuspend.getUserId());
+            selectedStudentToSuspend.setIsSuspended(Boolean.TRUE);
         } catch (StudentNotFoundException | SuspendStudentException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while suspending student account: " + ex.getMessage(), null));
         }

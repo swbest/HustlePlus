@@ -21,7 +21,7 @@
             
                 <p:messages id="messages" redisplay="false" closable="true" />
 
-                <p:dataTable id="dataTableAllSkills" widgetVar="dataTableAllSkills" value="#{skillManagementManagedBean.skills}" var="skill" rowKey="#{skill.skillId}" rowIndexVar="row"
+                <p:dataTable id="dataTableAllSkills" widgetVar="dataTableAllSkills" value="#{projectManagementManagedBean.projectDeleteSkill.skills}" var="skill" rowKey="#{skill.skillId}" rowIndexVar="row"
                              rows="10" paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
                     <f:facet name="header">
@@ -29,7 +29,6 @@
                             <h:outputText value="Search " />
                             <p:inputText id="globalFilter" onkeyup="PF('dataTableAllSkills').filter()" style="width:200px" placeholder=""/>
                         </p:outputPanel>
-                        <p:commandButton icon="ui-icon-plusthick" update="formCreateNewSkill" oncomplete="PF('dialogCreateNewSkill').show()" style="float:right;margin-top: 4px"/>
                     </f:facet>
                     
                     <p:column headerText="Skill ID" sortBy="#{skill.skillId}" filterBy="#{skill.skillId}" filterMatchMode="contains">
@@ -43,8 +42,9 @@
                        
                     <p:column headerText="Action" >
                         
-                        <p:commandButton icon="ui-icon-trash" actionListener="#{skillManagementManagedBean.deleteSkill}" update="formAllSkills:dataTableAllSkills formAllSkills:messages">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{skillManagementManagedBean.removeSkillFromProject}" update="formAllSkills:dataTableAllSkills formAllSkills:messages">
                             <f:attribute name="skillToDelete" value="#{skill}" />
+                            <f:attribute name="projectToRemoveFromSkill" value="#{projectManagementManagedBean.projectDeleteSkill}"/>
                             <p:confirm header="Confirmation" message="Are you sure you want to delete Skill #{skill.title}?" icon="ui-icon-alert" />
                         </p:commandButton>
                     </p:column>
@@ -57,39 +57,7 @@
                 </p:confirmDialog>
                 
             </h:form>
-            
-            <h:form id="formCreateNewSkill">
-                
-                <p:dialog id="dialogCreateNewSkill" widgetVar="dialogCreateNewSkill" header="Create New Skill" closable="true">
-
-                    <p:messages id="messagesCreateNewSkill" redisplay="false" />
-
-                    <p:panelGrid>
-
-                       <p:row>
-                <p:column>
-                   <p:outputLabel for="skillTitle" value="Skill: " />
-                </p:column>
-                <p:column>
-                    <p:inputText id="skillTitle" value="#{skillManagementManagedBean.newSkill.title}" required="true" requiredMessage="Title of Skill is required" />
-                 </p:column>
-            </p:row>
-                    
-             <p:row>
-                 <p:column colspan="2">
-                     <p:commandButton type="reset" value="Clear" />
-                     <p:commandButton value="Create" update="@form formCreateNewSkill" actionListener="#{skillManagementManagedBean.createNewSkill}" oncomplete="PF('dialogCreateNewSkill').show();"/>
-                 </p:column>
-             </p:row>                   
-
-                    </p:panelGrid>
-
-                </p:dialog>
-
-            </h:form>
-            
-            
-            
+  
         </div>
         
     </ui:define>

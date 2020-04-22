@@ -98,6 +98,8 @@ public class SkillSessionBean implements SkillSessionBeanLocal {
             throw new SkillNotFoundException("Skill Id not provided for student to be updated");
         }
     }
+    
+
 
     @Override
     public void deleteSkill(Long skillId) throws SkillNotFoundException, DeleteSkillException {

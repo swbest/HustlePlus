@@ -5,9 +5,13 @@
  */
 package jsf.managedBean;
 
+import ejb.session.stateless.ProjectSessionBeanLocal;
 import ejb.session.stateless.SkillSessionBeanLocal;
+import entity.Project;
 import entity.Skill;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -20,6 +24,7 @@ import util.exception.InputDataValidationException;
 import util.exception.SkillNameExistsException;
 import util.exception.SkillNotFoundException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UpdateSkillException;
 
 /**
  *
@@ -29,12 +34,18 @@ import util.exception.UnknownPersistenceException;
 @ViewScoped
 public class SkillManagementManagedBean implements Serializable {
 
+    @EJB(name = "ProjectSessionBeanLocal")
+    private ProjectSessionBeanLocal projectSessionBeanLocal;
+
     @EJB(name = "SkillSessionBeanLocal")
     private SkillSessionBeanLocal skillSessionBeanLocal;
+    
+    
     
 
     private List<Skill> skills;
     private Skill newSkill; 
+    private Project projectSkillToDelete;
 
     /**
      * Creates a new instance of SkillManagementManagedBean
@@ -64,6 +75,37 @@ public class SkillManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new skill: " + ex.getMessage(), null));
          }
      }
+    
+    public void deleteSkillFromProject(ActionEvent event) {
+        try {
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/skillsOfProject.xhtml");
+        System.out.println(projectSkillToDelete.getProjectId()); 
+
+        } catch (IOException ex) {
+            
+        }
+        
+    }
+    /*
+    public void removeSkillFromProject(ActionEvent event) {
+            
+        try {
+            Skill skillToDelete = (Skill)event.getComponent().getAttributes().get("skillToDelete");
+            Project projectToDelete = (Project)event.getComponent().getAttributes().get("projectToRemoveFromSkill");
+            List<Project> projects = skillToDelete.getProjects();
+            projects.remove(projectToDelete);
+            skillToDelete.setProjects(projects);
+            skillSessionBeanLocal.updateSkill(skillToDelete);
+            List <Skill> skills = projectToDelete.getSkills();
+            skills.remove(skillToDelete);
+            List<Long> skillsOfProject = new ArrayList(); 
+            
+    } catch (InputDataValidationException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while removing the skill: " + ex.getMessage(), null));
+        } catch (SkillNotFoundException | UpdateSkillException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while removing the skill: " + ex.getMessage(), null));
+        }
+    }*/
     
 
         
@@ -103,6 +145,16 @@ public class SkillManagementManagedBean implements Serializable {
     public void setNewSkill(Skill newSkill) {
         this.newSkill = newSkill;
     }
+
+    public Project getProjectSkillToDelete() {
+        return projectSkillToDelete;
+    }
+
+    public void setProjectSkillToDelete(Project projectSkillToDelete) {
+        this.projectSkillToDelete = projectSkillToDelete;
+    }
+    
+    
     
     
     

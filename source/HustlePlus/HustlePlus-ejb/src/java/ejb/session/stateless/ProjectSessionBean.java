@@ -31,6 +31,7 @@ import util.exception.DeleteProjectException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
 import util.exception.ProjectNotFoundException;
+import util.exception.SkillNotFoundException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateProjectException;
 
@@ -41,6 +42,9 @@ import util.exception.UpdateProjectException;
 @Stateless
 public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
+    @EJB(name = "SkillSessionBeanLocal")
+    private SkillSessionBeanLocal skillSessionBeanLocal;
+
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
 
@@ -49,6 +53,8 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
     @EJB
     private CompanySessionBeanLocal companySessionBeanLocal;
+    
+    
 
     public ProjectSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -56,8 +62,11 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
 
     @Override
-    public Long createNewProject(Project newProject, Long companyId) throws CompanyNotVerifiedException, CompanySuspendedException, UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException {
+    public Long createNewProject(Project newProject, Long companyId, List<Long> skillIds) throws SkillNotFoundException, CompanyNotVerifiedException, CompanySuspendedException, UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException {
         try {
+            
+
+            
                                 System.out.println("PSB0");
 
             Set<ConstraintViolation<Project>> constraintViolations = validator.validate(newProject);
@@ -77,6 +86,17 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                         throw new CompanySuspendedException("Company is suspended. Please contact admin staff for details.");
                     }
                     newProject.setCompany(company);
+                    
+                    //Associate skills with project 
+                    List <Skill> skills = new ArrayList();
+                    List <Project> projectsAdded = new ArrayList(); 
+                    projectsAdded.add(newProject);
+                   for(Long skillIdsToSet:skillIds) {
+                   skills.add(skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToSet));
+                   skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToSet).setProjects(projectsAdded);
+                 }
+                    newProject.setSkills(skills);
+                    
                     System.out.println("PSB3");
                     company.getProjects().add(newProject);
                     System.out.println("PSB4");
@@ -100,6 +120,8 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
             } else {
                 throw new UnknownPersistenceException(ex.getMessage());
             }
+        } catch (SkillNotFoundException ex) {
+            throw new SkillNotFoundException("No skills were found!");
         }
     }
 
@@ -122,12 +144,23 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
 
     @Override
-    public void updateProject(Project project) throws ProjectNotFoundException, UpdateProjectException, InputDataValidationException {
+    public void updateProject(Project project, List<Long> skillIds) throws SkillNotFoundException, ProjectNotFoundException, UpdateProjectException, InputDataValidationException {
         if (project != null && project.getProjectId() != null) {
             Set<ConstraintViolation<Project>> constraintViolations = validator.validate(project);
 
             if (constraintViolations.isEmpty()) {
                 System.out.println("project1");
+                
+                List<Skill> skillsOfProject = project.getSkills();
+                List <Project> projectsAdded = new ArrayList(); 
+                projectsAdded.add(project);
+                for(Long skillIdsToAdd: skillIds) {
+                    skillsOfProject.add(skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToAdd));
+                    skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToAdd).setProjects(projectsAdded);
+                }
+                project.setSkills(skillsOfProject);
+                
+                    
                // try {
                     //Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
                     Project projectToUpdate = retrieveProjectByProjectId(project.getProjectId());

@@ -7,7 +7,6 @@ package jsf.managedBean;
 
 import ejb.session.stateless.ApplicationSessionBeanLocal;
 import ejb.session.stateless.ProjectSessionBeanLocal;
-import entity.Application;
 import entity.Project;
 import entity.Skill;
 import java.io.IOException;
@@ -20,6 +19,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -38,6 +38,7 @@ public class ViewProjectManagedBean implements Serializable {
     
     
     private Project projectToView;
+    private Project projectToViewMS ; 
    private List<Project> projectsToView; 
    private String displayStatus; 
    private List<Skill> skills; 
@@ -47,12 +48,13 @@ public class ViewProjectManagedBean implements Serializable {
      * Creates a new instance of ViewProjectManagedBean
      */
     public ViewProjectManagedBean() {
-        projectToView = new Project();
     }
     
     @PostConstruct
     public void postConstruct()
     {
+        
+       // projectToViewMS = (Project)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("projectToViewMS");
   
     }
     
@@ -118,13 +120,17 @@ public class ViewProjectManagedBean implements Serializable {
         }
         
     }
+    
+    
         
      
     
-    public void viewMilestones() {
+    public void viewMilestones(ActionEvent event) {
        try {
+         projectToViewMS = (Project) event.getComponent().getAttributes().get("projectToViewMilestone");
+       // ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("projectToViewMS", getProjectToViewMS());
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/viewMilestones.xhtml");
-    } catch (IOException ex) {
+       } catch (IOException ex) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while retrieving the projects: " + ex.getMessage(), null));
     }
     }
@@ -158,6 +164,16 @@ public class ViewProjectManagedBean implements Serializable {
     public void setSkills(List<Skill> skills) {
         this.skills = skills;
     }
+
+    public Project getProjectToViewMS() {
+        return projectToViewMS;
+    }
+
+    public void setProjectToViewMS(Project projectToViewMS) {
+        this.projectToViewMS = projectToViewMS;
+    }
+    
+    
 
 
     

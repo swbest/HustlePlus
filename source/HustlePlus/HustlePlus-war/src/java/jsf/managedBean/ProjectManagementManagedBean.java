@@ -29,6 +29,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import org.primefaces.event.UnselectEvent;
 import util.exception.CompanyNotFoundException;
 import util.exception.CompanyNotVerifiedException;
@@ -37,6 +38,7 @@ import util.exception.DeleteProjectException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
 import util.exception.ProjectNotFoundException;
+import util.exception.SkillNotFoundException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateProjectException;
 
@@ -48,13 +50,10 @@ import util.exception.UpdateProjectException;
 @ViewScoped
 public class ProjectManagementManagedBean implements Serializable {
 
-    public List<Long> getSkillIdsToAddToNewProject() {
-        return skillIdsToAddToNewProject;
-    }
 
-    public void setSkillIdsToAddToNewProject(List<Long> skillIdsToAddToNewProject) {
-        this.skillIdsToAddToNewProject = skillIdsToAddToNewProject;
-    }
+    
+    
+    
 
     @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal;
@@ -83,6 +82,12 @@ public class ProjectManagementManagedBean implements Serializable {
     private Company companyToView; 
     
     private List<Long> skillIdsToAddToNewProject;
+    private List<Long> skillIdsToAddToSelectedProjectToUpdate;
+    
+    private Project projectDeleteSkill;
+    
+    private Company companyToDisplayProject; 
+
     
     
     private List<Long> milestoneIdsNew ; 
@@ -100,6 +105,12 @@ public class ProjectManagementManagedBean implements Serializable {
     
     private boolean statusValue;
     
+    private String displayStatus; 
+
+    private Project projectToView; 
+    private Project projectToViewMS ; 
+
+    
     /**
      * Creates a new instance of projectManagementManagedBean
      */
@@ -115,7 +126,10 @@ public class ProjectManagementManagedBean implements Serializable {
         setReviews(reviewSessionBeanLocal.retrieveAllReviews());
         setApplications(applicationSessionBeanLocal.retrieveAllApplications());
         setSkills(skillSessionBeanLocal.retrieveAllSkills());
-       
+        
+        projectDeleteSkill = (Project)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("projectDeleteSkill");
+        companyToView = (Company) ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("companyToView");
+        projectToViewMS = (Project)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("projectToViewMS");
     }
     
     public void viewProjectDetails(ActionEvent event) throws IOException {
@@ -124,43 +138,26 @@ public class ProjectManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().redirect("viewProjectDetails.xhtml");    
     }  
     
+
+    
     
     public void viewProjectByCompany(ActionEvent event) {
-       /*
-        Company company = (Company) event.getComponent().getAttributes().get("companyToView");
         
-        try {
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("companyToView", company);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("/companies/projectManagement.xhtml");    
-        } catch (IOException ex) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while retrieving the projects: " + ex.getMessage(), null));
-    } */
-
         try {  
-        //FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/projectManagement.xhtml");
-        System.out.println("VPBC1");
-        companyToView = (Company) event.getComponent().getAttributes().get("companyToView");
-        System.out.println(companyToView.getUserId());
-        setProjectsOfCompany(projectSessionBeanLocal.retrieveProjectsByCompany(companyToView.getUserId()));
-        if (projectsOfCompany.isEmpty()) {
-            System.out.println("null");
-        } else {
-            System.out.println("notnull");
-            }
         
+         companyToView = (Company) event.getComponent().getAttributes().get("companyToView");
+        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("companyToView", companyToView);
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/projectManagement.xhtml");
-                System.out.println("VPBC2");
-                        if (projectsOfCompany.isEmpty()) {
-            System.out.println("null");
-        } else {
-            System.out.println("notnull");
-            }
+        //setProjectsOfCompany(projectSessionBeanLocal.retrieveProjectsByCompany(companyToView.getUserId()));
+      
         
-
+        //FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/myProject.xhtml");
+           
         }  
-    catch (ProjectNotFoundException ex) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving the project: Project not found", null));
-    } catch (IOException ex) {
+    //catch (ProjectNotFoundException ex) {
+    //    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving the project: Project not found", null));
+   // } 
+        catch (IOException ex) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while retrieving the projects: " + ex.getMessage(), null));
     } 
     } 
@@ -175,8 +172,7 @@ public class ProjectManagementManagedBean implements Serializable {
             System.out.println("Id:" + companyTagged.getUserId());
             //int i = 1;
             //long l = i;
-            Long projectId = projectSessionBeanLocal.createNewProject(newProject, companyTagged.getUserId());
-            //Long projectId = projectSessionBeanLocal.createNewProject(newProject, companyTagged.getUserId(), skillIdsToAddToNewProject);
+            Long projectId = projectSessionBeanLocal.createNewProject(newProject, companyTagged.getUserId(), skillIdsToAddToNewProject );
 
             System.out.println("PMMB1");
             projects.add(projectSessionBeanLocal.retrieveProjectByProjectId(projectId)); 
@@ -201,7 +197,24 @@ public class ProjectManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: Company does not exist", null));
         }catch (InputDataValidationException | UnknownPersistenceException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: " + ex.getMessage(), null));
+        } catch (SkillNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new project: Skill not found", null));
         }
+    }
+    
+     public void deleteSkillFromProject(ActionEvent event) {
+        try {
+        projectDeleteSkill = (Project) event.getComponent().getAttributes().get("projectToDeleteSkill"); 
+        
+        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("projectDeleteSkill", projectDeleteSkill);
+        
+        System.out.println(getProjectDeleteSkill().getProjectId()); 
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/skillsOfProject.xhtml");
+
+        } catch (IOException ex) {
+            
+        }
+        
     }
      
      
@@ -219,7 +232,7 @@ public class ProjectManagementManagedBean implements Serializable {
          try {
              System.out.println("********** updateProject");
              System.out.println(getSelectedProjectToUpdate().getProjectName());
-             projectSessionBeanLocal.updateProject(getSelectedProjectToUpdate());
+             projectSessionBeanLocal.updateProject(getSelectedProjectToUpdate(), skillIdsToAddToSelectedProjectToUpdate);
              getSelectedProjectToUpdate().getMilestones().clear(); 
              for (Milestone m: getMilestones()) {
                  if (getMilestoneIdsUpdate().contains(m.getMilestoneId())) {
@@ -228,13 +241,12 @@ public class ProjectManagementManagedBean implements Serializable {
              }
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Project updated successfully", null));
    
-         } catch (ProjectNotFoundException | UpdateProjectException | InputDataValidationException ex) {
+         } catch (ProjectNotFoundException | SkillNotFoundException | UpdateProjectException | InputDataValidationException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating project: " + ex.getMessage(), null));
          }
      }
      
      public void updateProjectSkills(ActionEvent event) {
-         
      }
      
     
@@ -271,6 +283,18 @@ public class ProjectManagementManagedBean implements Serializable {
          }
      }
      
+     public void setStatusText() {
+        
+        if (projectToView.getIsFinished()) {
+            System.out.println("Called");
+            setDisplayStatus("Project Completed"); 
+        } else {
+            System.out.println("Not called");
+            setDisplayStatus("Project Not Completed"); 
+        }
+        
+    }
+     
      
     
      public void onItemUnselect(UnselectEvent event) {
@@ -281,6 +305,26 @@ public class ProjectManagementManagedBean implements Serializable {
          context.addMessage(null,msg); 
          
      }
+     
+     public void directToProjects(ActionEvent event) {
+         try{
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/projectManagement.xhtml");
+     } catch (IOException ex) {
+         
+     }
+     }
+     
+         public void viewMilestones(ActionEvent event) {
+       try {
+            setProjectToViewMS((Project) event.getComponent().getAttributes().get("projectToViewMilestone"));
+       // ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("projectToViewMS", getProjectToViewMS());
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/viewMilestones.xhtml");
+       } catch (IOException ex) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while retrieving the projects: " + ex.getMessage(), null));
+    }
+    }
+     
+     
      
      
      
@@ -411,6 +455,68 @@ public class ProjectManagementManagedBean implements Serializable {
     public void setCompanyToView(Company companyToView) {
         this.companyToView = companyToView;
     }
+
+
+    
+        public List<Long> getSkillIdsToAddToNewProject() {
+        return skillIdsToAddToNewProject;
+    }
+
+    public void setSkillIdsToAddToNewProject(List<Long> skillIdsToAddToNewProject) {
+        this.skillIdsToAddToNewProject = skillIdsToAddToNewProject;
+    }
+
+    public List<Long> getSkillIdsToAddToSelectedProjectToUpdate() {
+        return skillIdsToAddToSelectedProjectToUpdate;
+    }
+
+    public void setSkillIdsToAddToSelectedProjectToUpdate(List<Long> skillIdsToAddToSelectedProjectToUpdate) {
+        this.skillIdsToAddToSelectedProjectToUpdate = skillIdsToAddToSelectedProjectToUpdate;
+    }
+
+    public Project getProjectDeleteSkill() {
+        return projectDeleteSkill;
+    }
+
+    public void setProjectDeleteSkill(Project projectDeleteSkill) {
+        this.projectDeleteSkill = projectDeleteSkill;
+    }
+
+    public Company getCompanyToDisplayProject() {
+        return companyToDisplayProject;
+    }
+
+    public void setCompanyToDisplayProject(Company companyToDisplayProject) {
+        this.companyToDisplayProject = companyToDisplayProject;
+    }
+
+    public Project getProjectToView() {
+        return projectToView;
+    }
+
+    public void setProjectToView(Project projectToView) {
+        this.projectToView = projectToView;
+    }
+
+    public String getDisplayStatus() {
+        return displayStatus;
+    }
+
+    public void setDisplayStatus(String displayStatus) {
+        this.displayStatus = displayStatus;
+    }
+
+    public Project getProjectToViewMS() {
+        return projectToViewMS;
+    }
+
+    public void setProjectToViewMS(Project projectToViewMS) {
+        this.projectToViewMS = projectToViewMS;
+    }
+    
+    
+    
+     
 
  
      

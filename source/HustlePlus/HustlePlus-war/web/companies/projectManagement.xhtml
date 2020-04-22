@@ -21,7 +21,7 @@
             
                 <p:messages id="messages" redisplay="false" closable="true" />
 
-                <p:dataTable id="dataTableAllProjects" value="#{projectManagementManagedBean.projectsOfCompany}" var="project" rowKey="#{project.projectId}" rowIndexVar="row" filteredValue="#{projectManagementManagedBean.filteredProjects}"
+                <p:dataTable id="dataTableAllProjects" value="#{projectManagementManagedBean.companyToView.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row" filteredValue="#{projectManagementManagedBean.filteredProjects}"
                              rows="10" paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
                     <f:facet name="header">
@@ -30,6 +30,7 @@
                             <p:inputText id="globalFilter" onkeyup="PF('dataTableAllProjects').filter()" style="width:200px"/>
                         </p:outputPanel>
                         <p:commandButton icon="ui-icon-plusthick" action="/companies/createProjectForProjectManagement.xhtml?faces-redirect=true" style="float:right;margin-top: 4px"/>
+                      
                     </f:facet>
                     
                     <p:column headerText="Project ID" sortBy="#{project.projectId}" filterBy="#{project.projectId}" filterMatchMode="contains">
@@ -44,7 +45,8 @@
                    
                     <p:column headerText="Action" >
                         <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View" action="#{viewProjectManagedBean.setStatusText}">
-                            <f:setPropertyActionListener value="#{project}" target="#{projectManagementManagedBean.viewProjectManagedBean.projectToView}" />
+                            <f:setPropertyActionListener value="#{project}" target="#{projectManagementManagedBean.projectToView}" />
+                            <f:setPropertyActionListener value="#{project}" target="#{projectManagementManagedBean.viewProjectManagedBean.projectToView}"/>
                         </p:commandButton>
                         <p:commandButton  actionListener="#{projectManagementManagedBean.doUpdateProject}" update="formUpdateProject" oncomplete="PF('dialogUpdateProject').show()" icon="ui-icon-pencil" title="Update">
                             <f:attribute name="projectToUpdate" value="#{project}" />
@@ -123,7 +125,19 @@
                             </p:column>
                         </p:row>
                         
-                    
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="skillsRequired" value="Number of Students Required: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="skillsRequired" value="#{projectManagementManagedBean.selectedProjectToUpdate.numStudentsRequired}" placeholder="e.g. 3" required="true" requiredMessage="Number of Students is required!" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="skillsRequired" />
+                            </p:column>
+                        </p:row>
+
+
                         
                         <p:row>
                             <p:column>
@@ -190,6 +204,23 @@
                                 <p:message for="projectMilestone" />
                             </p:column> 
                     </p:row>
+                        
+                                                
+                        <p:row>
+                         <h:panelGrid columns="4" cellpadding="5">
+                        
+                            <p:outputLabel for="skills" value="Required Skills: * " />
+                            <p:selectCheckboxMenu id="skills" value="#{projectManagementManagedBean.skillIdsToAddToSelectedProjectToUpdate}" label="Skills"
+                                                  multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="250px">
+                                <f:selectItems value="#{projectManagementManagedBean.skills}" var="skill" itemLabel="#{skill.title}" itemValue="#{skill.skillId}" />
+                            </p:selectCheckboxMenu>
+                            <p:commandButton immediate="true" value="Add Skill" action="/companies/addASkillProjectManagement.xhtml?faces-redirect=true"/>
+                            <p:commandButton value="Remove Skill From Project" actionListener="#{projectManagementManagedBean.deleteSkillFromProject}">
+                                <f:attribute name="projectToDeleteSkill" value="#{projectManagementManagedBean.selectedProjectToUpdate}"/>
+                            </p:commandButton>
+                            </h:panelGrid>
+                    </p:row>
+                        
                         
   
                         <p:row>

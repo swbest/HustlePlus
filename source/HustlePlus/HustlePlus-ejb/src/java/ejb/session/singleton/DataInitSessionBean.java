@@ -220,7 +220,7 @@ public class DataInitSessionBean {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+/*
     private void createProjects() {
         try {
             Project newProject = new Project();
@@ -233,8 +233,8 @@ public class DataInitSessionBean {
             List<Skill> skills = new ArrayList<Skill>();
             Skill skill = skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("6"));
             skills.add(skill);
-            newProject.setSkills(skills);
-            projectSessionBeanLocal.createNewProject(newProject, Long.valueOf("1"));
+            //newProject.setSkills(skills);
+            projectSessionBeanLocal.createNewProject(newProject, Long.valueOf("1"), skills);
         } catch (CompanyNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CompanyNotVerifiedException ex) {
@@ -250,7 +250,7 @@ public class DataInitSessionBean {
         } catch (SkillNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    } */
     
     private void createApplications() {
         try {
@@ -280,7 +280,7 @@ public class DataInitSessionBean {
         createAdmin();
         createSkills();
         createStudents();
-        createProjects();
+       // createProjects();
         createApplications(); 
     }
 

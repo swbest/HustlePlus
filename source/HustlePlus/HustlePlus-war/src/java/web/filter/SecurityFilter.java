@@ -91,12 +91,14 @@ public class SecurityFilter implements Filter {
             if (path.equals("/verificationError.xhtml") ||
             path.equals("/changePassword.xhtml") ||
             path.equals("/companies/resendEmail.xhtml") ||
-            path.equals("/companies/skillManagement.xhtml") ||
+            path.equals("/companies/skillsOfProject.xhtml") ||
             path.equals("/companies/projectManagement.xhtml") ||
+            path.equals("/companies/myProject.xhtml") ||
             path.equals("/companies/createProjectForProjectManagement.xhtml") ||
             path.equals("/companies/addMilestoneToProject.xhtml") ||
             path.equals("/companies/createNewMilestone.xhtml") ||
             path.equals("/companies/addASkill.xhtml") ||
+            path.equals("/companies/addASkillProjectManagement.xhtml") ||
             path.equals("/companies/profilePage.xhtml") ||
             path.equals("/companies/filterStudentsBySkills.xhtml") ||
             path.equals("/companies/searchStudentsByName.xhtml") ||

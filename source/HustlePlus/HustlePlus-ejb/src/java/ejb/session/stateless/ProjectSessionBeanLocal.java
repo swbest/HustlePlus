@@ -16,6 +16,7 @@ import util.exception.DeleteProjectException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNameExistException;
 import util.exception.ProjectNotFoundException;
+import util.exception.SkillNotFoundException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateProjectException;
 
@@ -26,13 +27,13 @@ import util.exception.UpdateProjectException;
 @Local
 public interface ProjectSessionBeanLocal {
 
-    public Long createNewProject(Project newProject, Long companyId) throws CompanyNotVerifiedException, CompanySuspendedException, UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException;
+    public Long createNewProject(Project newProject, Long companyId, List<Long> skillIds) throws SkillNotFoundException, CompanyNotVerifiedException, CompanySuspendedException, UnknownPersistenceException, InputDataValidationException, ProjectNameExistException, CompanyNotFoundException;
 
     public List<Project> retrieveAllProjects();
 
     public Project retrieveProjectByProjectId(Long projectId) throws ProjectNotFoundException;
 
-    public void updateProject(Project project) throws ProjectNotFoundException, UpdateProjectException, InputDataValidationException;
+    public void updateProject(Project project, List<Long> skillIds) throws SkillNotFoundException, ProjectNotFoundException, UpdateProjectException, InputDataValidationException;
 
     public void deleteProject(Long projectId) throws ProjectNotFoundException, DeleteProjectException;
 
