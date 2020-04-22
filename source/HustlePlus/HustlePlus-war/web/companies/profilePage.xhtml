@@ -17,7 +17,7 @@
         <h:panelGroup rendered="#{sessionScope.isLogin == true}" style="text-align:center">
             
              <center><h2>#{sessionScope.userEntity.name}</h2></center>
-            <center><p:graphicImage value="/uploadedFiles/#{sessionScope.userEntity.icon}"  width="40%" /></center>
+             <center><p:graphicImage value="/uploadedFiles/#{sessionScope.userEntity.icon}"  width="40%" rendered="#{sessionScope.userEntity.icon != null}" /></center>
             <br/>
             
             <h:form>
@@ -54,12 +54,7 @@
             
                           <br />
               <br />
-            
-             <p:commandButton value="Update Profile Picture" actionListener="#{companyManagementManagedBean.setCompanyToUpdatePhoto}" update="formUpdatePhoto" oncomplete="PF('dialogUpdatePhoto').show()" title="Update Profile Picture">
-                  <f:attribute name="companyToUpdatePhoto" value="#{sessionScope.userEntity}"/>
-              </p:commandButton>
-              <br />
-              <br />
+
              <p:commandButton value="Update Profile" actionListener="#{companyManagementManagedBean.doUpdateCompany}" update="formUpdateCompany" oncomplete="PF('dialogUpdateCompany').show()" title="Update">
                 <f:attribute name="selectedCompanyToUpdate" value="#{sessionScope.userEntity}" />
              </p:commandButton>
@@ -172,7 +167,19 @@
                             <p:column>
                                 &nbsp;
                             </p:column>
-                        </p:row>                  
+                        </p:row>  
+                        
+                        <p:row>
+                        <p:column>
+                            <p:outputLabel for="icon" value="Profile Picture" style="font-weight: bold" />
+                        </p:column>
+                        <p:column>
+                            <p:panel id="icon">
+                                        Maximum File Size: 5MB
+                                        <p:fileUpload mode="advanced" fileUploadListener="#{companyManagementManagedBean.handleFileUpload}" sizeLimit="5000000" />
+                            </p:panel>
+                        </p:column>
+                    </p:row>
 
                         
 
@@ -183,28 +190,14 @@
                         </p:row>
                         
                         
-
-                    </p:panelGrid>
-
-                </p:dialog>
-
-            </h:form>
-            
-            <h:form id="formUpdatePhoto">
-                <p:dialog id="dialogUpdatePhoto" widgetVar="dialogUpdatePhoto" header="Update Profile Picture" closable="true">
-                    Maximum File Size: 5MB 
-                    <p:messages id="messagesUpdateCompany" redisplay="false"/>
-                    
-                    <p:panelGrid>
-                        <p:messages redisplay="false" />
-                        <p:fileUpload fileUploadListener="#{companyManagementManagedBean.handleFileUpload}" update="@form" sizeLimit="5000000" />
-                        <p:growl id="messages" showDetail="true" />
-                    </p:panelGrid>
                         
+
+                    </p:panelGrid>
+
                 </p:dialog>
-                
+
             </h:form>
-               
+
                  
 
         </h:panelGroup>

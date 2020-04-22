@@ -8,34 +8,40 @@
     
     <ui:define name="content">
         
-        <h:form id="viewMilestonesForm">
+        <h:form id="projectReviews">
+                <p:messages id="messages" redisplay="false" closable="true" />
                 <p:commandButton immediate="true" value="Back" action="/companies/projectManagement.xhtml?faces-redirect=true"/>
             
-            <p:dataGrid var="milestone" value="#{getMilestonesManagedBean.milestonesForSelectedProject}" columns="2" layout="grid"
-                        rows="3" paginator="true" paginatorPosition="Bottom" id="milestone"
+                <p:dataGrid id="dataGridAllApplications" var="review" value="#{getReviewsForProjectManagedBean.reviewsOfProject}" columns="2" layout="grid"
+                            rows="3" paginator="true" paginatorPosition="Bottom"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,16">
                 <f:facet name="header">
-                    Milestones For Project
+                    Reviews Of Project 
                 </f:facet>
                 
-                <p:panel header="#{milestone.milestoneId}" style="text-align: center">
+                    <p:panel header="#{review.student.name}" style="text-align: center">
                     <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">
                         
-                        <h:outputText value ="Title:"/>
-                        <h:outputText value ="#{milestone.title}"/>
+                        <h:outputText value ="Review ID:"/>
+                        <h:outputText value ="#{review.reviewId}"/>
                         
-                        <h:outputText value ="Description: "/>                        
-                        <h:outputText value ="#{milestone.description}"/>
+                        <h:outputText value ="Rating: "/>                        
+                        <h:outputText value ="#{review.rating}">
+                            <f:convertNumber maxFractionDigits="2"/>
+                        </h:outputText>
                         
-                        <h:outputText value ="Payments"/>                        
-                        <h:outputText value ="#{milestone.payments}"/>
-                        
+                        <h:outputText value="Comments: "/>
+                        <h:outputText value="#{review.reviewText}"/>
+                       
                     </h:panelGrid>
+                      
                 </p:panel>
-            
+ 
             
             </p:dataGrid>
+
+            
         </h:form>
         
         

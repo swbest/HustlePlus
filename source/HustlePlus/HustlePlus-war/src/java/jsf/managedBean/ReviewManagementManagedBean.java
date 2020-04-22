@@ -6,6 +6,7 @@
 package jsf.managedBean;
 
 import ejb.session.stateless.ReviewSessionBeanLocal;
+import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Company;
 import entity.Project;
 import static entity.Project_.projectId;
@@ -21,13 +22,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import org.primefaces.event.RateEvent;
 import util.exception.CompanyNotFoundException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNotFoundException;
 import util.exception.ReviewNotFoundException;
 import util.exception.StudentNotFoundException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UpdateStudentException;
 
 /**
  *
@@ -37,13 +38,22 @@ import util.exception.UnknownPersistenceException;
 @ViewScoped
 public class ReviewManagementManagedBean implements Serializable {
 
+    @EJB(name = "StudentSessionBeanLocal")
+    private StudentSessionBeanLocal studentSessionBeanLocal;
+
     @EJB(name = "ReviewSessionBeanLocal")
     private ReviewSessionBeanLocal reviewSessionBeanLocal;
     
+    
+    
     private Review newReview; 
     private List<Review> reviews; 
+    
+    
     private Student studentToReview;
     private Project projectToReview;
+    private Company companyReviewing; 
+    
     private List<Project> projects;
     private Company companyToReview;
     private Long selProjectId;
@@ -64,6 +74,40 @@ public class ReviewManagementManagedBean implements Serializable {
         setReviews(reviewSessionBeanLocal.retrieveAllReviews());
        
        
+    }
+    
+    public void createReviewForStudent(ActionEvent event) {
+   try {
+        Project p = (Project) event.getComponent().getAttributes().get("projectToReview");
+        Company c = (Company) event.getComponent().getAttributes().get("companyReviewing");
+        Student s = (Student) event.getComponent().getAttributes().get("studentToReview");
+
+        System.out.println("PRINT ID" + p.getProjectId()); 
+      Long reviewId = reviewSessionBeanLocal.createNewReview(getNewReview(), p.getProjectId() , s.getUserId(), c.getUserId());
+       getReviews().add(reviewSessionBeanLocal.retrieveReviewByReviewId(reviewId)); 
+       
+       List <Review> reviewsForStudent = reviewSessionBeanLocal.retrieveAllReviewsForStudent(s.getUserId());
+       Integer numReviews = reviewsForStudent.size() + 1; 
+       System.out.println(numReviews);
+       Double calculatedRating = (s.getAvgRating() + newReview.getRating()) / numReviews ;
+       System.out.println(calculatedRating); 
+       s.setAvgRating(calculatedRating);
+       studentSessionBeanLocal.updateStudent(s);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Review successfully created!", null));
+        } catch (StudentNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new review: Project not found", null));
+        } catch (ProjectNotFoundException ex) {
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new review: Company has not been verified", null));
+        } catch (CompanyNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new review: Company has been suspended", null));
+        } catch (ReviewNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new review: Company has been suspended", null));
+        } catch (InputDataValidationException | UnknownPersistenceException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new review: " + ex.getMessage(), null));
+        } catch (UpdateStudentException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while updating the student rating: " + ex.getMessage(), null));
+        }
     }
     
     public void createReview(ActionEvent event) {
@@ -102,7 +146,7 @@ public class ReviewManagementManagedBean implements Serializable {
             setStudentToReview(null); 
             setProjectToReview(null); 
             setCompanyToReview(null); 
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New project created successfully! (Project ID: " + projectId + ")", null));
         } catch (StudentNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new project: Project not found", null));
@@ -118,9 +162,11 @@ public class ReviewManagementManagedBean implements Serializable {
     }
     
     public void onrate() {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "New Rating", "Rating successfully added!");
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "New Rating : Rating successfully added!", null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+    
+
     
     /*public void oncancel() {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancel Event", "Rate Reset");
@@ -208,6 +254,16 @@ public class ReviewManagementManagedBean implements Serializable {
     public void setProjects(List<Project> projects) {
         this.projects = projects;
     }
+
+    public Company getCompanyReviewing() {
+        return companyReviewing;
+    }
+
+    public void setCompanyReviewing(Company companyReviewing) {
+        this.companyReviewing = companyReviewing;
+    }
+    
+    
 
     
     

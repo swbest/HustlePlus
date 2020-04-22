@@ -9,39 +9,74 @@
     <ui:define name="content">
         
         <h:form id="viewApplicationsForm">
+                <p:messages id="messages" redisplay="false" closable="true" />
+                <p:commandButton immediate="true" value="Back" action="/companies/projectManagement.xhtml?faces-redirect=true"/>
             
-            <p:dataGrid var="myapp" value="#{applicationManagementManagedBean.applications}" columns="2" layout="grid"
-                        rows="3" paginator="true" id="applications"
+            <p:dataGrid id="dataGridAllApplications" var="myapp" value="#{getApplicationForProjectManagedBean.applicationsForProject}" columns="2" layout="grid"
+                        rows="3" paginator="true" paginatorPosition="Bottom" 
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,16">
                 <f:facet name="header">
                     Applications For Project
                 </f:facet>
                 
-                <p:panel header="#{myapp.applicationId}" style="text-align: center">
+                <p:panel header="Application ID: #{myapp.applicationId}" style="text-align: center">
                     <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">
                         
                         <h:outputText value ="Name of Student:"/>
                         <h:outputText value ="#{myapp.student.name}"/>
                         
                         <h:outputText value ="Rating: "/>                        
-                        <h:outputText value ="#{myapp.student.avgRating}"/>
+                        <h:outputText value ="#{myapp.student.avgRating}">
+                            <f:convertNumber maxFractionDigits="2"/>
+                        </h:outputText>
                         
-                        <h:outputText value ="Resume:"/>                        
-                        <h:outputText value ="#{myapp.student.resume}"/>
+                        <h:outputText value="Application Pending: "/>
+                        <h:outputText value="#{myapp.isPending}"/>
                         
+                        <h:outputText value="Application Approved: "/>
+                        <h:outputText value="#{myapp.isApproved}"/>
+                        
+                        
+                        <h:outputText value="Skills of Student: "/>
                         <p:dataList value="#{myapp.student.skills}" var="skill" type="ordered">
-                            <f:facet name="header">
-                                Skills
-                            </f:facet>
                             #{skill.title}
-                        </p:dataList>
-  
+                            </p:dataList>
+                        
+                        
+                        <h:outputText value="Student Resume: "/>
+                        <p:commandButton value="Download Resume" ajax="false" onclick="PrimeFaces.monitorDownload(start,stop);" icon="pi pi-arrow-down">
+                            <p:fileDownload value="#{applicationManagementManagedBean.file}"/>
+                        </p:commandButton>
+                        
+                        <h:outputText value="Application Status: "/>
+                        <p:commandButton icon="ui-icon-info"  ajax="false" actionListener="#{applicationManagementManagedBean.viewApplicationStatus}">
+                            <f:attribute name="applicationToCheck" value="#{myapp}"/>
+                        </p:commandButton>
+                        
+                        <p:commandButton value="Approve Application" actionListener="#{applicationManagementManagedBean.approveApplication}" update="viewApplicationsForm:dataGridAllApplications viewApplicationsForm:messages">
+                            <f:attribute name="applicationToApprove" value="#{myapp}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to approve application with Application ID: #{myapp.applicationId}?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        
+                        <p:commandButton value="Reject Application" actionListener="#{applicationManagementManagedBean.rejectApplication}" update="viewApplicationsForm:dataGridAllApplications viewApplicationsForm:messages">
+                            <f:attribute name="applicationToReject" value="#{myapp}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to reject application with Application ID: #{myapp.applicationId}?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        
+
                     </h:panelGrid>
+                      
                 </p:panel>
-            
+ 
             
             </p:dataGrid>
+            
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            
         </h:form>
         
         

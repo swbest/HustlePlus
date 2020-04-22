@@ -58,6 +58,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
 
             if (constraintViolations.isEmpty()) {
                 newStudent.setIsSuspended(Boolean.FALSE);
+                newStudent.setAvgRating(0.0);
                 em.persist(newStudent);
                 em.flush();
                 return newStudent.getUserId();

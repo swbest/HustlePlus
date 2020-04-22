@@ -137,7 +137,7 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
            Query query = em.createQuery("SELECT m FROM Milestone m WHERE m.project.projectId =:pid ");
            query.setParameter("pid", projectId);
            
-           return query.getResultList();
+           return (List<Milestone>) query.getResultList();
     }   
     
     @Override

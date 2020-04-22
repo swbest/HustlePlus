@@ -18,6 +18,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import util.exception.ApplicationNotFoundException;
+import util.exception.ApproveApplicationException;
 
 /**
  *
@@ -34,22 +38,32 @@ public class ApplicationManagementManagedBean implements Serializable {
      private Project viewProjectApplication; 
      private Application newApplication; 
 
+     private StreamedContent file;
      
 
 
     /**
      * Creates a new instance of ApplicationManagementManagedBean
      */
-    public ApplicationManagementManagedBean() {
-        newApplication = new Application(); 
-        
-    }
+//    public ApplicationManagementManagedBean() {
+//        newApplication = new Application(); 
+//        file = DefaultStreamedContent.builder()
+//                .name("downloadedResume_pdf")
+//                .contentType("resume/pdf")
+//                .stream( () -> FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/resume/pdf"))
+//                .build(); 
+//   
+//    }
     
     @PostConstruct
     public void postConstruct()
     {
         setApplications(applicationSessionBeanLocal.retrieveAllApplications());
   
+    }
+    
+    public StreamedContent getFile() {
+        return file; 
     }
     
     /**
@@ -64,7 +78,45 @@ public class ApplicationManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while retrieving the projects: " + ex.getMessage(), null));
     }
     }
-
+    
+    public void approveApplication(ActionEvent event) {
+        
+        try {
+        Application applicationToApprove = (Application) event.getComponent().getAttributes().get("applicationToApprove");
+        applicationSessionBeanLocal.approveApplication(applicationToApprove.getApplicationId()); 
+        applicationToApprove.setIsApproved(Boolean.TRUE);
+        applicationToApprove.setIsPending(Boolean.FALSE);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Application has been successfully approved!", null));
+    } catch(ApproveApplicationException | ApplicationNotFoundException ex) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while approving application: " + ex.getMessage(), null));
+    }
+    }
+    
+    public void rejectApplication(ActionEvent event) {
+         
+        try {
+        Application applicationToReject = (Application) event.getComponent().getAttributes().get("applicationToReject");
+        applicationSessionBeanLocal.rejectApplication(applicationToReject.getApplicationId()); 
+        applicationToReject.setIsApproved(Boolean.FALSE);
+        applicationToReject.setIsPending(Boolean.FALSE);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Application has been successfully rejected!", null));
+    } catch(ApproveApplicationException | ApplicationNotFoundException ex) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while rejecting application: " + ex.getMessage(), null));
+    }
+    }
+    
+    public void viewApplicationStatus(ActionEvent event) {
+        Application applicationToApprove = (Application) event.getComponent().getAttributes().get("applicationToCheck");
+        if (applicationToApprove.getIsApproved() == false && applicationToApprove.getIsPending() == true) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Application Pending",null));
+        } else if (applicationToApprove.getIsApproved() == true && applicationToApprove.getIsPending() == false) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Application Approved",null));
+        } else if (applicationToApprove.getIsApproved() == false && applicationToApprove.getIsPending() == false) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Application Rejected",null));   
+    }
+        
+    }
+   
     public List<Application> getApplications() {
         return applications;
     }

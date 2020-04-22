@@ -25,6 +25,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import org.primefaces.event.FileUploadEvent;
 import util.exception.CompanyNameExistException;
 import util.exception.CompanyNotFoundException;
@@ -92,6 +93,8 @@ public class CompanyManagementManagedBean implements Serializable {
         setCompanies(companySessionBeanLocal.retrieveAllCompanies());
         setProjects(projectSessionBeanLocal.retrieveAllProjects());
         setReviews(reviewSessionBeanLocal.retrieveAllReviews());
+        
+//        companyToUpdatePhoto = (Company)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("companyToUpdatePhoto");
     }
 
     public void createNewCompany(ActionEvent event) {
@@ -343,19 +346,23 @@ public class CompanyManagementManagedBean implements Serializable {
     }
 
     public void handleFileUpload(FileUploadEvent event) {
-        try {
+       try {
+            //Long newCompanyId = companySessionBeanLocal.createNewCompany(newCompany);
+            //Company newC = companySessionBeanLocal.retrieveCompanyByCompanyId(newCompanyId);
 
+//           companyToUpdatePhoto  = (Company) event.getComponent().getAttributes().get("companyToUpdatePhoto");
+//           ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("companyToUpdatePhoto", companyToUpdatePhoto); 
             String uploadedFileName = event.getFile().getFileName();
 
-            //Append userId + userFirstName in front of every file (UNIQUE KEY)
-            //e.g. "1-FILE_NAME.jpg"
-            String newFileName = getCompanyToUpdatePhoto().getUserId() + "-profile_" + uploadedFileName;
+            String newFileName = CryptographicHelper.getInstance().generateUUID().toString() + "profile_" + uploadedFileName;
             String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1")
                     + System.getProperty("file.separator")
                     + newFileName;
 
-            companySessionBeanLocal.uploadIcon(getCompanyToUpdatePhoto().getUserId(), "/uploadedFiles/" + newFileName);
-            setCompanies(companySessionBeanLocal.retrieveAllCompanies());
+            String docRootFilePath = "/uploadedFiles/" + newFileName;
+            selectedCompanyToUpdate.setIcon(newFileName);
+            //companySessionBeanLocal.updateCompany(companyToUpdatePhoto);
+            // companySessionBeanLocal.uploadIcon(newCompany.getUserId(), docRootFilePath);
 
             File file = new File(newFilePath);
             FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -379,12 +386,13 @@ public class CompanyManagementManagedBean implements Serializable {
 
             fileOutputStream.close();
             inputStream.close();
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "File uploaded successfully", ""));
         } catch (IOException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "File upload error: " + ex.getMessage(), ""));
-        }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        } //catch (UpdateCompanyException | CompanyNotFoundException ex) {
+           // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        //}
     }
+    
 
     public void setCompanyToUpdatePhoto(ActionEvent event) {
         companyToUpdatePhoto = (Company) event.getComponent().getAttributes().get("companyToUpdatePhoto");

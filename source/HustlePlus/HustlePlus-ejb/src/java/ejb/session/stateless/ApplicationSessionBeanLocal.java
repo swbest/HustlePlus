@@ -6,10 +6,12 @@
 package ejb.session.stateless;
 
 import entity.Application;
+import entity.Student;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.ApplicationExistException;
 import util.exception.ApplicationNotFoundException;
+import util.exception.ApproveApplicationException;
 import util.exception.DeleteApplicationException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNotFoundException;
@@ -35,5 +37,14 @@ public interface ApplicationSessionBeanLocal {
     public void updateApplication(Application application) throws ApplicationNotFoundException, UpdateApplicationException, InputDataValidationException;
 
     public void deleteApplication(Long applicationId) throws ApplicationNotFoundException, DeleteApplicationException;
+
+    public List<Application> retrieveApplicationByProject(Long projectId);
+
+    public void approveApplication(Long appId) throws ApproveApplicationException, ApplicationNotFoundException;
+
+    public void rejectApplication(Long appId) throws ApproveApplicationException, ApplicationNotFoundException;
+
+    public List<Student> retrieveStudentByApprovedApplication(Long projectId) throws ApplicationNotFoundException;
+
     
 }

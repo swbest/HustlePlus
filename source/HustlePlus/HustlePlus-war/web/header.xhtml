@@ -57,7 +57,9 @@
                 </p:submenu>
                 
                 <p:submenu icon="fa fa-star">
-                            <p:menuitem value="My Company Reviews" outcome="/companies/reviews.xhtml"/> 
+                    <p:menuitem value="My Company Reviews" actionListener="#{getReviewsForProjectManagedBean.retrieveReviewsForCompany}">
+                        <f:attribute name="companyRev" value="#{sessionScope.userEntity}"/> 
+                    </p:menuitem>
                 </p:submenu>
 
                 <f:facet name="options">

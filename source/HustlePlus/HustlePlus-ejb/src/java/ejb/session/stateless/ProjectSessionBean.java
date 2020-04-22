@@ -91,6 +91,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                     }
                     newProject.setSkills(skills);
 
+
                     System.out.println("PSB3");
                     company.getProjects().add(newProject);
                     System.out.println("PSB4");

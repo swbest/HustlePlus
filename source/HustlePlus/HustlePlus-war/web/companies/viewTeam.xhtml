@@ -10,9 +10,10 @@
     <ui:define name="content">
         
         <h:form id="viewTeamForm">
+                <p:commandButton immediate="true" value="Back" action="/companies/projectManagement.xhtml?faces-redirect=true"/>
             
-            <p:dataGrid var="student" value="#{viewProjectManagedBean.projectToView.team.students}" columns="2" layout="grid"
-                        rows="3" paginator="true" id="student"
+            <p:dataGrid var="student" value="#{getTeamForProjectManagedBean.studentsForProject}" columns="2" layout="grid"
+                        rows="3" paginator="true" paginatorPosition="Bottom" id="student"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,16">
                 <f:facet name="header">
@@ -22,26 +23,40 @@
                 <p:panel header="#{student.name}" style="text-align: center">
                     <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">
                         
-                        <h:outputText value ="Rating:"/>
-                        <h:outputText value ="#{student.avgRating}"/>
+                        <h:outputText value ="Student ID"/>
+                        <h:outputText value ="#{student.userId}"/>
                         
+                        <h:outputText value ="Email: "/>
+                        <h:outputText value ="#{student.email}"/>
+                        
+                        <h:outputText value ="Rating:"/>
+                        <h:outputText value ="#{student.avgRating}">
+                            <f:convertNumber maxFractionDigits="2"/>
+                        </h:outputText>
+
                         <h:outputText value ="Bank Account Name"/>                        
                         <h:outputText value ="#{student.bankAccountNumber}"/>
                         
                         <h:outputText value ="Bank Account Number"/>                        
                         <h:outputText value ="#{student.bankAccountNumber}"/>
-                        
+                       
+                        <h:outputText value="Skills of Student: "/>
                         <p:dataList value="#{student.skills}" var="skill" type="ordered">
-                            <f:facet name="header">
-                                Skills
-                            </f:facet>
                             #{skill.title}
                         </p:dataList>
                         
-                        <p:commandButton value="Leave A Review" action="/companies/reviewStudent.xhtml?faces-redirect=true">
+                        <h:outputText value ="Description: "/>
+                        <h:outputText value ="#{student.description}"/>
+                        
+                        <h:outputText value="Student Resume: "/>
+                        <p:commandButton value="Download Resume" ajax="false" onclick="PrimeFaces.monitorDownload(start,stop);" icon="pi pi-arrow-down">
+                            <p:fileDownload value="#{applicationManagementManagedBean.file}"/>
+                        </p:commandButton>
+                        
+                        <p:commandButton value="Leave A Review" actionListener="#{getStudentForReviewManagedBean.leaveReview}">
                             <f:attribute name="studentToReview" value="#{student}"/>
-                            <f:attribute name="projectToReview" value="#{viewProjectManagedBean.projectToView}"/>
-                            <f:attribute name="company" value="#{sessionScope.userEntity}"/>
+                            <f:attribute name="projectToReview" value="#{getTeamForProjectManagedBean.projectToDisplayTeam}"/>
+                            <f:attribute name="companyReviewing" value="#{sessionScope.userEntity}"/>
                         </p:commandButton>
                         
                     </h:panelGrid>

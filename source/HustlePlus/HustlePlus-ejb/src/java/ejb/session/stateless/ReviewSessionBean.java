@@ -56,6 +56,9 @@ public class ReviewSessionBean implements ReviewSessionBeanLocal {
 
     @Override
     public Long createNewReview(Review newReview, Long projectId, Long studentId, Long companyId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException {
+        System.out.println("PROJECTID RSB:" + projectId);
+        System.out.println("STUDENTID RSB:" + studentId);
+        System.out.println("COMPANYID RSB:" + companyId);
         try {
             Set<ConstraintViolation<Review>> constraintViolations = validator.validate(newReview);
 
@@ -93,6 +96,34 @@ public class ReviewSessionBean implements ReviewSessionBeanLocal {
         Query query = em.createQuery("SELECT r FROM Review r");
 
         return query.getResultList();
+    }
+    
+    @Override
+    public List<Review> retrieveAllReviewsForCompany(Long companyId) {
+        Query query = em.createQuery("SELECT r FROM Review r WHERE r.company.userId =:cid ");
+        query.setParameter("cid", companyId);
+        
+        return query.getResultList(); 
+                
+
+    }
+    
+    @Override
+    public List<Review> retrieveAllReviewsForStudent(Long studentId) {
+         Query query = em.createQuery("SELECT r FROM Review r WHERE r.student.userId =:sid ");
+        query.setParameter("sid", studentId);
+        
+        return query.getResultList();
+
+    }
+    
+    
+    @Override
+    public List<Review> retrieveReviewsByProject(Long projectId) {
+        Query query = em.createQuery("SELECT r FROM Review r WHERE r.project.projectId =:pid");
+        query.setParameter("pid", projectId);
+        
+        return query.getResultList(); 
     }
 
     @Override

@@ -145,11 +145,12 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
                 companyToUpdate.setEmail(company.getEmail());
                 companyToUpdate.setName(company.getName());
                 companyToUpdate.setDescription(company.getDescription());
-                companyToUpdate.setAvgRating(company.getAvgRating());
-                companyToUpdate.setIsVerified(company.getIsVerified());
-                companyToUpdate.setIsSuspended(company.getIsSuspended());
-                companyToUpdate.setProjects(company.getProjects());
-                companyToUpdate.setStudentReviews(company.getStudentReviews());
+                //companyToUpdate.setAvgRating(company.getAvgRating());
+              //  companyToUpdate.setIsVerified(company.getIsVerified());
+                companyToUpdate.setIcon(company.getIcon());
+              //  companyToUpdate.setIsSuspended(company.getIsSuspended());
+               // companyToUpdate.setProjects(company.getProjects());
+               // companyToUpdate.setStudentReviews(company.getStudentReviews());
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

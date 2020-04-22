@@ -114,7 +114,10 @@
                             <h:outputLabel value="Team: " />
                         </p:column>
                         <p:column>
-                            <p:commandButton value="View Team " actionListener="#{projectManagementManagedBean.viewTeam}"/>
+                            <p:commandButton value="View Team " actionListener="#{getTeamForProjectManagedBean.retrieveTeamForProject}">
+                                <f:attribute name="projectToViewTeam" value="#{projectManagementManagedBean.projectToView}"/>
+                            
+                            </p:commandButton>
                         </p:column>
                     </p:row>
                     
@@ -124,8 +127,8 @@
                             <h:outputLabel value="Applications: " />
                         </p:column>
                         <p:column>
-                            <p:commandButton value="View Applications" actionListener="#{applicationManagementManagedBean.viewApplications}">
-                                <f:attribute name="viewProjectApplication" value="#{applicationManagementManagedBean.viewProjectApplication}"/>
+                            <p:commandButton value="View Applications" actionListener="#{getApplicationForProjectManagedBean.retrieveApplicationsForProject}">
+                                <f:attribute name="projectToViewApp" value="#{projectManagementManagedBean.projectToView}"/>
                             </p:commandButton>
                         </p:column>
                     </p:row>
@@ -135,7 +138,20 @@
                             <h:outputLabel value="Reviews: " />
                         </p:column>
                         <p:column>
-                            <p:commandButton value="Student Reviews" actionListener="#{projectManagementManagedBean.reviews}"/>
+                            <p:commandButton value="Reviews of Student" actionListener="#{getReviewsForProjectManagedBean.retrieveReviewsForStudents}">
+                                <f:attribute name="projectToViewReview" value="#{projectManagementManagedBean.projectToView}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Reviews: " />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Reviews Of Project" actionListener="#{getReviewsForProjectManagedBean.retrieveReviewsForProject}">
+                                <f:attribute name="projectToViewReview" value="#{projectManagementManagedBean.projectToView}"/>
+                            </p:commandButton>
                         </p:column>
                     </p:row>
                     

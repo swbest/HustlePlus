@@ -90,6 +90,9 @@ public class SecurityFilter implements Filter {
         } else if (accessRight.equals(AccessRightEnum.COMPANY)) {
             if (path.equals("/verificationError.xhtml") ||
             path.equals("/changePassword.xhtml") ||
+            path.equals("/companies/reviewStudentInProject.xhtml") ||
+            path.equals("/companies/companyReviews.xhtml") ||
+            path.equals("/companies/projectReviews.xhtml") ||
             path.equals("/companies/resendEmail.xhtml") ||
             path.equals("/companies/milestoneForProject.xhtml") ||
             path.equals("/companies/skillsOfProject.xhtml") ||
@@ -114,7 +117,7 @@ public class SecurityFilter implements Filter {
             path.equals("/companies/viewApplications.xhtml") ||
             path.equals("/companies/viewMilestones.xhtml") ||
             path.equals("/companies/viewTeam.xhtml") ||
-            path.equals("/companies/reviews.xhtml") ||
+            path.equals("/companies/reviewsOfStudentInProject.xhtml") ||
             path.equals("/companies/reviewStudent.xhtml") ||
             path.equals("/companies/profilePage.xhtml")  ||
             path.startsWith("/uploadedFiles"))

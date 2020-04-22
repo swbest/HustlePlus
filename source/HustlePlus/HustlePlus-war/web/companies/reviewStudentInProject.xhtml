@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui">
+   
+    <ui:define name="top">
+        <title>Hustle+ - New Student Review</title>
+    </ui:define>
+    
+    <ui:define name="content">
+        
+        <h:form id="review">
+            <p:messages id="msgs"/>
+
+        <p:panel header="Student Review: #{getStudentForReviewManagedBean.studentToReview.name} for Project: #{getStudentForReviewManagedBean.projectToReview.projectName} for Company: #{getStudentForReviewManagedBean.companyReviewing.name}" style="margin-bottom:20px">
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel value="Rating " for="rating" ></h:outputLabel>   
+                <p:rating value="#{reviewManagementManagedBean.newReview.rating}" required="true">
+                    <p:ajax event="rate" listener="#{reviewManagementManagedBean.onrate}" update="msgs" />
+                </p:rating>
+                <h:outputLabel value="Your Review " for="reviewTxt"></h:outputLabel>
+                <p:textEditor widgetVar="editor" value="#{reviewManagementManagedBean.newReview.reviewText}" height="200" style="margin-bottom:10px; margin-top:10px; width: 500px" placeholder="Type here" required="true">
+                    <f:validateLength minimum="10" />
+                    <f:facet name="toolbar">
+                         <span class="ql-formats">
+                            <button class="ql-bold"></button>
+                            <button class="ql-italic"></button>
+                            <button class="ql-underline"></button>
+                            <button class="ql-strike"></button>
+                        </span>
+
+                    </f:facet>
+                </p:textEditor>
+
+                <p:commandButton id="btn_reset" value="Clear" type="reset"/>
+                <p:commandButton value="Submit" ajax="false" update="msgs" actionListener="#{reviewManagementManagedBean.createReviewForStudent}">
+                    <f:attribute name="companyReviewing" value="#{getStudentForReviewManagedBean.companyReviewing}"/>
+                    <f:attribute name="projectToReview" value="#{getStudentForReviewManagedBean.projectToReview}"/>
+                    <f:attribute name="studentToReview" value="#{getStudentForReviewManagedBean.studentToReview}"/>
+                </p:commandButton>
+                 <p:commandButton immediate="true" value="Back" action="/companies/viewTeam.xhtml?faces-redirect=true"/>
+
+            </h:panelGrid>
+        </p:panel>
+
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>
+

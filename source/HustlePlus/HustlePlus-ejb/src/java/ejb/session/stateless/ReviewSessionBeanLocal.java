@@ -32,5 +32,12 @@ public interface ReviewSessionBeanLocal {
     public void updateReview(Review review) throws ReviewNotFoundException, UpdateReviewException, InputDataValidationException;
 
     public void deleteReview(Long reviewId) throws ReviewNotFoundException;
+
+    public List<Review> retrieveAllReviewsForCompany(Long companyId);
+
+    public List<Review> retrieveAllReviewsForStudent(Long studentId);
+
+    public List<Review> retrieveReviewsByProject(Long projectId);
+
     
 }
