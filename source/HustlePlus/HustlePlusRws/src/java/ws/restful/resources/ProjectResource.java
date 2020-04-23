@@ -7,6 +7,7 @@ package ws.restful.resources;
 
 import ejb.session.stateless.ProjectSessionBeanLocal;
 import entity.Project;
+import entity.Skill;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,6 +57,10 @@ public class ProjectResource {
     public Response retrieveProjectById(@PathParam("id") Long projectId) {
         try {
             Project project = projectSessionBean.retrieveProjectByProjectId(projectId);
+            List<Skill> skills = project.getSkills();
+            for (Skill s : skills) {
+                s.getProjects().clear();
+            }
             project.getMilestones().clear();
             project.getCompany().getProjects().clear();
             project.getReviews().clear();
@@ -87,6 +92,10 @@ public class ProjectResource {
                 // clear bidirectional mappings or set the inverse side to null
                 // skills - not bidirectional
                 // milestones not needed
+                List<Skill> skills = p.getSkills();
+                for (Skill s : skills) {
+                    s.getProjects().clear();
+                }
                 p.getMilestones().clear();
                 p.getCompany().getProjects().clear();
                 p.getReviews().clear();
