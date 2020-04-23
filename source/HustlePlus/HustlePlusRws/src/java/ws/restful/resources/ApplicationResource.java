@@ -87,21 +87,25 @@ public class ApplicationResource {
         try {
             List<Application> applications = applicationSessionBean.retrieveAllApplications();
             for (Application application : applications) {
-                Project project = application.getProject();
-                List<Skill> skills = project.getSkills();
-                for (Skill s : skills) {
-                    s.getProjects().clear();
-                }
-                project.getMilestones().clear();
-                project.getCompany().getProjects().clear();
-                project.getCompanyReviews().clear();
-                project.getStudentReviews().clear();
-                project.getApplications().clear();
-                List<Student> students = project.getStudents();
-                for (Student s : students) {
-                    s.getProjects().clear();
-                    s.getProjects().clear();
-                }
+                
+                application.setProject(null);
+                application.setStudent(null);
+                
+//                Project project = application.getProject();
+//                List<Skill> skills = project.getSkills();
+//                for (Skill s : skills) {
+//                    s.getProjects().clear();
+//                }
+//                project.getMilestones().clear();
+//                project.getCompany().getProjects().clear();
+//                project.getCompanyReviews().clear();
+//                project.getStudentReviews().clear();
+//                project.getApplications().clear();
+//                List<Student> students = project.getStudents();
+//                for (Student s : students) {
+//                    s.getProjects().clear();
+//                    s.getProjects().clear();
+//                }
             }
             RetrieveAllApplicationsRsp retrieveAllApplicationsRsp = new RetrieveAllApplicationsRsp(applications);
             return Response.status(Response.Status.OK).entity(retrieveAllApplicationsRsp).build();

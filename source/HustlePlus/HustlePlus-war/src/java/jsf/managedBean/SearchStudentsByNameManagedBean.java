@@ -7,12 +7,14 @@ package jsf.managedBean;
 
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Student;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import util.exception.StudentNotFoundException;
 
@@ -21,8 +23,8 @@ import util.exception.StudentNotFoundException;
  * @author amanda
  */
 @Named(value = "searchStudentsByNameManagedBean")
-@RequestScoped
-public class SearchStudentsByNameManagedBean {
+@ViewScoped
+public class SearchStudentsByNameManagedBean implements Serializable{
 
     @EJB
     private StudentSessionBeanLocal studentSessionBeanLocal;

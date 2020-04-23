@@ -9,39 +9,128 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Hustle+</title>
-    </h:head>
-    
-    <h:body>
-        
-        <p:layout fullPage="true">
+        <style>
+            .ui-layout {
+                background: none;
+            }
+            .ui-layout-doc {
+                background: none;
+            }
+            .ui-layout-unit {
+                background: none;
+            }
+            .ui-layout-north {
+                background: none;
+            }
+            .ui-layout-center {
+                background: none;
+            }
+            .ui-layout-south {
+                background: none;
+            }
+            .ui-layout-unit-header {
+                background: none;
+            }
+            .ui-layout-unit-content {
+                background: none;
+            }
             
-            <p:layoutUnit position="north" size="150">
+        </style>
+    </h:head>
+
+    <h:body style="background-image: url('http://localhost:8080/HustlePlus-war/resources/img/website-login-background.jpg');">
+
+        <p:layout fullPage="true" style="background: none;">
+
+            <p:layoutUnit position="north" size="100" style="background: none; border-style: none;">
 
                 <ui:insert name="header">
                     <ui:include src="/header.xhtml" />
                 </ui:insert>
-                
+
             </p:layoutUnit>
-            
-            
-            <p:layoutUnit position="center" >
-                
+
+
+            <p:layoutUnit position="center" style="border-style: none">
+
+                <h:form>
+
+                    <p:menubar style="border-style: none">
+
+                        <p:menuitem icon="fa fa-home" outcome="/index"/>
+
+                        <p:submenu icon="fa fa-plus">
+                            <p:menuitem value="New Project" outcome="/companies/createNewProject.xhtml"/>
+                            <p:separator />
+                            <p:menuitem value="New Student Review" outcome="/companies/reviewStudent.xhtml"/>
+                            <p:separator />
+                        </p:submenu>
+
+                        <p:submenu icon="fa fa-search">
+                            <p:menuitem value="For Students By Name" outcome="/companies/searchStudentsByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="For Companies By Name" outcome="/companies/searchCompaniesByName.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="For Companies By Rating" outcome="/companies/searchCompaniesByRating.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="For Projects By Name" outcome="/companies/searchProjectsByName.xhtml">
+                                <f:setPropertyActionListener target="#{searchProjectsByNameManagedBean.companyToSearchProject}" value="#{sessionScope.userEntity}"/>
+                            </p:menuitem>
+                            <p:separator />
+                            <p:menuitem value="For Projects By Company" outcome="/companies/searchProjectsByCompany.xhtml"/>
+                        </p:submenu>
+
+                        <p:submenu icon="fa fa-filter">
+                            <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml"/>
+                            <p:separator />
+                            <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
+                        </p:submenu>
+
+                        <p:submenu icon="fa fa-folder-open">
+                            <p:menuitem value="My Projects"  actionListener="#{projectManagementManagedBean.viewProjectByCompany}">
+                                <f:attribute name="companyToView" value="#{sessionScope.userEntity}"/>
+                            </p:menuitem> 
+                            <p:separator />
+                            <p:menuitem value="My Project Milestones" actionListener="#{getMilestonesManagedBean.retrieveMilestonesForCompany}">
+                                <f:attribute name="company" value="#{sessionScope.userEntity}"/>
+                            </p:menuitem>
+                        </p:submenu>
+
+                        <p:submenu icon="fa fa-star">
+                            <p:menuitem value="My Company Reviews" actionListener="#{getReviewsForProjectManagedBean.retrieveReviewsForCompany}">
+                                <f:attribute name="companyRev" value="#{sessionScope.userEntity}"/> 
+                            </p:menuitem>
+                        </p:submenu>
+
+                        <f:facet name="options">
+                            <p:menuButton icon="fa fa-id-badge" value="Hello, #{sessionScope.userEntity.name}!">
+                                <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml" />
+                                <p:separator />
+                                <p:menuitem value="Log Out" actionListener="#{loginManagedBean.logout}" rendered="#{sessionScope.isLogin == true}"/>
+                            </p:menuButton> &nbsp;
+
+                        </f:facet>
+                    </p:menubar>
+                </h:form>
+
                 <ui:insert name="content">
                     <ui:include src="/index.xhtml" />
                 </ui:insert>  
-                
+
             </p:layoutUnit>
-            
-            <p:layoutUnit position="south" size="50" style="position: fixed; font-family: Segoe UI, Tahoma, sans-serif">
-                
+
+            <p:layoutUnit position="south" size="50" style="position: fixed; font-family: Segoe UI, Tahoma, sans-serif; border-style: none;">
+
                 <ui:insert name="footer">
                     <ui:include src="/footer.xhtml" />
                 </ui:insert>
-                
+
             </p:layoutUnit>                
-            
+
         </p:layout>
-        
+
     </h:body>
-    
+
 </html>
