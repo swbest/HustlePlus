@@ -51,8 +51,9 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
     }
 
 
+
     @Override
-    public Long createNewPayment(Payment newPayment, Long milestoneId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException{
+    public Long createNewPaymentForMilestone(Payment newPayment, Long milestoneId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException{
         try {
             Set<ConstraintViolation<Payment>> constraintViolations = validator.validate(newPayment);
 
@@ -70,6 +71,37 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
                     return newPayment.getPaymentId();
                 } catch (MilestoneNotFoundException ex) {
                     throw new MilestoneNotFoundException("Milestone Not Found for ID: " + milestoneId);
+                }
+            } else {
+                throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+            }
+        } catch (PersistenceException ex) {
+            throw new UnknownPersistenceException(ex.getMessage());
+        }
+    }
+    
+ 
+    @Override
+    public Long createNewPayment(Payment newPayment, Long milestoneId, Long studentId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException, StudentNotFoundException{
+        try {
+            Set<ConstraintViolation<Payment>> constraintViolations = validator.validate(newPayment);
+
+            if (constraintViolations.isEmpty()) {
+                try {
+                    Milestone milestone = milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId);
+                    Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+                    newPayment.setMilestone(milestone);
+                    newPayment.setStudent(student);
+                    milestone.addPayment(newPayment);
+                    student.addPayment(newPayment);
+                    em.persist(newPayment);
+                    em.flush();
+
+                    return newPayment.getPaymentId();
+                } catch (MilestoneNotFoundException ex) {
+                    throw new MilestoneNotFoundException("Milestone Not Found for ID: " + milestoneId);
+                } catch (StudentNotFoundException ex) {
+                    throw new StudentNotFoundException("Student Not Found for ID: " + studentId);
                 }
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));

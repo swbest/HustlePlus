@@ -37,9 +37,9 @@
                         <h:outputText value="Project Done By Student: "/>
                         <h:outputText value="#{review.project.projectName}" escape="false"/>
                         
-                        <center><p:commandButton actionListener="#{reviewManagementManagedBean.doUpdateReview}" update="formUpdateReview" oncomplete="PF('dialogUpdateReview').show()" icon="ui-icon-pencil" title="Update">
+                        <p:commandButton actionListener="#{reviewManagementManagedBean.doUpdateReview}" update="formUpdateReview" oncomplete="PF('dialogUpdateReview').show()" icon="ui-icon-pencil" title="Update">
                             <f:attribute name="reviewToUpdate" value="#{review}" />
-                            </p:commandButton></center>
+                            </p:commandButton>
                        
 
                     </h:panelGrid>
