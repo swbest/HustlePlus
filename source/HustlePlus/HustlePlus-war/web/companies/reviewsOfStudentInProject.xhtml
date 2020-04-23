@@ -15,16 +15,16 @@
                 <p:dataGrid id="dataGridAllApplications" var="review" value="#{getReviewsForProjectManagedBean.reviewsOfStudent}" columns="2" layout="grid"
                             rows="3" paginator="true" paginatorPosition="Bottom"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                        rowsPerPageTemplate="6,12,16">
+                        rowsPerPageTemplate="2,4,6">
                 <f:facet name="header">
                     Reviews Of Student In Project
                 </f:facet>
                 
-                    <p:panel header="#{review.student.name}" style="text-align: center">
+                    <p:panel header="#{review.studentReviewed.name}" style="text-align: center">
                     <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">
                         
                         <h:outputText value ="Review ID:"/>
-                        <h:outputText value ="#{review.reviewId}"/>
+                        <h:outputText value ="#{review.studentReviewId}"/>
                         
                         <h:outputText value ="Rating: "/>                        
                         <h:outputText value ="#{review.rating}">

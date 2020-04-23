@@ -46,12 +46,17 @@ public class Company extends User implements Serializable {
 
     @OneToMany(mappedBy = "company")
     private List<Project> projects;
+    
+    @OneToMany(mappedBy ="company")
+    private List<CompanyReview> companyReviews; //reviews by students on company 
+    
     @OneToMany(mappedBy = "company")
-    private List<Review> studentReviews;
+    private List<StudentReview> studentReviews; //reviews by company on students 
 
     public Company() {
         this.projects = new ArrayList<Project>();
-        this.studentReviews = new ArrayList<Review>();
+        this.studentReviews = new ArrayList<StudentReview>();
+        this.companyReviews = new ArrayList<CompanyReview>();
     }
 
 
@@ -63,11 +68,11 @@ public class Company extends User implements Serializable {
         this.projects = projects;
     }
 
-    public List<Review> getStudentReviews() {
+    public List<StudentReview> getStudentReviews() {
         return studentReviews;
     }
 
-    public void setStudentReviews(List<Review> studentReviews) {
+    public void setStudentReviews(List<StudentReview> studentReviews) {
         this.studentReviews = studentReviews;
     }
 
@@ -115,17 +120,38 @@ public class Company extends User implements Serializable {
         }
     }
 
-    public void addStudentReview(Review studentReview) {
+    public void addStudentReview(StudentReview studentReview) {
         if (!this.studentReviews.contains(studentReview)) {
             this.studentReviews.add(studentReview);
         }
     }
 
-    public void removeStudentReview(Review studentReview) {
+    public void removeStudentReview(StudentReview studentReview) {
         if (this.studentReviews.contains(studentReview)) {
             this.studentReviews.remove(studentReview);
         }
     }
+    
+    public List<CompanyReview> getCompanyReviews() {
+        return companyReviews;
+    }
+
+    public void setCompanyReviews(List<CompanyReview> companyReviews) {
+        this.companyReviews = companyReviews;
+    }
+    
+    public void addCompanyReview(CompanyReview companyReview) {
+        if (!this.companyReviews.contains(companyReview)) {
+            this.companyReviews.add(companyReview);
+        }
+    }
+
+    public void removeStudentReview(CompanyReview companyReview) {
+        if (this.companyReviews.contains(companyReview)) {
+            this.companyReviews.remove(companyReview);
+        }
+    }
+    
 
     @Override
     public int hashCode() {
@@ -151,4 +177,6 @@ public class Company extends User implements Serializable {
     public String toString() {
         return "entity.Company[ id=" + userId + " ]";
     }
+
+    
 }

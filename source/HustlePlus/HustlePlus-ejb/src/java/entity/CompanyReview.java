@@ -19,15 +19,17 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author sw_be
+ * @author Nurhidayah
  */
+
+//student review Company/Project
 @Entity
-public class Review implements Serializable {
+public class CompanyReview implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long reviewId;
+    protected Long companyReviewId;
     
     @Column(nullable = false, length = 256)
     @NotNull
@@ -36,32 +38,62 @@ public class Review implements Serializable {
     @Column(nullable = false)
     @NotNull
     private Integer rating;
-
+    
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
-    private Project project;
+    private Project project; //student review project
+    
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = true)
-    private Student student;
+    @JoinColumn(nullable = false)
+    private Student student; //student review project 
+    
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = true)
-    private Company company;
-
-    public Review() {
+    @JoinColumn(nullable = false)
+    private Company company; //student review project of company 
+    
+    public CompanyReview() {
     }
 
-    public Review(String reviewText, Integer rating) {
+    public CompanyReview(String reviewText, Integer rating) {
         this();
         this.reviewText = reviewText;
         this.rating = rating;
     }
 
-    public Long getReviewId() {
-        return reviewId;
+
+    public Long getCompanyReviewId() {
+        return companyReviewId;
     }
 
-    public void setReviewId(Long reviewId) {
-        this.reviewId = reviewId;
+    public void setCompanyReviewId(Long companyReviewId) {
+        this.companyReviewId = companyReviewId;
+    }
+    
+    
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (companyReviewId != null ? companyReviewId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof CompanyReview)) {
+            return false;
+        }
+        CompanyReview other = (CompanyReview) object;
+        if ((this.companyReviewId == null && other.companyReviewId != null) || (this.companyReviewId != null && !this.companyReviewId.equals(other.companyReviewId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "entity.CompanyReview[ companyReviewId=" + companyReviewId + " ]";
     }
 
     public String getReviewText() {
@@ -102,31 +134,6 @@ public class Review implements Serializable {
 
     public void setCompany(Company company) {
         this.company = company;
-    }
-  
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (reviewId != null ? reviewId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the reviewId fields are not set
-        if (!(object instanceof Review)) {
-            return false;
-        }
-        Review other = (Review) object;
-        if ((this.reviewId == null && other.reviewId != null) || (this.reviewId != null && !this.reviewId.equals(other.reviewId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.Review[ id=" + reviewId + " ]";
     }
     
 }

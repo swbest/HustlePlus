@@ -109,6 +109,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
                 studentToUpdate.setSkills(student.getSkills());
                 studentToUpdate.setTeams(student.getTeams());
                 studentToUpdate.setCompanyReviews(student.getCompanyReviews());
+                studentToUpdate.setStudentReviews(student.getStudentReviews());
                 studentToUpdate.setPayments(student.getPayments());
                 studentToUpdate.setBankAccountName(student.getBankAccountName());
                 studentToUpdate.setBankAccountNumber(student.getBankAccountNumber());
@@ -125,7 +126,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     @Override
     public void deleteStudentAccount(Long studentId) throws StudentNotFoundException, DeleteStudentException {
         Student studentToRemove = retrieveStudentByStudentId(studentId);
-        if (studentToRemove.getTeams().size() == 0 && studentToRemove.getCompanyReviews().size() == 0) {
+        if (studentToRemove.getTeams().isEmpty() && studentToRemove.getCompanyReviews().size() == 0) {
             em.remove(studentToRemove);
         } else {
             throw new DeleteStudentException("Student ID " + studentId + " is associated with existing teams and reviews and cannot be deleted!");

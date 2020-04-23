@@ -5,13 +5,16 @@
  */
 package jsf.managedBean;
 
+import ejb.session.stateless.CompanyReviewSessionBeanLocal;
 import ejb.session.stateless.ReviewSessionBeanLocal;
+import ejb.session.stateless.StudentReviewSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Company;
 import entity.Project;
 import static entity.Project_.projectId;
 import entity.Review;
 import entity.Student;
+import entity.StudentReview;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -38,16 +41,12 @@ import util.exception.UpdateStudentException;
 @ViewScoped
 public class ReviewManagementManagedBean implements Serializable {
 
-    @EJB(name = "StudentSessionBeanLocal")
-    private StudentSessionBeanLocal studentSessionBeanLocal;
 
-    @EJB(name = "ReviewSessionBeanLocal")
-    private ReviewSessionBeanLocal reviewSessionBeanLocal;
-    
-    
-    
-    private Review newReview; 
-    private List<Review> reviews; 
+    @EJB(name = "StudentReviewSessionBeanLocal")
+    private StudentReviewSessionBeanLocal studentReviewSessionBeanLocal;
+
+    private StudentReview newStudentReview; 
+    private List<StudentReview> studentReviews; 
     
     
     private Student studentToReview;
@@ -65,14 +64,13 @@ public class ReviewManagementManagedBean implements Serializable {
      * Creates a new instance of ReviewManagementManagedBean
      */
     public ReviewManagementManagedBean() {
-        newReview = new Review() ;  
+        newStudentReview  = new StudentReview(); 
     }
     
     @PostConstruct
     public void postConstruct() {
         
-        setReviews(reviewSessionBeanLocal.retrieveAllReviews());
-       
+       studentReviews = studentReviewSessionBeanLocal.retrieveAllStudentReviews(); 
        
     }
     
@@ -83,111 +81,35 @@ public class ReviewManagementManagedBean implements Serializable {
         Student s = (Student) event.getComponent().getAttributes().get("studentToReview");
 
         System.out.println("PRINT ID" + p.getProjectId()); 
-      Long reviewId = reviewSessionBeanLocal.createNewReview(getNewReview(), p.getProjectId() , s.getUserId(), c.getUserId());
-       getReviews().add(reviewSessionBeanLocal.retrieveReviewByReviewId(reviewId)); 
+        newStudentReview.setUsername(c.getName());
+        Long reviewId = studentReviewSessionBeanLocal.createStudentReviewByCompany(getNewStudentReview(), s.getUserId(), p.getProjectId(), c.getUserId());
+       getStudentReviews().add(studentReviewSessionBeanLocal.retrieveStudentReviewByReviewId(reviewId)); 
        
-       List <Review> reviewsForStudent = reviewSessionBeanLocal.retrieveAllReviewsForStudent(s.getUserId());
-       Integer numReviews = reviewsForStudent.size() + 1; 
-       System.out.println(numReviews);
-       Double calculatedRating = (s.getAvgRating() + newReview.getRating()) / numReviews ;
-       System.out.println(calculatedRating); 
-       s.setAvgRating(calculatedRating);
-       studentSessionBeanLocal.updateStudent(s);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Review successfully created!", null));
         } catch (StudentNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new review: Project not found", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new review: Student not found", null));
         } catch (ProjectNotFoundException ex) {
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new review: Company has not been verified", null));
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new review:  Project not found", null));
         } catch (CompanyNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new review: Company has been suspended", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new review: Company not found", null));
         } catch (ReviewNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new review: Company has been suspended", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new review: Review not found", null));
         } catch (InputDataValidationException | UnknownPersistenceException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new review: " + ex.getMessage(), null));
         } catch (UpdateStudentException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while updating the student rating: " + ex.getMessage(), null));
         }
     }
-    
-    public void createReview(ActionEvent event) {
-        
-       System.out.println("id" + selProjectId);
-       
-       for(Project p:projects)
-       {
-           if(p.getProjectId().equals(selProjectId))
-           {
-               selectedProject = p;
-               break;
-           }
-       }
 
-        if (selectedProject != null) {
-            System.out.println("RMMB0");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected Project is " + selectedProject.getProjectName(), "Selected Project is " + selectedProject.getProjectName()));
-        } else {
-            System.out.println("RMMB1");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please select a valid project","Please select a valid project"));
-        }
-        
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/reviewStudent.xhtml");
-            studentToReview = (Student) event.getComponent().getAttributes().get("studentToReview");
-            projectToReview = (Project) event.getComponent().getAttributes().get("projectToReview");
-            companyToReview = (Company) event.getComponent().getAttributes().get("company");
-            //int i = 1;
-            //long l = i;
-            Long reviewId = reviewSessionBeanLocal.createNewReview(getNewReview(), projectToReview.getProjectId() , studentToReview.getUserId(), companyToReview.getUserId());
-            System.out.println("RMM2");
-            getReviews().add(reviewSessionBeanLocal.retrieveReviewByReviewId(reviewId)); 
-            System.out.println("RMM3");
-            setNewReview(new Review());
-            setStudentToReview(null); 
-            setProjectToReview(null); 
-            setCompanyToReview(null); 
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New project created successfully! (Project ID: " + projectId + ")", null));
-        } catch (StudentNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new project: Project not found", null));
-        } catch (ProjectNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: Company has not been verified", null));
-        } catch (CompanyNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: Company has been suspended", null));
-        } catch (ReviewNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: Company has been suspended", null));
-        } catch (IOException | InputDataValidationException | UnknownPersistenceException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new project: " + ex.getMessage(), null));
-        }
-    }
-    
     public void onrate() {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "New Rating : Rating successfully added!", null);
         FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-    
-
-    
+    }  
     /*public void oncancel() {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancel Event", "Rate Reset");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }*/
-
-    public Review getNewReview() {
-        return newReview;
-    }
-
-    public void setNewReview(Review newReview) {
-        this.newReview = newReview;
-    }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
 
     public Student getStudentToReview() {
         return studentToReview;
@@ -261,6 +183,22 @@ public class ReviewManagementManagedBean implements Serializable {
 
     public void setCompanyReviewing(Company companyReviewing) {
         this.companyReviewing = companyReviewing;
+    }
+
+    public StudentReview getNewStudentReview() {
+        return newStudentReview;
+    }
+
+    public void setNewStudentReview(StudentReview newStudentReview) {
+        this.newStudentReview = newStudentReview;
+    }
+
+    public List<StudentReview> getStudentReviews() {
+        return studentReviews;
+    }
+
+    public void setStudentReviews(List<StudentReview> studentReviews) {
+        this.studentReviews = studentReviews;
     }
     
     

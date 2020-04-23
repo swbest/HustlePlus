@@ -167,7 +167,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                 projectToUpdate.setSkills(project.getSkills());
                 projectToUpdate.setCompany(project.getCompany());
                 projectToUpdate.setMilestones(project.getMilestones());
-                projectToUpdate.setReviews(project.getReviews());
+                projectToUpdate.setCompanyReviews(project.getCompanyReviews());
                 projectToUpdate.setApplications(project.getApplications());
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
@@ -182,7 +182,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
         Project projectToRemove = retrieveProjectByProjectId(projectId);
         System.out.println(projectToRemove.getProjectName());
 
-        if (projectToRemove.getStudents().size() == 0 && projectToRemove.getReviews().isEmpty() && projectToRemove.getMilestones().isEmpty()) {
+        if (projectToRemove.getStudents().isEmpty() && projectToRemove.getCompanyReviews().isEmpty() && projectToRemove.getMilestones().isEmpty()) {
             System.out.println("deleteProjectSB");
             em.remove(projectToRemove);
         } else {

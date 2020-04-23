@@ -57,7 +57,9 @@ public class Student extends User implements Serializable {
     @ManyToMany(mappedBy = "students")
     private List<Team> teams;
     @OneToMany(mappedBy = "student")
-    private List<Review> companyReviews;
+    private List<CompanyReview> companyReviews; // reviews by this.student on company  
+    @OneToMany(mappedBy = "studentReviewed")
+    private List<StudentReview> studentReviews; // reviews on this.student by company/another student   
     @OneToMany(mappedBy = "student")
     private List<Payment> payments;
     @OneToMany(mappedBy = "student")
@@ -68,7 +70,7 @@ public class Student extends User implements Serializable {
     public Student() {
         this.skills = new ArrayList<Skill>();
         this.teams = new ArrayList<Team>();
-        this.companyReviews = new ArrayList<Review>();
+        this.companyReviews = new ArrayList<CompanyReview>();
         this.payments = new ArrayList<Payment>();
         this.applications = new ArrayList<Application>();
         this.projects = new ArrayList<Project>();
@@ -191,24 +193,47 @@ public class Student extends User implements Serializable {
             this.projects.remove(project);
         }
     }
-
-    public List<Review> getCompanyReviews() {
-        return companyReviews;
+    
+    public List<StudentReview> getStudentReviews() {
+        return studentReviews;
     }
 
-    public void setCompanyReviews(List<Review> companyReviews) {
-        this.companyReviews = companyReviews;
+    public void setStudentReviews(List<StudentReview> studentReviews) {
+        this.studentReviews = studentReviews;
     }
-
-    public void addCompanyReview(Review review) {
-        if (!this.companyReviews.contains(review)) {
-            this.companyReviews.add(review);
+    
+    public void addStudentReview(StudentReview studentReview) {
+        if (!this.studentReviews.contains(studentReview)) {
+            this.getStudentReviews().add(studentReview);
         }
     }
 
-    public void removeCompanyReview(Review review) {
-        if (this.companyReviews.contains(review)) {
-            this.companyReviews.remove(review);
+    public void removeStudentReview(StudentReview studentReview) {
+        if (this.getStudentReviews().contains(studentReview)) {
+            this.getStudentReviews().remove(studentReview);
+        }
+    }
+    
+    
+    
+    public List<CompanyReview> getCompanyReviews() {
+        return companyReviews;
+    }
+
+    public void setCompanyReviews(List<CompanyReview> companyReviews) {
+        this.companyReviews = companyReviews;
+    }
+    
+
+    public void addCompanyReview(CompanyReview companyReview) {
+        if (!this.companyReviews.contains(companyReview)) {
+            this.getCompanyReviews().add(companyReview);
+        }
+    }
+
+    public void removeCompanyReview(CompanyReview companyReview) {
+        if (this.getCompanyReviews().contains(companyReview)) {
+            this.getCompanyReviews().remove(companyReview);
         }
     }
 
@@ -251,6 +276,8 @@ public class Student extends User implements Serializable {
             this.applications.remove(application);
         }
     }
+    
+    
 
     @Override
     public int hashCode() {
@@ -276,4 +303,8 @@ public class Student extends User implements Serializable {
     public String toString() {
         return "entity.Student[ id=" + userId + " ]";
     }
+
+    
+
+    
 }

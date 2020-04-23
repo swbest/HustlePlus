@@ -5,10 +5,12 @@
  */
 package jsf.managedBean;
 
-import ejb.session.stateless.ReviewSessionBeanLocal;
+import ejb.session.stateless.CompanyReviewSessionBeanLocal;
+import ejb.session.stateless.StudentReviewSessionBeanLocal;
 import entity.Company;
+import entity.CompanyReview;
 import entity.Project;
-import entity.Review;
+import entity.StudentReview;
 import java.io.IOException;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -28,14 +30,20 @@ import javax.servlet.http.HttpSession;
 @RequestScoped
 public class getReviewsForProjectManagedBean {
 
-    @EJB(name = "ReviewSessionBeanLocal")
-    private ReviewSessionBeanLocal reviewSessionBeanLocal;
+    @EJB(name = "StudentReviewSessionBeanLocal")
+    private StudentReviewSessionBeanLocal studentReviewSessionBeanLocal;
+
+    @EJB(name = "CompanyReviewSessionBeanLocal")
+    private CompanyReviewSessionBeanLocal companyReviewSessionBeanLocal;
+
+
     
     
     
-    private List<Review> reviewsOfStudent; 
-    private List<Review> reviewsOfProject; 
-    private List<Review> reviewsOfCompany; 
+
+    private List<StudentReview> reviewsOfStudent; 
+    private List<CompanyReview> reviewsOfProject; 
+    private List<CompanyReview> reviewsOfCompany; 
     
 
     /**
@@ -46,15 +54,15 @@ public class getReviewsForProjectManagedBean {
     
     @PostConstruct
     public void PostConstruct() {
-        setReviewsOfStudent((List<Review>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("reviewsOfStudent"));
-        setReviewsOfProject((List<Review>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("reviewsOfProject"));
-        setReviewsOfCompany((List<Review>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("reviewsOfCompany"));
+        setReviewsOfStudent((List<StudentReview>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("reviewsOfStudent"));
+        setReviewsOfProject((List<CompanyReview>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("reviewsOfProject"));
+        setReviewsOfCompany((List<CompanyReview>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("reviewsOfCompany"));
     }
     
     public void retrieveReviewsForStudents(ActionEvent event) {
        try {
         Project projectToRetrieveReview = (Project) event.getComponent().getAttributes().get("projectToViewReview");
-       reviewsOfStudent = reviewSessionBeanLocal.retrieveReviewsByProject(projectToRetrieveReview.getProjectId());
+       reviewsOfStudent = studentReviewSessionBeanLocal.retrieveStudentReviewsByProject(projectToRetrieveReview.getProjectId());
        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("reviewsOfStudent", reviewsOfStudent); 
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/reviewsOfStudentInProject.xhtml");
         
@@ -68,7 +76,7 @@ public class getReviewsForProjectManagedBean {
     public void retrieveReviewsForProject(ActionEvent event) {
          try {
         Project projectToRetrieveReview = (Project) event.getComponent().getAttributes().get("projectToViewReview");
-            setReviewsOfProject(reviewSessionBeanLocal.retrieveReviewsByProject(projectToRetrieveReview.getProjectId()));
+            setReviewsOfProject(companyReviewSessionBeanLocal.retrieveCompanyReviewsByProject(projectToRetrieveReview.getProjectId()));
        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("reviewsOfProject", reviewsOfProject); 
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/projectReviews.xhtml");
         
@@ -81,7 +89,7 @@ public class getReviewsForProjectManagedBean {
      public void retrieveReviewsForCompany(ActionEvent event) {
          try {
         Company companyToRetrieveReview = (Company) event.getComponent().getAttributes().get("companyRev");
-            setReviewsOfCompany(reviewSessionBeanLocal.retrieveReviewsByProject(companyToRetrieveReview.getUserId()));
+            setReviewsOfCompany(companyReviewSessionBeanLocal.retrieveAllCompanyReviewsForCompany(companyToRetrieveReview.getUserId()));
        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("reviewsOfCompany", reviewsOfCompany); 
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/companyReviews.xhtml");
         
@@ -90,28 +98,30 @@ public class getReviewsForProjectManagedBean {
         
     }
     }
+     
+     
             
-    public List<Review> getReviewsOfStudent() {
+    public List<StudentReview> getReviewsOfStudent() {
         return reviewsOfStudent;
     }
 
-    public void setReviewsOfStudent(List<Review> reviewsOfStudent) {
+    public void setReviewsOfStudent(List<StudentReview> reviewsOfStudent) {
         this.reviewsOfStudent = reviewsOfStudent;
     }
 
-    public List<Review> getReviewsOfProject() {
+    public List<CompanyReview> getReviewsOfProject() {
         return reviewsOfProject;
     }
 
-    public void setReviewsOfProject(List<Review> reviewsOfProject) {
+    public void setReviewsOfProject(List<CompanyReview> reviewsOfProject) {
         this.reviewsOfProject = reviewsOfProject;
     }
 
-    public List<Review> getReviewsOfCompany() {
+    public List<CompanyReview> getReviewsOfCompany() {
         return reviewsOfCompany;
     }
 
-    public void setReviewsOfCompany(List<Review> reviewsOfCompany) {
+    public void setReviewsOfCompany(List<CompanyReview> reviewsOfCompany) {
         this.reviewsOfCompany = reviewsOfCompany;
     }
     

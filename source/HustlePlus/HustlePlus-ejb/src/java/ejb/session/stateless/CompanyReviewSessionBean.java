@@ -6,8 +6,8 @@
 package ejb.session.stateless;
 
 import entity.Company;
+import entity.CompanyReview;
 import entity.Project;
-import entity.Review;
 import entity.Student;
 import java.util.List;
 import java.util.Set;
@@ -27,18 +27,19 @@ import util.exception.ProjectNotFoundException;
 import util.exception.ReviewNotFoundException;
 import util.exception.StudentNotFoundException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UpdateCompanyException;
 import util.exception.UpdateReviewException;
 
 /**
  *
- * @author sw_be
+ * @author Nurhidayah
  */
 @Stateless
-public class ReviewSessionBean implements ReviewSessionBeanLocal {
+public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
-
+   
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
     
@@ -48,40 +49,52 @@ public class ReviewSessionBean implements ReviewSessionBeanLocal {
     private StudentSessionBeanLocal studentSessionBeanLocal;
     @EJB
     private CompanySessionBeanLocal companySessionBeanLocal;
-
-    public ReviewSessionBean() {
+    
+    public CompanyReviewSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
+    
 
     @Override
-    public Long createNewReview(Review newReview, Long projectId, Long studentId, Long companyId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException {
-        System.out.println("PROJECTID RSB:" + projectId);
-        System.out.println("STUDENTID RSB:" + studentId);
-        System.out.println("COMPANYID RSB:" + companyId);
-        try {
-            Set<ConstraintViolation<Review>> constraintViolations = validator.validate(newReview);
+    public Long createCompanyReview(CompanyReview newReview, Long studentId, Long projectId, Long companyId)  throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException {
+       try {
+            Set<ConstraintViolation<CompanyReview>> constraintViolations = validator.validate(newReview);
 
             if (constraintViolations.isEmpty()) {
                 try {
                     Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
-                    Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
                     Company company = companySessionBeanLocal.retrieveCompanyByCompanyId(companyId);
+                    Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
                     newReview.setProject(project);
                     newReview.setCompany(company);
                     newReview.setStudent(student);
-                   // project.getReviews().add(newReview);
-                    //student.getCompanyReviews().add(newReview);
-                    //company.getStudentReviews().add(newReview);
+                    project.getCompanyReviews().add(newReview);
+                    student.getCompanyReviews().add(newReview);
+                    company.getCompanyReviews().add(newReview);
+                    
+                    //To Recalculate Company's Average Rating 
+                    List<CompanyReview> reviewsForCompany = retrieveAllCompanyReviewsForCompany(companyId); 
+                    Integer numReviews = reviewsForCompany.size() + 1; 
+                    Double totalRating = 0.0 ; 
+                    for(CompanyReview cr: reviewsForCompany) {
+                        totalRating += cr.getRating(); 
+                    }
+                    Double calculatedRating = ( totalRating + newReview.getRating() ) / numReviews; 
+                    company.setAvgRating(calculatedRating);
+                    companySessionBeanLocal.updateCompany(company); 
+                    
                     em.persist(newReview);
                     em.flush();
-                    return newReview.getReviewId();
+                    return newReview.getCompanyReviewId();
                 } catch (ProjectNotFoundException ex) {
                     throw new ProjectNotFoundException("Project Not Found for ID: " + projectId);
                 } catch (StudentNotFoundException ex) {
                     throw new StudentNotFoundException("Student Not Found for ID: " + studentId);
                 } catch (CompanyNotFoundException ex) {
                     throw new CompanyNotFoundException("Company Not Found for ID: " + companyId);
+                } catch (UpdateCompanyException ex) {
+                    throw new CompanyNotFoundException("Company Not Updated: " + companyId);
                 }
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
@@ -90,85 +103,90 @@ public class ReviewSessionBean implements ReviewSessionBeanLocal {
             throw new UnknownPersistenceException(ex.getMessage());
         }
     }
-
+    
     @Override
-    public List<Review> retrieveAllReviews() {
-        Query query = em.createQuery("SELECT r FROM Review r");
+    public List<CompanyReview> retrieveAllCompanyReviews() {
+        Query query = em.createQuery("SELECT r FROM CompanyReview r");
 
         return query.getResultList();
     }
     
     @Override
-    public List<Review> retrieveAllReviewsForCompany(Long companyId) {
-        Query query = em.createQuery("SELECT r FROM Review r WHERE r.company.userId =:cid ");
+    public List<CompanyReview> retrieveAllCompanyReviewsForCompany(Long companyId) {
+        Query query = em.createQuery("SELECT r FROM CompanyReview r WHERE r.company.userId =:cid ");
         query.setParameter("cid", companyId);
         
         return query.getResultList(); 
-                
 
     }
     
     @Override
-    public List<Review> retrieveAllReviewsForStudent(Long studentId) {
-         Query query = em.createQuery("SELECT r FROM Review r WHERE r.student.userId =:sid ");
-        query.setParameter("sid", studentId);
-        
-        return query.getResultList();
-
-    }
-    
-    
-    @Override
-    public List<Review> retrieveReviewsByProject(Long projectId) {
-        Query query = em.createQuery("SELECT r FROM Review r WHERE r.project.projectId =:pid");
+    public List<CompanyReview> retrieveCompanyReviewsByProject(Long projectId) {
+        Query query = em.createQuery("SELECT r FROM CompanyReview r WHERE r.project.projectId =:pid");
         query.setParameter("pid", projectId);
         
         return query.getResultList(); 
     }
-
+    
     @Override
-    public Review retrieveReviewByReviewId(Long reviewId) throws ReviewNotFoundException {
-        Review review = em.find(Review.class, reviewId);
+    public CompanyReview retrieveCompanyReviewByReviewId(Long reviewId) throws ReviewNotFoundException {
+        CompanyReview companyReview = em.find(CompanyReview.class, reviewId);
 
-        if (review != null) {
-            return review;
+        if (companyReview != null) {
+            return companyReview;
         } else {
-            throw new ReviewNotFoundException("Review ID " + reviewId + " does not exist!");
+            throw new ReviewNotFoundException("Company Review ID " + reviewId + " does not exist!");
         }
     }
-
+    
     @Override
-    public void updateReview(Review review) throws ReviewNotFoundException, UpdateReviewException, InputDataValidationException {
-        if (review != null && review.getReviewId()!= null) {
-            Set<ConstraintViolation<Review>> constraintViolations = validator.validate(review);
+    public void updateCompanyReview(CompanyReview review) throws ReviewNotFoundException, CompanyNotFoundException, UpdateCompanyException, UpdateReviewException, InputDataValidationException {
+        if (review != null && review.getCompanyReviewId()!= null) {
+            Set<ConstraintViolation<CompanyReview>> constraintViolations = validator.validate(review);
 
             if (constraintViolations.isEmpty()) {
-                Review reviewToUpdate = retrieveReviewByReviewId(review.getReviewId());
+                CompanyReview reviewToUpdate = retrieveCompanyReviewByReviewId(review.getCompanyReviewId());
                 reviewToUpdate.setReviewText(review.getReviewText());
                 reviewToUpdate.setRating(review.getRating());
                 reviewToUpdate.setProject(review.getProject());
                 reviewToUpdate.setCompany(review.getCompany());
                 reviewToUpdate.setStudent(review.getStudent());
+                
+                                
+                //To Recalculate Company's Average Rating 
+                    Company company = review.getCompany() ; 
+                    List<CompanyReview> reviewsForCompany = retrieveAllCompanyReviewsForCompany(company.getUserId()); 
+                    Integer numReviews = reviewsForCompany.size() + 1; 
+                    Double totalRating = 0.0 ; 
+                    for(CompanyReview cr: reviewsForCompany) {
+                        totalRating += cr.getRating(); 
+                    }
+                    Double calculatedRating = ( totalRating + review.getRating() ) / numReviews; 
+                    review.getCompany().setAvgRating(calculatedRating);
+                    companySessionBeanLocal.updateCompany(company); 
                         
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
         } else {
             throw new ReviewNotFoundException("Review Id not provided for review to be updated");
-        }
+        } 
     }
-
+    
     @Override
-    public void deleteReview(Long reviewId) throws ReviewNotFoundException {
-        Review reviewToRemove = retrieveReviewByReviewId(reviewId);
+     public void deleteCompanyReview(Long reviewId) throws ReviewNotFoundException {
+        CompanyReview reviewToRemove = retrieveCompanyReviewByReviewId(reviewId);
         em.remove(reviewToRemove);
     }
 
-    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Review>> constraintViolations) {
+    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<CompanyReview>> constraintViolations) {
         String msg = "Input data validation error!:";
         for (ConstraintViolation constraintViolation : constraintViolations) {
             msg += "\n\t" + constraintViolation.getPropertyPath() + " - " + constraintViolation.getInvalidValue() + "; " + constraintViolation.getMessage();
         }
         return msg;
     }
+    
+   
+    
 }

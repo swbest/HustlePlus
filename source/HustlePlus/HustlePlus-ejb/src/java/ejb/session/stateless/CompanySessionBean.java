@@ -57,6 +57,7 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
             newCompany.setIsSuspended(Boolean.FALSE);
             newCompany.setIsVerified(Boolean.FALSE);
             newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
+            newCompany.setAvgRating(0.0); 
             String passwordHash = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(newCompany.getPassword() + newCompany.getSalt()));
 
             Set<ConstraintViolation<Company>> constraintViolations = validator.validate(newCompany);
@@ -150,7 +151,8 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
                 companyToUpdate.setIcon(company.getIcon());
               //  companyToUpdate.setIsSuspended(company.getIsSuspended());
                // companyToUpdate.setProjects(company.getProjects());
-               // companyToUpdate.setStudentReviews(company.getStudentReviews());
+                companyToUpdate.setStudentReviews(company.getStudentReviews());
+                companyToUpdate.setCompanyReviews(company.getCompanyReviews());
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }

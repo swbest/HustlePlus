@@ -19,11 +19,11 @@
         <p:panel header="Student Review: #{getStudentForReviewManagedBean.studentToReview.name} for Project: #{getStudentForReviewManagedBean.projectToReview.projectName} for Company: #{getStudentForReviewManagedBean.companyReviewing.name}" style="margin-bottom:20px">
             <h:panelGrid columns="2" cellpadding="5">
                 <h:outputLabel value="Rating " for="rating" ></h:outputLabel>   
-                <p:rating value="#{reviewManagementManagedBean.newReview.rating}" required="true">
+                <p:rating value="#{reviewManagementManagedBean.newStudentReview.rating}" required="true">
                     <p:ajax event="rate" listener="#{reviewManagementManagedBean.onrate}" update="msgs" />
                 </p:rating>
                 <h:outputLabel value="Your Review " for="reviewTxt"></h:outputLabel>
-                <p:textEditor widgetVar="editor" value="#{reviewManagementManagedBean.newReview.reviewText}" height="200" style="margin-bottom:10px; margin-top:10px; width: 500px" placeholder="Type here" required="true">
+                <p:textEditor widgetVar="editor" value="#{reviewManagementManagedBean.newStudentReview.reviewText}" height="200" style="margin-bottom:10px; margin-top:10px; width: 500px" placeholder="Type here" required="true">
                     <f:validateLength minimum="10" />
                     <f:facet name="toolbar">
                          <span class="ql-formats">
