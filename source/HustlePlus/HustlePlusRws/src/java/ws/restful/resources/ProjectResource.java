@@ -66,6 +66,8 @@ public class ProjectResource {
             project.getReviews().clear();
             project.getApplications().clear();
             project.getStudents().clear();
+            project.setStartDate(null);
+            project.setEndDate(null);
             RetrieveProjectRsp retrieveProjectRsp = new RetrieveProjectRsp(project);
             return Response.status(Status.OK).entity(retrieveProjectRsp).build();
         } catch (Exception ex) {
@@ -99,6 +101,8 @@ public class ProjectResource {
                 p.getReviews().clear();
                 p.getApplications().clear();
                 p.getStudents().clear();
+                p.setStartDate(null);
+                p.setEndDate(null);
             }
             RetrieveAllProjectsRsp retrieveAllProjectsRsp = new RetrieveAllProjectsRsp(projects);
             return Response.status(Status.OK).entity(retrieveAllProjectsRsp).build();
