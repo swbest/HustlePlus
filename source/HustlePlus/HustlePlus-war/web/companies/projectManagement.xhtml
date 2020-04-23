@@ -22,7 +22,7 @@
                 <p:messages id="messages" redisplay="false" closable="true" />
 
                 <p:dataTable id="dataTableAllProjects" value="#{projectManagementManagedBean.companyToView.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row" filteredValue="#{projectManagementManagedBean.filteredProjects}"
-                             rows="10" paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                             rows="1" paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="1,2,3">
                     
                     <f:facet name="header">
                         <p:outputPanel style="text-align: center;">

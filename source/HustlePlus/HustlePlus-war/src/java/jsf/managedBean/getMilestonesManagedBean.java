@@ -10,14 +10,15 @@ import entity.Company;
 import entity.Milestone;
 import entity.Project;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 import util.exception.ProjectNotFoundException;
 
@@ -26,8 +27,9 @@ import util.exception.ProjectNotFoundException;
  * @author Nurhidayah
  */
 @Named(value = "getMilestonesManagedBean")
-@RequestScoped
-public class getMilestonesManagedBean {
+@ViewScoped
+
+public class getMilestonesManagedBean implements Serializable {
 
     @EJB(name = "MilestoneSessionBeanLocal")
     private MilestoneSessionBeanLocal milestoneSessionBeanLocal;

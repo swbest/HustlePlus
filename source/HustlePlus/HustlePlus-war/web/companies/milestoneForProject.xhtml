@@ -12,9 +12,9 @@
                 <p:commandButton immediate="true" value="Back" action="/companies/projectManagement.xhtml?faces-redirect=true"/>
             
             <p:dataGrid var="milestone" value="#{getMilestonesManagedBean.milestonesForSelectedProject}" columns="2" layout="grid"
-                        rows="3" paginator="true" paginatorPosition="Bottom" id="milestone"
+                        rows="1" paginator="true" paginatorPosition="bottom" id="milestone"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                        rowsPerPageTemplate="6,12,16">
+                        rowsPerPageTemplate="1,2,3">
                 <f:facet name="header">
                     Milestones For Project
                 </f:facet>

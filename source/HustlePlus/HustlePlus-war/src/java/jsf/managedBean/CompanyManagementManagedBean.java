@@ -224,7 +224,7 @@ public class CompanyManagementManagedBean implements Serializable {
 
         try {
             if (newPassword == null) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,   "Change Password Error: Password cannot be null", null));  
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,   "Change Password Error: Password cannot be null", null));  
                
            } else if (confirmPassword == null) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,   "Change Password Error: Password must be verified", null));  
