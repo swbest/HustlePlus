@@ -7,6 +7,7 @@ package ws.restful.resources;
 
 import ejb.session.stateless.CompanySessionBeanLocal;
 import entity.Company;
+import entity.Project;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,6 +61,10 @@ public class CompanyResource {
     public Response retrieveCompanyById(@PathParam("userId") Long userId) {
         try {
             Company company = companySessionBean.retrieveCompanyByCompanyId(userId);
+            List<Project> projects = company.getProjects();
+            for (Project p : projects) {
+                p.getCompany().getProjects().clear();
+            }
             RetrieveCompanyRsp retrieveProjectRsp = new RetrieveCompanyRsp(company);
             return Response.status(Status.OK).entity(retrieveProjectRsp).build();
         } catch (Exception ex) {
@@ -80,6 +85,12 @@ public class CompanyResource {
     public Response retrieveAllCompanies() {
         try {
             List<Company> companies = companySessionBean.retrieveAllCompanies();
+            for (Company c : companies) {
+                List<Project> projects = c.getProjects();
+                for (Project p : projects) {
+                    p.getCompany().getProjects().clear();
+                }
+            }
             RetrieveAllCompaniesRsp retrieveAllCompaniesRsp = new RetrieveAllCompaniesRsp(companies);
             return Response.status(Status.OK).entity(retrieveAllCompaniesRsp).build();
         } catch (Exception ex) {

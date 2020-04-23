@@ -57,6 +57,10 @@ public class SkillResource {
     public Response retrieveAllSkills() {
         try {
             List<Skill> skills = skillSessionBean.retrieveAllSkills();
+            for (Skill s : skills) {
+                s.getProjects().clear();
+                s.getStudents().clear();
+            }
             RetrieveAllSkillsRsp retrieveAllSkillsRsp = new RetrieveAllSkillsRsp(skills);
             return Response.status(Response.Status.OK).entity(retrieveAllSkillsRsp).build();
         } catch (Exception ex) {

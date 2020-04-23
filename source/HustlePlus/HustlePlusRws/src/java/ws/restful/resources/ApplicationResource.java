@@ -7,6 +7,9 @@ package ws.restful.resources;
 
 import ejb.session.stateless.ApplicationSessionBeanLocal;
 import entity.Application;
+import entity.Project;
+import entity.Skill;
+import entity.Student;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,11 +57,15 @@ public class ApplicationResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/{id}")
+    @Path("retrieveApplication/{applicationId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveApplicationById(@PathParam("id") Long applicationId) {
+    public Response retrieveApplicationById(@PathParam("applicationId") Long applicationId) {
         try {
             Application application = applicationSessionBean.retrieveApplicationByApplicationId(applicationId);
+            application.getProject().getStudents().clear();
+            application.getProject().getApplications().clear();
+            application.getStudent().getApplications().clear();
+            application.getStudent().getProjects().clear();
             RetrieveApplicationRsp retrieveApplicationRsp = new RetrieveApplicationRsp(application);
             return Response.status(Response.Status.OK).entity(retrieveApplicationRsp).build();
         } catch (Exception ex) {
@@ -74,10 +81,27 @@ public class ApplicationResource {
      * @return an instance of java.lang.String
      */
     @GET
+    @Path("retrieveAllApplications")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllApplications() {
         try {
             List<Application> applications = applicationSessionBean.retrieveAllApplications();
+            for (Application application : applications) {
+                Project project = application.getProject();
+                List<Skill> skills = project.getSkills();
+                for (Skill s : skills) {
+                    s.getProjects().clear();
+                }
+                project.getMilestones().clear();
+                project.getCompany().getProjects().clear();
+                project.getReviews().clear();
+                project.getApplications().clear();
+                List<Student> students = project.getStudents();
+                for (Student s : students) {
+                    s.getProjects().clear();
+                    s.getProjects().clear();
+                }
+            }
             RetrieveAllApplicationsRsp retrieveAllApplicationsRsp = new RetrieveAllApplicationsRsp(applications);
             return Response.status(Response.Status.OK).entity(retrieveAllApplicationsRsp).build();
         } catch (Exception ex) {

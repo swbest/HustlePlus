@@ -106,37 +106,41 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
             throw new ApplicationNotFoundException("Application ID " + applicationId + " does not exist!");
         }
     }
-    
+
     @Override
-    public List <Application> retrieveApplicationByProject(Long projectId) {
+    public List<Application> retrieveApplicationByStudent(Long studentId) {
+        Query query = em.createQuery("SELECT a FROM Application a WHERE a.student.userId =:studentId");
+        query.setParameter("studentId", studentId);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Application> retrieveApplicationByProject(Long projectId) {
         Query query = em.createQuery("SELECT a FROM Application a WHERE a.project.projectId =:pid");
         query.setParameter("pid", projectId);
-        return query.getResultList(); 
+        return query.getResultList();
     }
-    
+
     @Override
     public List<Student> retrieveStudentByApprovedApplication(Long projectId) throws ApplicationNotFoundException {
         try {
-        Query query = em.createQuery("SELECT a FROM Application a WHERE a.project.projectId =:pid AND a.isApproved = TRUE ");
-        query.setParameter("pid", projectId);
-        
-        List<Application> applicationList = query.getResultList();
-        List <Student> studentList = new ArrayList(); 
-        for (Application a:applicationList) {
-            Application app = retrieveApplicationByApplicationId(a.getApplicationId());
-            studentList.add(app.getStudent());
-        }
-        
-        return studentList; 
-        
-    } catch (ApplicationNotFoundException ex) {
+            Query query = em.createQuery("SELECT a FROM Application a WHERE a.project.projectId =:pid AND a.isApproved = TRUE ");
+            query.setParameter("pid", projectId);
+
+            List<Application> applicationList = query.getResultList();
+            List<Student> studentList = new ArrayList();
+            for (Application a : applicationList) {
+                Application app = retrieveApplicationByApplicationId(a.getApplicationId());
+                studentList.add(app.getStudent());
+            }
+
+            return studentList;
+
+        } catch (ApplicationNotFoundException ex) {
             throw new ApplicationNotFoundException("Application cannot be found!");
+        }
+
     }
-        
-    }
-    
-    
-    
 
     @Override
     public void updateApplication(Application application) throws ApplicationNotFoundException, UpdateApplicationException, InputDataValidationException {
@@ -175,52 +179,51 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
 
     @Override
     public void approveApplication(Long appId) throws ApproveApplicationException, ApplicationNotFoundException {
-        
+
         try {
-        Application appToApprove = retrieveApplicationByApplicationId(appId);
-        if (appToApprove.getIsApproved() == false && appToApprove.getIsPending() == true) {
-            appToApprove.setIsApproved(Boolean.TRUE);
-            appToApprove.setIsPending(Boolean.FALSE);
-            
-              //Associate student with project 
+            Application appToApprove = retrieveApplicationByApplicationId(appId);
+            if (appToApprove.getIsApproved() == false && appToApprove.getIsPending() == true) {
+                appToApprove.setIsApproved(Boolean.TRUE);
+                appToApprove.setIsPending(Boolean.FALSE);
 
-             Student studentOfApplication = appToApprove.getStudent();
-             Project projectOfApplication = appToApprove.getProject();
-             
-             List <Student> studentsInProject = projectOfApplication.getStudents(); 
-             studentsInProject.add(studentOfApplication);
-             projectOfApplication.setStudents(studentsInProject);
-             
-             List <Project> projectsOfStudent = studentOfApplication.getProjects();
-             projectsOfStudent.add(projectOfApplication);
-             studentOfApplication.setProjects(projectsOfStudent);
+                //Associate student with project 
+                Student studentOfApplication = appToApprove.getStudent();
+                Project projectOfApplication = appToApprove.getProject();
 
-        } else if (appToApprove.getIsApproved() == true && appToApprove.getIsPending() == false){ 
-             throw new ApproveApplicationException("Application has been approved!"); 
-        } else if (appToApprove.getIsApproved() == false && appToApprove.getIsPending() == false){ 
-             throw new ApproveApplicationException("Application has been rejected!"); 
+                List<Student> studentsInProject = projectOfApplication.getStudents();
+                studentsInProject.add(studentOfApplication);
+                projectOfApplication.setStudents(studentsInProject);
+
+                List<Project> projectsOfStudent = studentOfApplication.getProjects();
+                projectsOfStudent.add(projectOfApplication);
+                studentOfApplication.setProjects(projectsOfStudent);
+
+            } else if (appToApprove.getIsApproved() == true && appToApprove.getIsPending() == false) {
+                throw new ApproveApplicationException("Application has been approved!");
+            } else if (appToApprove.getIsApproved() == false && appToApprove.getIsPending() == false) {
+                throw new ApproveApplicationException("Application has been rejected!");
+            }
+        } catch (ApplicationNotFoundException ex) {
+            throw new ApplicationNotFoundException("Application does not exist!");
+        }
     }
-    } catch(ApplicationNotFoundException ex) {
-             throw new ApplicationNotFoundException("Application does not exist!"); 
-    }
-    }
-    
+
     @Override
     public void rejectApplication(Long appId) throws ApproveApplicationException, ApplicationNotFoundException {
-        
+
         try {
-        Application appToReject = retrieveApplicationByApplicationId(appId);
-        if (appToReject.getIsApproved() == false && appToReject.getIsPending() == true) {
-            appToReject.setIsApproved(Boolean.FALSE);
-            appToReject.setIsPending(Boolean.FALSE);
-        } else if (appToReject.getIsApproved() == true && appToReject.getIsPending() == false){ 
-             throw new ApproveApplicationException("Application has been approved!"); 
-        } else if (appToReject.getIsApproved() == false && appToReject.getIsPending() == false){ 
-             throw new ApproveApplicationException("Application has been rejected!"); 
-    }
-    } catch(ApplicationNotFoundException ex) {
-             throw new ApplicationNotFoundException("Application does not exist!"); 
-    }
+            Application appToReject = retrieveApplicationByApplicationId(appId);
+            if (appToReject.getIsApproved() == false && appToReject.getIsPending() == true) {
+                appToReject.setIsApproved(Boolean.FALSE);
+                appToReject.setIsPending(Boolean.FALSE);
+            } else if (appToReject.getIsApproved() == true && appToReject.getIsPending() == false) {
+                throw new ApproveApplicationException("Application has been approved!");
+            } else if (appToReject.getIsApproved() == false && appToReject.getIsPending() == false) {
+                throw new ApproveApplicationException("Application has been rejected!");
+            }
+        } catch (ApplicationNotFoundException ex) {
+            throw new ApplicationNotFoundException("Application does not exist!");
+        }
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Application>> constraintViolations) {
