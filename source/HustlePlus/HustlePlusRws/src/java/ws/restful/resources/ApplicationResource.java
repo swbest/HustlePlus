@@ -94,7 +94,8 @@ public class ApplicationResource {
                 }
                 project.getMilestones().clear();
                 project.getCompany().getProjects().clear();
-                project.getReviews().clear();
+                project.getCompanyReviews().clear();
+                project.getStudentReviews().clear();
                 project.getApplications().clear();
                 List<Student> students = project.getStudents();
                 for (Student s : students) {
