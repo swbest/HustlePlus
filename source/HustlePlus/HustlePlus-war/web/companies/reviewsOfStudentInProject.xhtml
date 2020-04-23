@@ -5,59 +5,59 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/template/defaultTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui">
-    
+
     <ui:define name="content">
-        
+
         <h:form id="reviewsOfStudent">
-                <p:messages id="messages" redisplay="false" closable="true" />
-                <p:commandButton immediate="true" value="Back" action="/companies/projectManagement.xhtml?faces-redirect=true"/>
-            
-                <p:dataGrid id="dataGridAllApplications" var="review" value="#{getReviewsForProjectManagedBean.reviewsOfStudent}" columns="2" layout="grid"
-                            rows="3" paginator="true" paginatorPosition="Bottom"
+            <p:messages id="messages" redisplay="false" closable="true" />
+            <p:commandButton immediate="true" value="Back" action="/companies/projectManagement.xhtml?faces-redirect=true"/>
+
+            <p:dataGrid id="dataGridAllApplications" var="review" value="#{getReviewsForProjectManagedBean.reviewsOfStudent}" columns="2" layout="grid"
+                        rows="4" paginator="true" paginatorPosition="bottom"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="2,4,6">
                 <f:facet name="header">
                     Reviews Of Student In Project
                 </f:facet>
-                
-                    <p:panel header="#{review.studentReviewed.name}" style="text-align: center">
+
+                <p:panel header="#{review.studentReviewed.name}" style="text-align: center">
                     <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">
-                        
+
                         <h:outputText value ="Review ID:"/>
                         <h:outputText value ="#{review.studentReviewId}"/>
-                        
+
                         <h:outputText value ="Rating: "/>                        
                         <h:outputText value ="#{review.rating}">
                             <f:convertNumber maxFractionDigits="2"/>
                         </h:outputText>
-                        
+
                         <h:outputText value="Comments: "/>
-                        <h:outputText value="#{review.reviewText}"/>
-                       
-                        
+                        <h:outputText value="#{review.reviewText}" escape="false"/>
+
+
 
                     </h:panelGrid>
-                      
+
                 </p:panel>
- 
-            
+
+
             </p:dataGrid>
 
-            
+
         </h:form>
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
     </ui:define>
 
 
 </ui:composition>
 
-        
-        
-        
+
+
+
 

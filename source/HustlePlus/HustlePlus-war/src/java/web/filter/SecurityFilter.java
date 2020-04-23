@@ -138,7 +138,8 @@ public class SecurityFilter implements Filter {
             path.equals("/companies/createNewCompany.xhtml") ||
             path.equals("/login.xhtml") ||
             path.equals("/companies/emailVerification.xhtml") ||
-            path.startsWith("/javax.faces.resource") 
+            path.startsWith("/javax.faces.resource") ||
+            path.startsWith("/resources")
             )  {
                 return true ; 
             } else {

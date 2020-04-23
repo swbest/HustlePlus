@@ -12,14 +12,15 @@ import entity.CompanyReview;
 import entity.Project;
 import entity.StudentReview;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -27,8 +28,8 @@ import javax.servlet.http.HttpSession;
  * @author Nurhidayah
  */
 @Named(value = "getReviewsForProjectManagedBean")
-@RequestScoped
-public class getReviewsForProjectManagedBean {
+@ViewScoped
+public class getReviewsForProjectManagedBean implements Serializable{
 
     @EJB(name = "StudentReviewSessionBeanLocal")
     private StudentReviewSessionBeanLocal studentReviewSessionBeanLocal;
@@ -54,6 +55,7 @@ public class getReviewsForProjectManagedBean {
     
     @PostConstruct
     public void PostConstruct() {
+        System.out.println("********* getReviewsForProjectManagedBean: postConstruct");
         setReviewsOfStudent((List<StudentReview>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("reviewsOfStudent"));
         setReviewsOfProject((List<CompanyReview>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("reviewsOfProject"));
         setReviewsOfCompany((List<CompanyReview>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("reviewsOfCompany"));

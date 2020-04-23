@@ -76,6 +76,9 @@ public class ReviewManagementManagedBean implements Serializable {
     
     public void createReviewForStudent(ActionEvent event) {
    try {
+       
+       System.out.println("********** createReviewForStudent: " + newStudentReview.getReviewText());
+       
         Project p = (Project) event.getComponent().getAttributes().get("projectToReview");
         Company c = (Company) event.getComponent().getAttributes().get("companyReviewing");
         Student s = (Student) event.getComponent().getAttributes().get("studentToReview");

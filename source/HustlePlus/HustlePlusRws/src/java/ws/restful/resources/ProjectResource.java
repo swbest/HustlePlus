@@ -64,7 +64,8 @@ public class ProjectResource {
             }
             project.getMilestones().clear();
             project.getCompany().getProjects().clear();
-            project.getReviews().clear();
+            project.getCompanyReviews().clear();
+            project.getStudentReviews().clear();
             project.getApplications().clear();
             List<Student> students = project.getStudents();
             for (Student s : students) {
@@ -100,7 +101,8 @@ public class ProjectResource {
                 }
                 p.getMilestones().clear();
                 p.getCompany().getProjects().clear();
-                p.getReviews().clear();
+                p.getCompanyReviews().clear();
+                p.getStudentReviews().clear();
                 p.getApplications().clear();
                 List<Student> students = p.getStudents();
                 for (Student s : students) {
