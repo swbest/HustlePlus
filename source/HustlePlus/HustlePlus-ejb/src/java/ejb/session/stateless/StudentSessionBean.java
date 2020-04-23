@@ -175,7 +175,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             throw new StudentNotFoundException("No students were found with those skills!");
         }
     }
-
+    
     @Override
     public List<Student> retrieveStudentsByAvgRating(Double avgRating) throws StudentNotFoundException{
         Query query = em.createQuery("SELECT s FROM Student s WHERE s.avgRating = :inAvgRating");

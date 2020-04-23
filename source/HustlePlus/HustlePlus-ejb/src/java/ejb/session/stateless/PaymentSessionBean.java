@@ -50,19 +50,20 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
         validator = validatorFactory.getValidator();
     }
 
+
     @Override
-    public Long createNewPayment(Payment newPayment, Long milestoneId, Long studentId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException, StudentNotFoundException {
+    public Long createNewPayment(Payment newPayment, Long milestoneId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException{
         try {
             Set<ConstraintViolation<Payment>> constraintViolations = validator.validate(newPayment);
 
             if (constraintViolations.isEmpty()) {
                 try {
                     Milestone milestone = milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId);
-                    Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+                    //Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
                     newPayment.setMilestone(milestone);
-                    newPayment.setStudent(student);
+                   // newPayment.setStudent(student);
                     milestone.addPayment(newPayment);
-                    student.addPayment(newPayment);
+                   // student.addPayment(newPayment);
                     em.persist(newPayment);
                     em.flush();
 
@@ -85,10 +86,13 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
     }
 
     // to do when relationships are done up
+    
+    
     @Override
-    public List<Payment> retrieveAllPaymentByProject() {
-        Query query = em.createQuery("SELECT p FROM Payment p");
-        return query.getResultList();
+    public Payment retrieveAllPaymentByMilestone(Long milestoneId) {
+        Query query = em.createQuery("SELECT p FROM Payment p WHERE p.milestone.milestoneId =:mid");
+        query.setParameter("mid", milestoneId);
+        return (Payment) query.getSingleResult();
     }
 
     @Override

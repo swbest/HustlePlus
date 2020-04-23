@@ -13,7 +13,7 @@
                 <p:commandButton immediate="true" value="Back" action="/companies/projectManagement.xhtml?faces-redirect=true"/>
             
             <p:dataGrid id="dataGridAllApplications" var="myapp" value="#{getApplicationForProjectManagedBean.applicationsForProject}" columns="2" layout="grid"
-                        rows="3" paginator="true" paginatorPosition="Bottom" 
+                        rows="2" paginator="true" paginatorPosition="bottom" 
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,16">
                 <f:facet name="header">
@@ -63,6 +63,7 @@
                             <f:attribute name="applicationToReject" value="#{myapp}" />
                             <p:confirm header="Confirmation" message="Are you sure you want to reject application with Application ID: #{myapp.applicationId}?" icon="ui-icon-alert" />
                         </p:commandButton>
+                        
                         
 
                     </h:panelGrid>

@@ -9,14 +9,15 @@ import ejb.session.stateless.ApplicationSessionBeanLocal;
 import entity.Application;
 import entity.Project;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -24,8 +25,8 @@ import javax.servlet.http.HttpSession;
  * @author Nurhidayah
  */
 @Named(value = "getApplicationForProjectManagedBean")
-@RequestScoped
-public class getApplicationForProjectManagedBean {
+@ViewScoped
+public class getApplicationForProjectManagedBean implements Serializable {
 
     @EJB(name = "ApplicationSessionBeanLocal")
     private ApplicationSessionBeanLocal applicationSessionBeanLocal;

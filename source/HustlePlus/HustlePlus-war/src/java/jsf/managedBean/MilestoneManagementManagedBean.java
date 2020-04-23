@@ -6,6 +6,7 @@
 package jsf.managedBean;
 
 import ejb.session.stateless.MilestoneSessionBeanLocal;
+import ejb.session.stateless.PaymentSessionBeanLocal;
 import ejb.session.stateless.ProjectSessionBeanLocal;
 import entity.Company;
 import entity.Milestone;
@@ -37,14 +38,21 @@ import util.exception.UnknownPersistenceException;
 @ViewScoped
 public class MilestoneManagementManagedBean implements Serializable{
 
+    @EJB(name = "PaymentSessionBeanLocal")
+    private PaymentSessionBeanLocal paymentSessionBeanLocal;
+
     @EJB(name = "ProjectSessionBeanLocal")
     private ProjectSessionBeanLocal projectSessionBeanLocal;
 
     @EJB(name = "MilestoneSessionBeanLocal")
     private MilestoneSessionBeanLocal milestoneSessionBeanLocal;
     
+    
+    
     @Inject
     private ViewMilestoneManagedBean viewMilestoneManagedBean;
+    
+    
     
     private List<Milestone> milestones;
     
@@ -61,6 +69,8 @@ public class MilestoneManagementManagedBean implements Serializable{
     
     private List<Milestone> milestonesForSelectedCompany; 
     private Company companyToDisplayMilestones; 
+    
+    
     
     
 
@@ -123,6 +133,13 @@ public class MilestoneManagementManagedBean implements Serializable{
             //Long selProjectId = selectedProject.getProjectId();
             System.out.println("id" + selectedProject.getProjectId());
             Long milestoneId = milestoneSessionBeanLocal.createNewMilestone(newMilestone, selProjectId);
+            Milestone m = milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId);
+            
+            Payment newPayment = new Payment();
+            newPayment.setIsPaid(Boolean.FALSE);
+            newPayment.setPaymentDescription("Payment for Milestone: " + m.getTitle());
+            paymentSessionBeanLocal.createNewPayment(newPayment, milestoneId);
+
             System.out.println("MMMB3");
             getMilestones().add(milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId));
             

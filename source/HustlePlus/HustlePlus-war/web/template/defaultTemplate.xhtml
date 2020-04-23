@@ -62,7 +62,9 @@
                         <p:submenu icon="fa fa-plus">
                             <p:menuitem value="New Project" outcome="/companies/createNewProject.xhtml"/>
                             <p:separator />
-                            <p:menuitem value="New Student Review" outcome="/companies/reviewStudent.xhtml"/>
+                            <p:menuitem value="New Student Review" actionListener="#{reviewManagementManagedBean.doCreateReview}">
+                                <f:attribute name="companyLeavingReview" value="#{sessionScope.userEntity}"/>
+                            </p:menuitem>
                             <p:separator />
                         </p:submenu>
 
@@ -95,6 +97,10 @@
                             <p:separator />
                             <p:menuitem value="My Project Milestones" actionListener="#{getMilestonesManagedBean.retrieveMilestonesForCompany}">
                                 <f:attribute name="company" value="#{sessionScope.userEntity}"/>
+                            </p:menuitem>
+                            <p:separator />
+                            <p:menuitem value="My Reviews" actionListener="#{reviewManagementManagedBean.viewAllReviewsByCompany}">
+                                <f:attribute name="companyAllReviews" value="#{sessionScope.userEntity}"/>
                             </p:menuitem>
                         </p:submenu>
 

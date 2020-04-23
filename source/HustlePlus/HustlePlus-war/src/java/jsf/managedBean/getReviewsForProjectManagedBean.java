@@ -37,11 +37,6 @@ public class getReviewsForProjectManagedBean implements Serializable{
     @EJB(name = "CompanyReviewSessionBeanLocal")
     private CompanyReviewSessionBeanLocal companyReviewSessionBeanLocal;
 
-
-    
-    
-    
-
     private List<StudentReview> reviewsOfStudent; 
     private List<CompanyReview> reviewsOfProject; 
     private List<CompanyReview> reviewsOfCompany; 

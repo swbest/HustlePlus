@@ -96,6 +96,7 @@ public class SecurityFilter implements Filter {
             path.equals("/companies/resendEmail.xhtml") ||
             path.equals("/companies/milestoneForProject.xhtml") ||
             path.equals("/companies/skillsOfProject.xhtml") ||
+            path.equals("/companies/reviewsByCompany.xhtml") ||
             path.equals("/companies/projectManagement.xhtml") ||
             path.equals("/companies/myProject.xhtml") ||
             path.equals("/companies/createProjectForProjectManagement.xhtml") ||

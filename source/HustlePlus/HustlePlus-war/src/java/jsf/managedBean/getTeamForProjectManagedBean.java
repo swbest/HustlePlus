@@ -9,14 +9,15 @@ import ejb.session.stateless.ApplicationSessionBeanLocal;
 import entity.Project;
 import entity.Student;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 import util.exception.ApplicationNotFoundException;
 
@@ -25,8 +26,8 @@ import util.exception.ApplicationNotFoundException;
  * @author Nurhidayah
  */
 @Named(value = "getTeamForProjectManagedBean")
-@RequestScoped
-public class getTeamForProjectManagedBean {
+@ViewScoped
+public class getTeamForProjectManagedBean implements Serializable{
 
     @EJB(name = "ApplicationSessionBeanLocal")
     private ApplicationSessionBeanLocal applicationSessionBeanLocal;

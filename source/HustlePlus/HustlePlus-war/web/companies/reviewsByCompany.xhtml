@@ -10,14 +10,14 @@
 
         <h:form id="reviewsOfStudent">
             <p:messages id="messages" redisplay="false" closable="true" />
-            <p:commandButton immediate="true" value="Back" action="/companies/projectManagement.xhtml?faces-redirect=true"/>
-
-            <p:dataGrid id="dataGridReviews" var="review" value="#{getReviewsForProjectManagedBean.reviewsOfStudent}" columns="2" layout="grid"
-                        rows="2" paginator="true" paginatorPosition="bottom"
+             <p:commandButton icon="ui-icon-plusthick" action="/companies/reviewStudent.xhtml?faces-redirect=true" style="float:right;margin-top: 4px"/>
+            
+            <p:dataGrid id="dataGridReviews" var="review" value="#{reviewManagementManagedBean.allStudentReviews}" columns="2" layout="grid"
+                        rows="3" paginator="true" paginatorPosition="bottom"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,16">
                 <f:facet name="header">
-                    Reviews Of Student In Project
+                    Reviews By Company 
                 </f:facet>
 
                 <p:panel header="#{review.studentReviewed.name}" style="text-align: center">
@@ -34,11 +34,13 @@
                         <h:outputText value="Comments: "/>
                         <h:outputText value="#{review.reviewText}" escape="false"/>
                         
-                         <p:commandButton actionListener="#{reviewManagementManagedBean.doUpdateReview}" update="reviewsOfStudent" oncomplete="PF('dialogUpdateReview').show()" icon="ui-icon-pencil" title="Update">
+                        <h:outputText value="Project Done By Student: "/>
+                        <h:outputText value="#{review.project.projectName}" escape="false"/>
+                        
+                        <center><p:commandButton actionListener="#{reviewManagementManagedBean.doUpdateReview}" update="formUpdateReview" oncomplete="PF('dialogUpdateReview').show()" icon="ui-icon-pencil" title="Update">
                             <f:attribute name="reviewToUpdate" value="#{review}" />
-                          </p:commandButton>
-
-
+                            </p:commandButton></center>
+                       
 
                     </h:panelGrid>
 
@@ -46,6 +48,11 @@
 
 
             </p:dataGrid>
+            
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
 
 
         </h:form>
@@ -106,6 +113,7 @@
                 </p:dialog>
 
             </h:form>
+
 
 
 

@@ -14,25 +14,26 @@
     <ui:define name="content">
         
         <h:form id="reviewStudent">
-        <p:growl id="msgs" showDetail="true"/>
+        <p:messages id="msgs"/>
 
         <p:panel header="New Student Review" style="margin-bottom:20px">
             <h:panelGrid columns="2" cellpadding="5">
                 <p:outputLabel for="project" value="Project" />
                 <p:selectOneMenu id="project" value="#{reviewManagementManagedBean.selProjectId}" style="width: 125px" required="true">
                     <f:selectItem itemLabel="Select One" itemValue=" "/>
-                    <f:selectItems value="#{milestoneManagementManagedBean.projects}"  var="project" itemLabel="#{project.projectName}" itemValue="#{project.projectId}" />
+                    <f:selectItems value="#{reviewManagementManagedBean.projectsCompanyHas}"  var="project" itemLabel="#{project.projectName}" itemValue="#{project.projectId}" />
                 </p:selectOneMenu> 
                 <p:outputLabel for="student" value="Student" />
-                <p:selectOneMenu id="student" value="#{reviewManagementManagedBean.studentToReview.userId}" style="width: 125px" required="true">
+                <p:selectOneMenu id="student" value="#{reviewManagementManagedBean.studentIdToReview}" style="width: 125px" required="true">
                     <f:selectItem itemLabel="Select One" itemValue=" "/>
+                    <f:selectItems value="#{reviewManagementManagedBean.studentsInProjects}"  var="student" itemLabel="#{student.name}" itemValue="#{student.userId}" />
                 </p:selectOneMenu> 
                 <h:outputLabel value="Rating " for="rating" ></h:outputLabel>   
-                <p:rating value="#{reviewManagementManagedBean.newReview.rating}" required="true">
+                <p:rating value="#{reviewManagementManagedBean.newStudentReview.rating}" required="true">
                     <p:ajax event="rate" listener="#{reviewManagementManagedBean.onrate}" update="msgs" />
                 </p:rating>
                 <h:outputLabel value="Your Review " for="reviewTxt"></h:outputLabel>
-                <p:textEditor widgetVar="editor" value="#{reviewManagementManagedBean.newReview.reviewText}" height="200" style="margin-bottom:10px; margin-top:10px; width: 500px" placeholder="Type here" required="true">
+                <p:textEditor widgetVar="editor" value="#{reviewManagementManagedBean.newStudentReview.reviewText}" height="200" style="margin-bottom:10px; margin-top:10px; width: 500px" placeholder="Type here" required="true">
                     <f:validateLength minimum="10" />
                     <f:facet name="toolbar">
                          <span class="ql-formats">
@@ -46,7 +47,9 @@
                 </p:textEditor>
 
                 <p:commandButton id="btn_reset" value="Clear" type="reset"/>
-                <p:commandButton value="Submit" action="#{reviewManagementManagedBean.createReview}"/>
+                <p:commandButton value="Submit" ajax="false" update="msgs" actionListener="#{reviewManagementManagedBean.createNewReview}">
+                    <f:attribute name="cReviewing" value="#{sessionScope.userEntity}"/>
+                </p:commandButton>
 
             </h:panelGrid>
         </p:panel>

@@ -26,7 +26,7 @@
             &nbsp;
             
             <h:form id="form">
-                <p:carousel value="#{projectManagementManagedBean.projects}" headerText="Your Projects" var="project" itemStyle="text-align:center" responsive="true">
+                <p:carousel value="#{loginManagedBean.companyToDisplayProjects.projects}" headerText="Your Projects" var="project" itemStyle="text-align:center" responsive="true">
         <p:panelGrid columns="2" style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid" styleClass="ui-panelgrid-blank">
             <f:facet name="header">
                 <h1>#{project.projectName}</h1>
@@ -57,7 +57,7 @@
         </p:panelGrid>
  
         <f:facet name="footer">
-                You have #{fn:length(projectManagementManagedBean.projects)} project(s).
+                You have #{fn:length(loginManagedBean.companyToDisplayProjects.projects)} project(s).
         </f:facet>
     </p:carousel>
             </h:form>

@@ -109,6 +109,7 @@ public class ProjectManagementManagedBean implements Serializable {
 
     private Project projectToView; //to display milestones
     private Project projectToViewMS ; //to display milestones 
+    
 
     
     /**

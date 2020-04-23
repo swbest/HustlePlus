@@ -40,5 +40,12 @@ public interface StudentReviewSessionBeanLocal {
     public void updateStudentReview(StudentReview review) throws ReviewNotFoundException, CompanyNotFoundException, UpdateCompanyException, UpdateReviewException, InputDataValidationException, StudentNotFoundException, UpdateStudentException;
 
     public void deleteCompanyReview(Long reviewId) throws ReviewNotFoundException;
+
+    public List<StudentReview> retrieveStudentReviewsByCompany(Long companyId);
+
+    public void deleteReview(Long reviewId) throws ReviewNotFoundException, StudentNotFoundException, UpdateStudentException, InputDataValidationException;
+
+    public void updateReview(StudentReview studentReview) throws ReviewNotFoundException, UpdateReviewException, InputDataValidationException, UpdateStudentException, StudentNotFoundException;
+
     
 }
