@@ -46,5 +46,6 @@ public interface ApplicationSessionBeanLocal {
 
     public List<Student> retrieveStudentByApprovedApplication(Long projectId) throws ApplicationNotFoundException;
 
-    
+    public List<Application> retrieveApplicationByStudent(Long studentId);
+
 }

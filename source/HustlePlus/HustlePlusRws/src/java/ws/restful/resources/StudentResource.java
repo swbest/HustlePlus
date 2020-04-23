@@ -56,43 +56,37 @@ public class StudentResource {
      */
     public StudentResource() {
     }
-    
-     /**
+
+    /**
      * Login for Student
-     * 
+     *
      * @return response
      */
     @Path("studentLogin")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response studentLogin(@QueryParam("username") String username, 
-                                @QueryParam("password") String password)
-    {
-        try
-        {
+    public Response studentLogin(@QueryParam("username") String username,
+            @QueryParam("password") String password) {
+        try {
             Student student = studentSessionBean.studentLogin(username, password);
             System.out.println("********** StudentResource.studentLogin(): Student " + student.getUsername() + " login remotely via web service");
-
+            student.getApplications().clear();
             student.setPassword(null);
             student.setSalt(null);
-            
+
             return Response.status(Status.OK).entity(new StudentLoginRsp(student)).build();
-        }
-        catch(InvalidLoginCredentialException ex)
-        {
+        } catch (InvalidLoginCredentialException ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            
+
             return Response.status(Status.UNAUTHORIZED).entity(errorRsp).build();
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            
+
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
-    
+
     /**
      * Retrieves representation of an instance of
      * ws.restful.resources.StudentResource
@@ -105,6 +99,7 @@ public class StudentResource {
     public Response retrieveStudentByStudentId(@PathParam("userId") Long userId) {
         try {
             Student student = studentSessionBean.retrieveStudentByStudentId(userId);
+            student.getApplications().clear();
             RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(student);
             return Response.status(Response.Status.OK).entity(retrieveStudentRsp).build();
         } catch (Exception ex) {
@@ -125,6 +120,9 @@ public class StudentResource {
     public Response retrieveAllStudents() {
         try {
             List<Student> students = studentSessionBean.retrieveAllStudents();
+            for (Student student : students) {
+                student.getApplications().clear();
+            }
             RetrieveAllStudentsRsp retrieveAllStudentsRsp = new RetrieveAllStudentsRsp(students);
             return Response.status(Response.Status.OK).entity(retrieveAllStudentsRsp).build();
         } catch (Exception ex) {
@@ -156,83 +154,64 @@ public class StudentResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
-    
+
     @Path("{studentId}")
     @DELETE
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteStudent(@QueryParam("username") String username, 
-                                        @QueryParam("password") String password,
-                                        @PathParam("studentId") Long studentId)
-    {
-        try
-        {
+    public Response deleteStudent(@QueryParam("username") String username,
+            @QueryParam("password") String password,
+            @PathParam("studentId") Long studentId) {
+        try {
             Student student = studentSessionBean.studentLogin(username, password);
             System.out.println("********** StudentResource.deleteStudent(): Student " + student.getUsername() + " login remotely via web service");
 
             studentSessionBean.deleteStudentAccount(studentId);
-            
+
             return Response.status(Status.OK).build();
-        }
-        catch(InvalidLoginCredentialException ex)
-        {
+        } catch (InvalidLoginCredentialException ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            
+
             return Response.status(Status.UNAUTHORIZED).entity(errorRsp).build();
-        }
-        catch(StudentNotFoundException | DeleteStudentException ex)
-        {
+        } catch (StudentNotFoundException | DeleteStudentException ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            
+
             return Response.status(Status.BAD_REQUEST).entity(errorRsp).build();
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            
+
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
-    
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateStudent(UpdateStudentReq updateStudentReq)
-    {
-        if(updateStudentReq != null)
-        {
-            try
-            {                
+    public Response updateStudent(UpdateStudentReq updateStudentReq) {
+        if (updateStudentReq != null) {
+            try {
                 Student student = studentSessionBean.studentLogin(updateStudentReq.getUsername(), updateStudentReq.getPassword());
                 System.out.println("********** StudentResource.updateStudent(): Student " + student.getUsername() + " login remotely via web service");
-                
+
                 studentSessionBean.updateStudent(updateStudentReq.getStudent());
-                
+
                 return Response.status(Response.Status.OK).build();
-            }
-            catch(InvalidLoginCredentialException ex)
-            {
+            } catch (InvalidLoginCredentialException ex) {
                 ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            
+
                 return Response.status(Status.UNAUTHORIZED).entity(errorRsp).build();
-            }
-            catch(UpdateStudentException ex)
-            {
+            } catch (UpdateStudentException ex) {
                 ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-                
+
                 return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
-            }
-            catch(Exception ex)
-            {
+            } catch (Exception ex) {
                 ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
                 return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
             }
-        }
-        else
-        {
+        } else {
             ErrorRsp errorRsp = new ErrorRsp("Invalid update student request");
-            
+
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
