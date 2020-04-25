@@ -1,7 +1,6 @@
 import { Project } from './project';
 import { Student } from './student';
 import { Company } from './company';
-import { VirtualTimeScheduler } from 'rxjs';
 
 export class StudentReview {
 
@@ -10,7 +9,7 @@ export class StudentReview {
     reviewText: string;
     rating: number;
     project: Project;
-    studentReviewd: Student; // student that left the review
+    studentReviewed: Student; // student that left the review
     company: Company; // company that left the review
 
     constructor(studentReviewId?: number, username?: string, reviewText?: string, rating?: number) {
