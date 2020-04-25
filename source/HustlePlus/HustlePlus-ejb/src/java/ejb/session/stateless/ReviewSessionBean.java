@@ -42,11 +42,11 @@ public class ReviewSessionBean implements ReviewSessionBeanLocal {
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
     
-    @EJB
+    @EJB(name = "ProjectSessionBeanLocal")
     private ProjectSessionBeanLocal projectSessionBeanLocal;
-    @EJB
+    @EJB(name = "StudentSessionBeanLocal")
     private StudentSessionBeanLocal studentSessionBeanLocal;
-    @EJB
+    @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal;
 
     public ReviewSessionBean() {

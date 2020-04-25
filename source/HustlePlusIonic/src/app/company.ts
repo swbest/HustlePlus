@@ -1,4 +1,6 @@
 import { Project } from './project';
+import { CompanyReview } from './company-review';
+import { StudentReview } from './student-review';
 
 export class Company {
 
@@ -13,6 +15,8 @@ export class Company {
     isVerified: boolean;
     isSuspended: boolean;
     projects: Project[];
+    companyReviews: CompanyReview[];
+    studentReviews: StudentReview[];
 
 //    constructor(userId?: number, name?: string, username?: string, password?: string, email?: string, accessRightEnum?: AccessRightEnum, description?: string) {
     constructor(userId?: number, name?: string, username?: string, password?: string, email?: string, description?: string) {

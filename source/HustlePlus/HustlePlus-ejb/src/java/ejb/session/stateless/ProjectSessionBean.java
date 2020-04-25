@@ -45,14 +45,14 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     @EJB(name = "SkillSessionBeanLocal")
     private SkillSessionBeanLocal skillSessionBeanLocal;
 
+    @EJB(name = "CompanySessionBeanLocal")
+    private CompanySessionBeanLocal companySessionBeanLocal;
+    
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
 
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
-
-    @EJB
-    private CompanySessionBeanLocal companySessionBeanLocal;
 
     public ProjectSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
