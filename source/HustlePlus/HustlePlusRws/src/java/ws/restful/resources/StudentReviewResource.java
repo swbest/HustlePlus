@@ -97,9 +97,10 @@ public class StudentReviewResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createStudentReview(CreateNewStudentReviewReq createNewStudentReviewReq) {
+        System.out.println("Creating new student review review text: " + createNewStudentReviewReq.getNewStudentReview().getReviewText() + " of rating: " + createNewStudentReviewReq.getNewStudentReview().getRating() + "with project id:" + createNewStudentReviewReq.getProjectId() + " student id: " + createNewStudentReviewReq.getStudentId());
         if (createNewStudentReviewReq != null) {
             try {
-                Long newReviewId = studentReviewSessionBeanLocal.createStudentReviewByStudent(createNewStudentReviewReq.getNewStudentReview(), createNewStudentReviewReq.getStudentId());
+                Long newReviewId = studentReviewSessionBeanLocal.createStudentReviewByStudent(createNewStudentReviewReq.getNewStudentReview(), createNewStudentReviewReq.getProjectId(), createNewStudentReviewReq.getStudentId());
                 CreateNewReviewRsp createNewReviewRsp = new CreateNewReviewRsp(newReviewId);
                 return Response.status(Response.Status.OK).entity(createNewReviewRsp).build();
             } catch (Exception ex) {
@@ -115,7 +116,7 @@ public class StudentReviewResource {
     private StudentReviewSessionBeanLocal lookupReviewSessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();
-            return (StudentReviewSessionBeanLocal) c.lookup("java:global/HustlePlus/HustlePlus-ejb/StudentReviewSessionBeanLocal!ejb.session.stateless.StudentReviewSessionBeanLocal");
+            return (StudentReviewSessionBeanLocal) c.lookup("java:global/HustlePlus/HustlePlus-ejb/StudentReviewSessionBean!ejb.session.stateless.StudentReviewSessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

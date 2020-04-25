@@ -7,9 +7,7 @@
 package ws.restful.resources;
 
 import ejb.session.stateless.CompanyReviewSessionBeanLocal;
-import ejb.session.stateless.StudentReviewSessionBeanLocal;
 import entity.CompanyReview;
-import entity.StudentReview;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,12 +25,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import ws.restful.model.CreateNewCompanyReviewReq;
 import ws.restful.model.CreateNewReviewRsp;
-import ws.restful.model.CreateNewStudentReviewReq;
 import ws.restful.model.ErrorRsp;
 import ws.restful.model.RetrieveAllCompanyReviewsRsp;
-import ws.restful.model.RetrieveAllStudentReviewsRsp;
 import ws.restful.model.RetrieveCompanyReviewRsp;
-import ws.restful.model.RetrieveStudentReviewRsp;
 
 /**
  * REST Web Service
@@ -102,6 +97,7 @@ public class CompanyReviewResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createStudentReview(CreateNewCompanyReviewReq createNewCompanyReviewReq) {
+        System.out.println("Creating new student review review text: " + createNewCompanyReviewReq.getNewCompanyReview().getReviewText() + " of rating: " + createNewCompanyReviewReq.getNewCompanyReview().getRating() + "with project id:" + createNewCompanyReviewReq.getProjectId() + " student id: " + createNewCompanyReviewReq.getStudentId());
         if (createNewCompanyReviewReq != null) {
             try {
                 Long newReviewId = companyReviewSessionBeanLocal.createCompanyReview(createNewCompanyReviewReq.getNewCompanyReview(), createNewCompanyReviewReq.getStudentId(), createNewCompanyReviewReq.getProjectId(), createNewCompanyReviewReq.getCompanyId());

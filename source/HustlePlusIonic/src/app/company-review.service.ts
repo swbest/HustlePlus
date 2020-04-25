@@ -21,11 +21,16 @@ export class CompanyReviewService {
 
 	constructor(private httpClient: HttpClient,
 		private utilityService: UtilityService) {
-		this.baseUrl = this.utilityService.getRootPath() + 'Review';
+		this.baseUrl = this.utilityService.getRootPath() + 'CompanyReview';
 	}
 
-	createCompanyNewReview(newCompanyReview: CompanyReview): Observable<any> {
-		let createNewCompanyReviewReq = { 'newReview': newCompanyReview };
+	createNewCompanyReview(newCompanyReview: CompanyReview, projectId: number, companyId: number, studentId: number): Observable<any> {
+		let createNewCompanyReviewReq = {
+			'newCompanyReview': newCompanyReview,
+			'projectId': projectId,
+			'companyId': companyId,
+			'studentId': studentId
+		};
 
 		return this.httpClient.put<any>(this.baseUrl, createNewCompanyReviewReq, httpOptions).pipe
 			(
@@ -39,7 +44,7 @@ export class CompanyReviewService {
 				catchError(this.handleError)
 			);
 	}
-	
+
 	getCompanyReviewByCompanyReviewId(companyReviewId: number): Observable<any> {
 		return this.httpClient.get<any>(this.baseUrl + "/retrieveCompanyReview/" + companyReviewId).pipe
 			(

@@ -6,7 +6,6 @@
 package ejb.session.stateless;
 
 import entity.Company;
-import entity.CompanyReview;
 import entity.Project;
 import entity.Student;
 import entity.StudentReview;
@@ -41,26 +40,27 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
-    
+
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
-    
+
     @EJB
     private ProjectSessionBeanLocal projectSessionBeanLocal;
-   
+
     @EJB
     private StudentSessionBeanLocal studentSessionBeanLocal;
+    
     @EJB
     private CompanySessionBeanLocal companySessionBeanLocal;
-    
-    public StudentReviewSessionBean()  {
+
+    public StudentReviewSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
-    
+
     @Override
-    public Long createStudentReviewByStudent(StudentReview newReview, Long studentId)  throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, UpdateStudentException {
-       try {
+    public Long createStudentReviewByStudent(StudentReview newReview, Long projectId, Long studentId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, UpdateStudentException, ProjectNotFoundException {
+        try {
             Set<ConstraintViolation<StudentReview>> constraintViolations = validator.validate(newReview);
 
             if (constraintViolations.isEmpty()) {
@@ -68,27 +68,31 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
                     Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
                     newReview.setStudentReviewed(student);
                     student.getStudentReviews().add(newReview);
-                    
+                   
+                    Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
+                    newReview.setProject(project);
+                    project.addStudentReview(newReview);
+
                     em.persist(newReview);
                     em.flush();
-                    
+
                     //To Recalculate Student's Average Rating 
-                    List<StudentReview> reviewsForStudent = retrieveAllStudentReviewsForStudent(studentId); 
+                    List<StudentReview> reviewsForStudent = retrieveAllStudentReviewsForStudent(studentId);
                     Integer numReviews = reviewsForStudent.size();
-                    Double totalRating = 0.0 ; 
-                    for(StudentReview sr: reviewsForStudent) {
-                        totalRating += sr.getRating(); 
+                    Double totalRating = 0.0;
+                    for (StudentReview sr : reviewsForStudent) {
+                        totalRating += sr.getRating();
                     }
-                    Double calculatedRating = totalRating / numReviews; 
+                    Double calculatedRating = totalRating / numReviews;
                     student.setAvgRating(calculatedRating);
-                    studentSessionBeanLocal.updateStudent(student); 
-                    
+                    studentSessionBeanLocal.updateStudent(student);
+
                     em.persist(newReview);
                     em.flush();
                     return newReview.getStudentReviewId();
                 } catch (StudentNotFoundException ex) {
                     throw new StudentNotFoundException("Student Not Found for ID: " + studentId);
-                }  catch (UpdateStudentException ex) {
+                } catch (UpdateStudentException ex) {
                     throw new UpdateStudentException("Cannot Update Student: " + studentId);
                 }
             } else {
@@ -96,12 +100,12 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
             }
         } catch (PersistenceException ex) {
             throw new UnknownPersistenceException(ex.getMessage());
-        } 
+        }
     }
-    
+
     @Override
-    public Long createStudentReviewByCompany(StudentReview newReview, Long studentId, Long projectId, Long companyId)  throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException, UpdateStudentException {
-       try {
+    public Long createStudentReviewByCompany(StudentReview newReview, Long studentId, Long projectId, Long companyId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException, UpdateStudentException {
+        try {
             Set<ConstraintViolation<StudentReview>> constraintViolations = validator.validate(newReview);
 
             if (constraintViolations.isEmpty()) {
@@ -115,23 +119,22 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
                     project.getStudentReviews().add(newReview);
                     student.getStudentReviews().add(newReview);
                     company.getStudentReviews().add(newReview);
-                    
+
                     em.persist(newReview);
                     em.flush();
-                    
+
                     //To Recalculate Company's Average Rating 
-                    List<StudentReview> reviewsForStudent = retrieveAllStudentReviewsForStudent(studentId); 
+                    List<StudentReview> reviewsForStudent = retrieveAllStudentReviewsForStudent(studentId);
                     Integer numReviews = reviewsForStudent.size();
-                    System.out.println("sizeoFNUMREVIEWS" + numReviews); 
-                    Double totalRating = 0.0 ; 
-                    for(StudentReview cr: reviewsForStudent) {
-                        totalRating += cr.getRating(); 
+                    System.out.println("sizeoFNUMREVIEWS" + numReviews);
+                    Double totalRating = 0.0;
+                    for (StudentReview cr : reviewsForStudent) {
+                        totalRating += cr.getRating();
                     }
-                    System.out.println("totalr" + totalRating); 
-                    Double calculatedRating = totalRating  / numReviews; 
+                    System.out.println("totalr" + totalRating);
+                    Double calculatedRating = totalRating / numReviews;
                     student.setAvgRating(calculatedRating);
-                    studentSessionBeanLocal.updateStudent(student); 
-                    
+                    studentSessionBeanLocal.updateStudent(student);
 
                     return newReview.getStudentReviewId();
                 } catch (ProjectNotFoundException ex) {
@@ -140,7 +143,7 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
                     throw new StudentNotFoundException("Student Not Found for ID: " + studentId);
                 } catch (CompanyNotFoundException ex) {
                     throw new CompanyNotFoundException("Company Not Found for ID: " + companyId);
-                } 
+                }
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
@@ -148,48 +151,45 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
             throw new UnknownPersistenceException(ex.getMessage());
         }
     }
-    
+
     @Override
     public void deleteReview(Long reviewId) throws ReviewNotFoundException, StudentNotFoundException, UpdateStudentException, InputDataValidationException {
-        
-        try {
-        StudentReview sr = retrieveStudentReviewByReviewId(reviewId); 
-        Student stu = studentSessionBeanLocal.retrieveStudentByStudentId(sr.getStudentReviewed().getUserId());
-        System.out.println("STUDENT ID IN SRSB1" + stu.getUserId()); 
-        em.remove(sr);
-        System.out.println("STUDENT ID IN SRSB2" + stu.getUserId()); 
-        
-        
 
-        
-    } catch (StudentNotFoundException ex) {
-       throw new StudentNotFoundException("Student Not Found");
-    } 
+        try {
+            StudentReview sr = retrieveStudentReviewByReviewId(reviewId);
+            Student stu = studentSessionBeanLocal.retrieveStudentByStudentId(sr.getStudentReviewed().getUserId());
+            System.out.println("STUDENT ID IN SRSB1" + stu.getUserId());
+            em.remove(sr);
+            System.out.println("STUDENT ID IN SRSB2" + stu.getUserId());
+
+        } catch (StudentNotFoundException ex) {
+            throw new StudentNotFoundException("Student Not Found");
+        }
     }
-    
+
     @Override
     public void updateReview(StudentReview studentReview) throws ReviewNotFoundException, UpdateReviewException, InputDataValidationException, UpdateStudentException, StudentNotFoundException {
-        if (studentReview != null && studentReview.getStudentReviewId()!= null) {
+        if (studentReview != null && studentReview.getStudentReviewId() != null) {
             Set<ConstraintViolation<StudentReview>> constraintViolations = validator.validate(studentReview);
 
             if (constraintViolations.isEmpty()) {
-                
+
                 try {
-                StudentReview studentReviewToUpdate = retrieveStudentReviewByReviewId(studentReview.getStudentReviewId()); 
-                studentReviewToUpdate.setRating(studentReview.getRating());
-                studentReviewToUpdate.setReviewText(studentReview.getReviewText());
-                
-                //To Recalculate Student's Average Rating 
-                    List<StudentReview> reviewsForStudent = retrieveAllStudentReviewsForStudent(studentReview.getStudentReviewed().getUserId()); 
+                    StudentReview studentReviewToUpdate = retrieveStudentReviewByReviewId(studentReview.getStudentReviewId());
+                    studentReviewToUpdate.setRating(studentReview.getRating());
+                    studentReviewToUpdate.setReviewText(studentReview.getReviewText());
+
+                    //To Recalculate Student's Average Rating 
+                    List<StudentReview> reviewsForStudent = retrieveAllStudentReviewsForStudent(studentReview.getStudentReviewed().getUserId());
                     Integer numReviews = reviewsForStudent.size();
-                    Double totalRating = 0.0 ; 
-                    for(StudentReview sr: reviewsForStudent) {
-                        totalRating += sr.getRating(); 
+                    Double totalRating = 0.0;
+                    for (StudentReview sr : reviewsForStudent) {
+                        totalRating += sr.getRating();
                     }
-                    Double calculatedRating = totalRating / numReviews; 
+                    Double calculatedRating = totalRating / numReviews;
                     studentReview.getStudentReviewed().setAvgRating(calculatedRating);
-                    studentSessionBeanLocal.updateStudent(studentReview.getStudentReviewed()); 
-                }  catch (StudentNotFoundException ex) {
+                    studentSessionBeanLocal.updateStudent(studentReview.getStudentReviewed());
+                } catch (StudentNotFoundException ex) {
                     throw new StudentNotFoundException("Student Not Found for ID: " + studentReview.getStudentReviewed().getUserId());
                 }
             } else {
@@ -199,38 +199,38 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
             throw new ReviewNotFoundException("Review Id not provided for review to be updated");
         }
     }
-    
+
     @Override
     public List<StudentReview> retrieveAllStudentReviews() {
         Query query = em.createQuery("SELECT r FROM StudentReview r");
 
         return query.getResultList();
     }
-    
+
     @Override
     public List<StudentReview> retrieveAllStudentReviewsForStudent(Long studentId) {
         Query query = em.createQuery("SELECT r FROM StudentReview r WHERE r.studentReviewed.userId =:sid ");
         query.setParameter("sid", studentId);
-        
-        return query.getResultList(); 
+
+        return query.getResultList();
 
     }
-    
+
     @Override
     public List<StudentReview> retrieveStudentReviewsByProject(Long projectId) {
         Query query = em.createQuery("SELECT r FROM StudentReview r WHERE r.project.projectId =:pid");
         query.setParameter("pid", projectId);
-        
-        return query.getResultList(); 
+
+        return query.getResultList();
     }
-    
+
     @Override
     public List<StudentReview> retrieveStudentReviewsByCompany(Long companyId) {
         Query query = em.createQuery("SELECT r FROM StudentReview r WHERE r.company.userId =:cid");
         query.setParameter("cid", companyId);
-        return query.getResultList(); 
+        return query.getResultList();
     }
-    
+
     @Override
     public StudentReview retrieveStudentReviewByReviewId(Long reviewId) throws ReviewNotFoundException {
         StudentReview studentReview = em.find(StudentReview.class, reviewId);
@@ -241,10 +241,10 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
             throw new ReviewNotFoundException("Student Review ID " + reviewId + " does not exist!");
         }
     }
-    
+
     @Override
-     public void updateStudentReview(StudentReview review) throws ReviewNotFoundException, CompanyNotFoundException, UpdateCompanyException, UpdateReviewException, InputDataValidationException, StudentNotFoundException, UpdateStudentException {
-        if (review != null && review.getStudentReviewId()!= null) {
+    public void updateStudentReview(StudentReview review) throws ReviewNotFoundException, CompanyNotFoundException, UpdateCompanyException, UpdateReviewException, InputDataValidationException, StudentNotFoundException, UpdateStudentException {
+        if (review != null && review.getStudentReviewId() != null) {
             Set<ConstraintViolation<StudentReview>> constraintViolations = validator.validate(review);
 
             if (constraintViolations.isEmpty()) {
@@ -254,36 +254,33 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
                 reviewToUpdate.setProject(review.getProject());
                 reviewToUpdate.setCompany(review.getCompany());
                 reviewToUpdate.setStudentReviewed(review.getStudentReviewed());
-                
-                                
+
                 //To Recalculate Company's Average Rating 
-                    Student student = review.getStudentReviewed(); 
-                    List<StudentReview> reviewsForStudent = retrieveAllStudentReviewsForStudent(student.getUserId()); 
-                    Integer numReviews = reviewsForStudent.size();
-                    Double totalRating = 0.0 ; 
-                    for(StudentReview sr: reviewsForStudent) {
-                        totalRating += sr.getRating(); 
-                    }
-                    Double calculatedRating = totalRating / numReviews; 
-                    review.getCompany().setAvgRating(calculatedRating);
-                    studentSessionBeanLocal.updateStudent(student); 
-                        
+                Student student = review.getStudentReviewed();
+                List<StudentReview> reviewsForStudent = retrieveAllStudentReviewsForStudent(student.getUserId());
+                Integer numReviews = reviewsForStudent.size();
+                Double totalRating = 0.0;
+                for (StudentReview sr : reviewsForStudent) {
+                    totalRating += sr.getRating();
+                }
+                Double calculatedRating = totalRating / numReviews;
+                review.getCompany().setAvgRating(calculatedRating);
+                studentSessionBeanLocal.updateStudent(student);
+
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
         } else {
             throw new ReviewNotFoundException("Review Id not provided for review to be updated");
-        } 
-        
-        
+        }
+
     }
-     
+
     @Override
-     public void deleteCompanyReview(Long reviewId) throws ReviewNotFoundException {
+    public void deleteCompanyReview(Long reviewId) throws ReviewNotFoundException {
         StudentReview reviewToRemove = retrieveStudentReviewByReviewId(reviewId);
         em.remove(reviewToRemove);
     }
-    
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<StudentReview>> constraintViolations) {
         String msg = "Input data validation error!:";
@@ -293,7 +290,4 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
         return msg;
     }
 
-
-
-    
 }

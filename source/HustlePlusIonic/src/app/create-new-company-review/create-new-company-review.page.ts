@@ -1,9 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { ReviewService } from '../review.service';
-import { Review } from '../review';
+import { SessionService } from '../session.service';
+import { CompanyReviewService } from '../company-review.service';
+import { CompanyReview } from '../company-review';
+import { CompanyService } from '../company.service';
+import { Company } from '../company';
+import { ProjectService } from '../project.service';
+import { Project } from '../project';
+import { Colors } from '../colors';
 
 @Component({
   selector: 'app-create-new-company-review',
@@ -13,41 +19,111 @@ import { Review } from '../review';
 export class CreateNewCompanyReviewPage implements OnInit {
 
   submitted: boolean;
-  newReview: Review;
+  newCompanyReview: CompanyReview;
   infoMessage: string;
   errorMessage: string;
   hasError: boolean;
+  companies: Company[];
+  projects: Project[];
+  ratingRange: number[] = [1, 2, 3, 4, 5];
+  projectId: string;
+  companyId: string;
+  studentId: number;
 
-  constructor(private reviewService: ReviewService,
-    private router: Router) {
+  @Input() rating: number;
+  @Output() ratingChange: EventEmitter<number> = new EventEmitter();
+
+  constructor(private companyReviewService: CompanyReviewService,
+    private router: Router,
+    private companyService: CompanyService,
+    private projectService: ProjectService,
+    private sessionService: SessionService) {
     this.submitted = false;
-    this.newReview = new Review();
+    this.newCompanyReview = new CompanyReview();
   }
 
   ngOnInit() {
+    this.refreshCompanies();
+    this.refreshProjects();
   }
+
+  ionViewWillEnter() {
+    this.refreshCompanies();
+    this.refreshProjects();
+	}
 
   clear() {
     this.submitted = false;
-    this.newReview = new Review();
+    this.newCompanyReview = new CompanyReview();
   }
 
-  create(createReviewForm: NgForm) {
+  create(createCompanyReviewForm: NgForm) {
     this.submitted = true;
 
-    if (createReviewForm.valid) {
-      this.reviewService.createNewReview(this.newReview).subscribe(
+    if (createCompanyReviewForm.valid) {
+      this.newCompanyReview.rating = this.rating;
+      this.studentId = this.sessionService.getCurrentStudent().userId;
+      this.companyReviewService.createNewCompanyReview(this.newCompanyReview, parseInt(this.projectId), parseInt(this.companyId), this.studentId).subscribe(
         response => {
-          this.infoMessage = 'New company review created ' + response.newReviewId;
+          this.infoMessage = 'New company review created ' + response.newCompanyReviewId;
           this.errorMessage = null;
-          this.hasError = false;
+          this.hasError = true;
         },
         error => {
           this.infoMessage = null;
           this.errorMessage = error;
-          this.hasError = true;
+          this.hasError = false;
         }
       );
+    }
+  }
+
+	refreshCompanies() {
+		this.companyService.getAllCompanies().subscribe(
+			response => {
+				this.companies = response.companies
+			},
+			error => {
+				this.errorMessage = error
+			}
+		);
+	}
+
+	refreshProjects() {
+		this.projectService.getProjects().subscribe(
+			response => {
+				this.projects = response.projects
+			},
+			error => {
+				this.errorMessage = error
+			}
+		);
+	}
+
+  rate(index: number) {
+    this.rating = index;
+    this.ratingChange.emit(this.rating);
+  }
+
+  isAboveRating(index: number): boolean {
+    return index > this.rating;
+  }
+
+  getColor(index: number) {
+    if (this.isAboveRating(index)) {
+      return Colors.GREY;
+    }
+    switch (this.rating) {
+      case 1:
+      case 2:
+        return Colors.RED;
+      case 3:
+        return Colors.YELLOW;
+      case 4:
+      case 5:
+        return Colors.GREEN;
+      default:
+        return Colors.GREY;
     }
   }
 

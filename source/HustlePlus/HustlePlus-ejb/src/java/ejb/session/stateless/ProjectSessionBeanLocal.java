@@ -6,7 +6,6 @@
 package ejb.session.stateless;
 
 import entity.Project;
-import entity.Skill;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CompanyNotFoundException;

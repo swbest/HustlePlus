@@ -108,6 +108,21 @@ public class DataInitSessionBean {
             companySessionBeanLocal.createNewCompany(newCompany);
             newCompany.setIsVerified(true);
             newCompany.setIsSuspended(false);
+
+            Company newCompany2 = new Company();
+            newCompany2.setName("Company 2");
+            newCompany2.setUsername("company2");
+            newCompany2.setPassword("password");
+            newCompany2.setEmail("company2@gmail.com");
+            newCompany2.setDescription("This is Company2");
+            newCompany2.setAvgRating(3.6);
+            newCompany2.setIsVerified(true);
+            newCompany2.setIsSuspended(false);
+            newCompany2.setAccessRightEnum(AccessRightEnum.COMPANY);
+            companySessionBeanLocal.createNewCompany(newCompany2);
+            newCompany2.setIsVerified(false);
+            newCompany2.setIsSuspended(false);
+
         } catch (CompanyNameExistException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnknownPersistenceException ex) {
@@ -230,7 +245,7 @@ public class DataInitSessionBean {
             List<Long> skillIds = new ArrayList<Long>();
             skillIds.add(Long.valueOf("6"));
             projectSessionBeanLocal.createNewProject(newProject, Long.valueOf("1"), skillIds);
-            
+
             Project newProject2 = new Project();
             newProject2.setProjectName("Instagram");
             newProject2.setJobValue(BigDecimal.valueOf(310.60));
@@ -262,7 +277,7 @@ public class DataInitSessionBean {
         try {
             Application application = new Application();
             applicationSessionBeanLocal.createApplication(application, Long.valueOf("1"), Long.valueOf("3"));
-            Application application2 = new Application(); 
+            Application application2 = new Application();
             applicationSessionBeanLocal.createApplication(application2, Long.valueOf("2"), Long.valueOf("4"));
         } catch (StudentSuspendedException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);

@@ -100,6 +100,12 @@ public class StudentResource {
         try {
             Student student = studentSessionBean.retrieveStudentByStudentId(userId);
             student.getApplications().clear();
+            student.getSkills().clear();
+            student.getStudentReviews().clear();
+            student.getCompanyReviews().clear();
+            student.getPayments().clear();
+            student.getProjects().clear();
+            student.getTeams().clear();
             RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(student);
             return Response.status(Response.Status.OK).entity(retrieveStudentRsp).build();
         } catch (Exception ex) {
@@ -122,6 +128,12 @@ public class StudentResource {
             List<Student> students = studentSessionBean.retrieveAllStudents();
             for (Student student : students) {
                 student.getApplications().clear();
+                student.getSkills().clear();
+                student.getStudentReviews().clear();
+                student.getCompanyReviews().clear();
+                student.getPayments().clear();
+                student.getProjects().clear();
+                student.getTeams().clear();
             }
             RetrieveAllStudentsRsp retrieveAllStudentsRsp = new RetrieveAllStudentsRsp(students);
             return Response.status(Response.Status.OK).entity(retrieveAllStudentsRsp).build();

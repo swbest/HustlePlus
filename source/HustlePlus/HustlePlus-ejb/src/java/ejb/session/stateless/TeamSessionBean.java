@@ -5,7 +5,6 @@
  */
 package ejb.session.stateless;
 
-import entity.Project;
 import entity.Team;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +20,6 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.DeleteTeamException;
 import util.exception.InputDataValidationException;
-import util.exception.ProjectNotFoundException;
 import util.exception.TeamNameExistException;
 import util.exception.TeamNotFoundException;
 import util.exception.UnknownPersistenceException;
