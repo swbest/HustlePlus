@@ -45,10 +45,7 @@
                                             <td>Description: </td>
                                             <td><h:outputText value="#{sessionScope.userEntity.description}" /></td>
                                         </tr>
-                                        <tr>
-                                            <td>Verified: </td>
-                                            <td><h:outputText value="#{sessionScope.userEntity.isVerified}" /></td>
-                                        </tr>                                    
+                                  
                                     </table>  
                                    
             
@@ -137,7 +134,7 @@
                                 <p:outputLabel for="description" value="Description " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="description" value="#{companyManagementManagedBean.selectedCompanyToUpdate.description}" placeholder="Company 1" />
+                                <p:inputText id="description" value="#{companyManagementManagedBean.selectedCompanyToUpdate.description}" placeholder="This is Company 1" />
                             </p:column>
                             <p:column>
                                 <p:message for="description" />
@@ -149,7 +146,9 @@
                                 <p:outputLabel for="email" value="Email: " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="email" value="#{companyManagementManagedBean.selectedCompanyToUpdate.email}" placeholder="company1@gmail.com" required="true" requiredMessage="Email is required" />
+                                <p:inputText id="email" value="#{companyManagementManagedBean.selectedCompanyToUpdate.email}" validatorMessage="Invalid Email Format" placeholder="company1@gmail.com" required="true" requiredMessage="Email is required" >
+                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:inputText>
                             </p:column>
                             <p:column>
                                 <p:message for="email" />

@@ -16,7 +16,7 @@
         <h:form id="review">
             <p:messages id="msgs"/>
 
-        <p:panel header="Student Review: #{getStudentForReviewManagedBean.studentToReview.name} for Project: #{getStudentForReviewManagedBean.projectToReview.projectName} for Company: #{getStudentForReviewManagedBean.companyReviewing.name}" style="margin-bottom:20px">
+        <p:panel header="Student Review: #{getStudentForReviewManagedBean.studentToReview.name} for Project: #{getStudentForReviewManagedBean.projectToReview.projectName}" style="margin-bottom:20px">
             <h:panelGrid columns="2" cellpadding="5">
                 <h:outputLabel value="Rating " for="rating" ></h:outputLabel>   
                 <p:rating value="#{reviewManagementManagedBean.newStudentReview.rating}" required="true">

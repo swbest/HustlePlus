@@ -29,7 +29,7 @@ import util.exception.ProjectNotFoundException;
 @Named(value = "getMilestonesManagedBean")
 @ViewScoped
 
-public class getMilestonesManagedBean implements Serializable {
+public class GetMilestonesManagedBean implements Serializable {
 
     @EJB(name = "MilestoneSessionBeanLocal")
     private MilestoneSessionBeanLocal milestoneSessionBeanLocal;
@@ -44,7 +44,7 @@ public class getMilestonesManagedBean implements Serializable {
     /**
      * Creates a new instance of getMilestonesManagedBean
      */
-    public getMilestonesManagedBean() {
+    public GetMilestonesManagedBean() {
     }
     
      @PostConstruct

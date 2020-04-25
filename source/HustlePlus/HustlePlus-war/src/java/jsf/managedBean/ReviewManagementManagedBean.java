@@ -79,6 +79,8 @@ public class ReviewManagementManagedBean implements Serializable {
     private List<StudentReview> allStudentReviews;
     
     private StudentReview selectedReviewToUpdate;
+    
+    private StudentReview reviewToView; 
             
     
 
@@ -104,16 +106,36 @@ public class ReviewManagementManagedBean implements Serializable {
        
        System.out.println("********** createReviewForStudent: " + newStudentReview.getReviewText());
        System.out.println("PROJECTIDINRMM" + selProjectId); 
+       boolean check = true; 
        
         Project p = projectSessionBeanLocal.retrieveProjectByProjectId(selProjectId);
         Company c = (Company) event.getComponent().getAttributes().get("cReviewing");
         Student s = studentSessionBeanLocal.retrieveStudentByStudentId(studentIdToReview);
         newStudentReview.setUsername(c.getName());
+        
+        List<Student>studentsInProject = p.getStudents();
+        for(Student sp:studentsInProject ) {
+            List <Project> projects = s.getProjects();
+            for (Project pj: projects) {
+                if (pj.equals(p)) {
+                   check = true; 
+                   break; 
+                } else {
+                    check = false; 
+                }
+            }
+            
+        }
+        if (check = true) {
         Long reviewId = studentReviewSessionBeanLocal.createStudentReviewByCompany(getNewStudentReview(), s.getUserId(), p.getProjectId(), c.getUserId());
         getStudentReviews().add(studentReviewSessionBeanLocal.retrieveStudentReviewByReviewId(reviewId)); 
-       
-
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Review successfully created!", null));
+        } else {
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Student did not participate in selected project!", null));
+        }
+
+
         } catch (StudentNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new review: Student not found", null));
         } catch (ProjectNotFoundException ex) {
@@ -204,8 +226,31 @@ public class ReviewManagementManagedBean implements Serializable {
     public void deleteReview(ActionEvent event) {
         try {
         StudentReview sr = (StudentReview) event.getComponent().getAttributes().get("reviewToDelete");
+        
+        allStudentReviews.remove(sr);
+        
+        Student stu = studentSessionBeanLocal.retrieveStudentByStudentId(sr.getStudentReviewed().getUserId());
         studentReviewSessionBeanLocal.deleteReview(sr.getStudentReviewId());
         getStudentReviews().remove(sr); 
+        
+        
+          //To Recalculate Student's Average Rating 
+          List<StudentReview> reviewsForStudent = studentReviewSessionBeanLocal.retrieveAllStudentReviewsForStudent(stu.getUserId()); 
+          if (reviewsForStudent.isEmpty()) {
+              stu.setAvgRating(0.0);
+              studentSessionBeanLocal.updateStudent(stu);
+          } else {
+          Integer numReviews = reviewsForStudent.size();
+          Double totalRating = 0.0 ; 
+          for(StudentReview stuR: reviewsForStudent) {
+                 totalRating += stuR.getRating(); 
+            }
+           Double calculatedRating = totalRating / numReviews; 
+           stu.setAvgRating(calculatedRating);
+           studentSessionBeanLocal.updateStudent(stu);
+           System.out.println("STUDENT ID IN SRSB3" + stu.getUserId()); 
+          }
+           
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student Review deleted successfully", null));
     } catch (ReviewNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while deleting student review: " + ex.getMessage(), null));
@@ -218,6 +263,7 @@ public class ReviewManagementManagedBean implements Serializable {
         }
         
     }
+
     
     public void doUpdateReview(ActionEvent event) {
         selectedReviewToUpdate = (StudentReview) event.getComponent().getAttributes().get("reviewToUpdate");
@@ -388,6 +434,16 @@ public class ReviewManagementManagedBean implements Serializable {
     public void setSelectedReviewToUpdate(StudentReview selectedReviewToUpdate) {
         this.selectedReviewToUpdate = selectedReviewToUpdate;
     }
+
+    public StudentReview getReviewToView() {
+        return reviewToView;
+    }
+
+    public void setReviewToView(StudentReview reviewToView) {
+        this.reviewToView = reviewToView;
+    }
+    
+    
     
     
     

@@ -66,6 +66,8 @@
                                 <f:attribute name="companyLeavingReview" value="#{sessionScope.userEntity}"/>
                             </p:menuitem>
                             <p:separator />
+                            <p:menuitem value="New Project Milestone" outcome="/companies/createNewMilestone.xhtml"/>
+                            <p:separator />
                         </p:submenu>
 
                         <p:submenu icon="fa fa-search">
@@ -91,7 +93,7 @@
                         </p:submenu>
 
                         <p:submenu icon="fa fa-folder-open">
-                            <p:menuitem value="My Projects"  actionListener="#{projectManagementManagedBean.viewProjectByCompany}">
+                            <p:menuitem value="My Projects"  actionListener="#{getAllProjectsManagedBean.viewProjectByCompany}">
                                 <f:attribute name="companyToView" value="#{sessionScope.userEntity}"/>
                             </p:menuitem> 
                             <p:separator />
@@ -112,7 +114,8 @@
 
                         <f:facet name="options">
                             <p:menuButton icon="fa fa-id-badge" value="Hello, #{sessionScope.userEntity.name}!">
-                                <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml" />
+                                <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml">
+                                </p:menuitem>
                                 <p:separator />
                                 <p:menuitem value="Log Out" actionListener="#{loginManagedBean.logout}" rendered="#{sessionScope.isLogin == true}"/>
                             </p:menuButton> &nbsp;

@@ -48,4 +48,5 @@ public interface ApplicationSessionBeanLocal {
 
     public List<Application> retrieveApplicationByStudent(Long studentId);
 
+
 }

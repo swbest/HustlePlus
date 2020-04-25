@@ -31,7 +31,9 @@
                             <p:outputLabel for="email" value="Email" style="font-weight: bold"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="email" value="#{companyManagementManagedBean.newCompany.email}" required="true" requiredMessage="Email required" />
+                            <p:inputText id="email" value="#{companyManagementManagedBean.newCompany.email}" validatorMessage="Invalid Email Format" required="true" requiredMessage="Email required" >
+                                 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            </p:inputText>
                         </p:column>
                     </p:row>
                    

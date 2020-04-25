@@ -230,6 +230,17 @@ public class DataInitSessionBean {
             List<Long> skillIds = new ArrayList<Long>();
             skillIds.add(Long.valueOf("6"));
             projectSessionBeanLocal.createNewProject(newProject, Long.valueOf("1"), skillIds);
+            
+            Project newProject2 = new Project();
+            newProject2.setProjectName("Instagram");
+            newProject2.setJobValue(BigDecimal.valueOf(310.60));
+            newProject2.setNumStudentsRequired(4);
+            newProject2.setProjectDescription("IG Project");
+            newProject2.setStartDate(new Date());
+            newProject2.setEndDate(new Date());
+            List<Long> skillIds2 = new ArrayList<Long>();
+            skillIds2.add(Long.valueOf("6"));
+            projectSessionBeanLocal.createNewProject(newProject2, Long.valueOf("1"), skillIds);
         } catch (CompanyNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CompanyNotVerifiedException ex) {
@@ -251,6 +262,8 @@ public class DataInitSessionBean {
         try {
             Application application = new Application();
             applicationSessionBeanLocal.createApplication(application, Long.valueOf("1"), Long.valueOf("3"));
+            Application application2 = new Application(); 
+            applicationSessionBeanLocal.createApplication(application2, Long.valueOf("2"), Long.valueOf("4"));
         } catch (StudentSuspendedException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (StudentNotVerifiedException ex) {

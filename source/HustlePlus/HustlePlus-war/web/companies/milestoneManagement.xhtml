@@ -22,14 +22,13 @@
                 <p:messages id="messages" redisplay="false" closable="true" />
 
                 <p:dataTable id="dataTableAllMilestones" widgetVar="dataTableAllMilestones" value="#{getMilestonesManagedBean.milestonesForSelectedCompany}" var="milestone" rowKey="#{milestone.milestoneId}" rowIndexVar="row"
-                             rows="10" paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                             rows="10" paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15">
                     
                     <f:facet name="header">
                         <p:outputPanel style="text-align: center;">
                             <h:outputText value="Search " />
                             <p:inputText id="globalFilter" onkeyup="PF('dataTableAllMilestones').filter()" style="width:200px" placeholder=""/>
                         </p:outputPanel>
-                        <p:commandButton icon="ui-icon-plusthick" update="formCreateNewMilestone" oncomplete="PF('dialogCreateNewMilestone').show()" style="float:right;margin-top: 4px"/>
                     </f:facet>
                     
                     <p:column headerText="Milestone ID" sortBy="#{milestone.milestoneId}" filterBy="#{milestone.milestoneId}" filterMatchMode="contains">

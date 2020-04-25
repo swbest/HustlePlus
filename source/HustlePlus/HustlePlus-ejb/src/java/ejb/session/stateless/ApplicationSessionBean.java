@@ -141,6 +141,9 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
         }
 
     }
+    
+
+    
 
     @Override
     public void updateApplication(Application application) throws ApplicationNotFoundException, UpdateApplicationException, InputDataValidationException {

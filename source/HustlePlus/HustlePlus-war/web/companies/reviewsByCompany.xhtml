@@ -4,60 +4,118 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/template/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
                 xmlns:p="http://primefaces.org/ui">
-
+    
     <ui:define name="content">
-
-        <h:form id="reviewsOfStudent">
-            <p:messages id="messages" redisplay="false" closable="true" />
-             <p:commandButton icon="ui-icon-plusthick" action="/companies/reviewStudent.xhtml?faces-redirect=true" style="float:right;margin-top: 4px"/>
+        
+        <h:panelGroup rendered="#{!sessionScope.isLogin}">
+            <article>
+                <center><h2>Please login.</h2></center>
+            </article>
+        </h:panelGroup>
+        
+        <div class="container" style="width: 95%">
             
-            <p:dataGrid id="dataGridReviews" var="review" value="#{reviewManagementManagedBean.allStudentReviews}" columns="2" layout="grid"
-                        rows="3" paginator="true" paginatorPosition="bottom"
-                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                        rowsPerPageTemplate="6,12,16">
-                <f:facet name="header">
-                    Reviews By Company 
-                </f:facet>
+            <h:form id="formAllReviews" rendered="#{sessionScope.isLogin == true}">
+            
+                <p:messages id="messages" redisplay="false" closable="true" />
 
-                <p:panel header="#{review.studentReviewed.name}" style="text-align: center">
-                    <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">
-
-                        <h:outputText value ="Review ID:"/>
-                        <h:outputText value ="#{review.studentReviewId}"/>
-
-                        <h:outputText value ="Rating: "/>                        
-                        <h:outputText value ="#{review.rating}">
-                            <f:convertNumber maxFractionDigits="2"/>
-                        </h:outputText>
-
-                        <h:outputText value="Comments: "/>
-                        <h:outputText value="#{review.reviewText}" escape="false"/>
-                        
-                        <h:outputText value="Project Done By Student: "/>
-                        <h:outputText value="#{review.project.projectName}" escape="false"/>
-                        
+                <p:dataTable id="dataTableAllReviews" widgetVar="dataTableAllReviews" value="#{reviewManagementManagedBean.allStudentReviews}" var="review" rowKey="#{review.studentReviewId}" rowIndexVar="row"
+                             rows="10" paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15">
+                    
+                    <f:facet name="header">
+                        <p:outputPanel style="text-align: center;">
+                            <h:outputText value="Search " />
+                            <p:inputText id="globalFilter" onkeyup="PF('dataTableAllReviews').filter()" style="width:200px" placeholder=""/>
+                        </p:outputPanel>
+                       </f:facet>
+                    
+                    <p:column headerText="Review ID" sortBy="#{review.studentReviewId}" filterBy="#{review.studentReviewId}" filterMatchMode="contains">
+                        <h:outputText value="#{review.studentReviewId}" style="float:left" />                    
+                    </p:column>
+                    
+                    <p:column headerText="Name of Student" sortBy="#{review.studentReviewed.name}" filterBy="#{review.studentReviewed.name}" filterMatchMode="contains">
+                        <h:outputText value="#{review.studentReviewed.name}" style="float:center"/>
+                    </p:column>
+                    
+                    <p:column headerText="Rating" sortBy="#{review.rating}" filterBy="#{review.rating}" filterMatchMode="contains">
+                        <h:outputText value="#{review.rating}" style="float:right"/>
+                    </p:column>
+                    
+                    <p:column headerText="Action" >
+                        <p:commandButton update="formViewReview" oncomplete="PF('dialogViewReview').show()" icon="ui-icon-document" title="View">
+                            <f:setPropertyActionListener value="#{review}" target="#{reviewManagementManagedBean.reviewToView}" />
+                        </p:commandButton>
                         <p:commandButton actionListener="#{reviewManagementManagedBean.doUpdateReview}" update="formUpdateReview" oncomplete="PF('dialogUpdateReview').show()" icon="ui-icon-pencil" title="Update">
                             <f:attribute name="reviewToUpdate" value="#{review}" />
-                            </p:commandButton>
-                       
+                        </p:commandButton>
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{reviewManagementManagedBean.deleteReview}" update="formAllReviews:dataTableAllReviews formAllReviews:messages">
+                            <f:attribute name="reviewToDelete" value="#{review}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to delete Review #{review.studentReviewId}?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </p:column>
+                    
+                    </p:dataTable>
 
-                    </h:panelGrid>
-
-                </p:panel>
-
-
-            </p:dataGrid>
-            
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>
+                
+            </h:form>
+            
+            <h:form id="formViewReview">
+                
+                <p:dialog id="dialogViewReview" widgetVar="dialogViewReview" header="View Review" closable="true">
 
+                <p:panelGrid>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Review ID: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{reviewManagementManagedBean.reviewToView.studentReviewId}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Name of Student: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{reviewManagementManagedBean.reviewToView.studentReviewed.name}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Rating: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{reviewManagementManagedBean.reviewToView.rating}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Comments: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{reviewManagementManagedBean.reviewToView.reviewText}" escape="false"/>
+                        </p:column>
+                        
+                    </p:row>
+                    
+                </p:panelGrid>
 
+            </p:dialog>
+            
         </h:form>
-        
-        <h:form id="formUpdateReview">
+                
+
+           <h:form id="formUpdateReview">
                  
 
                 <p:dialog id="dialogUpdateReview" widgetVar="dialogUpdateReview" header="Update Review" closable="true">
@@ -114,16 +172,10 @@
 
             </h:form>
 
-
-
-
-
+            
+        </div>
+        
     </ui:define>
-
-
+    
 </ui:composition>
-
-
-
-
 

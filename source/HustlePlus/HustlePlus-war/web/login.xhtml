@@ -68,7 +68,7 @@
                         </p:password>
                         &nbsp;
                         <p:commandButton type="reset" value="Clear" style="font-family: Segoe UI, Tahoma, sans-serif;"/>&nbsp;
-                        <p:commandButton type="submit" value="Login" actionListener="#{loginManagedBean.login}" style="font-family: Segoe UI, Tahoma, sans-serif;">
+                        <p:commandButton ajax="false" type="submit" value="Login" actionListener="#{loginManagedBean.login}" style="font-family: Segoe UI, Tahoma, sans-serif;">
                            <f:attribute name="companyToDisplayProjects" value="#{sessionScope.userEntity}"/>
                         </p:commandButton>
                    

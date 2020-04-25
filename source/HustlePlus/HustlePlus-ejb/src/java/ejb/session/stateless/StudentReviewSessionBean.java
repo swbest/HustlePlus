@@ -154,23 +154,17 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
         
         try {
         StudentReview sr = retrieveStudentReviewByReviewId(reviewId); 
+        Student stu = studentSessionBeanLocal.retrieveStudentByStudentId(sr.getStudentReviewed().getUserId());
+        System.out.println("STUDENT ID IN SRSB1" + stu.getUserId()); 
         em.remove(sr);
-          //To Recalculate Student's Average Rating 
-          List<StudentReview> reviewsForStudent = retrieveAllStudentReviewsForStudent(sr.getStudentReviewed().getUserId()); 
-          Integer numReviews = reviewsForStudent.size();
-          Double totalRating = 0.0 ; 
-          for(StudentReview stuR: reviewsForStudent) {
-                 totalRating += stuR.getRating(); 
-            }
-           Double calculatedRating = totalRating / numReviews; 
-           sr.getStudentReviewed().setAvgRating(calculatedRating);
-           studentSessionBeanLocal.updateStudent(sr.getStudentReviewed());         
+        System.out.println("STUDENT ID IN SRSB2" + stu.getUserId()); 
+        
+        
+
         
     } catch (StudentNotFoundException ex) {
        throw new StudentNotFoundException("Student Not Found");
-    } catch (UpdateStudentException ex) {
-       throw new UpdateStudentException("Student Cannot be Updated");
-    }
+    } 
     }
     
     @Override

@@ -111,7 +111,7 @@ public class CompanyManagementManagedBean implements Serializable {
             }
 
             newCompany = new Company();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + companyId + ")", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Company created successfully (Company ID: " + companyId + ")", "Please wait for the admin to verify your account"));
 
         } catch (CompanyNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while creating the new company: The company is not found", null));
@@ -393,6 +393,7 @@ public class CompanyManagementManagedBean implements Serializable {
         //}
     }
     
+  
 
     public void setCompanyToUpdatePhoto(ActionEvent event) {
         companyToUpdatePhoto = (Company) event.getComponent().getAttributes().get("companyToUpdatePhoto");

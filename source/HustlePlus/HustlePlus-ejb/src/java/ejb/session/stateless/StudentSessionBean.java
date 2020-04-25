@@ -88,6 +88,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             throw new StudentNotFoundException("Student ID " + studentId + " does not exist!");
         }
     }
+    
 
     @Override
     public void updateStudent(Student student) throws StudentNotFoundException, UpdateStudentException, InputDataValidationException {
@@ -249,6 +250,8 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             return students;
         }
     }
+    
+   
     
     @Override
     public void verifyStudent(Long studentId) throws StudentNotFoundException, VerifyStudentException {

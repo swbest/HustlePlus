@@ -39,6 +39,9 @@ import util.exception.UnknownPersistenceException;
 public class MilestoneManagementManagedBean implements Serializable{
 
     @EJB(name = "PaymentSessionBeanLocal")
+    private PaymentSessionBeanLocal paymentSessionBeanLocal1;
+
+    @EJB(name = "PaymentSessionBeanLocal")
     private PaymentSessionBeanLocal paymentSessionBeanLocal;
 
     @EJB(name = "ProjectSessionBeanLocal")
@@ -47,11 +50,11 @@ public class MilestoneManagementManagedBean implements Serializable{
     @EJB(name = "MilestoneSessionBeanLocal")
     private MilestoneSessionBeanLocal milestoneSessionBeanLocal;
     
-    
-    
     @Inject
     private ViewMilestoneManagedBean viewMilestoneManagedBean;
     
+    @Inject
+    private GetMilestonesManagedBean getMilestonesManagedBean; 
     
     
     private List<Milestone> milestones;
@@ -69,6 +72,8 @@ public class MilestoneManagementManagedBean implements Serializable{
     
     private List<Milestone> milestonesForSelectedCompany; 
     private Company companyToDisplayMilestones; 
+    
+    
     
     
     
@@ -216,7 +221,13 @@ public class MilestoneManagementManagedBean implements Serializable{
         try
         {
             Milestone milestoneToDelete = (Milestone)event.getComponent().getAttributes().get("milestoneToDelete");
+            Payment payment = paymentSessionBeanLocal.retrieveAllPaymentByMilestone(milestoneToDelete.getMilestoneId()); 
+            paymentSessionBeanLocal.deletePayment(payment.getPaymentId());
             milestoneSessionBeanLocal.deleteMilestone(milestoneToDelete.getMilestoneId());
+            
+            List<Milestone> ms = getMilestonesManagedBean.getMilestonesForSelectedCompany();
+            ms.remove(milestoneToDelete);
+            getMilestonesManagedBean.setMilestonesForSelectedCompany(ms);
             
             milestones.remove(milestoneToDelete);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Milestone deleted successfully", null));

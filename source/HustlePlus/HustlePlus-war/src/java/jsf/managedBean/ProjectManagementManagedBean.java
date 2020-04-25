@@ -76,6 +76,12 @@ public class ProjectManagementManagedBean implements Serializable {
     @Inject
     private ViewProjectManagedBean viewProjectManagedBean;
     
+    @Inject
+    private LoginManagedBean loginManagedBean;
+    
+    @Inject
+    private GetAllProjectsManagedBean getAllProjectsManagedBean; 
+    
     private List<Project> projects;
     
     private List<Project> projectsOfCompany; 
@@ -87,6 +93,8 @@ public class ProjectManagementManagedBean implements Serializable {
     private Project projectDeleteSkill;
     
     private Company companyToDisplayProject; 
+    
+    
 
     
     
@@ -178,13 +186,18 @@ public class ProjectManagementManagedBean implements Serializable {
             System.out.println("PMMB1");
             projects.add(projectSessionBeanLocal.retrieveProjectByProjectId(projectId)); 
             System.out.println("PMMB2");
-            newProject = new Project();
+            //newProject = new Project();
             System.out.println("PMM3");
-            setMilestoneIdsNew(null); 
+            //setMilestoneIdsNew(null); 
             System.out.println("PMM4");
-            setCompanyId(null); 
+            //setCompanyId(null); 
             System.out.println("PMM5");
             
+            List<Project> projectList = loginManagedBean.getProjectsToDisplay();
+            Project p = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
+            projectList.add(p);
+            loginManagedBean.setProjectsToDisplay(projectList);
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New project created successfully (Project ID: " + projectId + ")", null));
         } catch (ProjectNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new project: Project not found", null));
@@ -255,6 +268,11 @@ public class ProjectManagementManagedBean implements Serializable {
      public void deleteProject(ActionEvent event) {
          try {
              Project projectToDelete = (Project) event.getComponent().getAttributes().get("projectToDelete"); 
+             
+             List<Project> p = getAllProjectsManagedBean.getProjectsForCompany(); 
+             p.remove(projectToDelete);
+             getAllProjectsManagedBean.setProjectsForCompany(p);
+ 
              projectSessionBeanLocal.deleteProject(projectToDelete.getProjectId());
              getProjects().remove(projectToDelete);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Project deleted successfully", null));
