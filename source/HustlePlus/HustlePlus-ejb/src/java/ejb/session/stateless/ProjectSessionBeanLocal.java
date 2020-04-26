@@ -50,5 +50,6 @@ public interface ProjectSessionBeanLocal {
 
     public List<Project> searchProjectsByCompany(String searchString);
 
+    public List<Project> retrieveProjectsByStudentId(Long studentId);
     
 }

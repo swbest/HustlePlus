@@ -54,9 +54,9 @@ public class MilestoneResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/{id}")
+    @Path("retrieveMilestone/{milestoneId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveMilestoneById(@PathParam("id") Long milestoneId) {
+    public Response retrieveMilestoneById(@PathParam("milestoneId") Long milestoneId) {
         try {
             Milestone milestone = milestoneSessionBean.retrieveMilestoneByMilestoneId(milestoneId);
             RetrieveMilestoneRsp retrieveMilestoneRsp = new RetrieveMilestoneRsp(milestone);
@@ -74,6 +74,7 @@ public class MilestoneResource {
      * @return an instance of java.lang.String
      */
     @GET
+    @Path("retrieveAllMilestones")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllMilestones() {
         try {

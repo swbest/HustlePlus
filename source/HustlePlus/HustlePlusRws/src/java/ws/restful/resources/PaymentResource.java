@@ -54,9 +54,9 @@ public class PaymentResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/{id}")
+    @Path("retrievePayment/{paymentId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrievePaymentById(@PathParam("id") Long paymentId) {
+    public Response retrievePaymentById(@PathParam("paymentId") Long paymentId) {
         try {
             Payment payment = paymentSessionBean.retrievePaymentByPaymentId(paymentId);
             RetrievePaymentRsp retrievePaymentRsp = new RetrievePaymentRsp(payment);
