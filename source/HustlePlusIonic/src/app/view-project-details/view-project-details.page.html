@@ -1,0 +1,64 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>View Project Details</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <div *ngIf="retrieveProjectError == true" style="color: red;">
+        Project ID {{projectId}} does not exist!
+      </div>
+
+      <ion-list *ngIf="retrieveProjectError == false && projectToView != null">
+
+        <ion-item>
+          <ion-label><b>Name</b></ion-label>
+          {{projectToView.projectName}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Description</b></ion-label>
+          {{projectToView.projectDescription}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Job Value</b></ion-label>
+          ${{projectToView.jobValue}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Start Date</b></ion-label>
+          {{projectToView.startDate}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>End Date</b></ion-label>
+          {{projectToView.endDate}}
+        </ion-item>
+
+        <ion-item>
+          <ion-label><b>Skills</b></ion-label>
+          <ul>
+            <li *ngFor="let skill of projectToView.skills">{{skill.title}}</li>
+          </ul>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+</ion-footer>
