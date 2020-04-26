@@ -1,57 +1,61 @@
 import { Injectable } from '@angular/core';
-import { SessionService } from './session.service';
+
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+import { UtilityService } from './utility.service';
 import { Skill } from './skill';
+
+const httpOptions = {
+	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class SkillService {
 
-  skills: Skill[];
+	baseUrl: string;
 
-  constructor(private sessionService: SessionService) {
-    this.skills = this.sessionService.getSkills();
+	constructor(private httpClient: HttpClient,
+		private utilityService: UtilityService) {
+		this.baseUrl = this.utilityService.getRootPath() + 'Skill';
+	}
 
-    if (this.skills == null) {
-      this.skills = new Array();
-      let skill: Skill;
+	getSkills(): Observable<any> {
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveAllSkills").pipe
+			(
+				catchError(this.handleError)
+			);
+	}
 
-      skill = new Skill(1, "Java");
-      this.skills.push(skill);
+	getSkillsByStudentId(studentId: number): Observable<any> {
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveSkillsByStudentId/" + studentId).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
 
-      skill = new Skill(2, "JavaScript");
-      this.skills.push(skill);
+  createNewSkill(newSkill: Skill): Observable<any> {
+    let createNewSkillReq = { 
+      'newSkill': newSkill
+    };
 
-      skill = new Skill(2, "JavaScript");
-      this.skills.push(skill);
-
-      skill = new Skill(3, "Python");
-      this.skills.push(skill);
-
-      skill = new Skill(4, "C");
-      this.skills.push(skill);
-
-      skill = new Skill(5, "C++");
-      this.skills.push(skill);
-
-      skill = new Skill(6, "C#");
-      this.skills.push(skill);
-
-      this.sessionService.setSkills(this.skills);
-    }
+    return this.httpClient.put<any>(this.baseUrl, createNewSkillReq, httpOptions).pipe
+      (
+        catchError(this.handleError)
+      );
   }
 
-  getSkills() {
-    return this.skills;
-  }
+  private handleError(error: HttpErrorResponse) {
+		let errorMessage: string = '';
 
-  createNewSkill(newSkill: Skill) {
-    let skill: Skill = new Skill();
-    skill.skillId = newSkill.skillId;
-    skill.title = newSkill.title;
-
-    this.skills.push(skill);
-
-    this.sessionService.setSkills(this.skills);
-  }
+		if (error.error instanceof ErrorEvent) {
+			errorMessage = 'An unknown error has occurred: ' + error.error.message;
+		} else {
+			errorMessage = 'An HTTP error has occurred: ' + `HTTP ${error.status}: ${error.error.message}`;
+		}
+		return throwError(errorMessage)
+	}
 }
