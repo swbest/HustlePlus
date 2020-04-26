@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'My Applications',
-      url: '/view-all-applications',
+      url: '/viewAllApplications',
       icon: 'code-slash'
     },
     {

@@ -31,6 +31,14 @@ export class ProjectService {
 			catchError(this.handleError)
 		);
 	}
+
+	getProjectByProjectId(projectId: number): Observable<any> {
+		return this.httpClient.get<any>(this.baseUrl + "/" + projectId).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
 		
 	private handleError(error: HttpErrorResponse) {
 		let errorMessage: string = '';

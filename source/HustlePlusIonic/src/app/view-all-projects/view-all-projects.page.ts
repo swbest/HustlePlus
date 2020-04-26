@@ -27,7 +27,7 @@ export class ViewAllProjectsPage implements OnInit {
 	}
 
 	viewProjectDetails(event, project) {
-	//	this.router.navigate(["/viewProjectDetails/" + project.projectId]);
+		this.router.navigate(["/viewProjectDetails/" + project.projectId]);
 	}
 
 	refreshProjects() {
@@ -55,7 +55,7 @@ export class ViewAllProjectsPage implements OnInit {
 			})
 		}
 	}
-
+	
 	onCancel(ev: any) {
 		// Reset items back to all of the items
 		this.refreshProjects();
