@@ -33,7 +33,7 @@ public class MailSender
         this.smtpAuthUser = smtpAuthUser;
         this.smtpAuthPassword = smtpAuthPassword;
     }
-    
+    //Username: hustlepluscompany123 Password: P@ssword1234 
     public void sendMail(String fromEmail, String toEmail, String username, String password, String subject, String message) {
         
      

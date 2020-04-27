@@ -51,5 +51,7 @@ public interface ProjectSessionBeanLocal {
 
     public List<Project> searchProjectsByCompany(String searchString);
 
+    public void disassociateProjectSkill(Long projectId, Long skillId) throws ProjectNotFoundException, SkillNotFoundException;
+
     
 }

@@ -119,6 +119,18 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
             throw new SkillNotFoundException("No skills were found!");
         }
     }
+    
+    
+    @Override
+    public void disassociateProjectSkill(Long projectId, Long skillId) throws ProjectNotFoundException, SkillNotFoundException
+    {
+        Project project = retrieveProjectByProjectId(projectId);
+        Skill skill = skillSessionBeanLocal.retrieveSkillBySkillId(skillId);
+        
+        project.getSkills().remove(skill);
+        skill.getProjects().remove(project);
+    }
+    
 
     @Override
     public List<Project> retrieveAllProjects() {

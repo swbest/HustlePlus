@@ -219,7 +219,6 @@ public class ProjectManagementManagedBean implements Serializable {
      public void deleteSkillFromProject(ActionEvent event) {
         try {
         projectDeleteSkill = (Project) event.getComponent().getAttributes().get("projectToDeleteSkill"); 
-        
         ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("projectDeleteSkill", projectDeleteSkill);
         
         System.out.println(getProjectDeleteSkill().getProjectId()); 
@@ -260,11 +259,22 @@ public class ProjectManagementManagedBean implements Serializable {
          }
      }
      
-     public void updateProjectSkills(ActionEvent event) {
+     public void removeSkillFromProject(ActionEvent event) {
+         
+         try {
+         Project projectToRemoveFromSkill = (Project) event.getComponent().getAttributes().get("projectToRemoveFromSkill"); 
+         Skill skillToRemoveFromProject = (Skill) event.getComponent().getAttributes().get("skillToDelete"); 
+         
+         projectToRemoveFromSkill.getSkills().remove(skillToRemoveFromProject);
+         skillToRemoveFromProject.getProjects().remove(projectToRemoveFromSkill);
+        
+         projectSessionBeanLocal.disassociateProjectSkill(projectToRemoveFromSkill.getProjectId(), skillToRemoveFromProject.getSkillId());
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Skill successfully removed from project!", null));
+     } catch (ProjectNotFoundException | SkillNotFoundException ex) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while removing skill: " + ex.getMessage(), null));
      }
-     
-    
-     
+     }
+
      public void deleteProject(ActionEvent event) {
          try {
              Project projectToDelete = (Project) event.getComponent().getAttributes().get("projectToDelete"); 

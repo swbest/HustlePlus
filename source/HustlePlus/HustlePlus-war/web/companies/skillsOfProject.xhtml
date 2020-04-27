@@ -36,13 +36,13 @@
                     </p:column>
                     
                     <p:column headerText="Skill Name" sortBy="#{skill.title}" filterBy="#{skill.title}" filterMatchMode="contains">
-                        <h:outputText value="#{skill.title}" style="float:center"/>
+                        <h:outputText value="#{skill.title}" style="float:left"/>
                     </p:column>
                     
                        
                     <p:column headerText="Action" >
                         
-                        <p:commandButton icon="ui-icon-trash" actionListener="#{skillManagementManagedBean.removeSkillFromProject}" update="formAllSkills:dataTableAllSkills formAllSkills:messages">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{projectManagementManagedBean.removeSkillFromProject}" update="formAllSkills:dataTableAllSkills formAllSkills:messages">
                             <f:attribute name="skillToDelete" value="#{skill}" />
                             <f:attribute name="projectToRemoveFromSkill" value="#{projectManagementManagedBean.projectDeleteSkill}"/>
                             <p:confirm header="Confirmation" message="Are you sure you want to delete Skill #{skill.title}?" icon="ui-icon-alert" />

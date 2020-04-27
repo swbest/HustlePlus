@@ -6,9 +6,12 @@
 package jsf.managedBean;
 
 import com.mailsender.MailSender;
+import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -32,13 +35,9 @@ public class EmailManagedBean implements Serializable {
     }
     
     public void send() {
-        try {
-            MailSender mailSender = new MailSender();
-            mailSender.sendMail(fromMail, toMail, username, password, subject, message);
-            
-        } catch (Exception e) {
-            
-        }
+        MailSender mailSender = new MailSender();
+        mailSender.sendMail(fromMail, toMail, username, password, subject, message);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email successfully sent to student!", null));
     }
 
     public String getFromMail() {

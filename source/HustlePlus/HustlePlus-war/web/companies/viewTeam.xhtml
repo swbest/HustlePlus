@@ -49,9 +49,7 @@
                         <h:outputText value ="#{student.description}"/>
                         
                         <h:outputText value="Student Resume: "/>
-                        <p:commandButton value="Download Resume" ajax="false" onclick="PrimeFaces.monitorDownload(start,stop);" icon="pi pi-arrow-down">
-                            <p:fileDownload value="#{applicationManagementManagedBean.file}"/>
-                        </p:commandButton>
+                        <p:linkButton value="Download Resume" href="#{application.contextPath}/uploadedFiles/Bryan_Resume.pdf" />
                         
                         <p:commandButton value="Leave A Review" actionListener="#{getStudentForReviewManagedBean.leaveReview}">
                             <f:attribute name="studentToReview" value="#{student}"/>

@@ -77,12 +77,12 @@
                     </p:row>
                 
                               
-      <p:row>
+                <p:row>
                     <p:column>
-                <p:commandButton value="Send Email" action="#{emailManagedBean.send}"/>
+                         <p:commandButton immediate="true" value="Back" action="/companies/viewTeam.xhtml?faces-redirect=true"/>
                     </p:column>
                      <p:column>
-                         <p:commandButton immediate="true" value="Back" action="/companies/viewTeam.xhtml?faces-redirect=true"/>
+                        <p:commandButton value="Send Email" ajax="false" action="#{emailManagedBean.send}"/>
                     </p:column>                    
                 </p:row>
         
