@@ -21,44 +21,6 @@
             <p:graphicImage name="img/icon-transparent.png" style="width: 250px"/>
         </h:commandLink>
 
-        <h:form>
-
-            <p:menubar style="border-style: none">
-
-                <p:menuitem value="Home" icon="ui-icon-home" outcome="/index"/>
-
-                <p:submenu label="Search" icon="ui-icon-search">
-                            <p:menuitem value="For Students By Name" outcome="/companies/searchStudentsByName.xhtml" />
-                            <p:separator />
-                            <p:menuitem value="For Companies By Name" outcome="/companies/searchCompaniesByName.xhtml" />
-                            <p:separator />
-                            <p:menuitem value="For Companies By Rating" outcome="/companies/searchCompaniesByRating.xhtml" />
-                             <p:separator />
-                            <p:menuitem value="For Projects By Name" outcome="/companies/searchProjectsByName.xhtml">
-                                <f:setPropertyActionListener target="#{searchProjectsByNameManagedBean.companyToSearchProject}" value="#{sessionScope.userEntity}"/>
-                            </p:menuitem>
-                             <p:separator />
-                            <p:menuitem value="For Projects By Company" outcome="/companies/searchProjectsByCompany.xhtml"/>
-                </p:submenu>
-
-                <p:submenu label="Filter" icon="ui-icon-tag">
-                            <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
-                            <p:separator />
-                            <p:menuitem value="Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml"/>
-                            <p:separator />
-                            <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
-                </p:submenu>
-
-                <p:menuitem value="Verify/Suspend Company" icon="ui-icon-pencil" outcome="/admin/verifyCompany.xhtml"/>
-
-                <p:menuitem value="Verify/Suspend Student" icon="ui-icon-pencil" outcome="/admin/verifyStudent.xhtml"/>
-
-                <f:facet name="options">
-                    <p:menuButton icon="ui-icon-person" value="Hello, #{sessionScope.userEntity.name} (#{sessionScope.userEntity.accessRightEnum})">
-                        <p:menuitem icon="ui-icon-close" value="Logout" actionListener="#{loginManagedBean.logout}" rendered="#{sessionScope.isLogin == true}"/>
-                    </p:menuButton> &nbsp;
-                </f:facet>
-            </p:menubar>
-        </h:form>
+        
     </h:panelGroup>
 </ui:composition>

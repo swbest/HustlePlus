@@ -34,28 +34,119 @@
             .ui-layout-unit-content {
                 background: none;
             }
-            
+            .ui-slidemenu-wrapper {
+                border-style: none;
+                box-shadow: none;
+            }
+            .ui-menu {
+                border-style: none;
+                box-shadow: none;
+            }
+            .ui-slidemenu {
+                border-style: none;
+                box-shadow: none;
+            }
+            .ui-menu-list {
+                border-style: none;
+                box-shadow: none;
+            }
+            .ui-menuitem {
+                border-style: none;
+                box-shadow: none;
+            }
+            .ui-menuitem-link {
+                border-style: none;
+                box-shadow: none;
+            }
+            .ui-menuitem-text {
+                border-style: none;
+                box-shadow: none;
+            }
+            .menu-icon {
+                float: right;
+            }
+
         </style>
     </h:head>
 
-    <h:body style="background-image: url('http://localhost:8080/HustlePlus-war/resources/img/website-login-background.jpg');">
+    <h:body style="background-image: url('http://localhost:8080/HustlePlus-war/resources/img/website-login-background-3.jpg');">
+
+        <p:sidebar widgetVar="sidebar1" baseZIndex="10000">
+            <p:graphicImage name="img/icon-transparent.png" style="width: 150px"/>
+
+            <h:form>
+                <p:slideMenu style="width:300px">
+                    <p:menuitem value="Home" outcome="/index"/>
+
+                    <p:submenu label="Create New">
+                        <p:menuitem value="New Project" outcome="/companies/createNewProject.xhtml"/>
+                        <p:separator />
+                        <p:menuitem value="New Student Review" actionListener="#{reviewManagementManagedBean.doCreateReview}">
+                            <f:attribute name="companyLeavingReview" value="#{sessionScope.userEntity}"/>
+                        </p:menuitem>
+                        <p:separator />
+                        <p:menuitem value="New Project Milestone" outcome="/companies/createNewMilestone.xhtml"/>
+                        <p:separator />
+                    </p:submenu>
+
+                    <p:submenu label="Search">
+                        <p:menuitem value="For Students By Name" outcome="/companies/searchStudentsByName.xhtml" />
+                        <p:separator />
+                        <p:menuitem value="For Companies By Name" outcome="/companies/searchCompaniesByName.xhtml" />
+                        <p:separator />
+                        <p:menuitem value="For Companies By Rating" outcome="/companies/searchCompaniesByRating.xhtml" />
+                        <p:separator />
+                        <p:menuitem value="For Projects By Name" outcome="/companies/searchProjectsByName.xhtml">
+                            <f:setPropertyActionListener target="#{searchProjectsByNameManagedBean.companyToSearchProject}" value="#{sessionScope.userEntity}"/>
+                        </p:menuitem>
+                        <p:separator />
+                        <p:menuitem value="For Projects By Company" outcome="/companies/searchProjectsByCompany.xhtml"/>
+                    </p:submenu>
+
+                    <p:submenu label="Filter">
+                        <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
+                        <p:separator />
+                        <p:menuitem value="Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml"/>
+                        <p:separator />
+                        <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
+                    </p:submenu>
+
+                    <p:submenu label="Projects">
+                        <p:menuitem value="My Projects"  actionListener="#{getAllProjectsManagedBean.viewProjectByCompany}">
+                            <f:attribute name="companyToView" value="#{sessionScope.userEntity}"/>
+                        </p:menuitem> 
+                        <p:separator />
+                        <p:menuitem value="My Project Milestones" actionListener="#{getMilestonesManagedBean.retrieveMilestonesForCompany}">
+                            <f:attribute name="company" value="#{sessionScope.userEntity}"/>
+                        </p:menuitem>
+                        <p:separator />
+                        <p:menuitem value="Completed Student Reviews" actionListener="#{reviewManagementManagedBean.viewAllReviewsByCompany}">
+                            <f:attribute name="companyAllReviews" value="#{sessionScope.userEntity}"/>
+                        </p:menuitem>
+                    </p:submenu>
+
+                    <p:menuitem value="My Company Reviews" actionListener="#{getReviewsForProjectManagedBean.retrieveReviewsForCompany}">
+                        <f:attribute name="companyRev" value="#{sessionScope.userEntity}"/> 
+                    </p:menuitem>
+
+                    <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml">
+                    </p:menuitem>
+                    <p:separator />
+                    <p:menuitem value="Log Out" actionListener="#{loginManagedBean.logout}" rendered="#{sessionScope.isLogin == true}"/>
+
+                </p:slideMenu>
+            </h:form>
+        </p:sidebar>
 
         <p:layout fullPage="true" style="background: none;">
 
-            <p:layoutUnit position="north" size="100" style="background: none; border-style: none;">
-
-                <ui:insert name="header">
-                    <ui:include src="/header.xhtml" />
-                </ui:insert>
-
-            </p:layoutUnit>
-
-
             <p:layoutUnit position="center" style="border-style: none">
+
+                <p:graphicImage name="img/icon-transparent.png" style="width: 250px; margin-bottom: 10px"/>
 
                 <h:form>
 
-                    <p:menubar style="border-style: none">
+                    <p:menubar id="mb" style="border-style: none">
 
                         <p:menuitem icon="fa fa-home" outcome="/index"/>
 
@@ -66,8 +157,7 @@
                                 <f:attribute name="companyLeavingReview" value="#{sessionScope.userEntity}"/>
                             </p:menuitem>
                             <p:separator />
-                            <p:menuitem value="New Project Milestone" outcome="/companies/createNewMilestone.xhtml"/>
-                            <p:separator />
+                            <p:menuitem value="New Milestone" outcome="/companies/createNewMilestone.xhtml"/>
                         </p:submenu>
 
                         <p:submenu icon="fa fa-search">
@@ -101,7 +191,7 @@
                                 <f:attribute name="company" value="#{sessionScope.userEntity}"/>
                             </p:menuitem>
                             <p:separator />
-                            <p:menuitem value="My Reviews" actionListener="#{reviewManagementManagedBean.viewAllReviewsByCompany}">
+                            <p:menuitem value="Completed Student Reviews" actionListener="#{reviewManagementManagedBean.viewAllReviewsByCompany}">
                                 <f:attribute name="companyAllReviews" value="#{sessionScope.userEntity}"/>
                             </p:menuitem>
                         </p:submenu>
@@ -112,8 +202,9 @@
                             </p:menuitem>
                         </p:submenu>
 
+
                         <f:facet name="options">
-                            <p:menuButton icon="fa fa-id-badge" value="Hello, #{sessionScope.userEntity.name}!">
+                            <p:menuButton icon="fa fa-building" value="Hello, #{sessionScope.userEntity.name}!">
                                 <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml">
                                 </p:menuitem>
                                 <p:separator />
@@ -122,6 +213,8 @@
 
                         </f:facet>
                     </p:menubar>
+                    <br/>
+                    <p:commandButton icon="fa fa-navicon" oncomplete="PF('sidebar1').show()" />
                 </h:form>
 
                 <ui:insert name="content">

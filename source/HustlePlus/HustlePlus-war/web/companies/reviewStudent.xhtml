@@ -28,13 +28,13 @@
                     <f:selectItem itemLabel="Select One" itemValue=" "/>
                     <f:selectItems value="#{reviewManagementManagedBean.studentsInProjects}"  var="student" itemLabel="#{student.name}" itemValue="#{student.userId}" />
                 </p:selectOneMenu> 
-                <h:outputLabel value="Rating " for="rating" ></h:outputLabel>   
+                <h:outputLabel value="Rating *" for="rating" ></h:outputLabel>   
                 <p:rating value="#{reviewManagementManagedBean.newStudentReview.rating}" required="true">
                     <p:ajax event="rate" listener="#{reviewManagementManagedBean.onrate}" update="msgs" />
                 </p:rating>
-                <h:outputLabel value="Your Review " for="reviewTxt"></h:outputLabel>
-                <p:textEditor widgetVar="editor" value="#{reviewManagementManagedBean.newStudentReview.reviewText}" height="200" style="margin-bottom:10px; margin-top:10px; width: 500px" placeholder="Type here" required="true">
-                    <f:validateLength minimum="10" />
+                <h:outputLabel value="Your Review *" for="reviewTxt"></h:outputLabel>
+                <p:textEditor widgetVar="editor" value="#{reviewManagementManagedBean.newStudentReview.reviewText}" height="200" style="margin-bottom:10px; margin-top:10px; width: 500px; background-color: white; color: black;" placeholder="Type here" required="true">
+                    <f:validateLength minimum="10" maximum="256" />
                     <f:facet name="toolbar">
                          <span class="ql-formats">
                             <button class="ql-bold"></button>
@@ -46,7 +46,7 @@
                     </f:facet>
                 </p:textEditor>
 
-                <p:commandButton id="btn_reset" value="Clear" type="reset"/>
+                <p:commandButton immediate="true" value="Cancel" action="/index.xhtml?faces-redirect=true"/>
                 <p:commandButton value="Submit" ajax="false" update="msgs" actionListener="#{reviewManagementManagedBean.createNewReview}">
                     <f:attribute name="cReviewing" value="#{sessionScope.userEntity}"/>
                 </p:commandButton>

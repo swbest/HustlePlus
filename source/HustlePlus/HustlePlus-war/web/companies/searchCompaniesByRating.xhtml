@@ -9,7 +9,7 @@
     
     <ui:define name="content">
 
-        <div class="container" style="width: 95%">                      
+        <div class="container" style="text-align: center">                       
 
             <h:form id="formMain" rendered="#{sessionScope.isLogin == true}">
 
@@ -27,31 +27,31 @@
                 <p:dataTable id="dataTableMain" widgetVar="dataTableMain" value="#{searchCompaniesByRatingManagedBean.companies}" var="company" rowKey="#{company.userId}" rowIndexVar="row"                             
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50" >
                     
-                    <p:column headerText="User ID" style="background-color: powderblue; color: black" sortBy="#{company.userId}">
+                    <p:column headerText="User ID" sortBy="#{company.userId}">
                         <h:outputText value="#{company.userId}" />
                     </p:column>
                     
-                    <p:column headerText="Name" style="background-color: powderblue; color: black" sortBy="#{company.name}">
+                    <p:column headerText="Name" sortBy="#{company.name}">
                         <h:outputText value="#{company.name}" />
                     </p:column>                          
 
-                    <p:column headerText="Username" style="background-color: powderblue; color: black" sortBy="#{company.username}">
+                    <p:column headerText="Username" sortBy="#{company.username}">
                         <h:outputText value="#{company.username}" />
                     </p:column>
                     
-                    <p:column headerText="Email" style="background-color: powderblue; color: black" sortBy="#{company.email}">
+                    <p:column headerText="Email" sortBy="#{company.email}">
                         <h:outputText value="#{company.email}" />
                     </p:column>
                     
-                    <p:column headerText="Verified" style="background-color: powderblue; color: black" sortBy="#{company.isVerified}">
+                    <p:column headerText="Verified" sortBy="#{company.isVerified}">
                         <h:outputText value="#{company.isVerified}" />
                     </p:column>
                     
-                    <p:column headerText="Suspended" style="background-color: powderblue; color: black" sortBy="#{company.isSuspended}">
+                    <p:column headerText="Suspended" sortBy="#{company.isSuspended}">
                         <h:outputText value="#{company.isSuspended}" />
                     </p:column>
 
-                    <p:column headerText="View Details" style="background-color: powderblue; color: black" >
+                    <p:column headerText="View Details" >
                         <p:commandButton update="ccViewCompany:formViewCompany" oncomplete="PF('dialogViewCompany').show()" icon="ui-icon-document" title="View Details">
                             <f:setPropertyActionListener value="#{company}" target="#{searchCompaniesByRatingManagedBean.viewCompanyManagedBean.companyToView}" />
                         </p:commandButton>                        
