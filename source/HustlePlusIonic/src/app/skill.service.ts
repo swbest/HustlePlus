@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 
 import { UtilityService } from './utility.service';
 import { Skill } from './skill';
+import { SessionService } from './session.service';
 
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,9 +18,11 @@ const httpOptions = {
 export class SkillService {
 
 	baseUrl: string;
+	studentId: number;
 
 	constructor(private httpClient: HttpClient,
-		private utilityService: UtilityService) {
+		private utilityService: UtilityService,
+		private sessionService: SessionService) {
 		this.baseUrl = this.utilityService.getRootPath() + 'Skill';
 	}
 
@@ -32,6 +35,14 @@ export class SkillService {
 
 	getSkillsByStudentId(studentId: number): Observable<any> {
 		return this.httpClient.get<any>(this.baseUrl + "/retrieveSkillsByStudentId/" + studentId).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
+	getMySkills(): Observable<any> {
+		this.studentId = this.sessionService.getCurrentStudent().userId;
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveSkillsByStudentId/" + this.studentId).pipe
 			(
 				catchError(this.handleError)
 			);

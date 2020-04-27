@@ -89,6 +89,26 @@ public class StudentReviewResource {
     }
 
     /**
+     * Retrieves representation of an instance of
+     * ws.restful.resources.ReviewResource
+     *
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Path("retrieveMyStudentReviews/{studentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveMyReviews(@PathParam("studentId") Long studentId) { // peers and company rating this user
+        try {
+            List<StudentReview> studentReviews = studentReviewSessionBeanLocal.retrieveAllStudentReviewsForStudent(studentId);
+            RetrieveAllStudentReviewsRsp retrieveAllStudentReviewsRsp = new RetrieveAllStudentReviewsRsp(studentReviews);
+            return Response.status(Response.Status.OK).entity(retrieveAllStudentReviewsRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+
+    /**
      * PUT method for updating or creating an instance of ReviewResource
      *
      * @param content representation for the resource

@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 
 import { SessionService } from './session.service';
 import { Team } from './team';
+import { UtilityService } from './utility.service';
 
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -18,11 +19,12 @@ const httpOptions = {
 export class TeamService {
 
 	baseUrl: string;
+	studentId: number;
 
 	constructor(private httpClient: HttpClient,
-		private sessionService: SessionService) 
-	{
-		this.baseUrl = this.sessionService.getRootPath() + 'Team';
+		private utilityService: UtilityService,
+		private sessionService: SessionService) {
+		this.baseUrl = this.utilityService.getRootPath() + 'Team';
 	}
 
 	createNewTeam(newTeam: Team): Observable<any> {
@@ -42,6 +44,14 @@ export class TeamService {
 
 	getTeamByStudentId(studentId: number): Observable<any> {
 		return this.httpClient.get<any>(this.baseUrl + "/retrieveTeamsByStudentId/" + studentId).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
+	getMyTeams(): Observable<any> {
+		this.studentId = this.sessionService.getCurrentStudent().userId;
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveTeamsByStudentId/" + this.studentId).pipe
 			(
 				catchError(this.handleError)
 			);

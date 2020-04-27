@@ -20,25 +20,22 @@ export class StudentService {
 	baseUrl: string;
 
 	constructor(private httpClient: HttpClient,
-		private sessionService: SessionService) 
-	{
+		private sessionService: SessionService) {
 		this.baseUrl = this.sessionService.getRootPath() + 'Student';
 	}
 
-	studentLogin(username: string, password: string): Observable<any>
-	{
+	studentLogin(username: string, password: string): Observable<any> {
 		return this.httpClient.get<any>(this.baseUrl + "/studentLogin?username=" + username + "&password=" + password).pipe
-		(
-			catchError(this.handleError)
-		);
+			(
+				catchError(this.handleError)
+			);
 	}
 
-	studentLogout(): void
-    {
-      this.sessionService.setIsLogin(false);
-      this.sessionService.setCurrentStudent(null);		
-      console.log('successful logout');
-    }
+	studentLogout(): void {
+		this.sessionService.setIsLogin(false);
+		this.sessionService.setCurrentStudent(null);
+		console.log('successful logout');
+	}
 
 	createNewStudent(newStudent: Student): Observable<any> {
 		let createNewStudentReq = { 'newStudent': newStudent };
@@ -63,8 +60,7 @@ export class StudentService {
 			);
 	}
 
-	updateStudent(studentToUpdate: Student): Observable<any>
-	{
+	updateStudent(studentToUpdate: Student): Observable<any> {
 		let updateStudentReq = {
 			"username": this.sessionService.getUsername(),
 			"password": this.sessionService.getPassword(),
@@ -73,18 +69,18 @@ export class StudentService {
 
 		console.log(sessionStorage.currentStudent);
 		return this.httpClient.post<any>(this.baseUrl, updateStudentReq, httpOptions).pipe
-		(
-			catchError(this.handleError)
-		);
+			(
+				catchError(this.handleError)
+			);
 	}
 
-	deleteStudentAccount(userId: number): Observable<any>{
+	deleteStudentAccount(userId: number): Observable<any> {
 		return this.httpClient.delete<any>(this.baseUrl + "/" + userId + "?username=" + this.sessionService.getUsername() + "&password=" + this.sessionService.getPassword()).pipe
-		(
-			catchError(this.handleError)
-		);
+			(
+				catchError(this.handleError)
+			);
 	}
-	
+
 	private handleError(error: HttpErrorResponse) {
 		let errorMessage: string = '';
 
