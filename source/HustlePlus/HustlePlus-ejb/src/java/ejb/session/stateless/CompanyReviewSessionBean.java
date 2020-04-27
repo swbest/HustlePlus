@@ -39,26 +39,27 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
-   
+
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
-    
-    @EJB
+
+    @EJB(name = "ProjectSessionBeanLocal")
     private ProjectSessionBeanLocal projectSessionBeanLocal;
-    @EJB
+
+    @EJB(name = "StudentSessionBeanLocal")
     private StudentSessionBeanLocal studentSessionBeanLocal;
-    @EJB
+
+    @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal;
-    
+
     public CompanyReviewSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
-    
 
     @Override
-    public Long createCompanyReview(CompanyReview newReview, Long studentId, Long projectId, Long companyId)  throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException {
-       try {
+    public Long createCompanyReview(CompanyReview newReview, Long studentId, Long projectId, Long companyId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException {
+        try {
             Set<ConstraintViolation<CompanyReview>> constraintViolations = validator.validate(newReview);
 
             if (constraintViolations.isEmpty()) {
@@ -72,18 +73,21 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
                     project.getCompanyReviews().add(newReview);
                     student.getCompanyReviews().add(newReview);
                     company.getCompanyReviews().add(newReview);
-                    
+
+                    em.persist(newReview);
+                    em.flush();
+
                     //To Recalculate Company's Average Rating 
-                    List<CompanyReview> reviewsForCompany = retrieveAllCompanyReviewsForCompany(companyId); 
-                    Integer numReviews = reviewsForCompany.size() + 1; 
-                    Double totalRating = 0.0 ; 
-                    for(CompanyReview cr: reviewsForCompany) {
-                        totalRating += cr.getRating(); 
+                    List<CompanyReview> reviewsForCompany = retrieveAllCompanyReviewsForCompany(companyId);
+                    Integer numReviews = reviewsForCompany.size() + 1;
+                    Double totalRating = 0.0;
+                    for (CompanyReview cr : reviewsForCompany) {
+                        totalRating += cr.getRating();
                     }
-                    Double calculatedRating = ( totalRating + newReview.getRating() ) / numReviews; 
+                    Double calculatedRating = (totalRating + newReview.getRating()) / numReviews;
                     company.setAvgRating(calculatedRating);
-                    companySessionBeanLocal.updateCompany(company); 
-                    
+                    companySessionBeanLocal.updateCompany(company);
+
                     em.persist(newReview);
                     em.flush();
                     return newReview.getCompanyReviewId();
@@ -103,31 +107,31 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
             throw new UnknownPersistenceException(ex.getMessage());
         }
     }
-    
+
     @Override
     public List<CompanyReview> retrieveAllCompanyReviews() {
         Query query = em.createQuery("SELECT r FROM CompanyReview r");
 
         return query.getResultList();
     }
-    
+
     @Override
     public List<CompanyReview> retrieveAllCompanyReviewsForCompany(Long companyId) {
         Query query = em.createQuery("SELECT r FROM CompanyReview r WHERE r.company.userId =:cid ");
         query.setParameter("cid", companyId);
-        
-        return query.getResultList(); 
+
+        return query.getResultList();
 
     }
-    
+
     @Override
     public List<CompanyReview> retrieveCompanyReviewsByProject(Long projectId) {
         Query query = em.createQuery("SELECT r FROM CompanyReview r WHERE r.project.projectId =:pid");
         query.setParameter("pid", projectId);
-        
-        return query.getResultList(); 
+
+        return query.getResultList();
     }
-    
+
     @Override
     public CompanyReview retrieveCompanyReviewByReviewId(Long reviewId) throws ReviewNotFoundException {
         CompanyReview companyReview = em.find(CompanyReview.class, reviewId);
@@ -138,10 +142,10 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
             throw new ReviewNotFoundException("Company Review ID " + reviewId + " does not exist!");
         }
     }
-    
+
     @Override
     public void updateCompanyReview(CompanyReview review) throws ReviewNotFoundException, CompanyNotFoundException, UpdateCompanyException, UpdateReviewException, InputDataValidationException {
-        if (review != null && review.getCompanyReviewId()!= null) {
+        if (review != null && review.getCompanyReviewId() != null) {
             Set<ConstraintViolation<CompanyReview>> constraintViolations = validator.validate(review);
 
             if (constraintViolations.isEmpty()) {
@@ -151,30 +155,29 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
                 reviewToUpdate.setProject(review.getProject());
                 reviewToUpdate.setCompany(review.getCompany());
                 reviewToUpdate.setStudent(review.getStudent());
-                
-                                
+
                 //To Recalculate Company's Average Rating 
-                    Company company = review.getCompany() ; 
-                    List<CompanyReview> reviewsForCompany = retrieveAllCompanyReviewsForCompany(company.getUserId()); 
-                    Integer numReviews = reviewsForCompany.size() + 1; 
-                    Double totalRating = 0.0 ; 
-                    for(CompanyReview cr: reviewsForCompany) {
-                        totalRating += cr.getRating(); 
-                    }
-                    Double calculatedRating = ( totalRating + review.getRating() ) / numReviews; 
-                    review.getCompany().setAvgRating(calculatedRating);
-                    companySessionBeanLocal.updateCompany(company); 
-                        
+                Company company = review.getCompany();
+                List<CompanyReview> reviewsForCompany = retrieveAllCompanyReviewsForCompany(company.getUserId());
+                Integer numReviews = reviewsForCompany.size() + 1;
+                Double totalRating = 0.0;
+                for (CompanyReview cr : reviewsForCompany) {
+                    totalRating += cr.getRating();
+                }
+                Double calculatedRating = (totalRating + review.getRating()) / numReviews;
+                review.getCompany().setAvgRating(calculatedRating);
+                companySessionBeanLocal.updateCompany(company);
+
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
         } else {
             throw new ReviewNotFoundException("Review Id not provided for review to be updated");
-        } 
+        }
     }
-    
+
     @Override
-     public void deleteCompanyReview(Long reviewId) throws ReviewNotFoundException {
+    public void deleteCompanyReview(Long reviewId) throws ReviewNotFoundException {
         CompanyReview reviewToRemove = retrieveCompanyReviewByReviewId(reviewId);
         em.remove(reviewToRemove);
     }
@@ -186,7 +189,5 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
         }
         return msg;
     }
-    
-   
-    
+
 }

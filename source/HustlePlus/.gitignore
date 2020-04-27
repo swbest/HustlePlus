@@ -23,6 +23,7 @@
 nbproject/private/
 build/
 dist/
+
 HustlePlus-ejb/nbproject/private/
 HustlePlus-ejb/build/
 HustlePlus-ejb/dist/
@@ -31,13 +32,9 @@ HustlePlus-war/nbproject/private/
 HustlePlus-war/build/
 HustlePlus-war/dist/
 
-HustlePlusWebClient/nbproject/private/
-HustlePlusWebClient/build/
-HustlePlusWebClient/dist/
-
-HustlePlusMobileClient/nbproject/private/
-HustlePlusMobileClient/build/
-HustlePlusMobileClient/dist/
+HustlePlusRws/nbproject/private/
+HustlePlusRws/build/
+HustlePlusRws/dist/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

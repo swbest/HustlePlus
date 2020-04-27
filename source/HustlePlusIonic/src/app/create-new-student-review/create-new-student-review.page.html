@@ -24,16 +24,16 @@
         {{errorMessage}}
       </div>
 
-      <form #createReviewForm="ngForm" (ngSubmit)="create(createReviewForm)">
+      <form #createStudentReviewForm="ngForm" (ngSubmit)="create(createStudentReviewForm)">
 
         <ion-grid>
 
           <ion-row>
             <ion-col>
               <ion-item>
-                <ion-label>Projects</ion-label>
-                <ion-select [compareWith]="compareWith">
-                  <ion-select-option *ngFor="let project of projects">{{project.projectName}}</ion-select-option>
+                <ion-label>Projects</ion-label>      
+                <ion-select [compareWith]="compareWith" placeholder="Select Project" id="project" name="project" #project="ngModel" [(ngModel)]="projectId" required="true">
+                  <ion-select-option *ngFor="let project of projects" value="{{project.projectId}}">{{project.projectName}}</ion-select-option>
                 </ion-select>
               </ion-item>
             </ion-col>
@@ -43,8 +43,8 @@
             <ion-col>
               <ion-item>
                 <ion-label>Students</ion-label>
-                <ion-select [compareWith]="compareWith">
-                  <ion-select-option *ngFor="let student of students">{{student.email}}</ion-select-option>
+                <ion-select [compareWith]="compareWith" placeholder="Select Student" id="student" name="student" #student="ngModel" [(ngModel)]="studentId" required="true">
+                  <ion-select-option *ngFor="let student of students" value="{{student.userId}}">{{student.email}}</ion-select-option>
                 </ion-select>
               </ion-item>
             </ion-col>
@@ -66,7 +66,7 @@
               <ion-label>Review Text</ion-label>
             </ion-col>
             <ion-col>
-              <ion-input type="text" id="reviewText" name="reviewText" [(ngModel)]="newReview.reviewText"
+              <ion-input type="text" id="reviewText" name="reviewText" [(ngModel)]="newStudentReview.reviewText"
                 required="true" #reviewText="ngModel"></ion-input>
             </ion-col>
             <ion-col>

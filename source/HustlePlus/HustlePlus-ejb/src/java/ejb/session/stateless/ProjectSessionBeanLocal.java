@@ -6,7 +6,6 @@
 package ejb.session.stateless;
 
 import entity.Project;
-import entity.Skill;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CompanyNotFoundException;
@@ -53,5 +52,6 @@ public interface ProjectSessionBeanLocal {
 
     public void disassociateProjectSkill(Long projectId, Long skillId) throws ProjectNotFoundException, SkillNotFoundException;
 
+    public List<Project> retrieveProjectsByStudentId(Long studentId);
     
 }

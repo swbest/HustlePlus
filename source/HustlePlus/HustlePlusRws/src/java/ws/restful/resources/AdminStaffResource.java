@@ -39,7 +39,7 @@ public class AdminStaffResource {
 
     @Context
     private UriInfo context;
-    
+
     private AdminStaffSessionBeanLocal adminStaffSessionBean = lookupAdminStaffSessionBeanLocal();
 
     /**
@@ -49,13 +49,15 @@ public class AdminStaffResource {
     }
 
     /**
-     * Retrieves representation of an instance of ws.restful.resources.AdminStaffResource
+     * Retrieves representation of an instance of
+     * ws.restful.resources.AdminStaffResource
+     *
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/{id}")
+    @Path("retrieveAdminStaff/{adminStaffId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveAdminStaffById(@PathParam("id") Long adminStaffId) {
+    public Response retrieveAdminStaffById(@PathParam("adminStaffId") Long adminStaffId) {
         try {
             AdminStaff adminStaff = adminStaffSessionBean.retrieveAdminStaffByAdminStaffId(adminStaffId);
             RetrieveAdminStaffRsp retrieveAdminStaffRsp = new RetrieveAdminStaffRsp(adminStaff);
@@ -73,6 +75,7 @@ public class AdminStaffResource {
      * @return an instance of java.lang.String
      */
     @GET
+    @Path("retrieveAllAdminStaffs")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllAdminStaffs() {
         try {

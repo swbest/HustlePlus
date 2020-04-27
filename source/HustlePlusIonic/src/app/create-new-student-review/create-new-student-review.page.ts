@@ -2,13 +2,14 @@ import { Component, OnInit, Input, EventEmitter ,Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { ReviewService } from '../review.service';
-import { Review } from '../review';
+import { SessionService } from '../session.service';
+import { StudentReviewService } from '../student-review.service';
+import { StudentReview } from '../student-review';
 import { StudentService } from '../student.service';
 import { Student } from '../student';
 import { ProjectService } from '../project.service';
 import { Project } from '../project';
-import { Colors } from './colors';
+import { Colors } from '../colors';
 
 @Component({
   selector: 'app-create-new-student-review',
@@ -18,23 +19,26 @@ import { Colors } from './colors';
 export class CreateNewStudentReviewPage implements OnInit {
 
   submitted: boolean;
-  newReview: Review;
+  newStudentReview: StudentReview;
   infoMessage: string;
   errorMessage: string;
   hasError: boolean;
   students: Student[];
   projects: Project[];
   ratingRange: number[] = [1, 2, 3, 4, 5];
+  projectId: string;
+  studentId: string;
 
   @Input() rating: number;
   @Output() ratingChange: EventEmitter<number> = new EventEmitter();
 
-  constructor(private reviewService: ReviewService,
+  constructor(private studentReviewService: StudentReviewService,
     private router: Router,
     private studentService: StudentService,
-    private projectService: ProjectService) {
+    private projectService: ProjectService,
+    private sessionService: SessionService) {
     this.submitted = false;
-    this.newReview = new Review();
+    this.newStudentReview = new StudentReview();
       
   }
 
@@ -50,16 +54,18 @@ export class CreateNewStudentReviewPage implements OnInit {
 
   clear() {
     this.submitted = false;
-    this.newReview = new Review();
+    this.newStudentReview = new StudentReview();
   }
 
-  create(createReviewForm: NgForm) {
+  create(createStudentReviewForm: NgForm) {
     this.submitted = true;
 
-    if (createReviewForm.valid) {
-      this.reviewService.createNewReview(this.newReview).subscribe(
+    if (createStudentReviewForm.valid) {
+      this.newStudentReview.username = this.sessionService.getUsername();
+      this.newStudentReview.rating = this.rating;
+      this.studentReviewService.createNewStudentReview(this.newStudentReview, parseInt(this.projectId), parseInt(this.studentId)).subscribe(
         response => {
-          this.infoMessage = 'New student created ' + response.newReviewId;
+          this.infoMessage = 'New student review created ' + response.newStudentReviewId;
           this.errorMessage = null;
           this.hasError = true;
         },

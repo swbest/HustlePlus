@@ -21,33 +21,29 @@
 </ion-toolbar>
 
 <ion-content>
-	<ion-card>
-		<ion-card-header>
-			<ion-card-title>View All Projects</ion-card-title>
-		</ion-card-header>
-		<ion-card-content>
 
+	<ion-searchbar showCancelButton="true" placeholder="Search Projects" (ionInput)="getSearchProjects($event)"
+		(ionCancel)="onCancel($event)"></ion-searchbar>
+
+	<ion-card *ngFor="let project of projects">
+		<img src="https://picsum.photos/400" />
+		<ion-card-header>
+			<ion-card-subtitle>JOB VALUE: ${{project.jobValue}}</ion-card-subtitle>
+			<ion-card-title>{{project.projectName}}</ion-card-title>
+		</ion-card-header>
+
+		<ion-card-content>
 			<div *ngIf="errorMessage">
 				{{errorMessage}}
 			</div>
-
-			<ion-searchbar showCancelButton="true" placeholder="Search Projects" (ionInput)="getSearchProjects($event)"
-				(ionCancel)="onCancel($event)"></ion-searchbar>
-
-			<ion-grid>
-				<ion-row>
-					<ion-col>Project Name</ion-col>
-					<ion-col>Job Value</ion-col>
-					<ion-col>Project Description</ion-col>
-				</ion-row>
-				<ion-row *ngFor="let project of projects">
-					<ion-col>{{project.projectName}}</ion-col>
-					<ion-col>{{project.jobValue}}</ion-col>
-					<ion-col>{{project.projectDescription}}</ion-col>
-				</ion-row>
-			</ion-grid>
-
+			{{project.projectDescription}}
 		</ion-card-content>
+
+		<ion-item (click)="viewProjectDetails($event, project)" class="ion-activated">
+			<ion-icon name="open-outline" slot="start"></ion-icon>
+			<ion-label>View Project Details</ion-label>
+		</ion-item>
+
 	</ion-card>
 </ion-content>
 

@@ -19,6 +19,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -53,10 +54,35 @@ public class SkillResource {
      * @return an instance of java.lang.String
      */
     @GET
+    @Path("retrieveAllSkills")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllSkills() {
         try {
             List<Skill> skills = skillSessionBean.retrieveAllSkills();
+            for (Skill s : skills) {
+                s.getProjects().clear();
+                s.getStudents().clear();
+            }
+            RetrieveAllSkillsRsp retrieveAllSkillsRsp = new RetrieveAllSkillsRsp(skills);
+            return Response.status(Response.Status.OK).entity(retrieveAllSkillsRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+
+    /**
+     * Retrieves representation of an instance of
+     * ws.restful.resources.ProjectResource
+     *
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Path("/retrieveSkillsByStudentId/{studentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveSkillsByStudentId(@PathParam("studentId") Long studentId) {
+        try {
+            List<Skill> skills = skillSessionBean.retrieveSkillsByStudentId(studentId);
             for (Skill s : skills) {
                 s.getProjects().clear();
                 s.getStudents().clear();

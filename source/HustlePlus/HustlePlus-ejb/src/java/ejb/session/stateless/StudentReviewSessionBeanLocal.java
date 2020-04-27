@@ -25,7 +25,7 @@ import util.exception.UpdateStudentException;
 @Local
 public interface StudentReviewSessionBeanLocal {
 
-    public Long createStudentReviewByStudent(StudentReview newReview, Long studentId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException, UpdateStudentException;
+    public Long createStudentReviewByStudent(StudentReview newReview, Long projectId, Long studentId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, UpdateStudentException, ProjectNotFoundException;
 
     public Long createStudentReviewByCompany(StudentReview newReview, Long studentId, Long projectId, Long companyId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException, UpdateStudentException;
 

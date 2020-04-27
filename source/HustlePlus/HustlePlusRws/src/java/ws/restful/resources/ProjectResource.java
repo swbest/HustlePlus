@@ -53,25 +53,25 @@ public class ProjectResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/{id}")
+    @Path("retrieveProject/{projectId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveProjectById(@PathParam("id") Long projectId) {
+    public Response retrieveProjectById(@PathParam("projectId") Long projectId) {
         try {
-            Project project = projectSessionBean.retrieveProjectByProjectId(projectId);
-            List<Skill> skills = project.getSkills();
+            Project p = projectSessionBean.retrieveProjectByProjectId(projectId);
+            p.getApplications().clear();
+            p.getCompany().getProjects().clear();
+            p.getCompanyReviews().clear();
+            p.getMilestones().clear();
+            List<Skill> skills = p.getSkills();
             for (Skill s : skills) {
                 s.getProjects().clear();
             }
-            project.getMilestones().clear();
-            project.getCompany().getProjects().clear();
-            project.getCompanyReviews().clear();
-            project.getStudentReviews().clear();
-            project.getApplications().clear();
-            List<Student> students = project.getStudents();
+            p.getStudentReviews().clear();
+            List<Student> students = p.getStudents();
             for (Student s : students) {
                 s.getProjects().clear();
             }
-            RetrieveProjectRsp retrieveProjectRsp = new RetrieveProjectRsp(project);
+            RetrieveProjectRsp retrieveProjectRsp = new RetrieveProjectRsp(p);
             return Response.status(Status.OK).entity(retrieveProjectRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
@@ -86,11 +86,50 @@ public class ProjectResource {
      * @return an instance of java.lang.String
      */
     @GET
+    @Path("retrieveAllProjects")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllProjects() {
         try {
             List<Project> projects = projectSessionBean.retrieveAllProjects();
 
+            for (Project p : projects) {
+                // clear bidirectional mappings or set the inverse side to null
+                // skills - not bidirectional
+                // milestones not needed
+                p.getApplications().clear();
+                p.getCompany().getProjects().clear();
+                p.getCompanyReviews().clear();
+                p.getMilestones().clear();
+                List<Skill> skills = p.getSkills();
+                for (Skill s : skills) {
+                    s.getProjects().clear();
+                }
+                p.getStudentReviews().clear();
+                List<Student> students = p.getStudents();
+                for (Student s : students) {
+                    s.getProjects().clear();
+                }
+            }
+            RetrieveAllProjectsRsp retrieveAllProjectsRsp = new RetrieveAllProjectsRsp(projects);
+            return Response.status(Status.OK).entity(retrieveAllProjectsRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+
+    /**
+     * Retrieves representation of an instance of
+     * ws.restful.resources.ProjectResource
+     *
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Path("/retrieveProjectsByStudentId/{studentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveProjectsByStudentId(@PathParam("studentId") Long studentId) {
+        try {
+            List<Project> projects = projectSessionBean.retrieveProjectsByStudentId(studentId);
             for (Project p : projects) {
                 // clear bidirectional mappings or set the inverse side to null
                 // skills - not bidirectional
@@ -113,7 +152,7 @@ public class ProjectResource {
             return Response.status(Status.OK).entity(retrieveAllProjectsRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
 

@@ -33,5 +33,7 @@ public interface SkillSessionBeanLocal {
     public Skill retrieveSkillsBySkillTitle(String skillTitle) throws SkillNotFoundException;
 
     public List<Skill> retrieveAllSkills();
+
+    public List<Skill> retrieveSkillsByStudentId(Long studentId);
     
 }

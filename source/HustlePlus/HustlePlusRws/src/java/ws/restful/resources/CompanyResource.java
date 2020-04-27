@@ -61,10 +61,9 @@ public class CompanyResource {
     public Response retrieveCompanyById(@PathParam("userId") Long userId) {
         try {
             Company company = companySessionBean.retrieveCompanyByCompanyId(userId);
-            List<Project> projects = company.getProjects();
-            for (Project p : projects) {
-                p.getCompany().getProjects().clear();
-            }
+            company.getStudentReviews().clear();
+            company.getCompanyReviews().clear();
+            company.getProjects().clear();
             RetrieveCompanyRsp retrieveProjectRsp = new RetrieveCompanyRsp(company);
             return Response.status(Status.OK).entity(retrieveProjectRsp).build();
         } catch (Exception ex) {
@@ -86,10 +85,9 @@ public class CompanyResource {
         try {
             List<Company> companies = companySessionBean.retrieveAllCompanies();
             for (Company c : companies) {
-                List<Project> projects = c.getProjects();
-                for (Project p : projects) {
-                    p.getCompany().getProjects().clear();
-                }
+                c.getStudentReviews().clear();
+                c.getCompanyReviews().clear();
+                c.getProjects().clear();
             }
             RetrieveAllCompaniesRsp retrieveAllCompaniesRsp = new RetrieveAllCompaniesRsp(companies);
             return Response.status(Status.OK).entity(retrieveAllCompaniesRsp).build();

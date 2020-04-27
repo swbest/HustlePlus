@@ -5,7 +5,6 @@
  */
 package ws.restful.model;
 
-import entity.Student;
 import entity.Team;
 import java.util.List;
 

@@ -90,7 +90,7 @@ export class ProfilePage implements OnInit {
     }
 
     updateStudentAccount() {
-      this.router.navigate(["/update-profile-modal"]);
+      this.router.navigate(["/updateProfileModal"]);
     }
 
     async successToast() {

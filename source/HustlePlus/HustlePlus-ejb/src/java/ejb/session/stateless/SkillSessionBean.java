@@ -98,8 +98,6 @@ public class SkillSessionBean implements SkillSessionBeanLocal {
             throw new SkillNotFoundException("Skill Id not provided for student to be updated");
         }
     }
-    
-
 
     @Override
     public void deleteSkill(Long skillId) throws SkillNotFoundException, DeleteSkillException {
@@ -128,6 +126,18 @@ public class SkillSessionBean implements SkillSessionBeanLocal {
         } catch (NoResultException | NonUniqueResultException ex) {
             throw new SkillNotFoundException("Skill title " + skillTitle + " does not exist!");
         }
+    }
+
+    /**
+     *
+     * @param studentId
+     * @return
+     */
+    @Override
+    public List<Skill> retrieveSkillsByStudentId(Long studentId) {
+        Query query = em.createQuery("SELECT s FROM Skill s WHERE s.students.userId = :inStudentId");
+        query.setParameter("inStudentId", studentId);
+        return query.getResultList(); // its ok to return empty list
     }
 
     // Add business logic below. (Right-click in editor and choose

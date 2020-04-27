@@ -45,14 +45,14 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     @EJB(name = "SkillSessionBeanLocal")
     private SkillSessionBeanLocal skillSessionBeanLocal;
 
+    @EJB(name = "CompanySessionBeanLocal")
+    private CompanySessionBeanLocal companySessionBeanLocal;
+
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
 
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
-
-    @EJB
-    private CompanySessionBeanLocal companySessionBeanLocal;
 
     public ProjectSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -90,7 +90,6 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                         skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToSet).setProjects(projectsAdded);
                     }
                     newProject.setSkills(skills);
-
 
                     System.out.println("PSB3");
                     company.getProjects().add(newProject);
@@ -221,6 +220,13 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
         } catch (NoResultException ex) {
             throw new ProjectNotFoundException("No projects were found by that name!");
         }
+    }
+
+    @Override
+    public List<Project> retrieveProjectsByStudentId(Long studentId) {
+        Query query = em.createQuery("SELECT p FROM Project p WHERE p.students.userId = :inStudentId");
+        query.setParameter("inStudentId", studentId);
+        return query.getResultList(); // its ok to return empty list
     }
 
     @Override

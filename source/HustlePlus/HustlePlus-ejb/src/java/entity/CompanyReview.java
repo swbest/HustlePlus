@@ -45,7 +45,7 @@ public class CompanyReview implements Serializable {
     
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
-    private Student student; //student review project 
+    private Student student; //reviewee 
     
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)

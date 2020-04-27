@@ -1,6 +1,10 @@
 import { Company } from './company';
-import { Review } from './review';
 import { Student } from './student';
+import { Skill } from './skill';
+import { Milestone } from './milestone';
+import { CompanyReview } from './company-review';
+import { StudentReview } from './student-review';
+import { Application } from './application';
 
 export class Project {
 
@@ -13,7 +17,11 @@ export class Project {
     endDate: Date;
     isFinished: boolean;
     company: Company;
-    reviews: Review[];
+    skills: Skill[];
+    milestones: Milestone[];
+    companyReviews: CompanyReview[];
+    studentReviews: StudentReview[];
+    applications: Application[];
     students: Student[];
 
     constructor(projectId?: number, projectName?:string, jobValue?:number, numStudentsRequired?:number, 

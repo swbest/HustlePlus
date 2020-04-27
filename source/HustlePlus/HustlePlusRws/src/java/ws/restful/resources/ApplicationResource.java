@@ -7,9 +7,6 @@ package ws.restful.resources;
 
 import ejb.session.stateless.ApplicationSessionBeanLocal;
 import entity.Application;
-import entity.Project;
-import entity.Skill;
-import entity.Student;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
