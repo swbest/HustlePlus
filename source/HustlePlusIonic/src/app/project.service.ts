@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { UtilityService } from './utility.service';
+import { SessionService } from './session.service';
 
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,14 +18,16 @@ const httpOptions = {
 export class ProjectService {
 
 	baseUrl: string;
+	studentId: number;
 
 	constructor(private httpClient: HttpClient,
-		private utilityService: UtilityService) {
+		private utilityService: UtilityService,
+		private sessionService: SessionService) {
 		this.baseUrl = this.utilityService.getRootPath() + 'Project';
 	}
 
 	getProjects(): Observable<any> {
-		return this.httpClient.get<any>(this.baseUrl).pipe
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveAllProjects").pipe
 			(
 				catchError(this.handleError)
 			);
@@ -37,8 +40,16 @@ export class ProjectService {
 			);
 	}
 
-	getProjectsByStudentId(studentId: number): Observable<any> {
-		return this.httpClient.get<any>(this.baseUrl + "/retrieveProjectsByStudentId/" + studentId).pipe
+	getProjectsByStudentId(newStudentId: number): Observable<any> {
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveProjectsByStudentId/" + newStudentId).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
+	getMyProjects(): Observable<any> {
+		this.studentId = this.sessionService.getCurrentStudent().userId;
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveProjectsByStudentId/" + this.studentId).pipe
 			(
 				catchError(this.handleError)
 			);

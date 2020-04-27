@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+import { SessionService } from './session.service';
 import { UtilityService } from './utility.service';
 import { StudentReview } from './student-review';
 
@@ -18,9 +19,11 @@ const httpOptions = {
 export class StudentReviewService {
 
   baseUrl: string;
+  studentId: number;
 
   constructor(private httpClient: HttpClient,
-    private utilityService: UtilityService) {
+    private utilityService: UtilityService,
+    private sessionService: SessionService) {
     this.baseUrl = this.utilityService.getRootPath() + 'StudentReview';
   }
 
@@ -39,6 +42,14 @@ export class StudentReviewService {
 
   getAllStudentReviews(): Observable<any> {
     return this.httpClient.get<any>(this.baseUrl + "/retrieveAllStudentReviews").pipe
+      (
+        catchError(this.handleError)
+      );
+  }
+
+  getMyStudentReviews(): Observable<any> {
+    this.studentId = this.sessionService.getCurrentStudent().userId;
+    return this.httpClient.get<any>(this.baseUrl + "/retrieveMyStudentReviews/" + this.studentId).pipe
       (
         catchError(this.handleError)
       );
