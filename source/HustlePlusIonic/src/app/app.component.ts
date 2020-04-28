@@ -44,6 +44,11 @@ export class AppComponent implements OnInit {
       url: '/viewAllCompanies',
       icon: 'business'
     },
+    {
+      title: 'Leave A Review',
+      url: '/reviews',
+      icon: 'ribbon-outline'
+    },
     // temporary
     {
       title: 'Leave A Review Student',
