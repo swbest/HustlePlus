@@ -1,151 +1,99 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Hustle+ - List New Project</title>
         <style type="text/css">
-            body {
-                background-color: white;
+
+            .ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell {
+                text-align: center;
+            }
+
+            .customPanelGrid .ui-panelgrid-content {
+                align-items: center;
             }
         </style>
     </h:head>
-    <h:body>
-        
+    <h:body style="background-image: url('http://localhost:8080/HustlePlus-war/resources/img/website-login-background-3.jpg');">
 
-            <h:form id="addProject">       
 
-                <h:messages/>
+        <h:form id="addProject" style="width: 60%;">       
+
+            <p:messages/>
+
+            <p:panelGrid rendered="#{sessionScope.userEntity.isVerified == true}" columns="2" layout="grid" styleClass="customPanelGrid" style="font-size: large">
+                <f:facet name="header" >
+                    <p:outputLabel>Create New Project</p:outputLabel>
+                </f:facet>
+
+                <p:outputLabel for="projectName" value="Project Name" />
+                <p:inputText id="projectName" value="#{projectManagementManagedBean.newProject.projectName}" required="true" requiredMessage="Project Name is required!" />
+
+                <p:outputLabel for="jobValue" value="Job Value" />
+                <p:inputText id="jobValue" value="#{projectManagementManagedBean.newProject.jobValue}" required="true" requiredMessage="Job Value is required!" />
+
+                <p:outputLabel for="numStudentsRequired" value="No. of Students" />
+                <p:inputText id="numStudentsRequired" value="#{projectManagementManagedBean.newProject.numStudentsRequired}" required="true" requiredMessage="Number of Student(s) is required!" />
+
+                <p:outputLabel for="projectDescription" value="Project Description" />
+                <p:inputTextarea id="projectDescription" value="#{projectManagementManagedBean.newProject.projectDescription}" />
+
+                <p:outputLabel for="startDate" value="Start Date" />
+                <p:calendar id="startDate" binding="#{startDateComponent}" value="#{projectManagementManagedBean.newProject.startDate}" pattern="dd/MM/yyyy" required="true" style="width:auto" placeholder="DD/MM/YYYY"/>
+
+                <p:outputLabel for="endDate" value="End Date" />
+                <p:calendar id="endDate" value="#{projectManagementManagedBean.newProject.endDate}" pattern="dd/MM/yyyy" required="true" style="width:auto" placeholder="DD/MM/YYYY">
+                    <f:validator validatorId="dateRangeValidator" />
+                    <f:attribute name="startDateComponent" value="#{startDateComponent}" />
+                </p:calendar>
+
+                <p:outputLabel for="skills" value="Required Skills" />
+                <h:panelGrid columns="3" cellpadding="5">
+                    <p:selectCheckboxMenu id="skills" value="#{projectManagementManagedBean.skillIdsToAddToNewProject}" label="Skills"
+                                          multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="250px" required="true">
+                        <f:selectItems value="#{projectManagementManagedBean.skills}" var="skill" itemLabel="#{skill.title}" itemValue="#{skill.skillId}" />
+                    </p:selectCheckboxMenu>
+                    <p:commandButton immediate="true" value="Add Skill" action="/companies/addASkill.xhtml?faces-redirect=true"/>
+                </h:panelGrid>
                 
-                <p:panelGrid rendered="#{sessionScope.userEntity.isVerified == true}">
-                         <p:panel header="List a New Project" style="background-color: white; font-size: large" >
+                <p:outputLabel for="milestone" value="Create New Milestone" />
+                <p:commandButton id="milestone" value="Add Milestone" action="/companies/createNewMilestone.xhtml?faces-redirect=true"/>
 
-                    
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="projectName" value="Project Name" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="projectName" value="#{projectManagementManagedBean.newProject.projectName}" required="true" requiredMessage="Project Name is required!" />
-                        </p:column>
-                    </p:row>
-                    
-                    <p:row>
-                        <p:column>
-                             <p:outputLabel for="jobValue" value="Job Value" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="jobValue" value="#{projectManagementManagedBean.newProject.jobValue}" required="true" requiredMessage="Job Value is required!" />
-                        </p:column>
-                    </p:row>
-                   
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="numStudentsRequired" value="Number of student(s) required" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="numStudentsRequired" value="#{projectManagementManagedBean.newProject.numStudentsRequired}" required="true" requiredMessage="Number of Student(s) is required!" />
-                        </p:column>
-                    </p:row>
-                    
-                     <p:row>
-                        <p:column>
-                            <p:outputLabel for="projectDescription" value="Project Description" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="projectDescription" value="#{projectManagementManagedBean.newProject.projectDescription}" />
-                        </p:column>
-                    </p:row>
-                    
-                     <p:row>
-                         <p:column>
-                            <p:outputLabel for="startDate" value="Project Start Date" />
-                        </p:column>
-                 <p:column>
-                    <p:calendar id="startDate" binding="#{startDateComponent}" value="#{projectManagementManagedBean.newProject.startDate}" pattern="dd/MM/yyyy" required="true" />
-                  </p:column>
-                     </p:row>
-                    
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="endDate" value="Project End Date" />
-                        </p:column>
-                 <p:column>
-                   <p:calendar id="endDate" value="#{projectManagementManagedBean.newProject.endDate}" pattern="dd/MM/yyyy" required="true">
-                       <f:validator validatorId="dateRangeValidator" />
-                       <f:attribute name="startDateComponent" value="#{startDateComponent}" />
-                    </p:calendar>
-                  </p:column>
-                    </p:row>
-                     
-                    
-                      <p:row>
-                         <h:panelGrid columns="3" cellpadding="5">
-                        
-                            <p:outputLabel for="skills" value="Required Skills: * " />
-                            <p:selectCheckboxMenu id="skills" value="#{projectManagementManagedBean.skillIdsToAddToNewProject}" label="Skills"
-                                                  multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="250px">
-                                <f:selectItems value="#{projectManagementManagedBean.skills}" var="skill" itemLabel="#{skill.title}" itemValue="#{skill.skillId}" />
-                            </p:selectCheckboxMenu>
-                            <p:commandButton immediate="true" value="Add Skill" action="/companies/addASkill.xhtml?faces-redirect=true"/>
-                            
-                            </h:panelGrid>
-                    </p:row>
-                    
-                    
-                    <p:row>
-                        <p:column colspan="2">
-                            <p:commandButton type="reset" value="Clear" />
-                            <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{projectManagementManagedBean.createNewProject}" >
-                               <f:attribute name="companyTagged" value="#{sessionScope.userEntity}" />
-                            </p:commandButton>
-                            <p:commandButton immediate="true" value="Cancel" action="/index.xhtml?faces-redirect=true"/>
+                <h:panelGrid columns="3" cellpadding="5">
+                    <p:commandButton type="reset" value="Clear" />
+                    <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{projectManagementManagedBean.createNewProject}" >
+                        <f:attribute name="companyTagged" value="#{sessionScope.userEntity}" />
+                    </p:commandButton>
+                    <p:commandButton immediate="true" value="Cancel" action="/index.xhtml?faces-redirect=true"/>
 
-                        </p:column>
-                    </p:row>
-                   </p:panel>
+                </h:panelGrid>
 
-   
-                </p:panelGrid>
-            </h:form>
-        
-            <h:form>
-               
-                <p:panelGrid rendered="#{sessionScope.userEntity.isVerified == true}">
-                             <p:panel header="Add Milestone to Project" style="background-color: powderblue; font-size: large">
+            </p:panelGrid>
 
-                    
-                    <p:commandButton value="Create Milestones" action="/companies/createNewMilestone.xhtml?faces-redirect=true"/>
-                    
+        </h:form>
 
-                            </p:panel>
-    
-                </p:panelGrid>
+        <p:panelGrid rendered="#{sessionScope.userEntity.isVerified == false}">
 
-            </h:form>
-
-        
-                        <p:panelGrid rendered="#{sessionScope.userEntity.isVerified == false}">
-
-        <h:form id="addProjectNotVerified"> 
+            <h:form id="addProjectNotVerified"> 
                 <article style="font-size: xx-large; color: coral; font-family: Segoe UI, Tahoma, sans-serif">
                     <center><h1>Uh Oh...</h1></center>
                     <center><p>
-                        Please wait to be verified by our Hustle+ team. This will take no more than 24 hours. We apologize for the inconvenience caused.
-                    </p></center>            
+                            Please wait to be verified by our Hustle+ team. This will take no more than 24 hours. We apologize for the inconvenience caused.
+                        </p></center>            
                 </article>
-        </h:form>
-                        </p:panelGrid>
-        
-            
-            
+            </h:form>
+        </p:panelGrid>
 
 
-        
-        
+
+
+
+
+
     </h:body>
 </ui:composition>
 

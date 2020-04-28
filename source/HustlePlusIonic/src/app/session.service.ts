@@ -12,19 +12,16 @@ export class SessionService {
 
   constructor(private platform: Platform) { }
 
-  getRootPath(): string
-	{
-		console.log('this.platform.is("hybrid"): ' + this.platform.is('hybrid'));
-		
-		if(this.platform.is('hybrid'))
-		{
-			return "http://192.168.137.1:8080/HustlePlusRws/Resources/";
-		}
-		else
-		{
-			return "/api/";
-		}
-	}
+  getRootPath(): string {
+    console.log('this.platform.is("hybrid"): ' + this.platform.is('hybrid'));
+
+    if (this.platform.is('hybrid')) {
+      return "http://192.168.137.1:8080/HustlePlusRws/Resources/";
+    }
+    else {
+      return "/api/";
+    }
+  }
 
   getIsLogin(): boolean {
     if (sessionStorage.isLogin == "true") {
@@ -63,36 +60,30 @@ export class SessionService {
     sessionStorage.password = password;
   }
 
-  checkAccessRight(path): boolean
-	{
-		console.log("********** path: " + path);
-		
-		if(this.getIsLogin())
-		{
-			student: Student;
-			let student = this.getCurrentStudent();
-			
-			if(student.accessRightEnum == AccessRightEnum.STUDENT)
-			{
-				if(path == "/viewAllStudents" ||
-          path == "/viewAllCompanies" 
-        )
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-			
-			return false;
-		}
-		else
-		{
-			return false;
-		}
-	}
+  checkAccessRight(path): boolean {
+    console.log("********** path: " + path);
+
+    if (this.getIsLogin()) {
+      student: Student;
+      let student = this.getCurrentStudent();
+
+      if (student.accessRightEnum == AccessRightEnum.STUDENT) {
+        if (path == "/viewAllStudents" ||
+          path == "/viewAllCompanies"
+        ) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+
+      return false;
+    }
+    else {
+      return false;
+    }
+  }
 
   getSkills(): Skill[] {
     try {
