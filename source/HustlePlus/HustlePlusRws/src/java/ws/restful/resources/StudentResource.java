@@ -7,6 +7,7 @@ package ws.restful.resources;
 
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Student;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -160,7 +161,8 @@ public class StudentResource {
     public Response createStudent(CreateNewStudentReq createNewStudentReq) {
         if (createNewStudentReq != null) {
             try {
-                Long newStudentId = studentSessionBean.createStudentAccount(createNewStudentReq.getNewStudent());
+                List<Long> emptySkillList = new ArrayList<>();
+                Long newStudentId = studentSessionBean.createStudentAccount(createNewStudentReq.getNewStudent(), emptySkillList);
                 CreateNewStudentRsp createNewStudentRsp = new CreateNewStudentRsp(newStudentId);
                 return Response.status(Response.Status.OK).entity(createNewStudentRsp).build();
             } catch (Exception ex) {

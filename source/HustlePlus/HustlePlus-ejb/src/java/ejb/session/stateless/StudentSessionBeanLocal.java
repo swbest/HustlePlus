@@ -11,6 +11,7 @@ import javax.ejb.Local;
 import util.exception.DeleteStudentException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.SkillNotFoundException;
 import util.exception.StudentNameExistException;
 import util.exception.StudentNotFoundException;
 import util.exception.SuspendStudentException;
@@ -24,8 +25,6 @@ import util.exception.VerifyStudentException;
  */
 @Local
 public interface StudentSessionBeanLocal {
-
-    public Long createStudentAccount(Student newStudent) throws StudentNameExistException, UnknownPersistenceException, InputDataValidationException;
 
     public void updateStudent(Student student)  throws StudentNotFoundException, UpdateStudentException, InputDataValidationException;
 
@@ -50,5 +49,11 @@ public interface StudentSessionBeanLocal {
     public void verifyStudent(Long studentId) throws StudentNotFoundException, VerifyStudentException;
 
     public void suspendStudent(Long studentId) throws StudentNotFoundException, SuspendStudentException;
+
+    public Long createStudentAccount(Student newStudent, List<Long> skillIds) throws SkillNotFoundException, StudentNameExistException, UnknownPersistenceException, InputDataValidationException;
+
+    public void disassociateProjectSkill(Long studentId, Long skillId) throws StudentNotFoundException, SkillNotFoundException;
+
+    public void addSkillToStudent(Long skillId, Long studentId) throws StudentNotFoundException, SkillNotFoundException;
 
 }

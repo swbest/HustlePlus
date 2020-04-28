@@ -190,10 +190,11 @@ public class DataInitSessionBean {
             newStudent.setEmail("studentone@gmail.com");
             newStudent.setDescription("information systems undergraduate");
             newStudent.setIsVerified(Boolean.TRUE);
-            Long newStudentId = studentSessionBeanLocal.createStudentAccount(newStudent);
-            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("1")));
-            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("3")));
-            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("5")));
+            List<Long> skillIds = new ArrayList<>();
+            skillIds.add(new Long(1));
+            skillIds.add(new Long(3));
+            skillIds.add(new Long(5));
+            Long newStudentId = studentSessionBeanLocal.createStudentAccount(newStudent, skillIds);
 
             Student newStudent2 = new Student();
             newStudent2.setBankAccountName("posb");
@@ -204,10 +205,7 @@ public class DataInitSessionBean {
             newStudent2.setEmail("studenttwo@gmail.com");
             newStudent2.setDescription("information systems undergraduate");
             newStudent2.setIsVerified(Boolean.TRUE);
-            studentSessionBeanLocal.createStudentAccount(newStudent2);
-            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("1")));
-            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("3")));
-            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("5")));
+            studentSessionBeanLocal.createStudentAccount(newStudent2, skillIds);
 
             Student newStudent3 = new Student();
             newStudent3.setBankAccountName("uob");
@@ -218,10 +216,7 @@ public class DataInitSessionBean {
             newStudent3.setEmail("studentthree@gmail.com");
             newStudent3.setDescription("information systems undergraduate");
             newStudent3.setIsVerified(Boolean.TRUE);
-            studentSessionBeanLocal.createStudentAccount(newStudent3);
-            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("1")));
-            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("3")));
-            newStudent.addSkill(skillSessionBeanLocal.retrieveSkillBySkillId(Long.valueOf("5")));
+            studentSessionBeanLocal.createStudentAccount(newStudent3, skillIds);
         } catch (StudentNameExistException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnknownPersistenceException ex) {

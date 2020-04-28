@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -27,6 +28,7 @@ import javax.validation.ValidatorFactory;
 import util.exception.DeleteStudentException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.SkillNotFoundException;
 import util.exception.StudentNameExistException;
 import util.exception.StudentNotFoundException;
 import util.exception.SuspendStudentException;
@@ -42,6 +44,9 @@ import util.security.CryptographicHelper;
 @Stateless
 public class StudentSessionBean implements StudentSessionBeanLocal {
 
+    @EJB
+    private SkillSessionBeanLocal skillSessionBeanLocal;
+
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
 
@@ -54,17 +59,22 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     }
 
     @Override
-    public Long createStudentAccount(Student newStudent) throws StudentNameExistException, UnknownPersistenceException, InputDataValidationException {
+    public Long createStudentAccount(Student newStudent, List<Long> skillIds) throws SkillNotFoundException, StudentNameExistException, UnknownPersistenceException, InputDataValidationException {
         try {
             Set<ConstraintViolation<Student>> constraintViolations = validator.validate(newStudent);
 
             if (constraintViolations.isEmpty()) {
                 newStudent.setIsSuspended(Boolean.FALSE);
                 newStudent.setAvgRating(0.0);
-                List<Skill> skills = newStudent.getSkills();
-                for (Skill skill : skills) {
-                    skill.addStudent(newStudent);
+
+                //Associate skills with student 
+                List<Skill> skills = new ArrayList();
+                for (Long skillIdsToSet : skillIds) {
+                    skills.add(skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToSet));
+                    skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToSet).addStudent(newStudent);
                 }
+                newStudent.setSkills(skills);
+
                 em.persist(newStudent);
                 em.flush();
                 return newStudent.getUserId();
@@ -301,8 +311,21 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         }
     }
 
-    public void addSkillToStudent(Long skillId, Long studentId) {
+    public void addSkillToStudent(Long skillId, Long studentId) throws StudentNotFoundException, SkillNotFoundException {
+        Student student = retrieveStudentByStudentId(studentId);
+        Skill skill = skillSessionBeanLocal.retrieveSkillBySkillId(skillId);
 
+        student.getSkills().add(skill);
+        skill.getStudents().add(student);
+    }
+
+    @Override
+    public void disassociateProjectSkill(Long studentId, Long skillId) throws StudentNotFoundException, SkillNotFoundException {
+        Student student = retrieveStudentByStudentId(studentId);
+        Skill skill = skillSessionBeanLocal.retrieveSkillBySkillId(skillId);
+
+        student.getSkills().remove(skill);
+        skill.getStudents().remove(student);
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Student>> constraintViolations) {
