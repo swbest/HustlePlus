@@ -39,7 +39,6 @@ export class CreateNewStudentReviewPage implements OnInit {
     private sessionService: SessionService) {
     this.submitted = false;
     this.newStudentReview = new StudentReview();
-      
   }
 
   ngOnInit() {

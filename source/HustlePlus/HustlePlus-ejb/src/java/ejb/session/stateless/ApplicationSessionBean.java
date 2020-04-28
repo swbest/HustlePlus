@@ -61,7 +61,6 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
     @Override
     public Long createApplication(Application newApplication, Long projectId, Long studentId) throws StudentSuspendedException, StudentNotVerifiedException, ApplicationExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException, StudentNotFoundException {
         try {
-            Set<ConstraintViolation<Application>> constraintViolations = validator.validate(newApplication);
             Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
             Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
             if (student.getIsVerified() == false) {
@@ -70,19 +69,15 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
             if (student.getIsSuspended() == true) {
                 throw new StudentSuspendedException("Student is suspended. Please contact admin staff for details.");
             }
-            if (constraintViolations.isEmpty()) {
-                newApplication.setProject(project);
-                newApplication.setStudent(student);
-                newApplication.setIsApproved(Boolean.FALSE);
-                newApplication.setIsPending(Boolean.TRUE);
-                project.addApplication(newApplication);
-                student.addApplication(newApplication);
-                em.persist(newApplication);
-                em.flush();
-                return newApplication.getApplicationId();
-            } else {
-                throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
-            }
+            newApplication.setProject(project);
+            newApplication.setStudent(student);
+            newApplication.setIsApproved(Boolean.FALSE);
+            newApplication.setIsPending(Boolean.TRUE);
+            project.addApplication(newApplication);
+            student.addApplication(newApplication);
+            em.persist(newApplication);
+            em.flush();
+            return newApplication.getApplicationId();
         } catch (PersistenceException ex) {
             if (ex.getCause() != null && ex.getCause().getClass().getName().equals("org.eclipse.persistence.exceptions.DatabaseException")) {
                 if (ex.getCause().getCause() != null && ex.getCause().getCause().getClass().getName().equals("java.sql.SQLIntegrityConstraintViolationException")) {
@@ -141,9 +136,6 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
         }
 
     }
-    
-
-    
 
     @Override
     public void updateApplication(Application application) throws ApplicationNotFoundException, UpdateApplicationException, InputDataValidationException {
