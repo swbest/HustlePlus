@@ -135,7 +135,7 @@ public class SkillSessionBean implements SkillSessionBeanLocal {
      */
     @Override
     public List<Skill> retrieveSkillsByStudentId(Long studentId) {
-        Query query = em.createQuery("SELECT s FROM Skill s WHERE s.students.userId = :inStudentId");
+        Query query = em.createQuery("SELECT s.skills FROM Student s WHERE s.userId = :inStudentId");
         query.setParameter("inStudentId", studentId);
         return query.getResultList(); // its ok to return empty list
     }
