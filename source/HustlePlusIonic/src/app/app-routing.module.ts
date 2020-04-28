@@ -31,7 +31,6 @@ const routes: Routes = [
   { path: 'viewMyTeams', loadChildren: './view-my-teams/view-my-teams.module#ViewMyTeamsPageModule', canActivate: [AuthGuard] },
   { path: 'viewTeamDetails', loadChildren: './view-team-details/view-team-details.module#ViewTeamDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'viewTeamDetails/:teamId', loadChildren: './view-team-details/view-team-details.module#ViewTeamDetailsPageModule', canActivate: [AuthGuard] },
-  { path: 'createNewReview', loadChildren: './create-new-review/create-new-review.module#CreateNewReviewPageModule', canActivate: [AuthGuard] },
   { path: 'createNewCompanyReview', loadChildren: './create-new-company-review/create-new-company-review.module#CreateNewCompanyReviewPageModule', canActivate: [AuthGuard] },
   { path: 'createNewStudentReview', loadChildren: './create-new-student-review/create-new-student-review.module#CreateNewStudentReviewPageModule', canActivate: [AuthGuard] },
   { path: 'createNewTeam', loadChildren: './create-new-team/create-new-team.module#CreateNewTeamPageModule', canActivate: [AuthGuard] },
@@ -40,8 +39,7 @@ const routes: Routes = [
   { path: 'updateProfileModal', loadChildren: './update-profile-modal/update-profile-modal.module#UpdateProfileModalPageModule', canActivate: [AuthGuard] },
   { path: 'viewProjectDetails', loadChildren: './view-project-details/view-project-details.module#ViewProjectDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'viewProjectDetails/:projectId', loadChildren: './view-project-details/view-project-details.module#ViewProjectDetailsPageModule', canActivate: [AuthGuard] },
-
-
+  { path: 'reviews', loadChildren: './reviews/reviews.module#ReviewsPageModule', canActivate: [AuthGuard] },
 ];
 
 @NgModule({

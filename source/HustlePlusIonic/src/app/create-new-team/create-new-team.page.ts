@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TeamService } from '../team.service';
 import { Team } from '../team';
 import { SessionService } from '../session.service';
+import { Student } from '../student';
 
 @Component({
   selector: 'app-create-new-team',

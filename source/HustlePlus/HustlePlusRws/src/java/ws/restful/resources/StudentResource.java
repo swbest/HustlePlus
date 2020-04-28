@@ -74,7 +74,13 @@ public class StudentResource {
             student.getApplications().clear();
             student.setPassword(null);
             student.setSalt(null);
-
+            student.getApplications().clear();
+            student.getSkills().clear();
+            student.getStudentReviews().clear();
+            student.getCompanyReviews().clear();
+            student.getPayments().clear();
+            student.getProjects().clear();
+            student.getTeams().clear();
             return Response.status(Status.OK).entity(new StudentLoginRsp(student)).build();
         } catch (InvalidLoginCredentialException ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());

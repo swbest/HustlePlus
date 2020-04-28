@@ -14,13 +14,14 @@ import entity.Team;
 public class CreateNewTeamReq {
 
     private Team newTeam;
-    private Long projectId;
+    private Long studentId;
 
     public CreateNewTeamReq() {
     }
 
-    public CreateNewTeamReq(Team newTeam) {
+    public CreateNewTeamReq(Team newTeam, Long studentId) {
         this.newTeam = newTeam;
+        this.studentId = studentId;
     }
 
     public Team getNewTeam() {
@@ -31,12 +32,12 @@ public class CreateNewTeamReq {
         this.newTeam = newTeam;
     }
 
-    public Long getProjectId() {
-        return projectId;
+    public Long getStudentId() {
+        return studentId;
     }
 
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 
 }

@@ -44,11 +44,6 @@ export class AppComponent implements OnInit {
       url: '/viewAllCompanies',
       icon: 'business'
     },
-    {
-      title: 'Leave A Review',
-      url: '/createNewReview',
-      icon: 'create'
-    },
     // temporary
     {
       title: 'Leave A Review Student',
@@ -64,6 +59,11 @@ export class AppComponent implements OnInit {
       title: 'Form a new Team',
       url: '/createNewTeam',
       icon: 'create'
+    },
+    {
+      title: 'View my Teams',
+      url: '/viewMyTeams',
+      icon: 'people'
     },
   ];
 

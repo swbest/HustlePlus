@@ -32,7 +32,6 @@
         <ion-row>
           <ion-col>Team Name</ion-col>
           <ion-col>Students</ion-col>
-          <ion-col>Project</ion-col>
         </ion-row>
         <ion-row *ngFor="let team of teams">
           <ion-col>{{team.teamName}}</ion-col>
@@ -41,7 +40,6 @@
               <li *ngFor="let student of team.students">{{student.name}}</li>
             </ul>
           </ion-col>
-          <ion-col>{{team.project.projectName}}</ion-col>
         </ion-row>
       </ion-grid>
 

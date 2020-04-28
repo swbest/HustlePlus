@@ -25,10 +25,14 @@ export class TeamService {
 		private utilityService: UtilityService,
 		private sessionService: SessionService) {
 		this.baseUrl = this.utilityService.getRootPath() + 'Team';
+		this.studentId = this.sessionService.getCurrentStudent().userId;
 	}
 
 	createNewTeam(newTeam: Team): Observable<any> {
-		let createNewTeamReq = { 'newTeam': newTeam };
+		let createNewTeamReq = { 
+			'newTeam': newTeam,
+			'studentId': this.studentId,
+		};
 		return this.httpClient.put<any>(this.baseUrl, createNewTeamReq, httpOptions).pipe
 			(
 				catchError(this.handleError)
@@ -50,7 +54,6 @@ export class TeamService {
 	}
 
 	getMyTeams(): Observable<any> {
-		this.studentId = this.sessionService.getCurrentStudent().userId;
 		return this.httpClient.get<any>(this.baseUrl + "/retrieveTeamsByStudentId/" + this.studentId).pipe
 			(
 				catchError(this.handleError)
