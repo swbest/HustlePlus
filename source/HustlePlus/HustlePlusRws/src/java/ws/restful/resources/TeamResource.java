@@ -6,6 +6,7 @@
 package ws.restful.resources;
 
 import ejb.session.stateless.TeamSessionBeanLocal;
+import entity.Student;
 import entity.Team;
 import java.util.List;
 import java.util.logging.Level;
@@ -79,6 +80,22 @@ public class TeamResource {
     public Response retrieveTeamsByStudentId(@PathParam("studentId") Long studentId) {
         try {
             List<Team> teams = teamSessionBean.retrieveTeamsByStudentId(studentId);
+            for (Team team : teams) {
+                team.setProject(null);
+                List<Student> students = team.getStudents();
+                for (Student student : students) {
+                    student.getApplications().clear();
+                    student.setPassword(null);
+                    student.setSalt(null);
+                    student.getApplications().clear();
+                    student.getSkills().clear();
+                    student.getStudentReviews().clear();
+                    student.getCompanyReviews().clear();
+                    student.getPayments().clear();
+                    student.getProjects().clear();
+                    student.getTeams().clear();
+                }
+            }
             RetrieveTeamsByStudentRsp retrieveAllTeamsRsp = new RetrieveTeamsByStudentRsp(teams);
             return Response.status(Response.Status.OK).entity(retrieveAllTeamsRsp).build();
         } catch (Exception ex) {
@@ -98,8 +115,8 @@ public class TeamResource {
     public Response createTeam(CreateNewTeamReq createNewTeamReq) {
         if (createNewTeamReq != null) {
             try {
-                Long newStudentId = teamSessionBean.createNewTeam(createNewTeamReq.getNewTeam());
-                CreateNewStudentRsp createNewStudentRsp = new CreateNewStudentRsp(newStudentId);
+                Long newTeamId = teamSessionBean.createNewTeam(createNewTeamReq.getNewTeam(), createNewTeamReq.getStudentId());
+                CreateNewStudentRsp createNewStudentRsp = new CreateNewStudentRsp(newTeamId);
                 return Response.status(Response.Status.OK).entity(createNewStudentRsp).build();
             } catch (Exception ex) {
                 ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());

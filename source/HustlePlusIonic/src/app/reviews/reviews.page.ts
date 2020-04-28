@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter ,Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -7,62 +7,76 @@ import { StudentReviewService } from '../student-review.service';
 import { StudentReview } from '../student-review';
 import { StudentService } from '../student.service';
 import { Student } from '../student';
+import { CompanyReviewService } from '../company-review.service';
+import { CompanyReview } from '../company-review';
+import { CompanyService } from '../company.service';
+import { Company } from '../company';
 import { ProjectService } from '../project.service';
 import { Project } from '../project';
 import { Colors } from '../colors';
 
 @Component({
-  selector: 'app-create-new-student-review',
-  templateUrl: './create-new-student-review.page.html',
-  styleUrls: ['./create-new-student-review.page.scss'],
+  selector: 'app-reviews',
+  templateUrl: './reviews.page.html',
+  styleUrls: ['./reviews.page.scss'],
 })
-export class CreateNewStudentReviewPage implements OnInit {
+export class ReviewsPage implements OnInit {
 
   submitted: boolean;
   newStudentReview: StudentReview;
+  newCompanyReview: CompanyReview;
   infoMessage: string;
   errorMessage: string;
   hasError: boolean;
   students: Student[];
+  companies: Company[];
   projects: Project[];
   ratingRange: number[] = [1, 2, 3, 4, 5];
   projectId: string;
-  studentId: string;
+  companyId: string;
+  studentId: number;
 
   @Input() rating: number;
   @Output() ratingChange: EventEmitter<number> = new EventEmitter();
 
   constructor(private studentReviewService: StudentReviewService,
+    private companyReviewService: CompanyReviewService,
     private router: Router,
     private studentService: StudentService,
+    private companyService: CompanyService,
     private projectService: ProjectService,
     private sessionService: SessionService) {
     this.submitted = false;
     this.newStudentReview = new StudentReview();
+    this.newCompanyReview = new CompanyReview();
+    this.studentId = this.sessionService.getCurrentStudent().userId;
   }
 
   ngOnInit() {
     this.refreshStudents();
+    this.refreshCompanies();
     this.refreshProjects();
   }
 
   ionViewWillEnter() {
     this.refreshStudents();
+    this.refreshCompanies();
     this.refreshProjects();
-	}
+  }
 
   clear() {
     this.submitted = false;
     this.newStudentReview = new StudentReview();
+    this.newCompanyReview = new CompanyReview();
   }
 
-  create(createStudentReviewForm: NgForm) {
+  createStudentReview(createStudentReviewForm: NgForm) {
     this.submitted = true;
 
     if (createStudentReviewForm.valid) {
       this.newStudentReview.username = this.sessionService.getUsername();
       this.newStudentReview.rating = this.rating;
-      this.studentReviewService.createNewStudentReview(this.newStudentReview, parseInt(this.projectId), parseInt(this.studentId)).subscribe(
+      this.studentReviewService.createNewStudentReview(this.newStudentReview, parseInt(this.projectId), this.studentId).subscribe(
         response => {
           this.infoMessage = 'New student review created ' + response.newStudentReviewId;
           this.errorMessage = null;
@@ -77,10 +91,30 @@ export class CreateNewStudentReviewPage implements OnInit {
     }
   }
 
-	refreshStudents() {
-		this.studentService.getAllStudents().subscribe(
+  createCompanyReview(createCompanyReviewForm: NgForm) {
+    this.submitted = true;
+
+    if (createCompanyReviewForm.valid) {
+      this.newCompanyReview.rating = this.rating;
+      this.companyReviewService.createNewCompanyReview(this.newCompanyReview, parseInt(this.projectId), parseInt(this.companyId), this.studentId).subscribe(
+        response => {
+          this.infoMessage = 'New company review created ' + response.newCompanyReviewId;
+          this.errorMessage = null;
+          this.hasError = true;
+        },
+        error => {
+          this.infoMessage = null;
+          this.errorMessage = error;
+          this.hasError = false;
+        }
+      );
+    }
+  }
+
+	refreshCompanies() {
+		this.companyService.getAllCompanies().subscribe(
 			response => {
-				this.students = response.students
+				this.companies = response.companies
 			},
 			error => {
 				this.errorMessage = error
@@ -88,16 +122,27 @@ export class CreateNewStudentReviewPage implements OnInit {
 		);
 	}
 
-	refreshProjects() {
-		this.projectService.getProjects().subscribe(
-			response => {
-				this.projects = response.projects
-			},
-			error => {
-				this.errorMessage = error
-			}
-		);
-	}
+  refreshStudents() {
+    this.studentService.getAllStudents().subscribe(
+      response => {
+        this.students = response.students
+      },
+      error => {
+        this.errorMessage = error
+      }
+    );
+  }
+
+  refreshProjects() {
+    this.projectService.getProjects().subscribe(
+      response => {
+        this.projects = response.projects
+      },
+      error => {
+        this.errorMessage = error
+      }
+    );
+  }
 
   back() {
     if (!this.hasError) {
@@ -132,4 +177,3 @@ export class CreateNewStudentReviewPage implements OnInit {
     }
   }
 }
-

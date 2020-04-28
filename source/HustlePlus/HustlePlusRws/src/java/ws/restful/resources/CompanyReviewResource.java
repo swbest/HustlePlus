@@ -60,6 +60,9 @@ public class CompanyReviewResource {
     public Response retrieveStudentReviewById(@PathParam("companyReviewId") Long companyReviewId) {
         try {
             CompanyReview companyReview = companyReviewSessionBeanLocal.retrieveCompanyReviewByReviewId(companyReviewId);
+            companyReview.setCompany(null);
+            companyReview.setProject(null);
+            companyReview.setStudent(null);
             RetrieveCompanyReviewRsp retrieveCompanyReviewRsp = new RetrieveCompanyReviewRsp(companyReview);
             return Response.status(Response.Status.OK).entity(retrieveCompanyReviewRsp).build();
         } catch (Exception ex) {
@@ -80,6 +83,11 @@ public class CompanyReviewResource {
     public Response retrieveAllCompanyReviews() {
         try {
             List<CompanyReview> companyReviews = companyReviewSessionBeanLocal.retrieveAllCompanyReviews();
+            for (CompanyReview companyReview : companyReviews) {
+                companyReview.setCompany(null);
+                companyReview.setProject(null);
+                companyReview.setStudent(null);
+            }
             RetrieveAllCompanyReviewsRsp retrieveAllCompanyReviewsRsp = new RetrieveAllCompanyReviewsRsp(companyReviews);
             return Response.status(Response.Status.OK).entity(retrieveAllCompanyReviewsRsp).build();
         } catch (Exception ex) {

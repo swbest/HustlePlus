@@ -16,7 +16,6 @@
   <ion-card>
 
     <ion-card-content>
-
       <div *ngIf="retrieveProjectError == true" style="color: red;">
         Project ID {{projectId}} does not exist!
       </div>
@@ -55,6 +54,10 @@
           </ul>
         </ion-item>
       </ion-list>
+      <!-- <ion-button *ngIf="studentPartOfProject == false"> -->
+      <ion-button type="submit" (click)="apply()" ion-button block>
+        Apply to Project
+      </ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

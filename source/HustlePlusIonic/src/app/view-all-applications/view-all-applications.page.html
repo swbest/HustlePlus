@@ -1,9 +1,44 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>view-all-applications</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      My Applications
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
+<ion-toolbar no-border-top>
+  <ion-segment [(ngModel)]="option">
+    <ion-segment-button value="Search">
+      Search
+    </ion-segment-button>
+    <ion-segment-button value="My Applications">
+      My Applications
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
+
 <ion-content>
-<p>not done</p>
+
+  <ion-searchbar showCancelButton="true" placeholder="Search Applications" (ionInput)="getSearchApplications($event)"
+    (ionCancel)="onCancel($event)"></ion-searchbar>
+
+  <ion-item *ngFor="let application of applications">
+    <ion-label>
+      <ion-row>
+        <ion-col>
+          <h2>{{application.applicationId}}</h2>
+          <h2>Project Name: {{application.project.projectName}}</h2>
+          <h3>Pending: {{application.isPending}}</h3>
+          <h3>Approved: {{application.isApproved}}</h3>
+        </ion-col>
+      </ion-row>
+    </ion-label>
+  </ion-item>
 </ion-content>
+
+<ion-footer>
+  <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+</ion-footer>

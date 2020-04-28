@@ -83,11 +83,9 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
                     //Associate skills with project 
                     List<Skill> skills = new ArrayList();
-                    List<Project> projectsAdded = new ArrayList();
-                    projectsAdded.add(newProject);
                     for (Long skillIdsToSet : skillIds) {
                         skills.add(skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToSet));
-                        skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToSet).setProjects(projectsAdded);
+                        skillSessionBeanLocal.retrieveSkillBySkillId(skillIdsToSet).addProject(newProject);
                     }
                     newProject.setSkills(skills);
 
@@ -118,18 +116,15 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
             throw new SkillNotFoundException("No skills were found!");
         }
     }
-    
-    
+
     @Override
-    public void disassociateProjectSkill(Long projectId, Long skillId) throws ProjectNotFoundException, SkillNotFoundException
-    {
+    public void disassociateProjectSkill(Long projectId, Long skillId) throws ProjectNotFoundException, SkillNotFoundException {
         Project project = retrieveProjectByProjectId(projectId);
         Skill skill = skillSessionBeanLocal.retrieveSkillBySkillId(skillId);
-        
+
         project.getSkills().remove(skill);
         skill.getProjects().remove(project);
     }
-    
 
     @Override
     public List<Project> retrieveAllProjects() {

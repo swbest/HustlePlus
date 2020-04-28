@@ -126,10 +126,15 @@ public class ApplicationResource {
         try {
             List<Application> applications = applicationSessionBean.retrieveApplicationByStudent(studentId);
             for (Application application : applications) {
-                application.setProject(null);
                 application.setStudent(null);
                 Project project = application.getProject();
                 project.getApplications().clear();
+                project.setCompany(null);
+                project.getCompanyReviews().clear();
+                project.getMilestones().clear();
+                project.getSkills().clear();
+                project.getStudentReviews().clear();
+                project.getStudents().clear();
             }
             RetrieveAllApplicationsRsp retrieveAllApplicationsRsp = new RetrieveAllApplicationsRsp(applications);
             return Response.status(Response.Status.OK).entity(retrieveAllApplicationsRsp).build();
@@ -148,6 +153,7 @@ public class ApplicationResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createApplication(CreateNewApplicationReq createNewApplicationReq) {
+        System.out.println("Creating new application for student: " + createNewApplicationReq.getStudentId() + " project: " + createNewApplicationReq.getProjectId());
         if (createNewApplicationReq != null) {
             try {
                 Long newApplicationId = applicationSessionBean.createApplication(createNewApplicationReq.getNewApplication(), createNewApplicationReq.getProjectId(), createNewApplicationReq.getStudentId());
@@ -155,6 +161,7 @@ public class ApplicationResource {
                 return Response.status(Response.Status.OK).entity(createNewApplicationRsp).build();
             } catch (Exception ex) {
                 ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+                System.out.println(ex.getMessage());
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
             }
         } else {

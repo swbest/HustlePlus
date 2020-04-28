@@ -60,6 +60,9 @@ public class StudentReviewResource {
     public Response retrieveStudentReviewById(@PathParam("studentReviewId") Long studentReviewId) {
         try {
             StudentReview studentReview = studentReviewSessionBeanLocal.retrieveStudentReviewByReviewId(studentReviewId);
+            studentReview.setCompany(null);
+            studentReview.setProject(null);
+            studentReview.setStudentReviewId(null);
             RetrieveStudentReviewRsp retrieveStudentReviewRsp = new RetrieveStudentReviewRsp(studentReview);
             return Response.status(Response.Status.OK).entity(retrieveStudentReviewRsp).build();
         } catch (Exception ex) {
@@ -80,6 +83,11 @@ public class StudentReviewResource {
     public Response retrieveAllReviews() {
         try {
             List<StudentReview> studentReviews = studentReviewSessionBeanLocal.retrieveAllStudentReviews();
+            for (StudentReview studentReview : studentReviews) {
+                studentReview.setCompany(null);
+                studentReview.setProject(null);
+                studentReview.setStudentReviewId(null);
+            }
             RetrieveAllStudentReviewsRsp retrieveAllStudentReviewsRsp = new RetrieveAllStudentReviewsRsp(studentReviews);
             return Response.status(Response.Status.OK).entity(retrieveAllStudentReviewsRsp).build();
         } catch (Exception ex) {
@@ -100,6 +108,11 @@ public class StudentReviewResource {
     public Response retrieveMyReviews(@PathParam("studentId") Long studentId) { // peers and company rating this user
         try {
             List<StudentReview> studentReviews = studentReviewSessionBeanLocal.retrieveAllStudentReviewsForStudent(studentId);
+            for (StudentReview studentReview : studentReviews) {
+                studentReview.setCompany(null);
+                studentReview.setProject(null);
+                studentReview.setStudentReviewId(null);
+            }
             RetrieveAllStudentReviewsRsp retrieveAllStudentReviewsRsp = new RetrieveAllStudentReviewsRsp(studentReviews);
             return Response.status(Response.Status.OK).entity(retrieveAllStudentReviewsRsp).build();
         } catch (Exception ex) {

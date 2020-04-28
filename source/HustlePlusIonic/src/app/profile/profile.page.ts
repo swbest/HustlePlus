@@ -58,7 +58,6 @@ export class ProfilePage implements OnInit {
         }
     } 
   
-  
     studentInitialiseFields() {
       this.userId = this.studentToView.userId;
       this.name = this.studentToView.name;

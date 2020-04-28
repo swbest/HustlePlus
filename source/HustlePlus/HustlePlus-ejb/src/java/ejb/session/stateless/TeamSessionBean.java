@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.Student;
 import entity.Team;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.DeleteTeamException;
 import util.exception.InputDataValidationException;
+import util.exception.StudentNotFoundException;
 import util.exception.TeamNameExistException;
 import util.exception.TeamNotFoundException;
 import util.exception.UnknownPersistenceException;
@@ -31,6 +33,9 @@ import util.exception.UpdateTeamException;
  */
 @Stateless
 public class TeamSessionBean implements TeamSessionBeanLocal {
+
+    @EJB
+    private StudentSessionBeanLocal studentSessionBeanLocal;
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
@@ -47,17 +52,14 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
     }
 
     @Override
-    public Long createNewTeam(Team newTeam) throws TeamNameExistException, UnknownPersistenceException, InputDataValidationException {
+    public Long createNewTeam(Team newTeam, Long studentId) throws StudentNotFoundException, TeamNameExistException, UnknownPersistenceException, InputDataValidationException {
         try {
-            Set<ConstraintViolation<Team>> constraintViolations = validator.validate(newTeam);
-
-            if (constraintViolations.isEmpty()) {
-                em.persist(newTeam);
-                em.flush();
-                return newTeam.getTeamId();
-            } else {
-                throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
-            }
+            Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+            newTeam.addStudent(student);
+            student.addTeam(newTeam);
+            em.persist(newTeam);
+            em.flush();
+            return newTeam.getTeamId();
         } catch (PersistenceException ex) {
             if (ex.getCause() != null && ex.getCause().getClass().getName().equals("org.eclipse.persistence.exceptions.DatabaseException")) {
                 if (ex.getCause().getCause() != null && ex.getCause().getCause().getClass().getName().equals("java.sql.SQLIntegrityConstraintViolationException")) {
@@ -68,6 +70,8 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
             } else {
                 throw new UnknownPersistenceException(ex.getMessage());
             }
+        } catch (StudentNotFoundException ex) {
+            throw new StudentNotFoundException(ex.getMessage());
         }
     }
 
@@ -91,7 +95,7 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
 
     @Override
     public List<Team> retrieveTeamsByStudentId(Long studentId) {
-        Query query = em.createQuery("SELECT t FROM Team t WHERE t.students.userId = :inStudentId");
+        Query query = em.createQuery("SELECT s.teams FROM Student s WHERE s.userId = :inStudentId");
         query.setParameter("inStudentId", studentId);
         return query.getResultList();
     }
