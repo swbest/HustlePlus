@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/defaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <h:form id="reviewsOfStudent">
+            <p:messages id="messages" redisplay="false" closable="true" />
+
+            <p:dataGrid id="dataGridReviews" var="review" value="#{studentManagementManagedBean.reviewsOfStudent}" columns="2" layout="grid"
+                        rows="2" paginator="true" paginatorPosition="bottom"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Reviews Of Student In Project
+                </f:facet>
+
+                <p:panel header="#{review.studentReviewed.name}" style="text-align: center">
+                    <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">
+
+                        <h:outputText value ="Review ID:"/>
+                        <h:outputText value ="#{review.studentReviewId}"/>
+
+                        <h:outputText value ="Rating: "/>                        
+                        <h:outputText value ="#{review.rating}">
+                            <f:convertNumber maxFractionDigits="2"/>
+                        </h:outputText>
+
+                        <h:outputText value="Comments: "/>
+                        <h:outputText value="#{review.reviewText}" escape="false"/>
+                        
+      
+
+                    </h:panelGrid>
+
+                </p:panel>
+
+
+            </p:dataGrid>
+
+
+        </h:form>
+        
+      
+    </ui:define>
+
+
+</ui:composition>
+
+
+
+
+

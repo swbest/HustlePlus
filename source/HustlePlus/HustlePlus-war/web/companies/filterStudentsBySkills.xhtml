@@ -16,19 +16,7 @@
                 <p:layout>
                 
                     <p:layoutUnit position="west" resizable="true">
-                        
-                        <p:outputLabel for="selCondition" value="Condition: " style="font-weight: bold;" />
-                        <p:selectOneMenu id="selCondition" value="#{filterStudentsBySkillsManagedBean.condition}">
-
-                            <f:selectItem itemValue="OR" itemLabel="OR" itemDescription="OR" />
-                            <f:selectItem itemValue="AND" itemLabel="AND" itemDescription="AND" />
-
-                            <p:ajax process="@form" update="formMain:dataTableMain" listener="#{filterStudentsBySkillsManagedBean.filterStudent}" />
-
-                        </p:selectOneMenu>
-
-                        <br /><br />
-
+     
                         <p:outputLabel for="selSkills" value="Skills: " style="font-weight: bold;" />
                         <p:selectManyMenu id="selSkills" value="#{filterStudentsBySkillsManagedBean.selectedSkillIds}" showCheckbox="true">
                             <f:selectItems value="#{filterStudentsBySkillsManagedBean.selectItems}" />
@@ -44,33 +32,25 @@
                         <p:dataTable id="dataTableMain" widgetVar="dataTableMain" value="#{filterStudentsBySkillsManagedBean.students}" var="student" rowKey="#{student.userId}" rowIndexVar="row"                             
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
-                            <p:column headerText="User ID" sortBy="#{student.userId}">
+                            <p:column headerText="Student ID" sortBy="#{student.userId}">
                                 <h:outputText value="#{student.userId}" />
                             </p:column>
                     
                             <p:column headerText="Name" sortBy="#{student.name}">
                                <h:outputText value="#{student.name}" />
                             </p:column>                           
-
-                            <p:column headerText="Username" sortBy="#{student.username}">
-                                <h:outputText value="#{student.username}" />
-                            </p:column>
-                    
+   
                             <p:column headerText="Email" sortBy="#{student.email}">
                                 <h:outputText value="#{student.email}" />
                             </p:column>
-                    
-                            <p:column headerText="Verified" sortBy="#{student.isVerified}">
-                                <h:outputText value="#{student.isVerified}" />
-                            </p:column>
-                    
-                            <p:column headerText="Suspended" sortBy="#{student.isSuspended}">
-                             <h:outputText value="#{student.isSuspended}" />
+                            
+                            <p:column headerText="Rating" sortBy="#{student.avgRating}">
+                                <h:outputText value="#{student.avgRating}" />
                             </p:column>
 
                             <p:column headerText="Action" >
-                            <p:commandButton update="ccViewStudent:formViewStudent" oncomplete="PF('dialogViewStudent').show()" icon="ui-icon-document" title="View Details">
-                                <f:setPropertyActionListener value="#{student}" target="#{filterStudentsBySkillsManagedBean.viewStudentManagedBean.studentToView}" />
+                            <p:commandButton update="formViewStudent" oncomplete="PF('dialogViewStudent').show()" icon="ui-icon-document" title="View Details">
+                                <f:setPropertyActionListener value="#{student}" target="#{filterStudentsBySkillsManagedBean.studentToView}" />
                              </p:commandButton>                        
                             </p:column>
 
@@ -82,7 +62,87 @@
                 
             </h:form>
             
-            <ez:ViewStudent id="ccViewStudent" />
+            <h:form id="formViewStudent">
+            
+            <p:dialog id="dialogViewStudent" widgetVar="dialogViewStudent" header="View Student Details" closable="true">
+
+                <p:panelGrid>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Student ID: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{filterStudentsBySkillsManagedBean.studentToView.userId}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Student Name: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{filterStudentsBySkillsManagedBean.studentToView.name}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Rating: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{filterStudentsBySkillsManagedBean.studentToView.avgRating}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Email: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{filterStudentsBySkillsManagedBean.studentToView.email}" />
+                        </p:column>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Description: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{filterStudentsBySkillsManagedBean.studentToView.description}" />
+                        </p:column>
+                    </p:row>
+                        
+                                           
+                    </p:row>
+                    
+                         <p:row>
+                            <p:column>
+                                <p:outputLabel value="Skills: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:dataList value="#{filterStudentsBySkillsManagedBean.studentToView.skills}" var="skill">
+                                    #{skill.title}
+                                </p:dataList>
+                            </p:column>
+
+                        </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Verified " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{filterStudentsBySkillsManagedBean.studentToView.isVerified}" />
+                        </p:column>
+                    </p:row>
+
+                  
+           </p:panelGrid>
+
+            </p:dialog>
+            
+        </h:form>
+            
         </div>
         
     </ui:define>

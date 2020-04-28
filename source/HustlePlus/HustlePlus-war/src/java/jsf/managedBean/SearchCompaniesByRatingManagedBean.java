@@ -33,6 +33,7 @@ public class SearchCompaniesByRatingManagedBean {
 
     private String searchString;
     private List<Company> companies;
+    private Company companyToView; 
 
 
     /**
@@ -101,6 +102,16 @@ public class SearchCompaniesByRatingManagedBean {
     public void setViewCompanyManagedBean(ViewCompanyManagedBean viewCompanyManagedBean) {
         this.viewCompanyManagedBean = viewCompanyManagedBean;
     }
+
+    public Company getCompanyToView() {
+        return companyToView;
+    }
+
+    public void setCompanyToView(Company companyToView) {
+        this.companyToView = companyToView;
+    }
+    
+    
     
     
 }

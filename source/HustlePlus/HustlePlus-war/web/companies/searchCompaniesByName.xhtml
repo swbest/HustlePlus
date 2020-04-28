@@ -24,35 +24,28 @@
                 <br />
                 
                 <p:dataTable id="dataTableMain" widgetVar="dataTableMain" value="#{searchCompaniesByNameManagedBean.companies}" var="company" rowKey="#{company.userId}" rowIndexVar="row"                             
-                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50" >
+                             rows="10" paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50" >
                     
-                    <p:column headerText="User ID" sortBy="#{company.userId}">
+                    <p:column headerText="Company ID" sortBy="#{company.userId}">
                         <h:outputText value="#{company.userId}" />
                     </p:column>
                     
-                    <p:column headerText="Name" sortBy="#{company.name}">
+                    <p:column headerText="Company Name" sortBy="#{company.name}">
                         <h:outputText value="#{company.name}" />
                     </p:column>                          
-
-                    <p:column headerText="Username" sortBy="#{company.username}">
-                        <h:outputText value="#{company.username}" />
-                    </p:column>
                     
                     <p:column headerText="Email" sortBy="#{company.email}">
                         <h:outputText value="#{company.email}" />
                     </p:column>
                     
-                    <p:column headerText="Verified" sortBy="#{company.isVerified}">
-                        <h:outputText value="#{company.isVerified}" />
+                    <p:column headerText="Rating" sortBy="#{company.avgRating}">
+                        <h:outputText value="#{company.avgRating}" />
                     </p:column>
                     
-                    <p:column headerText="Suspended" sortBy="#{company.isSuspended}">
-                        <h:outputText value="#{company.isSuspended}" />
-                    </p:column>
 
                     <p:column headerText="View Details" >
-                        <p:commandButton update="ccViewCompany:formViewCompany" oncomplete="PF('dialogViewCompany').show()" icon="ui-icon-document" title="View Details">
-                            <f:setPropertyActionListener value="#{company}" target="#{searchCompaniesByNameManagedBean.viewCompanyManagedBean.companyToView}" />
+                        <p:commandButton update="formViewCompany" oncomplete="PF('dialogViewCompany').show()" icon="ui-icon-document" title="View Company Details">
+                            <f:setPropertyActionListener value="#{company}" target="#{searchCompaniesByNameManagedBean.companyToView}" />
                         </p:commandButton>                        
                     </p:column>
 
@@ -60,7 +53,85 @@
                                 
             </h:form>
 
-            <ez:ViewCompany id="ccViewCompany" />
+            <h:form id="formViewCompany">
+            
+            <p:dialog id="dialogViewCompany" widgetVar="dialogViewCompany" header="View Company" closable="true">
+
+                <p:panelGrid>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Company ID: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchCompaniesByNameManagedBean.companyToView.userId}" />
+                        </p:column>
+                    </p:row>
+
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Company Name: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchCompaniesByNameManagedBean.companyToView.name}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Email: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchCompaniesByNameManagedBean.companyToView.email}" />
+                        </p:column>
+                    </p:row>
+                    
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Rating: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchCompaniesByNameManagedBean.companyToView.avgRating}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Description: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchCompaniesByNameManagedBean.companyToView.description}" />
+                        </p:column>
+                    </p:row>
+                                        
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Verified: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchCompaniesByNameManagedBean.companyToView.isVerified}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Reviews: " />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Student Reviews" actionListener="#{companyManagementManagedBean.retrieveAllReviews}">
+                                <f:attribute name="selectedCompany" value="#{searchCompaniesByNameManagedBean.companyToView}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                    
+                </p:panelGrid>
+
+            </p:dialog>
+            
+        </h:form>
             
         </div>
         

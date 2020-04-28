@@ -15,7 +15,7 @@
                 <p:messages id="messages" redisplay="false" closable="true" />
 
                 <p:dataTable id="dataTableAllStudents" widgetVar="dataTableAllStudents" value="#{studentManagementManagedBean.students}" var="student" rowKey="#{student.userId}" rowIndexVar="row" filteredValue="#{studentManagementManagedBean.filteredStudents}"  
-                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                             rows="10" paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
                     <f:facet name="header">
                         <p:outputPanel style="text-align: center;">
@@ -36,25 +36,16 @@
                         <h:outputText value="#{student.username}" />
                     </p:column>
                     
-                    <p:column headerText="Average Rating" sortBy="#{student.avgRating}" filterBy="#{student.avgRating}" filterMatchMode="contains">
+                    <p:column headerText="Rating" sortBy="#{student.avgRating}" filterBy="#{student.avgRating}" filterMatchMode="contains">
                         <h:outputText value="#{student.avgRating}" />
                     </p:column>                    
                     
-                    <p:column headerText="Email" sortBy="#{student.email}" filterBy="#{student.email}" filterMatchMode="contains">
-                        <h:outputText value="#{student.email}" />
+                   
+                    <p:column headerText="View Student Details">
+                        <p:commandButton update="formViewStudent" oncomplete="PF('dialogViewStudent').show()" icon="ui-icon-document" title="View Student Details">
+                            <f:setPropertyActionListener value="#{student}" target="#{studentManagementManagedBean.studentToView}" />
+                        </p:commandButton>
                     </p:column>
-                    
-                    <p:column headerText="Description" sortBy="#{student.description}" filterBy="#{student.description}" filterMatchMode="contains">
-                        <h:outputText value="#{student.description}" />
-                    </p:column>
-                    
-                    <p:column headerText="Verified" sortBy="#{student.isVerified}" filterBy="#{student.isVerified}" filterMatchMode="contains">
-                        <h:outputText value="#{student.isVerified}" />
-                    </p:column>
-                    
-                    <p:column headerText="Suspended" sortBy="#{student.isSuspended}" filterBy="#{student.isSuspended}" filterMatchMode="contains">
-                        <h:outputText value="#{student.isSuspended}" />
-                    </p:column>                    
                     
                     <p:column headerText="Action" >
                         <p:commandButton actionListener="#{studentManagementManagedBean.verifyStudent}" value="Verify">
@@ -77,6 +68,97 @@
                 </p:confirmDialog>
 
             </h:form>
+            
+            <h:form id="formViewStudent">
+            
+            <p:dialog id="dialogViewStudent" widgetVar="dialogViewStudent" header="View Student Details" closable="true">
+
+                <p:panelGrid>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Student ID: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{studentManagementManagedBean.studentToView.userId}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Student Name: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{studentManagementManagedBean.studentToView.name}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Rating: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{studentManagementManagedBean.studentToView.avgRating}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Email: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{studentManagementManagedBean.studentToView.email}" />
+                        </p:column>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Description: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{studentManagementManagedBean.studentToView.description}" />
+                        </p:column>
+                    </p:row>
+                        
+                                           
+                    </p:row>
+                    
+                         <p:row>
+                            <p:column>
+                                <p:outputLabel value="Skills: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:dataList value="#{studentManagementManagedBean.studentToView.skills}" var="skill">
+                                    #{skill.title}
+                                </p:dataList>
+                            </p:column>
+
+                        </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Verified: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{studentManagementManagedBean.studentToView.isVerified}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Reviews: " />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Company Reviews" actionListener="#{studentManagementManagedBean.retrieveAllReviews}">
+                                <f:attribute name="selectedStudent" value="#{studentManagementManagedBean.studentToView}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                    
+                    </p:panelGrid>
+
+            </p:dialog>
+            
+        </h:form>
 
     
         </div>

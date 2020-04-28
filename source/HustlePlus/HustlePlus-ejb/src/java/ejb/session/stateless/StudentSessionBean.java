@@ -203,44 +203,46 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     }
 
     @Override
-    public List<Student> filterStudentsBySkills(List<Long> skillIds, String condition) {
+    public List<Student> filterStudentsBySkills(List<Long> skillIds) {
         List<Student> students = new ArrayList<>();
 
-        if (skillIds == null || skillIds.isEmpty() || (!condition.equals("AND") && !condition.equals("OR"))) {
+        if (skillIds == null || skillIds.isEmpty()) {
             return students;
         } else {
-            if (condition.equals("OR")) {
-                Query query = em.createQuery("SELECT DISTINCT st FROM Student st, IN (st.skills) s WHERE s.skillId IN :inSkillIds ORDER BY st.name ASC");
+           // if (condition.equals("OR")) {
+
+                Query query = em.createQuery("SELECT DISTINCT st FROM Student st AS st LEFT JOIN Skill_student AS skst ON st.userId = skst. WHERE st.skills_skillId IN :inSkillIds");
                 query.setParameter("inSkillIds", skillIds);
                 students = query.getResultList();
-            } else // AND
-            {
-                String selectClause = "SELECT st FROM Student st";
-                String whereClause = "";
-                Boolean firstSkill = true;
-                Integer skillCount = 1;
 
-                for (Long skillId : skillIds) {
-                    selectClause += ", IN (st.skills) s" + skillCount;
+//            } else // AND
+//            {
+//                String selectClause = "SELECT st FROM Student st";
+//                String whereClause = "";
+//                Boolean firstSkill = true;
+//                Integer skillCount = 1;
+//
+//                for (Long skillId : skillIds) {
+//                    selectClause += ", IN (st.skills) s" + skillCount;
+//
+//                    if (firstSkill) {
+//                        whereClause = "WHERE st1.skillId = " + skillId;
+//                        firstSkill = false;
+//                    } else {
+//                        whereClause += " AND st" + skillCount + ".skillId = " + skillId;
+//                    }
+//
+//                    skillCount++;
+//                }
 
-                    if (firstSkill) {
-                        whereClause = "WHERE st1.skillId = " + skillId;
-                        firstSkill = false;
-                    } else {
-                        whereClause += " AND st" + skillCount + ".skillId = " + skillId;
-                    }
+//                String jpql = selectClause + " " + whereClause + " ORDER BY st.name ASC";
+//                Query query = em.createQuery(jpql);
+//                students = query.getResultList();
+//            }
 
-                    skillCount++;
-                }
-
-                String jpql = selectClause + " " + whereClause + " ORDER BY st.name ASC";
-                Query query = em.createQuery(jpql);
-                students = query.getResultList();
-            }
-
-            for (Student student : students) {
-                student.getSkills().size();
-            }
+//            for (Student student : students) {
+//                student.getSkills().size();
+//            }
 
             Collections.sort(students, new Comparator<Student>() {
                 public int compare(Student st1, Student st2) {
@@ -299,6 +301,15 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         } catch (StudentNotFoundException ex) {
             throw new InvalidLoginCredentialException("Username does not exist or invalid password!");
         }
+    }
+    
+    @Override
+    public List<Student> searchStudentsByName(String searchString) {
+        Query query = em.createQuery("SELECT s FROM Student s WHERE s.name LIKE :inSearchString ORDER BY s.userId ASC");
+        query.setParameter("inSearchString", "%" + searchString + "%");
+        List<Student> students = query.getResultList();
+        
+       return students; 
     }
 
     public void addSkillToStudent(Long skillId, Long studentId) {

@@ -46,7 +46,7 @@ public interface ProjectSessionBeanLocal {
 
     public List<Project> searchProjectsByName(String searchString);
 
-    public List<Project> filterProjectByCompanies(List<Long> companyIds, String condition);
+    public List<Project> filterProjectByCompanies(List<Long> companyIds);
 
     public List<Project> searchProjectsByCompany(String searchString);
 

@@ -67,6 +67,7 @@ public class PaymentManagementManagedBean implements Serializable {
         } else {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Payment for milestone successfully released!",null));
         p.setIsPaid(Boolean.TRUE);
+        setPaymentStatus("Payment Released");  
         paymentSessionBeanLocal.updatePayment(p);
         }
     } catch (PaymentNotFoundException ex) {

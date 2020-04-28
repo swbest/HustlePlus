@@ -272,6 +272,8 @@ public class ReviewManagementManagedBean implements Serializable {
     
     public void updateReview(ActionEvent event) {
         try {
+        selectedReviewToUpdate.setRating(selectedReviewToUpdate.getRating());
+        selectedReviewToUpdate.setReviewText(selectedReviewToUpdate.getReviewText());
         studentReviewSessionBeanLocal.updateReview(selectedReviewToUpdate);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Review successfully updated!", null));
         } catch (ReviewNotFoundException ex) {

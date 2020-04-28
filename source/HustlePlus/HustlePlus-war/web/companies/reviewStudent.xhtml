@@ -46,7 +46,7 @@
                     </f:facet>
                 </p:textEditor>
 
-                <p:commandButton immediate="true" value="Cancel" action="/index.xhtml?faces-redirect=true"/>
+                <p:commandButton immediate="true" value="Back" action="/index.xhtml?faces-redirect=true"/>
                 <p:commandButton value="Submit" ajax="false" update="msgs" actionListener="#{reviewManagementManagedBean.createNewReview}">
                     <f:attribute name="cReviewing" value="#{sessionScope.userEntity}"/>
                 </p:commandButton>

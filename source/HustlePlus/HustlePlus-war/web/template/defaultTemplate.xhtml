@@ -85,7 +85,9 @@
                             <f:attribute name="companyLeavingReview" value="#{sessionScope.userEntity}"/>
                         </p:menuitem>
                         <p:separator />
-                        <p:menuitem value="New Project Milestone" outcome="/companies/createNewMilestone.xhtml"/>
+                        <p:menuitem value="New Project Milestone" actionListener="#{milestoneManagementManagedBean.doCreateNewMilestone}">
+                            <f:attribute name="companyToView" value="#{sessionScope.userEntity}"/>
+                        </p:menuitem>
                         <p:separator />
                     </p:submenu>
 
@@ -104,9 +106,7 @@
                     </p:submenu>
 
                     <p:submenu label="Filter">
-                        <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
-                        <p:separator />
-                        <p:menuitem value="Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml"/>
+                        <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />                  
                         <p:separator />
                         <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
                     </p:submenu>
@@ -157,7 +157,9 @@
                                 <f:attribute name="companyLeavingReview" value="#{sessionScope.userEntity}"/>
                             </p:menuitem>
                             <p:separator />
-                            <p:menuitem value="New Milestone" outcome="/companies/createNewMilestone.xhtml"/>
+                            <p:menuitem value="New Project Milestone" actionListener="#{milestoneManagementManagedBean.doCreateNewMilestone}">
+                            <f:attribute name="companyToView" value="#{sessionScope.userEntity}"/>
+                        </p:menuitem>
                         </p:submenu>
 
                         <p:submenu icon="fa fa-search">
@@ -176,8 +178,6 @@
 
                         <p:submenu icon="fa fa-filter">
                             <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
-                            <p:separator />
-                            <p:menuitem value="Companies by Rating" outcome="/companies/filterCompaniesByRating.xhtml"/>
                             <p:separator />
                             <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
                         </p:submenu>
@@ -201,8 +201,11 @@
                                 <f:attribute name="companyRev" value="#{sessionScope.userEntity}"/> 
                             </p:menuitem>
                         </p:submenu>
-
-
+                        
+                        <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml"/>
+                        <p:menuitem value="Verify Student" outcome="/admin/verifyStudent.xhtml"/>
+                        <p:menuitem value="Send Email" outcome="/admin/sendEmailToUser.xhtml"/>
+                        
                         <f:facet name="options">
                             <p:menuButton icon="fa fa-building" value="Hello, #{sessionScope.userEntity.name}!">
                                 <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml">

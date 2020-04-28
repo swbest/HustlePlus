@@ -34,6 +34,7 @@ public class SearchStudentsByNameManagedBean implements Serializable{
 
     private String searchString;
     private List<Student> students;
+    private Student studentToView; 
 
     /**
      * Creates a new instance of SearchStudentsManagedBean
@@ -60,11 +61,7 @@ public class SearchStudentsByNameManagedBean implements Serializable{
         if (getSearchString() == null || getSearchString().trim().length() == 0) {
             setStudents(studentSessionBeanLocal.retrieveAllStudents());
         } else {
-            try {
-                setStudents(studentSessionBeanLocal.retrieveStudentsByName(getSearchString()));
-            } catch (StudentNotFoundException ex) {
-                
-            }
+                setStudents(studentSessionBeanLocal.searchStudentsByName(getSearchString()));
         }
     }
 
@@ -109,5 +106,15 @@ public class SearchStudentsByNameManagedBean implements Serializable{
     public void setStudents(List<Student> students) {
         this.students = students;
     }
+
+    public Student getStudentToView() {
+        return studentToView;
+    }
+
+    public void setStudentToView(Student studentToView) {
+        this.studentToView = studentToView;
+    }
+    
+    
 
 }

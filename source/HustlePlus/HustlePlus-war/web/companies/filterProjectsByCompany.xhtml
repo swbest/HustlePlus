@@ -17,18 +17,7 @@
                 
                     <p:layoutUnit position="west" resizable="true">
                         
-                        <p:outputLabel for="selCondition" value="Condition: " style="font-weight: bold;" />
-                        <p:selectOneMenu id="selCondition" value="#{filterProjectsByCompanyManagedBean.condition}">
-
-                            <f:selectItem itemValue="OR" itemLabel="OR" itemDescription="OR" />
-                            <f:selectItem itemValue="AND" itemLabel="AND" itemDescription="AND" />
-
-                            <p:ajax process="@form" update="formMain:dataTableMain" listener="#{filterProjectsByCompanyManagedBean.filterProject}" />
-
-                        </p:selectOneMenu>
-
-                        <br /><br />
-
+                     
                         <p:outputLabel for="selCompany" value="Company: " style="font-weight: bold;" />
                         <p:selectManyMenu id="selCompany" value="#{filterProjectsByCompanyManagedBean.selectedCompanyIds}" showCheckbox="true">
                             <f:selectItems value="#{filterProjectsByCompanyManagedBean.selectItems}" />
@@ -56,26 +45,13 @@
                                 <h:outputText value="#{project.jobValue}" />
                             </p:column>
 
-                            <p:column headerText="No. Students" sortBy="#{project.numStudentsRequired}">
+                            <p:column headerText="No. Of Students" sortBy="#{project.numStudentsRequired}">
                                 <h:outputText value="#{project.numStudentsRequired}" />
                             </p:column>
 
-                            <p:column headerText="Start Date" sortBy="#{project.startDate}">
-                                <h:outputText value="#{project.startDate}">
-                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                </h:outputText>
-                                    
-                            </p:column>
-
-                            <p:column headerText="Due Date" sortBy="#{project.endDate}">
-                                <h:outputText value="#{project.endDate}">
-                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                </h:outputText>
-                            </p:column>
-
                             <p:column headerText="Action" >
-                            <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View Details">
-                                <f:setPropertyActionListener value="#{company}" target="#{filterProjectsByCompanyManagedBean.viewProjectManagedBean.projectToView}" />
+                            <p:commandButton update="formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View Project Details">
+                                <f:setPropertyActionListener value="#{project}" target="#{filterProjectsByCompanyManagedBean.projectToView}" />
                              </p:commandButton>                        
                             </p:column>
 
@@ -87,7 +63,122 @@
                 
             </h:form>
             
-            <ez:ViewProject id="ccViewProject" />
+            <h:form id="formViewProject">
+            
+            <p:dialog id="dialogViewProject" widgetVar="dialogViewProject" header="View Project" closable="true">
+
+                <p:panelGrid>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Project ID: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{filterProjectsByCompanyManagedBean.projectToView.projectId}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Project Name: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{filterProjectsByCompanyManagedBean.projectToView.projectName}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Job Value: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{filterProjectsByCompanyManagedBean.projectToView.jobValue}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="No. Students: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{filterProjectsByCompanyManagedBean.projectToView.numStudentsRequired}" />
+                        </p:column>
+                        
+                    </p:row>
+                    
+                         <p:row>
+                            <p:column>
+                                <p:outputLabel value="Skills Required: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:dataList value="#{filterProjectsByCompanyManagedBean.projectToView.skills}" var="skill">
+                                    #{skill.title}
+                                </p:dataList>
+                            </p:column>
+
+                        </p:row>   
+
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Project Description: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{filterProjectsByCompanyManagedBean.projectToView.projectDescription}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Start Date: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{filterProjectsByCompanyManagedBean.projectToView.startDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="End Date: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{filterProjectsByCompanyManagedBean.projectToView.endDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+ 
+                   <p:row>
+                        <p:column>
+                            <h:outputLabel value="Reviews: " />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Reviews of Student" actionListener="#{filterProjectsByCompanyManagedBean.retrieveReviewsForStudents}">
+                                <f:attribute name="projectToViewReview" value="#{filterProjectsByCompanyManagedBean.projectToView}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Reviews: " />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Reviews Of Project" actionListener="#{filterProjectsByCompanyManagedBean.retrieveReviewsForProject}">
+                                <f:attribute name="projectToViewReview" value="#{filterProjectsByCompanyManagedBean.projectToView}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+
+                    
+           </p:panelGrid>
+
+            </p:dialog>
+            
+        </h:form>
+            
         </div>
         
     </ui:define>

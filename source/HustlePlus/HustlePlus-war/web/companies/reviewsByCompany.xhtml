@@ -40,7 +40,9 @@
                     </p:column>
                     
                     <p:column headerText="Rating" sortBy="#{review.rating}" filterBy="#{review.rating}" filterMatchMode="contains">
-                        <h:outputText value="#{review.rating}" style="float:right"/>
+                        <h:outputText value="#{review.rating}" style="float:right">
+                            <f:convertNumber maxFractionDigits="2"/>
+                        </h:outputText>
                     </p:column>
                     
                     <p:column headerText="Action" >
@@ -94,7 +96,9 @@
                             <h:outputLabel value="Rating: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{reviewManagementManagedBean.reviewToView.rating}" />
+                            <h:outputText value="#{reviewManagementManagedBean.reviewToView.rating}">
+                                 <f:convertNumber maxFractionDigits="2"/>
+                            </h:outputText>
                         </p:column>
                     </p:row>
                     

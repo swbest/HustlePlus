@@ -75,6 +75,9 @@ public class SecurityFilter implements Filter {
         if(accessRight.equals(AccessRightEnum.ADMIN)) {
             if (path.equals("/admin/verifyCompany.xhtml") ||
             path.equals("/admin/verifyStudent.xhtml") ||
+            path.equals("/admin/sendEmailToUser.xhtml") ||
+            path.equals("/companies/allReviewsOfStudent.xhtml") ||
+            path.equals("/companies/allReviewsOfCompany.xhtml") ||
             path.equals("/companies/filterStudentsBySkills.xhtml") ||
             path.equals("/companies/searchStudentsByName.xhtml") ||
             path.equals("/companies/searchCompaniesByName.xhtml") ||
@@ -90,6 +93,7 @@ public class SecurityFilter implements Filter {
         } else if (accessRight.equals(AccessRightEnum.COMPANY)) {
             if (path.equals("/verificationError.xhtml") ||
             path.equals("/changePassword.xhtml") ||
+            path.equals("/companies/allReviewsOfStudent.xhtml") ||
             path.equals("/companies/reviewStudentInProject.xhtml") ||
             path.equals("/companies/companyReviews.xhtml") ||
             path.equals("/companies/projectReviews.xhtml") ||
@@ -99,11 +103,14 @@ public class SecurityFilter implements Filter {
             path.equals("/companies/skillsOfProject.xhtml") ||
             path.equals("/companies/reviewsByCompany.xhtml") ||
             path.equals("/companies/projectManagement.xhtml") ||
+            path.equals("/companies/reviewsOfStudentInOtherProjects.xhtml") ||
             path.equals("/companies/myProject.xhtml") ||
+            path.equals("/companies/projectReviewsForOtherProjects.xhtml") ||      
             path.equals("/companies/createProjectForProjectManagement.xhtml") ||
             path.equals("/companies/addMilestoneToProject.xhtml") ||
             path.equals("/companies/createNewMilestone.xhtml") ||
             path.equals("/companies/addASkill.xhtml") ||
+            path.equals("/companies/allReviewsOfCompany.xhtml") ||
             path.equals("/companies/addASkillProjectManagement.xhtml") ||
             path.equals("/companies/profilePage.xhtml") ||
             path.equals("/companies/filterStudentsBySkills.xhtml") ||

@@ -43,6 +43,7 @@ public class FilterStudentsBySkillsManagedBean {
     private List<Long> selectedSkillIds;
     private List<SelectItem> selectItems;
     private List<Student> students;
+    private Student studentToView; 
 
     /**
      * Creates a new instance of FilterStudentsBySkillsManagedBean
@@ -167,5 +168,15 @@ public class FilterStudentsBySkillsManagedBean {
     public void setViewStudentManagedBean(ViewStudentManagedBean viewStudentManagedBean) {
         this.viewStudentManagedBean = viewStudentManagedBean;
     }
+
+    public Student getStudentToView() {
+        return studentToView;
+    }
+
+    public void setStudentToView(Student studentToView) {
+        this.studentToView = studentToView;
+    }
+    
+    
     
 }

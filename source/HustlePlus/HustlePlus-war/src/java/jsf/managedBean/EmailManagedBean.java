@@ -39,6 +39,12 @@ public class EmailManagedBean implements Serializable {
         mailSender.sendMail(fromMail, toMail, username, password, subject, message);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email successfully sent to student!", null));
     }
+    
+    public void sendEmailToUser() {
+        MailSender mailSender = new MailSender();
+        mailSender.sendMail("hustlePlusEst2020@gmail.com", toMail, "hustlePlusEst2020", "P@ssword1234", subject, message);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email successfully sent to user!", null));
+    }
 
     public String getFromMail() {
         return fromMail;

@@ -36,6 +36,7 @@ public class SearchProjectsByNameManagedBean {
     private List<Project> projects;
     private List<Project> projectsOfCompany; 
     private Company companyToSearchProject;
+    private Project projectToView; 
 
     /**
      * Creates a new instance of SearchProjectsByNameManagedBean
@@ -129,6 +130,16 @@ public class SearchProjectsByNameManagedBean {
     public void setCompanyToSearchProject(Company companyToSearchProject) {
         this.companyToSearchProject = companyToSearchProject;
     }
+
+    public Project getProjectToView() {
+        return projectToView;
+    }
+
+    public void setProjectToView(Project projectToView) {
+        this.projectToView = projectToView;
+    }
+    
+    
     
     
     

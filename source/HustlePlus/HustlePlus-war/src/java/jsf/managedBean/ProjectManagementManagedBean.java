@@ -246,6 +246,7 @@ public class ProjectManagementManagedBean implements Serializable {
              System.out.println("********** updateProject");
              System.out.println(getSelectedProjectToUpdate().getProjectName());
              projectSessionBeanLocal.updateProject(getSelectedProjectToUpdate(), skillIdsToAddToSelectedProjectToUpdate);
+              selectedProjectToUpdate.setProjectName(selectedProjectToUpdate.getProjectName());
              getSelectedProjectToUpdate().getMilestones().clear(); 
              for (Milestone m: getMilestones()) {
                  if (getMilestoneIdsUpdate().contains(m.getMilestoneId())) {

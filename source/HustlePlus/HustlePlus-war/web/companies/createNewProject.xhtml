@@ -68,7 +68,7 @@
                     <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{projectManagementManagedBean.createNewProject}" >
                         <f:attribute name="companyTagged" value="#{sessionScope.userEntity}" />
                     </p:commandButton>
-                    <p:commandButton immediate="true" value="Cancel" action="/index.xhtml?faces-redirect=true"/>
+                    <p:commandButton immediate="true" value="Back" action="/index.xhtml?faces-redirect=true"/>
 
                 </h:panelGrid>
 

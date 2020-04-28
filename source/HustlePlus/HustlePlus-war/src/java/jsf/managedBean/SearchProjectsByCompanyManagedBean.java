@@ -39,6 +39,7 @@ public class SearchProjectsByCompanyManagedBean {
 
     private String searchString;
     private List<Project> projects;
+    private Project projectToView; 
 
 
     @PostConstruct
@@ -93,6 +94,16 @@ public class SearchProjectsByCompanyManagedBean {
     public void setProjects(List<Project> projects) {
         this.projects = projects;
     }
+
+    public Project getProjectToView() {
+        return projectToView;
+    }
+
+    public void setProjectToView(Project projectToView) {
+        this.projectToView = projectToView;
+    }
+    
+    
     
     
 }

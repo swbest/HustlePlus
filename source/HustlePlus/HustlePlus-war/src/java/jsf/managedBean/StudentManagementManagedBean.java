@@ -5,8 +5,11 @@
  */
 package jsf.managedBean;
 
+import ejb.session.stateless.StudentReviewSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.Student;
+import entity.StudentReview;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -16,6 +19,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.servlet.http.HttpSession;
 import util.exception.StudentNotFoundException;
 import util.exception.SuspendStudentException;
 import util.exception.VerifyStudentException;
@@ -28,12 +32,18 @@ import util.exception.VerifyStudentException;
 @ViewScoped
 public class StudentManagementManagedBean implements Serializable {
 
+    @EJB(name = "StudentReviewSessionBeanLocal")
+    private StudentReviewSessionBeanLocal studentReviewSessionBeanLocal;
+   
+
     @EJB(name = "StudentSessionBeanLocal")
     private StudentSessionBeanLocal studentSessionBeanLocal;
     
     
     private List<Student> students;
     private List<Student> filteredStudents; 
+    private Student studentToView; 
+    private List<StudentReview> reviewsOfStudent; 
     
     
     
@@ -48,7 +58,19 @@ public class StudentManagementManagedBean implements Serializable {
     public void postConstruct() {
         
         setStudents(studentSessionBeanLocal.retrieveAllStudents());
+        setReviewsOfStudent((List<StudentReview>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("reviewsOfStudent"));
+    }
+    
+    public void retrieveAllReviews(ActionEvent event) {
         
+        try {
+        Student student = (Student) event.getComponent().getAttributes().get("selectedStudent");
+        reviewsOfStudent = studentReviewSessionBeanLocal.retrieveAllStudentReviewsForStudent(student.getUserId());
+        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("reviewsOfStudent", reviewsOfStudent); 
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/allReviewsOfStudent.xhtml");
+    } catch (IOException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving reviews: " + ex.getMessage(), null));
+    }
     }
     
      public void verifyStudent(ActionEvent event) {
@@ -73,6 +95,8 @@ public class StudentManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while suspending student account: " + ex.getMessage(), null));
         }
     }
+    
+    
 
     public List<Student> getStudents() {
         return students;
@@ -89,6 +113,23 @@ public class StudentManagementManagedBean implements Serializable {
     public void setFilteredStudents(List<Student> filteredStudents) {
         this.filteredStudents = filteredStudents;
     }
+
+    public Student getStudentToView() {
+        return studentToView;
+    }
+
+    public void setStudentToView(Student studentToView) {
+        this.studentToView = studentToView;
+    }
+
+    public List<StudentReview> getReviewsOfStudent() {
+        return reviewsOfStudent;
+    }
+
+    public void setReviewsOfStudent(List<StudentReview> reviewsOfStudent) {
+        this.reviewsOfStudent = reviewsOfStudent;
+    }
+    
     
     
     

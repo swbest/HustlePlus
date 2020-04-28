@@ -122,19 +122,6 @@
                                 <p:message for="numStudentsRequired" />
                             </p:column>
                         </p:row>
-                        
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="skillsRequired" value="Number of Students Required: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="skillsRequired" value="#{projectManagementManagedBean.selectedProjectToUpdate.numStudentsRequired}" placeholder="e.g. 3" required="true" requiredMessage="Number of Students is required!" />
-                            </p:column>
-                            <p:column>
-                                <p:message for="skillsRequired" />
-                            </p:column>
-                        </p:row>
-
 
                         
                         <p:row>
@@ -196,6 +183,7 @@
                         <p:column>
                             <p:commandButton id="projectMilestone" value="Add Milestones" actionListener="#{milestoneManagementManagedBean.updateProjectMilestone}">
                                 <f:attribute name="selProjectToAddMilestone" value="#{projectManagementManagedBean.selectedProjectToUpdate}"/>
+                                <f:attribute name="companyToView" value="#{sessionScope.userEntity}"/>
                             </p:commandButton>
                         </p:column>
                             <p:column>

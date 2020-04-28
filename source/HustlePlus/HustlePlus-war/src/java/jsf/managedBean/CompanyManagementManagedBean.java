@@ -5,10 +5,12 @@
  */
 package jsf.managedBean;
 
+import ejb.session.stateless.CompanyReviewSessionBeanLocal;
 import ejb.session.stateless.CompanySessionBeanLocal;
 import ejb.session.stateless.ProjectSessionBeanLocal;
 import ejb.session.stateless.ReviewSessionBeanLocal;
 import entity.Company;
+import entity.CompanyReview;
 import entity.Project;
 import entity.Review;
 import java.io.File;
@@ -46,6 +48,9 @@ import util.security.CryptographicHelper;
 
 public class CompanyManagementManagedBean implements Serializable {
 
+    @EJB(name = "CompanyReviewSessionBeanLocal")
+    private CompanyReviewSessionBeanLocal companyReviewSessionBeanLocal;
+    
     @EJB(name = "CompanySessionBeanLocal")
     private CompanySessionBeanLocal companySessionBeanLocal;
 
@@ -64,6 +69,8 @@ public class CompanyManagementManagedBean implements Serializable {
     private Company newCompany;
     private List<Project> projects;
     private List<Review> reviews;
+    
+    private List<CompanyReview> companyReviews;
 
     private Company selectedCompanyToUpdate;
 
@@ -79,6 +86,11 @@ public class CompanyManagementManagedBean implements Serializable {
     private String newPassword;
     private String confirmPassword;
     private String companyUsername;
+    
+    private String verifiedStatus; 
+    private String suspendedStatus; 
+    
+    private Company companyToView; 
 
     /**
      * Creates a new instance of companyMangementManagedBean
@@ -93,8 +105,7 @@ public class CompanyManagementManagedBean implements Serializable {
         setCompanies(companySessionBeanLocal.retrieveAllCompanies());
         setProjects(projectSessionBeanLocal.retrieveAllProjects());
         setReviews(reviewSessionBeanLocal.retrieveAllReviews());
-        
-//        companyToUpdatePhoto = (Company)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("companyToUpdatePhoto");
+        setCompanyReviews((List<CompanyReview>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("companyReviews"));
     }
 
     public void createNewCompany(ActionEvent event) {
@@ -168,6 +179,7 @@ public class CompanyManagementManagedBean implements Serializable {
             Company selectedCompanyToVerify = (Company) event.getComponent().getAttributes().get("selectedCompanyToVerify");
             companySessionBeanLocal.verifyCompany(selectedCompanyToVerify.getUserId());
             selectedCompanyToVerify.setIsVerified(Boolean.TRUE);
+            verifiedStatus = "Yes"; 
         } catch (CompanyNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while verifying company account: " + ex.getMessage(), null));
         } catch (VerifyCompanyException ex) {
@@ -181,6 +193,7 @@ public class CompanyManagementManagedBean implements Serializable {
             Company selectedCompanyToSuspend = (Company) event.getComponent().getAttributes().get("selectedCompanyToSuspend");
             companySessionBeanLocal.suspendCompany(selectedCompanyToSuspend.getUserId());
             selectedCompanyToSuspend.setIsSuspended(Boolean.TRUE);
+            suspendedStatus = "Yes"; 
         } catch (CompanyNotFoundException | SuspendCompanyException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while suspending company account: " + ex.getMessage(), null));
         }
@@ -393,6 +406,17 @@ public class CompanyManagementManagedBean implements Serializable {
         //}
     }
     
+    public void retrieveAllReviews(ActionEvent event) {
+       try {
+        Company company = (Company) event.getComponent().getAttributes().get("selectedCompany");
+        companyReviews = companyReviewSessionBeanLocal.retrieveAllCompanyReviewsForCompany(company.getUserId());
+        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("companyReviews", companyReviews); 
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/allReviewsOfCompany.xhtml");
+    } catch (IOException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving reviews: " + ex.getMessage(), null));
+    }
+    }
+    
   
 
     public void setCompanyToUpdatePhoto(ActionEvent event) {
@@ -518,5 +542,43 @@ public class CompanyManagementManagedBean implements Serializable {
     public void setCompanyUsername(String companyUsername) {
         this.companyUsername = companyUsername;
     }
+
+    public String getVerifiedStatus() {
+        return verifiedStatus;
+    }
+
+    public void setVerifiedStatus(String verifiedStatus) {
+        this.verifiedStatus = verifiedStatus;
+    }
+
+    public String getSuspendedStatus() {
+        return suspendedStatus;
+    }
+
+    public void setSuspendedStatus(String suspendedStatus) {
+        this.suspendedStatus = suspendedStatus;
+    }
+
+    public Company getCompanyToView() {
+        return companyToView;
+    }
+
+    public void setCompanyToView(Company companyToView) {
+        this.companyToView = companyToView;
+    }
+
+    public List<CompanyReview> getCompanyReviews() {
+        return companyReviews;
+    }
+
+    public void setCompanyReviews(List<CompanyReview> companyReviews) {
+        this.companyReviews = companyReviews;
+    }
+    
+    
+    
+    
+    
+    
 
 }

@@ -25,41 +25,29 @@
                 <br />
                 
                 <p:dataTable id="dataTableMain" widgetVar="dataTableMain" value="#{searchProjectsByCompanyManagedBean.projects}" var="project" rowKey="#{project.projectId}" rowIndexVar="row"                             
-                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                             rows="10" paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                     
                     <p:column headerText="Project ID" sortBy="#{project.projectId}">
-                        <h:outputText value="#{project.projectId}" />
-                    </p:column>
-                    
-                    <p:column headerText="Project Name" sortBy="#{project.projectName}">
-                        <h:outputText value="#{project.projectName}" />
-                    </p:column>                          
+                                <h:outputText value="#{project.projectId}" />
+                            </p:column>
 
-                    <p:column headerText="Job Value" sortBy="#{project.jobValue}">
-                        <h:outputText value="#{project.jobValue}" />
-                    </p:column>
-                    
-                    <p:column headerText="No. Students" sortBy="#{project.numStudentsRequired}">
-                        <h:outputText value="#{project.numStudentsRequired}" />
-                    </p:column>
-                    
-                    <p:column headerText="Start Date" sortBy="#{project.startDate}">
-                        <h:outputText value="#{project.startDate}">
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                        </h:outputText>
-                    </p:column>
-                    
-                    <p:column headerText="Due Date" sortBy="#{project.endDate}">
-                        <h:outputText value="#{project.endDate}">
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                        </h:outputText>
-                    </p:column>
+                            <p:column headerText="Project Name" sortBy="#{project.projectName}">
+                                <h:outputText value="#{project.projectName}" />
+                            </p:column>                          
+
+                            <p:column headerText="Job Value" sortBy="#{project.jobValue}">
+                                <h:outputText value="#{project.jobValue}" />
+                            </p:column>
+
+                            <p:column headerText="No. Of Students" sortBy="#{project.numStudentsRequired}">
+                                <h:outputText value="#{project.numStudentsRequired}" />
+                            </p:column>
 
                     <p:column headerText="Action">
 
-                        <p:commandButton update="ccViewProject:formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View" action="#{projectManagementManagedBean.setStatusText}">
-                            <f:setPropertyActionListener value="#{project}" target="#{projectManagementManagedBean.projectToView}" />
-                            <f:setPropertyActionListener value="#{project}" target="#{projectManagementManagedBean.viewProjectManagedBean.projectToView}"/>
+                        <p:commandButton update="formViewProject" oncomplete="PF('dialogViewProject').show()" icon="ui-icon-document" title="View Project Details" >
+                                <f:setPropertyActionListener value="#{project}" target="#{searchProjectsByCompanyManagedBean.projectToView}" />
+                                <f:setPropertyActionListener value="#{project}" target="#{filterProjectsByCompanyManagedBean.projectToView}" />
                         </p:commandButton>                    
                     </p:column>
 
@@ -67,7 +55,130 @@
                                 
             </h:form>
             
-            <ez:ViewProject id="ccViewProject" />
+            <h:form id="formViewProject">
+            
+            <p:dialog id="dialogViewProject" widgetVar="dialogViewProject" header="View Project" closable="true">
+
+                <p:panelGrid>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Project ID: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchProjectsByCompanyManagedBean.projectToView.projectId}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Company Name: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchProjectsByCompanyManagedBean.projectToView.company.name}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Project Name: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchProjectsByCompanyManagedBean.projectToView.projectName}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Job Value: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchProjectsByCompanyManagedBean.projectToView.jobValue}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="No. Of Students: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchProjectsByCompanyManagedBean.projectToView.numStudentsRequired}" />
+                        </p:column>
+                        
+                    </p:row>
+                    
+                         <p:row>
+                            <p:column>
+                                <p:outputLabel value="Skills Required: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:dataList value="#{searchProjectsByCompanyManagedBean.projectToView.skills}" var="skill">
+                                    #{skill.title}
+                                </p:dataList>
+                            </p:column>
+
+                        </p:row>   
+
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Project Description: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchProjectsByCompanyManagedBean.projectToView.projectDescription}" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Start Date: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchProjectsByCompanyManagedBean.projectToView.startDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="End Date: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{searchProjectsByCompanyManagedBean.projectToView.endDate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+ 
+                   <p:row>
+                        <p:column>
+                            <h:outputLabel value="Reviews: " />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Reviews of Student" actionListener="#{filterProjectsByCompanyManagedBean.retrieveReviewsForStudents}">
+                                <f:attribute name="projectToViewReview" value="#{filterProjectsByCompanyManagedBean.projectToView}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Reviews: " />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Reviews Of Project" actionListener="#{filterProjectsByCompanyManagedBean.retrieveReviewsForProject}">
+                                <f:attribute name="projectToViewReview" value="#{filterProjectsByCompanyManagedBean.projectToView}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+
+                    
+           </p:panelGrid>
+
+            </p:dialog>
+            
+        </h:form>
         </div>
         
     </ui:define>

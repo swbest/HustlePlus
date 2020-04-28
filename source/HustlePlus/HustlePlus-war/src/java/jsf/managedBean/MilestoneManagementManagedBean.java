@@ -73,6 +73,9 @@ public class MilestoneManagementManagedBean implements Serializable{
     private List<Milestone> milestonesForSelectedCompany; 
     private Company companyToDisplayMilestones; 
     
+    private List<Project> projectsToShow;
+    private Project projectUpdateMilestone; 
+    
     
     
     
@@ -92,9 +95,12 @@ public class MilestoneManagementManagedBean implements Serializable{
     {
         setMilestones(milestoneSessionBeanLocal.retrieveAllMilestones());
         setProjects(projectSessionBeanLocal.retrieveAllProjects());
-        
+        projectUpdateMilestone = (Project)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("projectUpdateMilestone");
+        projectsToShow = (List<Project>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("projectsToShow");
         //companyToDisplayMilestones = (Company)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("companyToDisplayMilestones");
         milestonesForSelectedCompany = (List<Milestone>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("milestonesForSelectedCompany");
+        selProjectId = (Long)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("selProjectId");
+
 //        for (Project project:projects) {
 //            selectItems.add(new SelectItem(project));
 //        }
@@ -108,6 +114,17 @@ public class MilestoneManagementManagedBean implements Serializable{
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("milestoneIdToView", milestoneIdToView);
         FacesContext.getCurrentInstance().getExternalContext().redirect("viewMilestone.xhtml");
     }
+    
+    public void doCreateNewMilestone(ActionEvent event) {
+       try {
+        Company company = (Company) event.getComponent().getAttributes().get("companyToView");
+         projectsToShow = projectSessionBeanLocal.retrieveProjectsByCompany(company.getUserId());
+       ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("projectsToShow", projectsToShow); 
+         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/createNewMilestone.xhtml");
+       } catch (ProjectNotFoundException | IOException ex) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while updating the project: " + ex.getMessage(), null));
+     }
+     }    
     
     public void createNewMilestone(ActionEvent event)
     {
@@ -142,7 +159,7 @@ public class MilestoneManagementManagedBean implements Serializable{
             
             Payment newPayment = new Payment();
             newPayment.setIsPaid(Boolean.FALSE);
-            newPayment.setPaymentDescription("Payment for Milestone: " + m.getTitle());
+            newPayment.setPaymentDescription("For Milestone " + m.getTitle());
             paymentSessionBeanLocal.createNewPaymentForMilestone(newPayment, milestoneId);
 
             System.out.println("MMMB3");
@@ -181,8 +198,10 @@ public class MilestoneManagementManagedBean implements Serializable{
 
         try
         {
+            
             milestoneSessionBeanLocal.updateMilestone(milestoneToUpdate);
-                        
+            milestoneToUpdate.setTitle(milestoneToUpdate.getTitle());
+            milestoneToUpdate.setDescription(milestoneToUpdate.getDescription());            
 
            /* milestoneToUpdate.getPayments().clear();
             
@@ -208,11 +227,17 @@ public class MilestoneManagementManagedBean implements Serializable{
     
       public void updateProjectMilestone(ActionEvent event) {
          try {
-         Project projectUpdate = (Project) event.getComponent().getAttributes().get("selProjectToAddMilestone");
-         selProjectId = projectUpdate.getProjectId();
-         System.out.println(selProjectId); 
-        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/addMilestoneToProject.xhtml");
-     } catch (IOException ex) {
+         projectUpdateMilestone = (Project) event.getComponent().getAttributes().get("selProjectToAddMilestone");
+       ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("projectUpdateMilestone", projectUpdateMilestone); 
+         selProjectId = projectUpdateMilestone.getProjectId(); 
+       ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("selProjectId", selProjectId); 
+       //  selProjectId = projectUpdate.getProjectId();
+       //  System.out.println(selProjectId); 
+         Company company = (Company) event.getComponent().getAttributes().get("companyToView");
+         projectsToShow = projectSessionBeanLocal.retrieveProjectsByCompany(company.getUserId());
+       ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("projectsToShow", projectsToShow); 
+         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/addMilestoneToProject.xhtml");
+     } catch (ProjectNotFoundException | IOException ex) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has ocurred while updating the project: " + ex.getMessage(), null));
      }
      }    
@@ -423,6 +448,24 @@ public class MilestoneManagementManagedBean implements Serializable{
     public void setCompanyToDisplayMilestones(Company companyToDisplayMilestones) {
         this.companyToDisplayMilestones = companyToDisplayMilestones;
     }
+
+    public List<Project> getProjectsToShow() {
+        return projectsToShow;
+    }
+
+    public void setProjectsToShow(List<Project> projectsToShow) {
+        this.projectsToShow = projectsToShow;
+    }
+
+    public Project getProjectUpdateMilestone() {
+        return projectUpdateMilestone;
+    }
+
+    public void setProjectUpdateMilestone(Project projectUpdateMilestone) {
+        this.projectUpdateMilestone = projectUpdateMilestone;
+    }
+    
+    
     
     
     
