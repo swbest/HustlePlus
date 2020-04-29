@@ -90,36 +90,26 @@
       </div>
 
       <ion-list-header>My Skillset</ion-list-header>
-      <ng-container *ngFor="let skills of skills">
 
+      <ng-container *ngFor="let skills of skills">
           <ion-chip outline color="primary">
             <ion-icon name="person"></ion-icon>
             <ion-label>{{ skills.title }}</ion-label>
             <ion-icon name="close-circle"></ion-icon>
           </ion-chip>
-
-          <!-- <ion-chip outline color="secondary">
-            <ion-icon name="wine"></ion-icon>
-            <ion-label>Nightlife</ion-label>
-            <ion-icon name="close-circle"></ion-icon>
-          </ion-chip>
-          <ion-chip outline color="tertiary">
-            <ion-icon name="restaurant"></ion-icon>
-            <ion-label>Dining</ion-label>
-            <ion-icon name="close-circle"></ion-icon>
-          </ion-chip>
-          <ion-chip outline color="dark">
-            <ion-icon name="videocam"></ion-icon>
-            <ion-label>Entertainment</ion-label>
-            <ion-icon name="close-circle"></ion-icon>
-          </ion-chip> -->
-
-          <!-- <ion-badge color="medium">
-            <ion-icon name="star"></ion-icon>"skill stuff"
-          </ion-badge> -->
-
-
       </ng-container>
+
+      <ion-fab horizontal="end" vertical="top" slot="fixed">
+        <ion-fab-button>
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list>
+          <button size="large">
+            <ion-icon name="color-filter">Add New Skill</ion-icon>
+            <ion-text>Add New Skill</ion-text>
+          </button>
+        </ion-fab-list>
+      </ion-fab>
 
     </div>
 

@@ -52,7 +52,6 @@ export class ProfilePage implements OnInit {
       this.studentToView = this.sessionService.getCurrentStudent();
       this.refreshSkills();    
       this.studentInitialiseFields();
-      console.log(this.skills);
         error => {
           this.infoMessage = null;
           this.errorMessage = "Error retrieving student details.";
@@ -85,6 +84,19 @@ export class ProfilePage implements OnInit {
         },
       )
     }
+
+    // deleteSkill(skillId: number){
+    //   this.skills.splice(skillId, 1);
+    //   this.skillService.deleteSkill(this.skills[skillId]).subscribe(
+    //     response => {
+    //       this.resultSuccess = true;
+    //     },
+    //     error => {
+    //       this.error = true;
+    //       this.errorMessage = error;
+    //     }
+    //   );	
+    // }
 
     deleteStudentAccount() {
       this.studentService.deleteStudentAccount(this.studentToView.userId).subscribe(

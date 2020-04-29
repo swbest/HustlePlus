@@ -9,17 +9,6 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-toolbar no-border-top>
-  <ion-segment [(ngModel)]="option">
-    <ion-segment-button value="Search">
-      Search
-    </ion-segment-button>
-    <ion-segment-button value="My Applications">
-      My Applications
-    </ion-segment-button>
-  </ion-segment>
-</ion-toolbar>
-
 <ion-content>
 
   <ion-searchbar showCancelButton="true" placeholder="Search Applications" (ionInput)="getSearchApplications($event)"
