@@ -87,9 +87,6 @@ public class TeamResource {
                 List<Student> students = team.getStudents();
                 for (Student student : students) {
                     student.getApplications().clear();
-                    student.setPassword(null);
-                    student.setSalt(null);
-                    student.getApplications().clear();
                     student.getSkills().clear();
                     student.getStudentReviews().clear();
                     student.getCompanyReviews().clear();

@@ -35,6 +35,7 @@ public class CompanyReview implements Serializable {
     @NotNull
     @Size(max = 256)
     private String reviewText;
+    
     @Column(nullable = false)
     @NotNull
     private Integer rating;

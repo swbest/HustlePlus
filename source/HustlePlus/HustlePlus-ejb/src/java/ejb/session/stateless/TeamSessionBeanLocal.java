@@ -31,7 +31,7 @@ public interface TeamSessionBeanLocal {
 
     public void deleteTeam(Long teamId) throws TeamNotFoundException, DeleteTeamException;
 
-    public List<Team> retrieveTeamsByStudentId(Long studentId);
+    public List<Team> retrieveTeamsByStudentId(Long studentId) throws StudentNotFoundException;
 
     public Long createNewTeam(Team newTeam, Long studentId) throws StudentNotFoundException, TeamNameExistException, UnknownPersistenceException, InputDataValidationException;
 

@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -94,10 +95,15 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
     }
 
     @Override
-    public List<Team> retrieveTeamsByStudentId(Long studentId) {
+    public List<Team> retrieveTeamsByStudentId(Long studentId) throws StudentNotFoundException {
         Query query = em.createQuery("SELECT s.teams FROM Student s WHERE s.userId = :inStudentId");
         query.setParameter("inStudentId", studentId);
-        return query.getResultList();
+
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new StudentNotFoundException("No students were found by that name!");
+        }
     }
 
     @Override
