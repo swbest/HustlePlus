@@ -51,6 +51,14 @@ export class ReviewsPage implements OnInit {
     );
   }
 
+  writeStudentReview() {
+    this.router.navigate(["/createNewStudentReview"])
+  }
+
+  writeCompanyReview() {
+    this.router.navigate(["/createNewCompanyReview"])
+  }
+
   back() {
     this.router.navigate(["/home"]);
   }
