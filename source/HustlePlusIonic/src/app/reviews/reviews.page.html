@@ -1,56 +1,127 @@
 <ion-header>
-  <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>
-          Reviews
-      </ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            Reviews
+        </ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-toolbar no-border-top>
-	<ion-segment [(ngModel)]="option">
-		<ion-segment-button value="Leave A Review">
-			Leave A Review
-		</ion-segment-button>
-		<ion-segment-button value="My Reviews">
-			My Reviews
-		</ion-segment-button>
-	</ion-segment>
+    <ion-segment [(ngModel)]="option">
+        <ion-segment-button value="Leave A Review">
+            Leave A Review
+        </ion-segment-button>
+        <ion-segment-button value="My Reviews">
+            My Reviews
+        </ion-segment-button>
+    </ion-segment>
 </ion-toolbar>
 
 <ion-content fullscreen>
-  <ion-list>
 
-      <ion-item *ngFor="let studentReview of studentReviews">
-          <ion-label>
-              Reviews From Other Students
-              <ion-row>
-                  <ion-col>
-                      <h2>{{studentReview.rating}}</h2>
-                      <p>{{studentReview.reviewText}}</p>
-                  </ion-col>
-              </ion-row>
-          </ion-label>
-      </ion-item>
+    <div [ngSwitch]="option">
 
-      <ion-item *ngFor="let companyReview of companyReviews">
-        <ion-label>
-            Reviews From Companies
-            <ion-row>
-                <ion-col>
-                    <h2>{{companyReview.rating}}</h2>
-                    <p>{{companyReview.reviewText}}</p>
-                </ion-col>
-            </ion-row>
-        </ion-label>
-    </ion-item>
+        <div *ngSwitchCase="'Leave A Review'">
+            <ion-card>
+                <img class="companyimg" src="../../assets/images/company.jpg">
+                <ion-card-content>
+                    <div *ngIf="errorMessage">
+                        {{errorMessage}}
+                    </div>
+                    <ion-card-subtitle>Just completed a project?</ion-card-subtitle> 
+                </ion-card-content>
+                <ion-item (click)="writeCompanyReview($event)" class="ion-activated">
+                    <ion-icon name="open-outline" slot="start"></ion-icon>
+                    <ion-label>Write a Company Review</ion-label>
+                </ion-item>
+            </ion-card>
 
-  </ion-list>
+            <ion-card>
+                <img class="teammateimg" src="../../assets/images/teammate.png">
+                <ion-card-content>
+                    <div *ngIf="errorMessage">
+                        {{errorMessage}}
+                    </div>
+                    <ion-card-subtitle>Got an outstanding teammate?</ion-card-subtitle> 
+                </ion-card-content>
+                <ion-item (click)="writeStudentReview($event)" class="ion-activated">
+                    <ion-icon name="open-outline" slot="start"></ion-icon>
+                    <ion-label>Write a Student Review</ion-label>
+                </ion-item>
+            </ion-card>
+        </div>
+
+        <div *ngSwitchCase="'My Reviews'">
+
+            <ion-list>
+
+                <ion-item *ngFor="let studentReview of studentReviews">
+                    <ion-label>
+                        Reviews From Other Students
+                        <ion-row>
+                            <ion-col>
+                                <h2>{{studentReview.rating}}</h2>
+                                <p>{{studentReview.reviewText}}</p>
+                            </ion-col>
+                        </ion-row>
+                    </ion-label>
+                </ion-item>
+          
+                <ion-item *ngFor="let companyReview of companyReviews">
+                  <ion-label>
+                      Reviews From Companies
+                      <ion-row>
+                          <ion-col>
+                              <h2>{{companyReview.rating}}</h2>
+                              <p>{{companyReview.reviewText}}</p>
+                          </ion-col>
+                      </ion-row>
+                  </ion-label>
+              </ion-item>
+          
+            </ion-list>
+
+        </div>
+
+
+        <div *ngSwitchDefault>
+            <ion-card>
+                <img class="companyimg" src="../../assets/images/company.jpg">
+                <ion-card-content>
+                    <div *ngIf="errorMessage">
+                        {{errorMessage}}
+                    </div>
+                    <ion-card-subtitle>Just completed a project?</ion-card-subtitle> 
+                </ion-card-content>
+                <ion-item (click)="writeCompanyReview($event)" class="ion-activated">
+                    <ion-icon name="open-outline" slot="start"></ion-icon>
+                    <ion-label>Write a Company Review</ion-label>
+                </ion-item>
+            </ion-card>
+
+            <ion-card>
+                <img class="teammateimg" src="../../assets/images/teammate.png">
+                <ion-card-content>
+                    <div *ngIf="errorMessage">
+                        {{errorMessage}}
+                    </div>
+                    <ion-card-subtitle>Got an outstanding teammate?</ion-card-subtitle> 
+                </ion-card-content>
+                <ion-item (click)="writeStudentReview($event)" class="ion-activated">
+                    <ion-icon name="open-outline" slot="start"></ion-icon>
+                    <ion-label>Write a Student Review</ion-label>
+                </ion-item>
+            </ion-card>
+        </div>
+
+    </div>
+
 </ion-content>
 
 
 <ion-footer>
-  <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+    <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
 </ion-footer>

@@ -129,7 +129,7 @@ export class CreateNewCompanyReviewPage implements OnInit {
 
   back() {
     if (!this.hasError) {
-      this.router.navigate(["/home"]);
+      this.router.navigate(["/reviews"]);
     }
   }
 }

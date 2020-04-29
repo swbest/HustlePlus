@@ -68,8 +68,14 @@ public class ProjectResource {
             }
             p.getStudentReviews().clear();
             List<Student> students = p.getStudents();
-            for (Student s : students) {
-                s.getProjects().clear();
+            for (Student student : students) {
+                student.getApplications().clear();
+                student.getSkills().clear();
+                student.getStudentReviews().clear();
+                student.getCompanyReviews().clear();
+                student.getPayments().clear();
+                student.getProjects().clear();
+                student.getTeams().clear();
             }
             RetrieveProjectRsp retrieveProjectRsp = new RetrieveProjectRsp(p);
             return Response.status(Status.OK).entity(retrieveProjectRsp).build();
@@ -106,9 +112,16 @@ public class ProjectResource {
                 }
                 p.getStudentReviews().clear();
                 List<Student> students = p.getStudents();
-                for (Student s : students) {
-                    s.getProjects().clear();
+                for (Student student : students) {
+                    student.getApplications().clear();
+                    student.getSkills().clear();
+                    student.getStudentReviews().clear();
+                    student.getCompanyReviews().clear();
+                    student.getPayments().clear();
+                    student.getProjects().clear();
+                    student.getTeams().clear();
                 }
+
             }
             RetrieveAllProjectsRsp retrieveAllProjectsRsp = new RetrieveAllProjectsRsp(projects);
             return Response.status(Status.OK).entity(retrieveAllProjectsRsp).build();
