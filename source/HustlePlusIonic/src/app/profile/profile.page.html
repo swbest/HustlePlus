@@ -22,6 +22,7 @@
 <ion-content fullscreen>
 
   <div [ngSwitch]="option">
+
     <div *ngSwitchCase="'Profile'">
       <ion-grid>
 
@@ -102,7 +103,7 @@
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
         <ion-fab-list>
-          <button size="large">
+          <button size="large" (click)="createNewSkill($event, studentToView)">
             <ion-icon name="color-filter">Add New Skill</ion-icon>
             <ion-text>Add New Skill</ion-text>
           </button>
