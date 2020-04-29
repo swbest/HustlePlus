@@ -54,12 +54,10 @@
 
                         <p:outputLabel style="font-family: Segoe UI, Tahoma, sans-serif;" for="username" value="Username" />&nbsp;
                         <p:inputText id="username" value="#{loginManagedBean.username}" style="font-family: Segoe UI, Tahoma, sans-serif;" size="14" required="true" requiredMessage="Username is required to login!" maxlength="32">
-                            <f:validateLength minimum="4" />
                         </p:inputText>
                         &nbsp;
                         <p:outputLabel style="font-family: Segoe UI, Tahoma, sans-serif;" for="password" value="Password" />&nbsp;
                         <p:password id="password" value="#{loginManagedBean.password}" style="font-family: Segoe UI, Tahoma, sans-serif;" size="14" required="true" requiredMessage="Password is required to login!" maxlength="32">
-                            <f:validateLength minimum="4" />
                         </p:password>
                         &nbsp;
                         <p:commandButton ajax="false" type="submit" value="Login" actionListener="#{loginManagedBean.login}">

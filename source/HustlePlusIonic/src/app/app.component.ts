@@ -70,6 +70,11 @@ export class AppComponent implements OnInit {
       url: '/viewMyTeams',
       icon: 'people'
     },
+    {
+      title: 'View My Reviews',
+      url: '/reviews',
+      icon: 'ribbon-outline'
+    },
   ];
 
   constructor(

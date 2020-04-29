@@ -7,6 +7,10 @@
 package ws.restful.resources;
 
 import ejb.session.stateless.StudentReviewSessionBeanLocal;
+import entity.Company;
+import entity.Project;
+import entity.Skill;
+import entity.Student;
 import entity.StudentReview;
 import java.util.List;
 import java.util.logging.Level;
@@ -109,9 +113,27 @@ public class StudentReviewResource {
         try {
             List<StudentReview> studentReviews = studentReviewSessionBeanLocal.retrieveAllStudentReviewsForStudent(studentId);
             for (StudentReview studentReview : studentReviews) {
-                studentReview.setCompany(null);
-                studentReview.setProject(null);
-                studentReview.setStudentReviewId(null);
+                Company company = studentReview.getCompany();
+                if (company != null) {
+                    company.getStudentReviews().clear();
+                    company.getCompanyReviews().clear();
+                    company.getProjects().clear();
+                }
+                Project p = studentReview.getProject();
+                p.getApplications().clear();
+                p.getCompany().getProjects().clear();
+                p.getCompanyReviews().clear();
+                p.getMilestones().clear();
+                List<Skill> skills = p.getSkills();
+                for (Skill s : skills) {
+                    s.getProjects().clear();
+                }
+                p.getStudentReviews().clear();
+                List<Student> students = p.getStudents();
+                for (Student s : students) {
+                    s.getProjects().clear();
+                }
+                studentReview.setStudentReviewed(null);
             }
             RetrieveAllStudentReviewsRsp retrieveAllStudentReviewsRsp = new RetrieveAllStudentReviewsRsp(studentReviews);
             return Response.status(Response.Status.OK).entity(retrieveAllStudentReviewsRsp).build();

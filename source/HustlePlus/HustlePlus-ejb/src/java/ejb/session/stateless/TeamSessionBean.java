@@ -120,6 +120,15 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
     }
 
     @Override
+    public Long addStudentToTeam(Long teamId, Long studentId) throws TeamNotFoundException, StudentNotFoundException, UpdateTeamException, InputDataValidationException {
+        Team team = retrieveTeamByTeamId(teamId);
+        Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+        team.addStudent(student);
+        student.addTeam(team);
+        return team.getTeamId();
+    }
+
+    @Override
     public void deleteTeam(Long teamId) throws TeamNotFoundException, DeleteTeamException {
 
         Team teamToRemove = retrieveTeamByTeamId(teamId);

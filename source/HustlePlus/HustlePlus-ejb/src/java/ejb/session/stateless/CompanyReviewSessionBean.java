@@ -144,6 +144,14 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
     }
 
     @Override
+    public List<CompanyReview> retrieveAllCompanyReviewsForStudent(Long studentId) {
+        Query query = em.createQuery("SELECT r FROM CompanyReview r WHERE r.student.userId =:sid ");
+        query.setParameter("sid", studentId);
+
+        return query.getResultList();
+    }
+
+    @Override
     public void updateCompanyReview(CompanyReview review) throws ReviewNotFoundException, CompanyNotFoundException, UpdateCompanyException, UpdateReviewException, InputDataValidationException {
         if (review != null && review.getCompanyReviewId() != null) {
             Set<ConstraintViolation<CompanyReview>> constraintViolations = validator.validate(review);
@@ -189,5 +197,4 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
         }
         return msg;
     }
-
 }

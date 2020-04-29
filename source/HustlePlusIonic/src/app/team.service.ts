@@ -33,7 +33,7 @@ export class TeamService {
 			'newTeam': newTeam,
 			'studentId': this.studentId,
 		};
-		return this.httpClient.put<any>(this.baseUrl, createNewTeamReq, httpOptions).pipe
+		return this.httpClient.put<any>(this.baseUrl + "/createNewTeam", createNewTeamReq, httpOptions).pipe
 			(
 				catchError(this.handleError)
 			);
@@ -55,6 +55,17 @@ export class TeamService {
 
 	getMyTeams(): Observable<any> {
 		return this.httpClient.get<any>(this.baseUrl + "/retrieveTeamsByStudentId/" + this.studentId).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
+	addStudentToTeam(teamId: number, studentToAddId: number): Observable<any> {
+		let updateTeamReq = { 
+			'teamId': teamId,
+			'studentId': studentToAddId,
+		};
+		return this.httpClient.put<any>(this.baseUrl + "/addStudentToTeam", updateTeamReq, httpOptions).pipe
 			(
 				catchError(this.handleError)
 			);

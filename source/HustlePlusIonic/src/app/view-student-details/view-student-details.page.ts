@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AlertController } from '@ionic/angular';
 
+import { TeamService } from '../team.service';
+import { SkillService } from '../skill.service';
 import { StudentService } from '../student.service';
 import { Student } from '../student';
+import { Skill } from '../skill';
+import { Team } from '../team';
 
 @Component({
   selector: 'app-view-student-details',
@@ -15,18 +20,32 @@ export class ViewStudentDetailsPage implements OnInit {
 
   userId: number;
   studentToView: Student;
+  skills: Skill[];
+  teams: Team[];
   retrieveStudentError: boolean;
+  retreieveSkillsError: boolean;
+  retrieveTeamsError: boolean;
   error: boolean;
   errorMessage: string;
   resultSuccess: boolean;
+  submitted: boolean;
+  infoMessage: string;
+  hasError: boolean;
+  teamId: number;
 
   constructor(private router: Router,
     private activatedRoute: ActivatedRoute,
     private studentService: StudentService,
+    private skillService: SkillService,
+    private teamService: TeamService,
     public alertController: AlertController) {
     this.retrieveStudentError = false;
+    this.retreieveSkillsError = false;
+    this.retrieveTeamsError = false;
     this.error = false;
     this.resultSuccess = false;
+    this.submitted = false;
+    this.hasError = false;
   }
 
   ngOnInit() {
@@ -46,6 +65,40 @@ export class ViewStudentDetailsPage implements OnInit {
       error => {
         this.retrieveStudentError = true;
         console.log('********** ViewStudentDetailsPage.ts: ' + error);
+      }
+    );
+    this.skillService.getSkillsByStudentId(this.userId).subscribe(
+      response => {
+        this.skills = response.skills;
+      },
+      error => {
+        this.retreieveSkillsError = true;
+        console.log('********** ViewStudentDetailsPage.ts: ' + error);
+      }
+    );
+    this.teamService.getMyTeams().subscribe(
+      response => {
+        this.teams = response.teams;
+      },
+      error => {
+        this.retrieveTeamsError = true;
+        console.log('********** ViewStudentDetailsPage.ts: ' + error);
+      }
+    );
+  }
+
+  addToTeam(addToTeamForm: NgForm) {
+    this.submitted = true;
+    this.teamService.addStudentToTeam(this.teamId, this.studentToView.userId).subscribe(
+      response => {
+        this.infoMessage = 'Team updated ' + response.teamId;
+        this.errorMessage = null;
+        this.hasError = false;
+      },
+      error => {
+        this.infoMessage = null;
+        this.errorMessage = error;
+        this.hasError = true;
       }
     );
   }
