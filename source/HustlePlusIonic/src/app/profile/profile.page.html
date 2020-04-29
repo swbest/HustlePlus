@@ -82,25 +82,48 @@
 
     </div>
 
+
     <div *ngSwitchCase="'Skills'">
+
       <div *ngIf="skills">
         {{errorMessage}}
       </div>
-      <ng-container *ngFor="let skills of skills">
-        <div item-end>
-          <ion-chip style="float:left; position:absolute;" color="dark">
-            <ion-icon name="person"></ion-icon>
-            <ion-label>this skill</ion-label>
-          </ion-chip>
-          <h2 style="top:23px; float: left;">"what a skill"</h2>
 
-          <ion-badge color="medium">
+      <ion-list-header>My Skillset</ion-list-header>
+      <ng-container *ngFor="let skills of skills">
+
+          <ion-chip outline color="primary">
+            <ion-icon name="person"></ion-icon>
+            <ion-label>{{ skills.title }}</ion-label>
+            <ion-icon name="close-circle"></ion-icon>
+          </ion-chip>
+
+          <!-- <ion-chip outline color="secondary">
+            <ion-icon name="wine"></ion-icon>
+            <ion-label>Nightlife</ion-label>
+            <ion-icon name="close-circle"></ion-icon>
+          </ion-chip>
+          <ion-chip outline color="tertiary">
+            <ion-icon name="restaurant"></ion-icon>
+            <ion-label>Dining</ion-label>
+            <ion-icon name="close-circle"></ion-icon>
+          </ion-chip>
+          <ion-chip outline color="dark">
+            <ion-icon name="videocam"></ion-icon>
+            <ion-label>Entertainment</ion-label>
+            <ion-icon name="close-circle"></ion-icon>
+          </ion-chip> -->
+
+          <!-- <ion-badge color="medium">
             <ion-icon name="star"></ion-icon>"skill stuff"
-          </ion-badge>
-        </div>
+          </ion-badge> -->
+
+
       </ng-container>
 
     </div>
+
+
     <div *ngSwitchDefault>
       <ion-grid>
 

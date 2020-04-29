@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../student.service';
+import { SkillService } from '../skill.service';
 import { SessionService } from '../session.service';
 import { ModalController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -36,6 +37,7 @@ export class ProfilePage implements OnInit {
   message: string;
 
   constructor(private studentService: StudentService,
+    private skillService: SkillService,
     private sessionService: SessionService,
     private modalController: ModalController,
     private toastController:ToastController,
@@ -48,8 +50,9 @@ export class ProfilePage implements OnInit {
 
     ngOnInit() {
       this.studentToView = this.sessionService.getCurrentStudent();
-      this.skills = this.sessionService.getSkills();     
+      this.refreshSkills();    
       this.studentInitialiseFields();
+      console.log(this.skills);
         error => {
           this.infoMessage = null;
           this.errorMessage = "Error retrieving student details.";
@@ -70,8 +73,17 @@ export class ProfilePage implements OnInit {
       this.isSuspended = this.studentToView.isSuspended;
       this.bankAccountName = this.studentToView.bankAccountName;
       this.bankAccountNumber = this.studentToView.bankAccountNumber;
-      this.skills = this.studentToView.skills;
       this.resume = this.studentToView.resume;
+      this.skills = this.sessionService.getSkills();
+    }
+
+    refreshSkills() {
+      this.skillService.getSkillsByStudentId(this.studentToView.userId).subscribe(
+        response => {
+          this.skills = response.skills;
+          this.sessionService.setSkills(response.skills);
+        },
+      )
     }
 
     deleteStudentAccount() {

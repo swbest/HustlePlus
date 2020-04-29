@@ -1,9 +1,11 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {StudentService} from '../student.service';
+import {SkillService} from '../skill.service';
 import {Router} from '@angular/router';
 import { NgForm } from '@angular/forms';
 import {SessionService} from '../session.service';
 import {Student} from '../student';
+import {Skill} from '../skill';
 import { AccessRightEnum } from '../access-right-enum.enum';
 
 @Component({
@@ -15,6 +17,7 @@ import { AccessRightEnum } from '../access-right-enum.enum';
 export class LoginPage implements OnInit {
 
     student: Student;  
+    skills: Skill[];
     submitted: boolean
     username: string;
     password: string;
@@ -22,6 +25,7 @@ export class LoginPage implements OnInit {
     errorMessage: string;
 
     constructor(private studentService: StudentService,
+                private skillService: SkillService,
                 private router: Router,
                 public sessionService: SessionService,) {
         this.submitted = false;
@@ -54,8 +58,8 @@ export class LoginPage implements OnInit {
             {
               this.student = student;
               this.sessionService.setIsLogin(true);
-              this.sessionService.setCurrentStudent(student);					
-              this.loginError = false;					
+              this.sessionService.setCurrentStudent(student);			
+              this.loginError = false;		
             }
             else
             {

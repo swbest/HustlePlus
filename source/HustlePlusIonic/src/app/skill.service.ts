@@ -48,6 +48,13 @@ export class SkillService {
 			);
 	}
 
+	// deleteSkill(skillId: number): Observable<any> {
+	// 	return this.httpClient.delete<any>(this.baseUrl + "/" + skillId + "?username=" + this.sessionService.getUsername() + "&password=" + this.sessionService.getPassword()).pipe
+	// 		(
+	// 			catchError(this.handleError)
+	// 		);
+	// }
+
   createNewSkill(newSkill: Skill): Observable<any> {
     let createNewSkillReq = { 
       'newSkill': newSkill
