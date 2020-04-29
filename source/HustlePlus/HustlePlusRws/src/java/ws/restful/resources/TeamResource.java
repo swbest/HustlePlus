@@ -28,6 +28,8 @@ import ws.restful.model.CreateNewTeamReq;
 import ws.restful.model.ErrorRsp;
 import ws.restful.model.RetrieveTeamsByStudentRsp;
 import ws.restful.model.RetrieveTeamRsp;
+import ws.restful.model.UpdateTeamReq;
+import ws.restful.model.UpdateTeamRsp;
 
 /**
  * REST Web Service
@@ -110,6 +112,33 @@ public class TeamResource {
      * @param content representation for the resource
      */
     @PUT
+    @Path("/addStudentToTeam")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addStudentToTeam(UpdateTeamReq updateTeamReq) {
+        System.out.println("Adding student: " + updateTeamReq.getStudentId() + " to team: " + updateTeamReq.getTeamId());
+        if (updateTeamReq != null) {
+            try {
+                Long newTeamId = teamSessionBean.addStudentToTeam(updateTeamReq.getTeamId(), updateTeamReq.getStudentId());
+                UpdateTeamRsp updateTeamRsp = new UpdateTeamRsp(newTeamId);
+                return Response.status(Response.Status.OK).entity(updateTeamRsp).build();
+            } catch (Exception ex) {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        } else {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid Request");
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
+
+    /**
+     * PUT method for updating or creating an instance of ProjectResource
+     *
+     * @param content representation for the resource
+     */
+    @PUT
+    @Path("/createNewTeam")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createTeam(CreateNewTeamReq createNewTeamReq) {

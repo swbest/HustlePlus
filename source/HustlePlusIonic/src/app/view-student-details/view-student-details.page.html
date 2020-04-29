@@ -46,9 +46,39 @@
         <ion-item>
           <ion-label><b>Skills</b></ion-label>
           <ul>
-            <li *ngFor="let skill of studentToView.skills">{{skill.title}}</li>
+            <li *ngFor="let skill of skills">{{skill.title}}</li>
           </ul>
         </ion-item>
+
+        <form #addToTeamForm="ngForm" (ngSubmit)="addToTeam(addToTeamForm)">
+
+          <ion-grid>
+
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label>Add Student To Team</ion-label>
+                  <ion-select [compareWith]="compareWith" placeholder="Select Team" id="team" team="team"
+                    #team="ngModel" [(ngModel)]="teamId" required="true" [ngModelOptions]="{standalone: true}">
+                    <ion-select-option *ngFor="let team of teams" value="{{team.teamId}}">{{team.teamName}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col></ion-col>
+              <ion-col>
+                <ion-button type="submit" ion-button block>
+                  Add To Team
+                </ion-button>
+              </ion-col>
+              <ion-col></ion-col>
+            </ion-row>
+
+          </ion-grid>
+        </form>
       </ion-list>
     </ion-card-content>
   </ion-card>
