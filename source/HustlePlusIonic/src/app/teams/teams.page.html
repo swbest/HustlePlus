@@ -57,9 +57,7 @@
     </div>
 
     <div *ngSwitchCase="'My Team'">
-
       <div *ngIf="teams">
-        <!-- do CONTROL FLOW HERE-->
         Create a team now!
       </div>
 
@@ -94,10 +92,20 @@
         </ion-grid>
 
       </ion-card-content>
+
+      <ion-row>
+        <ion-col></ion-col>
+        <ion-col>
+          <ion-button (click)="createNewTeam()">
+            Form A New Team
+          </ion-button>
+        </ion-col>
+        <ion-col></ion-col>
+      </ion-row>
     </div>
 
     <div *ngSwitchDefault>
-      <div *ngIf="skills">
+      <div *ngIf="teams">
         Create a team now!
       </div>
 
