@@ -86,6 +86,10 @@ export class ProfilePage implements OnInit {
       )
     }
 
+    createNewSkill() {
+      this.router.navigate(["/createNewSkill"]);
+    }
+
     // deleteSkill(skillId: number){
     //   this.skills.splice(skillId, 1);
     //   this.skillService.deleteSkill(this.skills[skillId]).subscribe(
