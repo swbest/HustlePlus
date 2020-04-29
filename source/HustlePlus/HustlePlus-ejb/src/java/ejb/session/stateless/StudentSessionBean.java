@@ -109,6 +109,8 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     public void updateStudent(Student student) throws StudentNotFoundException, UpdateStudentException, InputDataValidationException {
         if (student != null && student.getUserId() != null) {
             Set<ConstraintViolation<Student>> constraintViolations = validator.validate(student);
+            System.out.println(student.getUsername());
+            System.out.println(student.getPassword());
 
             if (constraintViolations.isEmpty()) {
                 Student studentToUpdate = retrieveStudentByStudentId(student.getUserId());

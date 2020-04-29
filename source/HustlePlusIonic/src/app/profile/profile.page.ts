@@ -50,6 +50,7 @@ export class ProfilePage implements OnInit {
 
     ngOnInit() {
       this.studentToView = this.sessionService.getCurrentStudent();
+      console.log(this.studentToView);
       this.refreshSkills();    
       this.studentInitialiseFields();
         error => {

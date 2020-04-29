@@ -12,5 +12,6 @@ package util.enumeration;
 public enum AccessRightEnum
 {
    COMPANY,
-   ADMIN
+   ADMIN,
+   STUDENT
 }
