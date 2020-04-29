@@ -157,6 +157,44 @@ public class ProjectResource {
     }
 
     /**
+     * Retrieves representation of an instance of
+     * ws.restful.resources.ProjectResource
+     *
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Path("/retrieveProjectsByCompanyId/{companyId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveProjectsByCompanyId(@PathParam("companyId") Long companyId) {
+        try {
+            List<Project> projects = projectSessionBean.retrieveProjectsByCompany(companyId);
+            for (Project p : projects) {
+                // clear bidirectional mappings or set the inverse side to null
+                // skills - not bidirectional
+                // milestones not needed
+                List<Skill> skills = p.getSkills();
+                for (Skill s : skills) {
+                    s.getProjects().clear();
+                }
+                p.getMilestones().clear();
+                p.getCompany().getProjects().clear();
+                p.getCompanyReviews().clear();
+                p.getStudentReviews().clear();
+                p.getApplications().clear();
+                List<Student> students = p.getStudents();
+                for (Student s : students) {
+                    s.getProjects().clear();
+                }
+            }
+            RetrieveAllProjectsRsp retrieveAllProjectsRsp = new RetrieveAllProjectsRsp(projects);
+            return Response.status(Status.OK).entity(retrieveAllProjectsRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+
+    /**
      * PUT method for updating or creating an instance of ProjectResource
      *
      * @param content representation for the resource

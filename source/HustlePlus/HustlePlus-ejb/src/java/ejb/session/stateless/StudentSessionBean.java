@@ -221,11 +221,11 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         if (skillIds == null || skillIds.isEmpty()) {
             return students;
         } else {
-           // if (condition.equals("OR")) {
+            // if (condition.equals("OR")) {
 
-                Query query = em.createQuery("SELECT DISTINCT st FROM Student st AS st LEFT JOIN Skill_student AS skst ON st.userId = skst. WHERE st.skills_skillId IN :inSkillIds");
-                query.setParameter("inSkillIds", skillIds);
-                students = query.getResultList();
+            Query query = em.createQuery("SELECT DISTINCT st FROM Student st AS st LEFT JOIN Skill_student AS skst ON st.userId = skst. WHERE st.skills_skillId IN :inSkillIds");
+            query.setParameter("inSkillIds", skillIds);
+            students = query.getResultList();
 
 //            } else // AND
 //            {
@@ -246,16 +246,13 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
 //
 //                    skillCount++;
 //                }
-
 //                String jpql = selectClause + " " + whereClause + " ORDER BY st.name ASC";
 //                Query query = em.createQuery(jpql);
 //                students = query.getResultList();
 //            }
-
 //            for (Student student : students) {
 //                student.getSkills().size();
 //            }
-
             Collections.sort(students, new Comparator<Student>() {
                 public int compare(Student st1, Student st2) {
                     return st1.getName().compareTo(st2.getName());
@@ -314,14 +311,14 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             throw new InvalidLoginCredentialException("Username does not exist or invalid password!");
         }
     }
-    
+
     @Override
     public List<Student> searchStudentsByName(String searchString) {
         Query query = em.createQuery("SELECT s FROM Student s WHERE s.name LIKE :inSearchString ORDER BY s.userId ASC");
         query.setParameter("inSearchString", "%" + searchString + "%");
         List<Student> students = query.getResultList();
-        
-       return students; 
+
+        return students;
     }
 
     public void addSkillToStudent(Long skillId, Long studentId) throws StudentNotFoundException, SkillNotFoundException {

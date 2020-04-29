@@ -66,10 +66,10 @@
                 </ion-item>
               </ion-card>
               <ion-toolbar position="bottom">
-                <ion-button  color="success" (click)="updateStudentAccount($event, studentToView)">
-                  <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>  Update Profile
+                <ion-button color="success" (click)="updateStudentAccount($event, studentToView)">
+                  <ion-icon slot="icon-only" name="pencil-outline"></ion-icon> Update Profile
                 </ion-button>
-                <ion-button  color="danger" (click)="deleteStudentAccount($event, studentToView)">
+                <ion-button color="danger" (click)="deleteStudentAccount($event, studentToView)">
                   <ion-icon slot="icon-only" name="trash-outline"></ion-icon> Delete Account
                 </ion-button>
               </ion-toolbar>
@@ -90,11 +90,11 @@
       <ion-list-header>My Skillset</ion-list-header>
 
       <ng-container *ngFor="let skill of skills">
-          <ion-chip outline color="primary" #skill.skillId>
-            <ion-icon name="person"></ion-icon>
-            <ion-label>{{ skill.title }}</ion-label>
-            <ion-icon name="close-circle"></ion-icon>
-          </ion-chip>
+        <ion-chip outline color="primary" #skill.skillId>
+          <ion-icon name="person"></ion-icon>
+          <ion-label>{{ skill.title }}</ion-label>
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-chip>
       </ng-container>
 
       <ion-fab horizontal="end" vertical="top" slot="fixed">
@@ -157,7 +157,7 @@
               </ion-card>
               <ion-toolbar position="bottom">
                 <ion-button slot="start" color="success" (click)="updateStudentAccount()">
-                  <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>  Update Profile
+                  <ion-icon slot="icon-only" name="pencil-outline"></ion-icon> Update Profile
                 </ion-button>
                 <ion-button slot="end" color="danger" (click)="deleteStudentAccount($event, studentToView)">
                   <ion-icon slot="icon-only" name="trash-outline"></ion-icon> Delete Account
@@ -171,3 +171,8 @@
 
     </div>
   </div>
+</ion-content>
+
+<ion-footer>
+  <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+</ion-footer>
