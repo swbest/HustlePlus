@@ -7,7 +7,6 @@ package ws.restful.resources;
 
 import ejb.session.stateless.CompanySessionBeanLocal;
 import entity.Company;
-import entity.Project;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -130,5 +129,4 @@ public class CompanyResource {
             throw new RuntimeException(ne);
         }
     }
-
 }

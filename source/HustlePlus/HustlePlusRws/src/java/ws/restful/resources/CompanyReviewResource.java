@@ -7,7 +7,11 @@
 package ws.restful.resources;
 
 import ejb.session.stateless.CompanyReviewSessionBeanLocal;
+import entity.Company;
 import entity.CompanyReview;
+import entity.Project;
+import entity.Skill;
+import entity.Student;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,6 +90,49 @@ public class CompanyReviewResource {
             for (CompanyReview companyReview : companyReviews) {
                 companyReview.setCompany(null);
                 companyReview.setProject(null);
+                companyReview.setStudent(null);
+            }
+            RetrieveAllCompanyReviewsRsp retrieveAllCompanyReviewsRsp = new RetrieveAllCompanyReviewsRsp(companyReviews);
+            return Response.status(Response.Status.OK).entity(retrieveAllCompanyReviewsRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+
+    /**
+     * Retrieves representation of an instance of
+     * ws.restful.resources.ReviewResource
+     *
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Path("retrieveMyCompanyReviews/{studentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveMyReviews(@PathParam("studentId") Long studentId) { // peers and company rating this user
+        try {
+            List<CompanyReview> companyReviews = companyReviewSessionBeanLocal.retrieveAllCompanyReviewsForStudent(studentId);
+            for (CompanyReview companyReview : companyReviews) {
+                Company company = companyReview.getCompany();
+                company.getStudentReviews().clear();
+                company.getCompanyReviews().clear();
+                company.getProjects().clear();
+                
+                Project p = companyReview.getProject();
+                p.getApplications().clear();
+                p.getCompany().getProjects().clear();
+                p.getCompanyReviews().clear();
+                p.getMilestones().clear();
+                List<Skill> skills = p.getSkills();
+                for (Skill s : skills) {
+                    s.getProjects().clear();
+                }
+                p.getStudentReviews().clear();
+                List<Student> students = p.getStudents();
+                for (Student s : students) {
+                    s.getProjects().clear();
+                }               
+                
                 companyReview.setStudent(null);
             }
             RetrieveAllCompanyReviewsRsp retrieveAllCompanyReviewsRsp = new RetrieveAllCompanyReviewsRsp(companyReviews);

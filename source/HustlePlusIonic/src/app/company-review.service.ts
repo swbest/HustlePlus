@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 
 import { UtilityService } from './utility.service';
 import { CompanyReview } from './company-review';
+import { SessionService } from './session.service';
 
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -18,9 +19,11 @@ const httpOptions = {
 export class CompanyReviewService {
 
 	baseUrl: string;
+	studentId: number;
 
 	constructor(private httpClient: HttpClient,
-		private utilityService: UtilityService) {
+		private utilityService: UtilityService,
+		private sessionService: SessionService) {
 		this.baseUrl = this.utilityService.getRootPath() + 'CompanyReview';
 	}
 
@@ -47,6 +50,14 @@ export class CompanyReviewService {
 
 	getCompanyReviewByCompanyReviewId(companyReviewId: number): Observable<any> {
 		return this.httpClient.get<any>(this.baseUrl + "/retrieveCompanyReview/" + companyReviewId).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
+	getMyCompanyReviews(): Observable<any> {
+		this.studentId = this.sessionService.getCurrentStudent().userId;
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveMyCompanyReviews/" + this.studentId).pipe
 			(
 				catchError(this.handleError)
 			);

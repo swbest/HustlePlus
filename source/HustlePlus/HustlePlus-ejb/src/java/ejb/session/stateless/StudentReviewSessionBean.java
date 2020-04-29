@@ -213,7 +213,6 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
         query.setParameter("sid", studentId);
 
         return query.getResultList();
-
     }
 
     @Override
