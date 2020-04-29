@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'Form A Team',
-      url: '/viewAllStudents',
+      url: '/teams',
       icon: 'people'
     },
     {

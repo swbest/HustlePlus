@@ -52,7 +52,7 @@ export class LoginPage implements OnInit {
           response => {										
             let student: Student = response.student;	
             
-            student.accessRightEnum = AccessRightEnum.STUDENT;
+            student.accessRightEnum = "STUDENT";
             console.log(response);
             
             if(student != null)
