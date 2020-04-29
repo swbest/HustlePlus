@@ -1,4 +1,4 @@
-    /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -34,68 +34,58 @@ public class LoginManagedBean {
 
     @EJB(name = "ProjectSessionBeanLocal")
     private ProjectSessionBeanLocal projectSessionBeanLocal;
-    
-    
 
     @EJB
     private UserSessionBeanLocal userSessionBeanLocal;
 
     private String username;
-    private String password; 
-    
-    private Company companyToDisplayProjects; 
-    private List<Project> projectsToDisplay; 
+    private String password;
+
+    private Company companyToDisplayProjects;
+    private List<Project> projectsToDisplay;
 
     /**
      * Creates a new instance of LoginManagedBean
      */
     public LoginManagedBean() {
     }
-    
+
     @PostConstruct
     public void PostConstruct() {
-        setCompanyToDisplayProjects((Company) ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("companyToDisplayProjects"));
-        projectsToDisplay = (List<Project>) ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("projectsToDisplay");
+        setCompanyToDisplayProjects((Company) ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("companyToDisplayProjects"));
+        projectsToDisplay = (List<Project>) ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("projectsToDisplay");
     }
-    
+
     public void login(ActionEvent event) throws IOException {
-       
+
         try {
-            User userEntity = userSessionBeanLocal.login(username,password);
+            User userEntity = userSessionBeanLocal.login(username, password);
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("userEntity", userEntity);
-            
+
             if (userEntity.getAccessRightEnum() == AccessRightEnum.COMPANY) {
-        companyToDisplayProjects = (Company) event.getComponent().getAttributes().get("companyToDisplayProjects");
-        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("companyToDisplayProjects", companyToDisplayProjects);
-        projectsToDisplay = projectSessionBeanLocal.retrieveProjectsByCompany(companyToDisplayProjects.getUserId());
-        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("projectsToDisplay", projectsToDisplay);
-            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
+                companyToDisplayProjects = (Company) event.getComponent().getAttributes().get("companyToDisplayProjects");
+                ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("companyToDisplayProjects", companyToDisplayProjects);
+                projectsToDisplay = projectSessionBeanLocal.retrieveProjectsByCompany(companyToDisplayProjects.getUserId());
+                ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("projectsToDisplay", projectsToDisplay);
+                FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
             } else {
-            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
             }
-        
-        
-        }
-        catch(InvalidLoginCredentialException ex)
-        {
+
+        } catch (InvalidLoginCredentialException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid login credentials: " + ex.getMessage(), null));
         } catch (ProjectNotFoundException | IOException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving projects: " + ex.getMessage(), null));
         }
     }
-    
-    
-    
-    public void logout(javax.faces.event.ActionEvent event) throws IOException
-    {
-        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
+
+    public void logout(javax.faces.event.ActionEvent event) throws IOException {
+        ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.xhtml");
     }
 
-    
-    
     public String getUsername() {
         return username;
     }
@@ -127,6 +117,5 @@ public class LoginManagedBean {
     public void setProjectsToDisplay(List<Project> projectsToDisplay) {
         this.projectsToDisplay = projectsToDisplay;
     }
-    
-    
+
 }
