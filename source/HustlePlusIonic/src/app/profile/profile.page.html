@@ -7,21 +7,19 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-toolbar no-border-top>
+  <ion-segment [(ngModel)]="option">
+    <ion-segment-button value="Profile">
+      About
+    </ion-segment-button>
+    <ion-segment-button value="Skills">
+      Skills
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
+
 
 <ion-content fullscreen>
-
-  <ion-toolbar no-border-top>
-    <ion-segment [(ngModel)]="option">
-      <ion-segment-button value="Profile">
-        About
-      </ion-segment-button>
-      <ion-segment-button value="Skills">
-        Skills
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
-
-
 
   <div [ngSwitch]="option">
     <div *ngSwitchCase="'Profile'">
@@ -91,10 +89,10 @@
 
       <ion-list-header>My Skillset</ion-list-header>
 
-      <ng-container *ngFor="let skills of skills">
-          <ion-chip outline color="primary">
+      <ng-container *ngFor="let skill of skills">
+          <ion-chip outline color="primary" #skill.skillId>
             <ion-icon name="person"></ion-icon>
-            <ion-label>{{ skills.title }}</ion-label>
+            <ion-label>{{ skill.title }}</ion-label>
             <ion-icon name="close-circle"></ion-icon>
           </ion-chip>
       </ng-container>

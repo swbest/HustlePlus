@@ -189,6 +189,7 @@ public class DataInitSessionBean {
             newStudent.setPassword("password");
             newStudent.setEmail("studentone@gmail.com");
             newStudent.setDescription("information systems undergraduate");
+            newStudent.setAccessRightEnum(AccessRightEnum.STUDENT);
             newStudent.setIsVerified(Boolean.TRUE);
             List<Long> skillIds = new ArrayList<>();
             skillIds.add(new Long(1));

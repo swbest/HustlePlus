@@ -6,6 +6,7 @@ import { StudentService } from '../student.service';
 import { SessionService } from '../session.service';
 import { Location } from '@angular/common';
 import { Student } from '../student';
+import { AccessRightEnum } from '../access-right-enum.enum';
 
 @Component({
   selector: 'app-update-profile-modal',
@@ -69,6 +70,14 @@ export class UpdateProfileModalPage implements OnInit {
       
       if (updateStudentForm.valid) 
       {
+        this.studentToUpdate.accessRightEnum = "STUDENT";
+
+        let updateStudentReq = {
+          "username": "studentone",
+          "password": "password",
+          "student": this.studentToUpdate
+        };
+
         this.studentService.updateStudent(this.studentToUpdate).subscribe(
           response => {					
             this.resultSuccess = true;
