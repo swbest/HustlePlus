@@ -67,7 +67,9 @@ export class UpdateProfileModalPage implements OnInit {
 
     updateStudentAccount(updateStudentForm: NgForm) {
       this.submitted = true;
-      
+      this.sessionService.setCurrentStudent(this.studentToUpdate);
+      this.sessionService.setUsername(this.studentToUpdate.username);
+      this.sessionService.setPassword(this.studentToUpdate.password);
       if (updateStudentForm.valid) 
       {
         this.studentToUpdate.accessRightEnum = "STUDENT";
