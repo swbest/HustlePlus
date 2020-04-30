@@ -321,7 +321,8 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         return students;
     }
 
-    public void addSkillToStudent(Long skillId, Long studentId) throws StudentNotFoundException, SkillNotFoundException {
+    @Override
+    public void addSkillToStudent(Long studentId, Long skillId) throws StudentNotFoundException, SkillNotFoundException {
         Student student = retrieveStudentByStudentId(studentId);
         Skill skill = skillSessionBeanLocal.retrieveSkillBySkillId(skillId);
 
