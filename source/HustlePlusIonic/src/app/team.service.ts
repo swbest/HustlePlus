@@ -29,7 +29,7 @@ export class TeamService {
 	}
 
 	createNewTeam(newTeam: Team): Observable<any> {
-		let createNewTeamReq = { 
+		let createNewTeamReq = {
 			'newTeam': newTeam,
 			'studentId': this.studentId,
 		};
@@ -61,11 +61,29 @@ export class TeamService {
 	}
 
 	addStudentToTeam(teamId: number, studentToAddId: number): Observable<any> {
-		let updateTeamReq = { 
+		let updateTeamReq = {
 			'teamId': teamId,
 			'studentId': studentToAddId,
 		};
 		return this.httpClient.put<any>(this.baseUrl + "/addStudentToTeam", updateTeamReq, httpOptions).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
+	removeStudent(teamId: number, studentToRemove: number): Observable<any> {
+		let updateTeamReq = {
+			'teamId': teamId,
+			'studentId': studentToRemove,
+		};
+		return this.httpClient.put<any>(this.baseUrl + "/removeStudentFromTeam", updateTeamReq, httpOptions).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
+	deleteTeam(teamId: number): Observable<any> {
+		return this.httpClient.delete<any>(this.baseUrl + "/deleteTeam/" + teamId).pipe
 			(
 				catchError(this.handleError)
 			);

@@ -27,6 +27,8 @@ import util.exception.ApproveApplicationException;
 import util.exception.DeleteApplicationException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNotFoundException;
+import util.exception.StudentAppliedToProjectException;
+import util.exception.StudentAssignedToProjectException;
 import util.exception.StudentNotFoundException;
 import util.exception.StudentNotVerifiedException;
 import util.exception.StudentSuspendedException;
@@ -59,7 +61,7 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
     }
 
     @Override
-    public Long createApplication(Application newApplication, Long projectId, Long studentId) throws StudentSuspendedException, StudentNotVerifiedException, ApplicationExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException, StudentNotFoundException {
+    public Long createApplication(Application newApplication, Long projectId, Long studentId) throws StudentAppliedToProjectException, StudentAssignedToProjectException, StudentSuspendedException, StudentNotVerifiedException, ApplicationExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException, StudentNotFoundException {
         try {
             Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
             Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
@@ -68,6 +70,15 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
             }
             if (student.getIsSuspended() == true) {
                 throw new StudentSuspendedException("Student is suspended. Please contact admin staff for details.");
+            }
+            if (student.getProjects().contains(project)) {
+                throw new StudentAssignedToProjectException("Student is already working on this project.");
+            }
+            List<Application> currApplications = student.getApplications();
+            for (Application application : currApplications) {
+                if (application.getProject().equals(project)) {
+                    throw new StudentAppliedToProjectException("Student is already applied to this project.");
+                }
             }
             newApplication.setProject(project);
             newApplication.setStudent(student);
@@ -103,14 +114,16 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
     }
 
     @Override
-    public List<Application> retrieveApplicationByStudent(Long studentId) {
+    public List<Application> retrieveApplicationByStudent(Long studentId
+    ) {
         Query query = em.createQuery("SELECT a FROM Application a WHERE a.student.userId =:studentId");
         query.setParameter("studentId", studentId);
         return query.getResultList();
     }
 
     @Override
-    public List<Application> retrieveApplicationByProject(Long projectId) {
+    public List<Application> retrieveApplicationByProject(Long projectId
+    ) {
         Query query = em.createQuery("SELECT a FROM Application a WHERE a.project.projectId =:pid");
         query.setParameter("pid", projectId);
         return query.getResultList();
@@ -157,7 +170,7 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
     @Override
     public void deleteApplication(Long applicationId) throws ApplicationNotFoundException, DeleteApplicationException {
         Application applicationToRemove = retrieveApplicationByApplicationId(applicationId);
-        if (applicationToRemove.getIsApproved() == Boolean.FALSE && applicationToRemove.getIsPending() == Boolean.FALSE) {
+        if (applicationToRemove.getIsPending() == Boolean.TRUE) {
             em.remove(applicationToRemove);
         } else {
             throw new DeleteApplicationException("Application ID " + applicationId + " has been processed and cannot be deleted!");

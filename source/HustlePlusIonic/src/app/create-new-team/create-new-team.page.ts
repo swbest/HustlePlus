@@ -57,7 +57,7 @@ export class CreateNewTeamPage implements OnInit {
 
   back() {
     if (!this.hasError) {
-      this.router.navigate(["/home"]);
+      this.router.navigate(["/teams"]);
     }
   }
 }

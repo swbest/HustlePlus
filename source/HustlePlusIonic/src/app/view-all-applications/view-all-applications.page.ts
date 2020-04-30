@@ -13,6 +13,8 @@ export class ViewAllApplicationsPage implements OnInit {
 
   applications: Application[];
   errorMessage: string;
+  error: boolean;
+  numApplications: number;
 
   constructor(private router: Router,
     private applicationService: ApplicationService) { }
@@ -26,9 +28,11 @@ export class ViewAllApplicationsPage implements OnInit {
   }
 
   refreshApplications() {
+    console.log("**** getting my applications")
     this.applicationService.getMyApplications().subscribe(
       response => {
         this.applications = response.applications
+        this.numApplications = this.applications.length;
       },
       error => {
         this.errorMessage = error
@@ -49,8 +53,22 @@ export class ViewAllApplicationsPage implements OnInit {
     }
   }
 
+  deleteApplication(event, application) {
+    this.applicationService.deleteApplication(application.applicationId).subscribe(
+      error => {
+        this.error = true;
+        this.errorMessage = error;
+      }
+    );
+    this.refreshApplications();
+  }
+
   onCancel(ev: any) {
     // Reset items back to all of the items
     this.refreshApplications();
+  }
+
+  applyForProjects() {
+    this.router.navigate(["/viewAllProjects"]);
   }
 }

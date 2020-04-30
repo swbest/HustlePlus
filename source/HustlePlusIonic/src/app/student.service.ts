@@ -74,6 +74,32 @@ export class StudentService {
 			);
 	}
 
+	dissociateSkillFromStudent(studentToUpdate: Student, skillId: number): Observable<any> {
+		let updateStudentReq = {
+			"username": this.sessionService.getUsername(),
+			"password": this.sessionService.getPassword(),
+			"student": studentToUpdate,
+		};
+		return this.httpClient.post<any>(this.baseUrl + "/dissociateSkillFromStudent/" + skillId, updateStudentReq, httpOptions).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
+	addSkillToStudent(studentToUpdate: Student, skillId: number): Observable<any> {
+		let updateStudentReq = {
+			"username": this.sessionService.getUsername(),
+			"password": this.sessionService.getPassword(),
+			"student": studentToUpdate,
+		};
+		return this.httpClient.post<any>(this.baseUrl + "/addSkillToStudent/" + skillId, updateStudentReq, httpOptions).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
+
+
 	deleteStudentAccount(userId: number): Observable<any> {
 		return this.httpClient.delete<any>(this.baseUrl + "/" + userId + "?username=" + this.sessionService.getUsername() + "&password=" + this.sessionService.getPassword()).pipe
 			(

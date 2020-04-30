@@ -382,5 +382,4 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
             return projects;
         }
     }
-
 }

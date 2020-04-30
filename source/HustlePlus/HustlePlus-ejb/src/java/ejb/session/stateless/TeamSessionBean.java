@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -21,6 +22,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.DeleteTeamException;
 import util.exception.InputDataValidationException;
+import util.exception.StudentAlreadyInTeamException;
 import util.exception.StudentNotFoundException;
 import util.exception.TeamNameExistException;
 import util.exception.TeamNotFoundException;
@@ -94,10 +96,15 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
     }
 
     @Override
-    public List<Team> retrieveTeamsByStudentId(Long studentId) {
+    public List<Team> retrieveTeamsByStudentId(Long studentId) throws StudentNotFoundException {
         Query query = em.createQuery("SELECT s.teams FROM Student s WHERE s.userId = :inStudentId");
         query.setParameter("inStudentId", studentId);
-        return query.getResultList();
+
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new StudentNotFoundException("No students were found by that name!");
+        }
     }
 
     @Override
@@ -120,24 +127,34 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
     }
 
     @Override
-    public Long addStudentToTeam(Long teamId, Long studentId) throws TeamNotFoundException, StudentNotFoundException, UpdateTeamException, InputDataValidationException {
+    public Long addStudentToTeam(Long teamId, Long studentId) throws StudentAlreadyInTeamException, TeamNotFoundException, StudentNotFoundException, UpdateTeamException, InputDataValidationException {
         Team team = retrieveTeamByTeamId(teamId);
         Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+        if (student.getTeams().contains(team)) {
+            throw new StudentAlreadyInTeamException("The student to be added is already in your team: " + team.getTeamName());
+        }
         team.addStudent(student);
         student.addTeam(team);
         return team.getTeamId();
     }
 
     @Override
+    public Long removeStudentFromTeam(Long teamId, Long studentId) throws TeamNotFoundException, StudentNotFoundException, UpdateTeamException, InputDataValidationException {
+        Team team = retrieveTeamByTeamId(teamId);
+        Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+        team.removeStudent(student);
+        student.removeTeam(team);
+        return team.getTeamId();
+    }
+
+    @Override
     public void deleteTeam(Long teamId) throws TeamNotFoundException, DeleteTeamException {
-
         Team teamToRemove = retrieveTeamByTeamId(teamId);
-
-        if (teamToRemove.getProject() == null) {
-            em.remove(teamToRemove);
-        } else {
-            throw new DeleteTeamException("Team ID " + teamId + " is associated with an existing project and cannot be deleted!");
+        List<Student> students = teamToRemove.getStudents();
+        for (Student student : students) {
+            student.removeTeam(teamToRemove);
         }
+        em.remove(teamToRemove);
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Team>> constraintViolations) {

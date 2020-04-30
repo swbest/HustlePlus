@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ProjectService } from '../project.service';
+import { SessionService } from '../session.service';
 import { Project } from '../project';
 
 @Component({
@@ -13,17 +14,20 @@ import { Project } from '../project';
 export class ViewAllProjectsPage implements OnInit {
 
 	projects: Project[];
+	myProjects: Project[];
 	errorMessage: string;
 	searchQuery: string = '';
 
-	constructor(private router: Router, private projectService: ProjectService) { }
+	constructor(private router: Router, private projectService: ProjectService, private sessionService: SessionService) { }
 
 	ngOnInit() {
 		this.refreshProjects();
+		this.refreshMyProjects();
 	}
 
 	ionViewWillEnter() {
 		this.refreshProjects();
+		this.refreshMyProjects();
 	}
 
 	viewProjectDetails(event, project) {
@@ -34,6 +38,17 @@ export class ViewAllProjectsPage implements OnInit {
 		this.projectService.getProjects().subscribe(
 			response => {
 				this.projects = response.projects
+			},
+			error => {
+				this.errorMessage = error
+			}
+		);
+	}
+
+	refreshMyProjects() {
+		this.projectService.getProjectsByStudentId(this.sessionService.getCurrentStudent().userId).subscribe(
+			response => {
+				this.myProjects = response.projects
 			},
 			error => {
 				this.errorMessage = error

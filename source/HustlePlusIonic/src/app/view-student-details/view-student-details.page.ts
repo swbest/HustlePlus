@@ -101,9 +101,10 @@ export class ViewStudentDetailsPage implements OnInit {
         this.hasError = true;
       }
     );
+    this.back();
   }
 
   back() {
-    this.router.navigate(["/viewAllStudents"]);
+    this.router.navigate(["/teams"]);
   }
 }

@@ -19,6 +19,8 @@ export class ViewTeamDetailsPage implements OnInit {
   error: boolean;
   errorMessage: string;
   resultSuccess: boolean;
+  studentId: number;
+  removeStudentMsg: string;
 
   constructor(private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -50,7 +52,31 @@ export class ViewTeamDetailsPage implements OnInit {
     );
   }
 
+  deleteTeam() {
+    this.teamService.deleteTeam(this.teamId).subscribe(
+      error => {
+        this.error = true;
+        this.errorMessage = error;
+      }
+    );
+    this.back();
+  }
+
+  removeStudent(event, student) {
+    if (this.teamToView.numStudents == 1) {
+      this.removeStudentMsg = "You need at least one student in the team!";
+    } else {
+      this.teamService.removeStudent(this.teamId, student.userId).subscribe(
+        error => {
+          this.error = true;
+          this.errorMessage = error;
+        }
+      );
+    }
+    this.refreshTeam();
+  }
+
   back() {
-    this.router.navigate(["/viewMyTeams"]);
+    this.router.navigate(["/teams"]);
   }
 }

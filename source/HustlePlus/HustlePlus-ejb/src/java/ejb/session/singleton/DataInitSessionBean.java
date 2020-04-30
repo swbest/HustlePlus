@@ -41,7 +41,8 @@ import util.exception.ProjectNameExistException;
 import util.exception.ProjectNotFoundException;
 import util.exception.SkillNameExistsException;
 import util.exception.SkillNotFoundException;
-import util.exception.StudentNameExistException;
+import util.exception.StudentAppliedToProjectException;
+import util.exception.StudentAssignedToProjectException;
 import util.exception.StudentNotFoundException;
 import util.exception.StudentNotVerifiedException;
 import util.exception.StudentSuspendedException;
@@ -189,12 +190,13 @@ public class DataInitSessionBean {
             newStudent.setPassword("password");
             newStudent.setEmail("studentone@gmail.com");
             newStudent.setDescription("information systems undergraduate");
+            newStudent.setAccessRightEnum(AccessRightEnum.STUDENT);
             newStudent.setIsVerified(Boolean.TRUE);
             List<Long> skillIds = new ArrayList<>();
             skillIds.add(new Long(1));
             skillIds.add(new Long(3));
             skillIds.add(new Long(5));
-            Long newStudentId = studentSessionBeanLocal.createStudentAccount(newStudent, skillIds);
+            studentSessionBeanLocal.createStudentAccount(newStudent, skillIds);
 
             Student newStudent2 = new Student();
             newStudent2.setBankAccountName("posb");
@@ -217,13 +219,27 @@ public class DataInitSessionBean {
             newStudent3.setDescription("information systems undergraduate");
             newStudent3.setIsVerified(Boolean.TRUE);
             studentSessionBeanLocal.createStudentAccount(newStudent3, skillIds);
-        } catch (StudentNameExistException ex) {
+
+            System.out.println("retrieving is3106 project");
+            Project project = projectSessionBeanLocal.retrieveProjectByProjectId(new Long("1"));
+            project.addStudent(newStudent);
+            project.addStudent(newStudent2);
+            project.addStudent(newStudent3);
+            System.out.println("retrieved project: " + project.getProjectName());
+
+            newStudent.addProject(project);
+            newStudent2.addProject(project);
+            newStudent3.addProject(project);
+            em.flush();
+        } catch (StudentAssignedToProjectException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnknownPersistenceException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InputDataValidationException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SkillNotFoundException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProjectNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -271,7 +287,7 @@ public class DataInitSessionBean {
     private void createApplications() {
         try {
             Application application = new Application();
-            applicationSessionBeanLocal.createApplication(application, Long.valueOf("1"), Long.valueOf("3"));
+            applicationSessionBeanLocal.createApplication(application, Long.valueOf("1"), Long.valueOf("4"));
             Application application2 = new Application();
             applicationSessionBeanLocal.createApplication(application2, Long.valueOf("2"), Long.valueOf("4"));
         } catch (StudentSuspendedException ex) {
@@ -288,16 +304,19 @@ public class DataInitSessionBean {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (StudentNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (StudentAppliedToProjectException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (StudentAssignedToProjectException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     private void initializeData() {
         createCompany();
         createAdmin();
         createSkills();
-        createStudents();
         createProjects();
+        createStudents();
         createApplications();
     }
 

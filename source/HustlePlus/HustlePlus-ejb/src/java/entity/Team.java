@@ -91,7 +91,7 @@ public class Team implements Serializable {
         }
     }
 
-    public void removeTeam(Student student) {
+    public void removeStudent(Student student) {
         if (this.students.contains(student)) {
             this.students.remove(student);
         }
