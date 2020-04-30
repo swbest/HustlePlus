@@ -12,7 +12,7 @@ import util.exception.DeleteStudentException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.SkillNotFoundException;
-import util.exception.StudentNameExistException;
+import util.exception.StudentAssignedToProjectException;
 import util.exception.StudentNotFoundException;
 import util.exception.SuspendStudentException;
 import util.exception.UnknownPersistenceException;
@@ -51,7 +51,7 @@ public interface StudentSessionBeanLocal {
     public void suspendStudent(Long studentId) throws StudentNotFoundException, SuspendStudentException;
 
     public List<Student> searchStudentsByName(String searchString);
-    public Long createStudentAccount(Student newStudent, List<Long> skillIds) throws SkillNotFoundException, StudentNameExistException, UnknownPersistenceException, InputDataValidationException;
+    public Long createStudentAccount(Student newStudent, List<Long> skillIds) throws SkillNotFoundException, StudentAssignedToProjectException, UnknownPersistenceException, InputDataValidationException;
 
     public void disassociateProjectSkill(Long studentId, Long skillId) throws StudentNotFoundException, SkillNotFoundException;
 

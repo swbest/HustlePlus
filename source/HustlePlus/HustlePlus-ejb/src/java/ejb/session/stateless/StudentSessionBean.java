@@ -29,7 +29,7 @@ import util.exception.DeleteStudentException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.SkillNotFoundException;
-import util.exception.StudentNameExistException;
+import util.exception.StudentAssignedToProjectException;
 import util.exception.StudentNotFoundException;
 import util.exception.SuspendStudentException;
 import util.exception.UnknownPersistenceException;
@@ -59,7 +59,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     }
 
     @Override
-    public Long createStudentAccount(Student newStudent, List<Long> skillIds) throws SkillNotFoundException, StudentNameExistException, UnknownPersistenceException, InputDataValidationException {
+    public Long createStudentAccount(Student newStudent, List<Long> skillIds) throws SkillNotFoundException, StudentAssignedToProjectException, UnknownPersistenceException, InputDataValidationException {
         try {
             Set<ConstraintViolation<Student>> constraintViolations = validator.validate(newStudent);
 
@@ -84,7 +84,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         } catch (PersistenceException ex) {
             if (ex.getCause() != null && ex.getCause().getClass().getName().equals("org.eclipse.persistence.exceptions.DatabaseException")) {
                 if (ex.getCause().getCause() != null && ex.getCause().getCause().getClass().getName().equals("java.sql.SQLIntegrityConstraintViolationException")) {
-                    throw new StudentNameExistException("Student name exists, please try again!");
+                    throw new StudentAssignedToProjectException("Student name exists, please try again!");
                 } else {
                     throw new UnknownPersistenceException(ex.getMessage());
                 }

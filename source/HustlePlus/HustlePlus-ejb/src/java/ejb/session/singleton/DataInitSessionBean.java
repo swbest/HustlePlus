@@ -41,7 +41,8 @@ import util.exception.ProjectNameExistException;
 import util.exception.ProjectNotFoundException;
 import util.exception.SkillNameExistsException;
 import util.exception.SkillNotFoundException;
-import util.exception.StudentNameExistException;
+import util.exception.StudentAppliedToProjectException;
+import util.exception.StudentAssignedToProjectException;
 import util.exception.StudentNotFoundException;
 import util.exception.StudentNotVerifiedException;
 import util.exception.StudentSuspendedException;
@@ -195,7 +196,7 @@ public class DataInitSessionBean {
             skillIds.add(new Long(1));
             skillIds.add(new Long(3));
             skillIds.add(new Long(5));
-            Long newStudentId = studentSessionBeanLocal.createStudentAccount(newStudent, skillIds);
+            studentSessionBeanLocal.createStudentAccount(newStudent, skillIds);
 
             Student newStudent2 = new Student();
             newStudent2.setBankAccountName("posb");
@@ -230,7 +231,7 @@ public class DataInitSessionBean {
             newStudent2.addProject(project);
             newStudent3.addProject(project);
             em.flush();
-        } catch (StudentNameExistException ex) {
+        } catch (StudentAssignedToProjectException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnknownPersistenceException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -302,6 +303,10 @@ public class DataInitSessionBean {
         } catch (ProjectNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (StudentNotFoundException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (StudentAppliedToProjectException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (StudentAssignedToProjectException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

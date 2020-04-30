@@ -31,7 +31,7 @@
                     <div *ngIf="errorMessage">
                         {{errorMessage}}
                     </div>
-                    <ion-card-subtitle>Just completed a project?</ion-card-subtitle> 
+                    <ion-card-subtitle>Just completed a project?</ion-card-subtitle>
                 </ion-card-content>
                 <ion-item (click)="writeCompanyReview($event)" class="ion-activated">
                     <ion-icon name="open-outline" slot="start"></ion-icon>
@@ -45,7 +45,7 @@
                     <div *ngIf="errorMessage">
                         {{errorMessage}}
                     </div>
-                    <ion-card-subtitle>Got an outstanding teammate?</ion-card-subtitle> 
+                    <ion-card-subtitle>Got an outstanding teammate?</ion-card-subtitle>
                 </ion-card-content>
                 <ion-item (click)="writeStudentReview($event)" class="ion-activated">
                     <ion-icon name="open-outline" slot="start"></ion-icon>
@@ -58,32 +58,32 @@
 
             <ion-list>
 
-                <ion-item *ngFor="let studentReview of studentReviews">
-                    <ion-label>
-                        Reviews From Other Students
-                        <ion-row>
-                            <ion-col>
-                                <h2>{{studentReview.rating}}</h2>
-                                <p>{{studentReview.reviewText}}</p>
-                            </ion-col>
-                        </ion-row>
-                    </ion-label>
-                </ion-item>
-          
-                <ion-item *ngFor="let companyReview of companyReviews">
-                  <ion-label>
-                      Reviews From Companies
-                      <ion-row>
-                          <ion-col>
-                              <h2>{{companyReview.rating}}</h2>
-                              <p>{{companyReview.reviewText}}</p>
-                          </ion-col>
-                      </ion-row>
-                  </ion-label>
-              </ion-item>
-          
-            </ion-list>
+                <ion-label>
+                    Reviews From Other Students
+                </ion-label>
 
+                <ion-item *ngFor="let studentReview of studentReviews">
+                    <ion-row>
+                        <ion-col>
+                            <h2>Rating: {{studentReview.rating}}</h2>
+                            <p>Text: {{studentReview.reviewText}}</p>
+                        </ion-col>
+                    </ion-row>
+                </ion-item>
+
+                <ion-label>
+                    Reviews From Companies
+                </ion-label>
+
+                <ion-item *ngFor="let companyReview of companyReviews">
+                    <ion-row>
+                        <ion-col>
+                            <h2>Rating: {{companyReview.rating}}</h2>
+                            <p>Text: {{companyReview.reviewText}}</p>
+                        </ion-col>
+                    </ion-row>
+                </ion-item>
+            </ion-list>
         </div>
 
 
@@ -94,7 +94,7 @@
                     <div *ngIf="errorMessage">
                         {{errorMessage}}
                     </div>
-                    <ion-card-subtitle>Just completed a project?</ion-card-subtitle> 
+                    <ion-card-subtitle>Just completed a project?</ion-card-subtitle>
                 </ion-card-content>
                 <ion-item (click)="writeCompanyReview($event)" class="ion-activated">
                     <ion-icon name="open-outline" slot="start"></ion-icon>
@@ -108,7 +108,7 @@
                     <div *ngIf="errorMessage">
                         {{errorMessage}}
                     </div>
-                    <ion-card-subtitle>Got an outstanding teammate?</ion-card-subtitle> 
+                    <ion-card-subtitle>Got an outstanding teammate?</ion-card-subtitle>
                 </ion-card-content>
                 <ion-item (click)="writeStudentReview($event)" class="ion-activated">
                     <ion-icon name="open-outline" slot="start"></ion-icon>
