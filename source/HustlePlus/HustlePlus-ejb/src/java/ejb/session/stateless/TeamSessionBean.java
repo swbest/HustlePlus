@@ -22,6 +22,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.DeleteTeamException;
 import util.exception.InputDataValidationException;
+import util.exception.StudentAlreadyInTeamException;
 import util.exception.StudentNotFoundException;
 import util.exception.TeamNameExistException;
 import util.exception.TeamNotFoundException;
@@ -126,9 +127,12 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
     }
 
     @Override
-    public Long addStudentToTeam(Long teamId, Long studentId) throws TeamNotFoundException, StudentNotFoundException, UpdateTeamException, InputDataValidationException {
+    public Long addStudentToTeam(Long teamId, Long studentId) throws StudentAlreadyInTeamException, TeamNotFoundException, StudentNotFoundException, UpdateTeamException, InputDataValidationException {
         Team team = retrieveTeamByTeamId(teamId);
         Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+        if (student.getTeams().contains(team)) {
+            throw new StudentAlreadyInTeamException("The student to be added is already in your team: " + team.getTeamName());
+        }
         team.addStudent(student);
         student.addTeam(team);
         return team.getTeamId();

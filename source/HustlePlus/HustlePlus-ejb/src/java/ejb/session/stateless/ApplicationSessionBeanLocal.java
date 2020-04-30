@@ -15,6 +15,8 @@ import util.exception.ApproveApplicationException;
 import util.exception.DeleteApplicationException;
 import util.exception.InputDataValidationException;
 import util.exception.ProjectNotFoundException;
+import util.exception.StudentAppliedToProjectException;
+import util.exception.StudentAssignedToProjectException;
 import util.exception.StudentNotFoundException;
 import util.exception.StudentNotVerifiedException;
 import util.exception.StudentSuspendedException;
@@ -32,7 +34,7 @@ public interface ApplicationSessionBeanLocal {
 
     public Application retrieveApplicationByApplicationId(Long applicationId) throws ApplicationNotFoundException;
 
-    public Long createApplication(Application newApplication, Long projectId, Long studentId) throws StudentSuspendedException, StudentNotVerifiedException, ApplicationExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException, StudentNotFoundException;
+    public Long createApplication(Application newApplication, Long projectId, Long studentId) throws StudentAppliedToProjectException, StudentAssignedToProjectException, StudentSuspendedException, StudentNotVerifiedException, ApplicationExistException, UnknownPersistenceException, InputDataValidationException, ProjectNotFoundException, StudentNotFoundException;
 
     public void updateApplication(Application application) throws ApplicationNotFoundException, UpdateApplicationException, InputDataValidationException;
 
@@ -47,6 +49,5 @@ public interface ApplicationSessionBeanLocal {
     public List<Student> retrieveStudentByApprovedApplication(Long projectId) throws ApplicationNotFoundException;
 
     public List<Application> retrieveApplicationByStudent(Long studentId);
-
 
 }

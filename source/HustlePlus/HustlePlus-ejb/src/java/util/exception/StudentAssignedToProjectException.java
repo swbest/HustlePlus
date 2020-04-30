@@ -8,14 +8,14 @@ package util.exception;
 
 /**
  *
- * @author Nurhidayah
+ * @author dtjldamien
  */
-public class StudentNameExistException extends Exception {
+public class StudentAssignedToProjectException extends Exception {
     /**
      * Creates a new instance of <code>StudentNameExistException</code> without
      * detail message.
      */
-    public StudentNameExistException() {
+    public StudentAssignedToProjectException() {
     }
 
     /**
@@ -24,9 +24,11 @@ public class StudentNameExistException extends Exception {
      *
      * @param msg the detail message.
      */
-    public StudentNameExistException(String msg) {
+    public StudentAssignedToProjectException(String msg) {
         super(msg);
     }
+    
+    
 }
 
 

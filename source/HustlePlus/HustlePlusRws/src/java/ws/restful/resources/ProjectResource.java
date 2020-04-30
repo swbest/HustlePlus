@@ -198,6 +198,7 @@ public class ProjectResource {
         }
     }
      */
+    
     private ProjectSessionBeanLocal lookupProjectSessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();
