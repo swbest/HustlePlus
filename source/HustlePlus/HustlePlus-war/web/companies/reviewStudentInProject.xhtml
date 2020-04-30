@@ -23,7 +23,7 @@
                     <p:ajax event="rate" listener="#{reviewManagementManagedBean.onrate}" update="msgs" />
                 </p:rating>
                 <h:outputLabel value="Your Review " for="reviewTxt"></h:outputLabel>
-                <p:textEditor widgetVar="editor" value="#{reviewManagementManagedBean.newStudentReview.reviewText}" height="200" style="margin-bottom:10px; margin-top:10px; width: 500px" placeholder="Type here" required="true">
+                <p:textEditor widgetVar="editor" value="#{reviewManagementManagedBean.newStudentReview.reviewText}" height="200" style="margin-bottom:10px; margin-top:10px; width: 500px; background-color: white; color: black; " placeholder="Type here" required="true">
                     <f:validateLength minimum="10" />
                     <f:facet name="toolbar">
                          <span class="ql-formats">
