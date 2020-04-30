@@ -1,54 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ProjectService } from '../project.service';
 import { SessionService } from '../session.service';
+import { ProjectService } from '../project.service';
 import { Project } from '../project';
 
 @Component({
-	selector: 'app-view-all-projects',
-	templateUrl: './view-all-projects.page.html',
-	styleUrls: ['./view-all-projects.page.scss'],
+  selector: 'app-view-my-projects',
+  templateUrl: './view-my-projects.page.html',
+  styleUrls: ['./view-my-projects.page.scss'],
 })
+export class ViewMyProjectsPage implements OnInit {
 
-export class ViewAllProjectsPage implements OnInit {
-
+  
 	projects: Project[];
-	myProjects: Project[];
-	errorMessage: string;
+  errorMessage: string;
 	searchQuery: string = '';
 
 	constructor(private router: Router, private projectService: ProjectService, private sessionService: SessionService) { }
 
 	ngOnInit() {
 		this.refreshProjects();
-		this.refreshMyProjects();
 	}
 
 	ionViewWillEnter() {
 		this.refreshProjects();
-		this.refreshMyProjects();
-	}
-
-	viewProjectDetails(event, project) {
-		this.router.navigate(["/viewProjectDetails/" + project.projectId]);
 	}
 
 	refreshProjects() {
-		this.projectService.getProjects().subscribe(
-			response => {
-				this.projects = response.projects
-			},
-			error => {
-				this.errorMessage = error
-			}
-		);
-	}
-
-	refreshMyProjects() {
 		this.projectService.getProjectsByStudentId(this.sessionService.getCurrentStudent().userId).subscribe(
 			response => {
-				this.myProjects = response.projects
+				this.projects = response.projects
 			},
 			error => {
 				this.errorMessage = error
@@ -70,9 +52,10 @@ export class ViewAllProjectsPage implements OnInit {
 			})
 		}
 	}
-	
+
 	onCancel(ev: any) {
 		// Reset items back to all of the items
 		this.refreshProjects();
 	}
+
 }

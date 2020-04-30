@@ -40,7 +40,11 @@ const routes: Routes = [
   { path: 'viewProjectDetails', loadChildren: './view-project-details/view-project-details.module#ViewProjectDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'viewProjectDetails/:projectId', loadChildren: './view-project-details/view-project-details.module#ViewProjectDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'reviews', loadChildren: './reviews/reviews.module#ReviewsPageModule', canActivate: [AuthGuard] },
-  { path: 'teams', loadChildren: './teams/teams.module#TeamsPageModule', canActivate: [AuthGuard] },
+  { path: 'teams', loadChildren: './teams/teams.module#TeamsPageModule', canActivate: [AuthGuard] },  {
+    path: 'view-my-projects',
+    loadChildren: () => import('./view-my-projects/view-my-projects.module').then( m => m.ViewMyProjectsPageModule)
+  },
+
 ];
 
 @NgModule({
