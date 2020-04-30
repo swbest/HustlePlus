@@ -95,23 +95,23 @@
                         </p:submenu>
 
                         <p:submenu label="Search">
-                            <p:menuitem value="For Students By Name" outcome="/companies/searchStudentsByName.xhtml" />
+                            <p:menuitem value="Search Students By Name" outcome="/companies/searchStudentsByName.xhtml" />
                             <p:separator />
-                            <p:menuitem value="For Companies By Name" outcome="/companies/searchCompaniesByName.xhtml" />
+                            <p:menuitem value="Search Companies By Name" outcome="/companies/searchCompaniesByName.xhtml" />
                             <p:separator />
-                            <p:menuitem value="For Companies By Rating" outcome="/companies/searchCompaniesByRating.xhtml" />
+                            <p:menuitem value="Search Companies By Rating" outcome="/companies/searchCompaniesByRating.xhtml" />
                             <p:separator />
-                            <p:menuitem value="For Projects By Name" outcome="/companies/searchProjectsByName.xhtml">
+                            <p:menuitem value="Search Projects By Name" outcome="/companies/searchProjectsByName.xhtml">
                                 <f:setPropertyActionListener target="#{searchProjectsByNameManagedBean.companyToSearchProject}" value="#{sessionScope.userEntity}"/>
                             </p:menuitem>
                             <p:separator />
-                            <p:menuitem value="For Projects By Company" outcome="/companies/searchProjectsByCompany.xhtml"/>
+                            <p:menuitem value="Search Projects By Company" outcome="/companies/searchProjectsByCompany.xhtml"/>
                         </p:submenu>
 
                         <p:submenu label="Filter">
-                            <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />                  
+                            <p:menuitem value="Filter Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />                  
                             <p:separator />
-                            <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
+                            <p:menuitem value="Filter Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
                         </p:submenu>
 
                         <p:submenu label="Projects">
@@ -149,27 +149,31 @@
                         <p:menuitem value="Home" outcome="/index"/>
 
                         <p:submenu label="Search">
-                            <p:menuitem value="For Students By Name" outcome="/companies/searchStudentsByName.xhtml" />
+                            <p:menuitem value="Search Students By Name" outcome="/companies/searchStudentsByName.xhtml" />
                             <p:separator />
-                            <p:menuitem value="For Companies By Name" outcome="/companies/searchCompaniesByName.xhtml" />
+                            <p:menuitem value="Search Companies By Name" outcome="/companies/searchCompaniesByName.xhtml" />
                             <p:separator />
-                            <p:menuitem value="For Companies By Rating" outcome="/companies/searchCompaniesByRating.xhtml" />
+                            <p:menuitem value="Search Companies By Rating" outcome="/companies/searchCompaniesByRating.xhtml" />
                             <p:separator />
-                            <p:menuitem value="For Projects By Name" outcome="/companies/searchProjectsByName.xhtml">
+                            <p:menuitem value="Search Projects By Name" outcome="/companies/searchProjectsByName.xhtml">
                                 <f:setPropertyActionListener target="#{searchProjectsByNameManagedBean.companyToSearchProject}" value="#{sessionScope.userEntity}"/>
                             </p:menuitem>
                             <p:separator />
-                            <p:menuitem value="For Projects By Company" outcome="/companies/searchProjectsByCompany.xhtml"/>
+                            <p:menuitem value="Search Projects By Company" outcome="/companies/searchProjectsByCompany.xhtml"/>
                         </p:submenu>
 
                         <p:submenu label="Filter">
-                            <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />                  
+                            <p:menuitem value="Filter Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />                  
                             <p:separator />
-                            <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
+                            <p:menuitem value="Filter Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
                         </p:submenu>
 
-                        <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml"/>
-                        <p:menuitem value="Verify Student" outcome="/admin/verifyStudent.xhtml"/>
+                        <p:submenu label="Verify">
+                            <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml"/>
+                            <p:separator />
+                            <p:menuitem value="Verify Student" outcome="/admin/verifyStudent.xhtml"/>
+                        </p:submenu>
+                        
                         <p:menuitem value="Send Email" outcome="/admin/sendEmailToUser.xhtml"/>
 
                         <p:menuitem value="Log Out" actionListener="#{loginManagedBean.logout}" rendered="#{sessionScope.isLogin == true}"/>
@@ -208,23 +212,23 @@
                             </p:submenu>
 
                             <p:submenu icon="fa fa-search">
-                                <p:menuitem value="For Students By Name" outcome="/companies/searchStudentsByName.xhtml" />
+                                <p:menuitem value="Search Students By Name" outcome="/companies/searchStudentsByName.xhtml" />
                                 <p:separator />
-                                <p:menuitem value="For Companies By Name" outcome="/companies/searchCompaniesByName.xhtml" />
+                                <p:menuitem value="Search Companies By Name" outcome="/companies/searchCompaniesByName.xhtml" />
                                 <p:separator />
-                                <p:menuitem value="For Companies By Rating" outcome="/companies/searchCompaniesByRating.xhtml" />
+                                <p:menuitem value="Search Companies By Rating" outcome="/companies/searchCompaniesByRating.xhtml" />
                                 <p:separator />
-                                <p:menuitem value="For Projects By Name" outcome="/companies/searchProjectsByName.xhtml">
+                                <p:menuitem value="Search Projects By Name" outcome="/companies/searchProjectsByName.xhtml">
                                     <f:setPropertyActionListener target="#{searchProjectsByNameManagedBean.companyToSearchProject}" value="#{sessionScope.userEntity}"/>
                                 </p:menuitem>
                                 <p:separator />
-                                <p:menuitem value="For Projects By Company" outcome="/companies/searchProjectsByCompany.xhtml"/>
+                                <p:menuitem value="Search Projects By Company" outcome="/companies/searchProjectsByCompany.xhtml"/>
                             </p:submenu>
 
                             <p:submenu icon="fa fa-filter">
-                                <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
+                                <p:menuitem value="Filter Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
                                 <p:separator />
-                                <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
+                                <p:menuitem value="Filter Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
                             </p:submenu>
 
                             <p:submenu icon="fa fa-folder-open">
@@ -247,12 +251,8 @@
                                 </p:menuitem>
                             </p:submenu>
 
-                            <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml"/>
-                            <p:menuitem value="Verify Student" outcome="/admin/verifyStudent.xhtml"/>
-                            <p:menuitem value="Send Email" outcome="/admin/sendEmailToUser.xhtml"/>
-
                             <f:facet name="options">
-                                <p:menuButton icon="fa fa-building" value="Hello, #{sessionScope.userEntity.name}!">
+                                <p:menuButton icon="fa fa-building" value="Hello, #{sessionScope.userEntity.name}">
                                     <p:menuitem value="View Profile" outcome="/companies/profilePage.xhtml">
                                     </p:menuitem>
                                     <p:separator />
@@ -275,33 +275,36 @@
                         <p:menubar id="mb2" style="border-style: none">
 
                             <p:menuitem icon="fa fa-home" outcome="/index"/>
+                            <p:menuitem icon="fa fa-envelope-square" outcome="/admin/sendEmailToUser.xhtml"/>
 
                             <p:submenu icon="fa fa-search">
-                                <p:menuitem value="For Students By Name" outcome="/companies/searchStudentsByName.xhtml" />
+                                <p:menuitem value="Search Students By Name" outcome="/companies/searchStudentsByName.xhtml" />
                                 <p:separator />
-                                <p:menuitem value="For Companies By Name" outcome="/companies/searchCompaniesByName.xhtml" />
+                                <p:menuitem value="Search Companies By Name" outcome="/companies/searchCompaniesByName.xhtml" />
                                 <p:separator />
-                                <p:menuitem value="For Companies By Rating" outcome="/companies/searchCompaniesByRating.xhtml" />
+                                <p:menuitem value="Search Companies By Rating" outcome="/companies/searchCompaniesByRating.xhtml" />
                                 <p:separator />
-                                <p:menuitem value="For Projects By Name" outcome="/companies/searchProjectsByName.xhtml">
+                                <p:menuitem value="Search Projects By Name" outcome="/companies/searchProjectsByName.xhtml">
                                     <f:setPropertyActionListener target="#{searchProjectsByNameManagedBean.companyToSearchProject}" value="#{sessionScope.userEntity}"/>
                                 </p:menuitem>
                                 <p:separator />
-                                <p:menuitem value="For Projects By Company" outcome="/companies/searchProjectsByCompany.xhtml"/>
+                                <p:menuitem value="Search Projects By Company" outcome="/companies/searchProjectsByCompany.xhtml"/>
                             </p:submenu>
 
                             <p:submenu icon="fa fa-filter">
-                                <p:menuitem value="Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
+                                <p:menuitem value="Filter Students by Skills" outcome="/companies/filterStudentsBySkills.xhtml" />
                                 <p:separator />
-                                <p:menuitem value="Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
+                                <p:menuitem value="Filter Projects by Company" outcome="/companies/filterProjectsByCompany.xhtml"/>
                             </p:submenu>
 
-                            <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml"/>
-                            <p:menuitem value="Verify Student" outcome="/admin/verifyStudent.xhtml"/>
-                            <p:menuitem value="Send Email" outcome="/admin/sendEmailToUser.xhtml"/>
+                            <p:submenu icon="fa fa-check-circle-o">
+                                <p:menuitem value="Verify Company" outcome="/admin/verifyCompany.xhtml"/>
+                                <p:separator />
+                                <p:menuitem value="Verify Student" outcome="/admin/verifyStudent.xhtml"/>
+                            </p:submenu>
 
                             <f:facet name="options">
-                                <p:menuButton icon="fa fa-user" value="Hello, #{sessionScope.userEntity.name}!">
+                                <p:menuButton icon="fa fa-user-secret" value="Hello, #{sessionScope.userEntity.name}">
                                     <p:menuitem value="Log Out" actionListener="#{loginManagedBean.logout}" rendered="#{sessionScope.isLogin == true}"/>
                                 </p:menuButton> &nbsp;
 
@@ -330,5 +333,6 @@
         </p:layout>
 
     </h:body>
+    
 
 </html>

@@ -5,57 +5,59 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/template/defaultTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui">
-    
+
     <ui:define name="content">
-        
+
         <h:form id="projectReviews">
-                <p:messages id="messages" redisplay="false" closable="true" />
-                <p:commandButton immediate="true" value="Back" action="/companies/projectManagement.xhtml?faces-redirect=true"/>
-            
-                <p:dataGrid id="dataGridAllReviews" var="review" value="#{getReviewsForProjectManagedBean.reviewsOfCompany}" columns="2" layout="grid"
-                            rows="3" paginator="true" paginatorPosition="Bottom"
+            <p:messages id="messages" redisplay="false" closable="true" />
+
+            <br/>
+            <p:dataGrid id="dataGridAllReviews" var="review" value="#{getReviewsForProjectManagedBean.reviewsOfCompany}" columns="2" layout="grid"
+                        rows="3" paginator="true" paginatorPosition="Bottom"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,16">
                 <f:facet name="header">
                     Company Reviews 
                 </f:facet>
-                
-                    <p:panel header="#{review.student.name}" style="text-align: center">
+
+                <p:panel header="#{review.student.name}" style="text-align: center">
                     <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">
-                        
+
                         <h:outputText value ="Review ID:"/>
                         <h:outputText value ="#{review.reviewId}"/>
-                        
+
                         <h:outputText value ="Rating: "/>                        
                         <h:outputText value ="#{review.rating}">
                             <f:convertNumber maxFractionDigits="2"/>
                         </h:outputText>
-                        
+
                         <h:outputText value="Comments: "/>
                         <h:outputText value="#{review.reviewText}"/>
-                       
-                    </h:panelGrid>
-                      
-                </p:panel>
- 
-            
-            </p:dataGrid>
 
-            
+                    </h:panelGrid>
+
+                </p:panel>
+
+
+            </p:dataGrid>
+            <br/>
+            <p:commandButton immediate="true" value="Back" action="/companies/projectManagement.xhtml?faces-redirect=true"/>
+
+
         </h:form>
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
     </ui:define>
 
 
 </ui:composition>
 
-        
-        
-        
+
+
+
 
