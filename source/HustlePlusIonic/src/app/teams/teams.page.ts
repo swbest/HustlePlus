@@ -18,6 +18,7 @@ export class TeamsPage implements OnInit {
   teams: Team[];
   errorMessage: string;
   searchQuery: string = '';
+  retrieveTeamsError: boolean;
 
   constructor(private router: Router,
     private studentService: StudentService,
@@ -72,6 +73,7 @@ export class TeamsPage implements OnInit {
       },
       error => {
         this.errorMessage = error
+        this.retrieveTeamsError = true
       }
     );
   }
@@ -89,6 +91,10 @@ export class TeamsPage implements OnInit {
         return (team.teamName.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
+  }
+
+  viewTeamDetails(event, team) {
+    this.router.navigate(["/viewTeamDetails/" + team.teamId]);
   }
 
   onCancel(ev: any) {

@@ -135,15 +135,22 @@ public class TeamSessionBean implements TeamSessionBeanLocal {
     }
 
     @Override
+    public Long removeStudentFromTeam(Long teamId, Long studentId) throws TeamNotFoundException, StudentNotFoundException, UpdateTeamException, InputDataValidationException {
+        Team team = retrieveTeamByTeamId(teamId);
+        Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+        team.removeStudent(student);
+        student.removeTeam(team);
+        return team.getTeamId();
+    }
+
+    @Override
     public void deleteTeam(Long teamId) throws TeamNotFoundException, DeleteTeamException {
-
         Team teamToRemove = retrieveTeamByTeamId(teamId);
-
-        if (teamToRemove.getProject() == null) {
-            em.remove(teamToRemove);
-        } else {
-            throw new DeleteTeamException("Team ID " + teamId + " is associated with an existing project and cannot be deleted!");
+        List<Student> students = teamToRemove.getStudents();
+        for (Student student : students) {
+            student.removeTeam(teamToRemove);
         }
+        em.remove(teamToRemove);
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Team>> constraintViolations) {

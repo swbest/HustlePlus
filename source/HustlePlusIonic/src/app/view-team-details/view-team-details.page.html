@@ -29,16 +29,25 @@
         </ion-item>
 
         <ion-item>
-          <ion-label><b>Project Name</b></ion-label>
-          {{teamToView.project.projectName}}
+          <ion-label><b>Students</b></ion-label>
+          <ul>
+            <li *ngFor="let student of teamToView.students">{{student.name}}
+              <!-- Remove student from team
+                <ion-item id="student" name="student" #student="ngModel" [(ngModel)]="studentId" value="{{student.studentId}}">{{student.name}}</ion-item>
+              <ion-button (click)="removeStudent()">
+                Remove Student From Team
+              </ion-button>
+            -->
+            </li>
+          </ul>
         </ion-item>
 
         <ion-item>
-          <ion-label><b>Students</b></ion-label>
-          <ul>
-            <li *ngFor="let student of teamToView.students">{{student.name}}</li>
-          </ul>
+          <ion-button (click)="deleteTeam()">
+            Delete
+          </ion-button>
         </ion-item>
+
       </ion-list>
     </ion-card-content>
   </ion-card>

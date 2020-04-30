@@ -36,4 +36,6 @@ public interface TeamSessionBeanLocal {
     public Long createNewTeam(Team newTeam, Long studentId) throws StudentNotFoundException, TeamNameExistException, UnknownPersistenceException, InputDataValidationException;
 
     public Long addStudentToTeam(Long teamId, Long studentId) throws TeamNotFoundException, StudentNotFoundException, UpdateTeamException, InputDataValidationException;
+
+    public Long removeStudentFromTeam(Long teamId, Long studentId) throws TeamNotFoundException, StudentNotFoundException, UpdateTeamException, InputDataValidationException;
 }
