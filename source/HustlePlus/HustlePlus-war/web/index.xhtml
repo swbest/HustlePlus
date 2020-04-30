@@ -15,7 +15,7 @@
             .ui-clock {
                 background: none;
                 border: none;
-                width: 300px;
+                color: white;
             }
 
 
@@ -29,10 +29,15 @@
             </h:panelGroup>
         </h:form>
 
-        <h:panelGroup rendered="#{sessionScope.isLogin == true &amp;&amp; sessionScope.userEntity.accessRightEnum == 'COMPANY'}">   
+        <h:panelGroup rendered="#{sessionScope.isLogin == true &amp;&amp; sessionScope.userEntity.accessRightEnum == 'COMPANY'}">
+            
+            <article style="margin-top: 20px; margin-bottom: 50px; font-family: Segoe UI, Tahoma, sans-serif; color: white; font-size: xx-large">
+                <center><h2>Welcome Back.</h2></center>
+                <center><p:clock pattern="HH:mm"/></center>
+            </article> 
 
             <h:form id="form">
-                <p:carousel value="#{loginManagedBean.projectsToDisplay}" headerText="Your Projects" var="project" itemStyle="text-align:center" responsive="true">
+                <p:carousel value="#{loginManagedBean.projectsToDisplay}" headerText="Your Listed Project(s)" var="project" itemStyle="text-align:center" responsive="true">
                     <p:panelGrid columns="2" style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid" styleClass="ui-panelgrid-blank">
                         <f:facet name="header">
                             <h1>#{project.projectName}</h1>
@@ -71,8 +76,8 @@
         </h:panelGroup>
 
         <h:panelGroup rendered="#{sessionScope.isLogin == true &amp;&amp; sessionScope.userEntity.accessRightEnum == 'ADMIN'}">
-            <article style="margin-top: 225px; font-family: Segoe UI, Tahoma, sans-serif; color: coral; font-size: xx-large">
-                <center><h1>What would you like to do today?</h1></center>
+            <article style="margin-top: 100px; font-family: Segoe UI, Tahoma, sans-serif; color: white; font-size: xx-large">
+                <center><h2>Welcome Back.</h2></center>
                 <center><p:clock pattern="HH:mm"/></center>
             </article> 
         </h:panelGroup>
