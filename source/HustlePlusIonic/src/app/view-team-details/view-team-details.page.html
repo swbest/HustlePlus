@@ -30,21 +30,21 @@
 
         <ion-item>
           <ion-label><b>Students</b></ion-label>
-          <ul>
-            <li *ngFor="let student of teamToView.students">{{student.name}}
-              <!-- Remove student from team
-                <ion-item id="student" name="student" #student="ngModel" [(ngModel)]="studentId" value="{{student.studentId}}">{{student.name}}</ion-item>
-              <ion-button (click)="removeStudent()">
-                Remove Student From Team
-              </ion-button>
-            -->
-            </li>
-          </ul>
+          <ion-item *ngFor="let student of teamToView.students">
+            <ion-label>
+              <ion-row>
+                <h2>{{student.name}}</h2>
+                <ion-button (click)="removeStudent($event, student)">
+                  <ion-icon name="person-remove-outline"></ion-icon>
+                </ion-button>
+              </ion-row>
+            </ion-label>
+          </ion-item>
         </ion-item>
 
         <ion-item>
           <ion-button (click)="deleteTeam()">
-            Delete
+            Delete Team
           </ion-button>
         </ion-item>
 

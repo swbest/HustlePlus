@@ -62,9 +62,13 @@ public class ProjectResource {
             p.setCompany(null);
             p.getCompanyReviews().clear();
             p.getMilestones().clear();
-            p.getSkills().clear();
             p.getStudentReviews().clear();
             p.getStudents().clear();
+            List<Skill> skills = p.getSkills();
+            for (Skill skill : skills) {
+                skill.getProjects().clear();
+                skill.getStudents().clear();
+            }
             RetrieveProjectRsp retrieveProjectRsp = new RetrieveProjectRsp(p);
             return Response.status(Status.OK).entity(retrieveProjectRsp).build();
         } catch (Exception ex) {
