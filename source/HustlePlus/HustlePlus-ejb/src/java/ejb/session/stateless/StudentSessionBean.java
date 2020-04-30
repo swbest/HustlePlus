@@ -29,7 +29,7 @@ import util.exception.DeleteStudentException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.SkillNotFoundException;
-import util.exception.StudentNameExistException;
+import util.exception.StudentAssignedToProjectException;
 import util.exception.StudentNotFoundException;
 import util.exception.SuspendStudentException;
 import util.exception.UnknownPersistenceException;
@@ -59,7 +59,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     }
 
     @Override
-    public Long createStudentAccount(Student newStudent, List<Long> skillIds) throws SkillNotFoundException, StudentNameExistException, UnknownPersistenceException, InputDataValidationException {
+    public Long createStudentAccount(Student newStudent, List<Long> skillIds) throws SkillNotFoundException, StudentAssignedToProjectException, UnknownPersistenceException, InputDataValidationException {
         try {
             Set<ConstraintViolation<Student>> constraintViolations = validator.validate(newStudent);
 
@@ -84,7 +84,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         } catch (PersistenceException ex) {
             if (ex.getCause() != null && ex.getCause().getClass().getName().equals("org.eclipse.persistence.exceptions.DatabaseException")) {
                 if (ex.getCause().getCause() != null && ex.getCause().getCause().getClass().getName().equals("java.sql.SQLIntegrityConstraintViolationException")) {
-                    throw new StudentNameExistException("Student name exists, please try again!");
+                    throw new StudentAssignedToProjectException("Student name exists, please try again!");
                 } else {
                     throw new UnknownPersistenceException(ex.getMessage());
                 }
@@ -109,6 +109,8 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     public void updateStudent(Student student) throws StudentNotFoundException, UpdateStudentException, InputDataValidationException {
         if (student != null && student.getUserId() != null) {
             Set<ConstraintViolation<Student>> constraintViolations = validator.validate(student);
+            System.out.println(student.getUsername());
+            System.out.println(student.getPassword());
 
             if (constraintViolations.isEmpty()) {
                 Student studentToUpdate = retrieveStudentByStudentId(student.getUserId());
@@ -219,11 +221,11 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         if (skillIds == null || skillIds.isEmpty()) {
             return students;
         } else {
-           // if (condition.equals("OR")) {
+            // if (condition.equals("OR")) {
 
-                Query query = em.createQuery("SELECT DISTINCT st FROM Student st AS st LEFT JOIN Skill_student AS skst ON st.userId = skst. WHERE st.skills_skillId IN :inSkillIds");
-                query.setParameter("inSkillIds", skillIds);
-                students = query.getResultList();
+            Query query = em.createQuery("SELECT DISTINCT st FROM Student st AS st LEFT JOIN Skill_student AS skst ON st.userId = skst. WHERE st.skills_skillId IN :inSkillIds");
+            query.setParameter("inSkillIds", skillIds);
+            students = query.getResultList();
 
 //            } else // AND
 //            {
@@ -244,16 +246,13 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
 //
 //                    skillCount++;
 //                }
-
 //                String jpql = selectClause + " " + whereClause + " ORDER BY st.name ASC";
 //                Query query = em.createQuery(jpql);
 //                students = query.getResultList();
 //            }
-
 //            for (Student student : students) {
 //                student.getSkills().size();
 //            }
-
             Collections.sort(students, new Comparator<Student>() {
                 public int compare(Student st1, Student st2) {
                     return st1.getName().compareTo(st2.getName());
@@ -312,17 +311,18 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
             throw new InvalidLoginCredentialException("Username does not exist or invalid password!");
         }
     }
-    
+
     @Override
     public List<Student> searchStudentsByName(String searchString) {
         Query query = em.createQuery("SELECT s FROM Student s WHERE s.name LIKE :inSearchString ORDER BY s.userId ASC");
         query.setParameter("inSearchString", "%" + searchString + "%");
         List<Student> students = query.getResultList();
-        
-       return students; 
+
+        return students;
     }
 
-    public void addSkillToStudent(Long skillId, Long studentId) throws StudentNotFoundException, SkillNotFoundException {
+    @Override
+    public void addSkillToStudent(Long studentId, Long skillId) throws StudentNotFoundException, SkillNotFoundException {
         Student student = retrieveStudentByStudentId(studentId);
         Skill skill = skillSessionBeanLocal.retrieveSkillBySkillId(skillId);
 

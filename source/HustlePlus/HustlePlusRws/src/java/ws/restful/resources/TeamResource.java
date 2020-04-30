@@ -17,12 +17,16 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import util.exception.DeleteTeamException;
+import util.exception.TeamNotFoundException;
 import ws.restful.model.CreateNewStudentRsp;
 import ws.restful.model.CreateNewTeamReq;
 import ws.restful.model.ErrorRsp;
@@ -62,6 +66,17 @@ public class TeamResource {
     public Response retrieveTeamById(@PathParam("teamId") Long teamId) {
         try {
             Team team = teamSessionBean.retrieveTeamByTeamId(teamId);
+            team.setProject(null);
+            List<Student> students = team.getStudents();
+            for (Student student : students) {
+                student.getApplications().clear();
+                student.getSkills().clear();
+                student.getStudentReviews().clear();
+                student.getCompanyReviews().clear();
+                student.getPayments().clear();
+                student.getProjects().clear();
+                student.getTeams().clear();
+            }
             RetrieveTeamRsp retrieveTeamRsp = new RetrieveTeamRsp(team);
             return Response.status(Response.Status.OK).entity(retrieveTeamRsp).build();
         } catch (Exception ex) {
@@ -86,9 +101,6 @@ public class TeamResource {
                 team.setProject(null);
                 List<Student> students = team.getStudents();
                 for (Student student : students) {
-                    student.getApplications().clear();
-                    student.setPassword(null);
-                    student.setSalt(null);
                     student.getApplications().clear();
                     student.getSkills().clear();
                     student.getStudentReviews().clear();
@@ -138,6 +150,32 @@ public class TeamResource {
      * @param content representation for the resource
      */
     @PUT
+    @Path("/removeStudentFromTeam")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeStudentFromTeam(UpdateTeamReq updateTeamReq) {
+        System.out.println("Removing student: " + updateTeamReq.getStudentId() + " from team: " + updateTeamReq.getTeamId());
+        if (updateTeamReq != null) {
+            try {
+                Long newTeamId = teamSessionBean.removeStudentFromTeam(updateTeamReq.getTeamId(), updateTeamReq.getStudentId());
+                UpdateTeamRsp updateTeamRsp = new UpdateTeamRsp(newTeamId);
+                return Response.status(Response.Status.OK).entity(updateTeamRsp).build();
+            } catch (Exception ex) {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        } else {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid Request");
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
+
+    /**
+     * PUT method for updating or creating an instance of ProjectResource
+     *
+     * @param content representation for the resource
+     */
+    @PUT
     @Path("/createNewTeam")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -154,6 +192,26 @@ public class TeamResource {
         } else {
             ErrorRsp errorRsp = new ErrorRsp("Invalid Request");
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
+
+    @Path("/deleteTeam/{teamId}")
+    @DELETE
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteTeam(@PathParam("teamId") Long teamId) {
+        try {
+            System.out.println("Deleteing team ID: " + teamId);
+            teamSessionBean.deleteTeam(teamId);
+            return Response.status(Status.OK).build();
+        } catch (TeamNotFoundException ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            Logger.getLogger(TeamResource.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(Status.UNAUTHORIZED).entity(errorRsp).build();
+        } catch (DeleteTeamException ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            Logger.getLogger(TeamResource.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(Status.UNAUTHORIZED).entity(errorRsp).build();
         }
     }
 

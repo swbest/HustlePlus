@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../student.service';
+import { SkillService } from '../skill.service';
 import { SessionService } from '../session.service';
 import { ModalController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Student } from '../student';
 import { Skill } from '../skill';
+import { CreateNewSkillPage } from '../create-new-skill/create-new-skill.page';
+
 
 @Component({
   selector: 'app-profile',
@@ -31,11 +34,12 @@ export class ProfilePage implements OnInit {
   errorMessage: string;
   infoMessage: string;
   resultSuccess: boolean;
-  resultError: boolean
+  resultError: boolean;
   error: boolean;
   message: string;
 
   constructor(private studentService: StudentService,
+    private skillService: SkillService,
     private sessionService: SessionService,
     private modalController: ModalController,
     private toastController:ToastController,
@@ -48,12 +52,12 @@ export class ProfilePage implements OnInit {
 
     ngOnInit() {
       this.studentToView = this.sessionService.getCurrentStudent();
-      this.skills = this.sessionService.getSkills();     
+      console.log(this.studentToView);
+      this.refreshSkills();    
       this.studentInitialiseFields();
         error => {
           this.infoMessage = null;
           this.errorMessage = "Error retrieving student details.";
-          this.errorToast();
           this.location.back();
         }
     } 
@@ -70,8 +74,34 @@ export class ProfilePage implements OnInit {
       this.isSuspended = this.studentToView.isSuspended;
       this.bankAccountName = this.studentToView.bankAccountName;
       this.bankAccountNumber = this.studentToView.bankAccountNumber;
-      this.skills = this.studentToView.skills;
       this.resume = this.studentToView.resume;
+      this.skills = this.sessionService.getSkills();
+    }
+
+    refreshSkills() {
+      this.skillService.getSkillsByStudentId(this.studentToView.userId).subscribe(
+        response => {
+          this.skills = response.skills;
+          this.sessionService.setSkills(response.skills);
+        },
+      )
+    }
+
+    dissociateSkillFromStudent(skillId){
+      this.skills.splice(skillId, 1);
+      this.studentService.dissociateSkillFromStudent(this.studentToView, skillId).subscribe(
+        response => {
+          this.resultSuccess = true;
+        },
+        error => {
+          this.error = true;
+          this.errorMessage = error;
+        }
+      );	
+      console.log("Skill successfully deleted");
+      this.presentToast();
+      this.refreshSkills();
+      this.studentInitialiseFields();
     }
 
     deleteStudentAccount() {
@@ -91,30 +121,24 @@ export class ProfilePage implements OnInit {
     updateStudentAccount() {
       this.router.navigate(["/updateProfileModal"]);
     }
+      
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Skill successfully removed from your profile!',
+      duration: 2000
+    });
+    toast.present();
+  }
 
-    async successToast() {
-      const toast = await this.toastController.create({
-        message: this.infoMessage,
-        duration: 3000
-      });
-  
-      toast.present();
-      
-      }
-  
-      async errorToast() {
-      const toast = await this.toastController.create({
-        message: this.errorMessage,
-        duration: 3000
-      });
-  
-      toast.present();
-      
-      }
-  
-      closeModal(){
-        this.modalController.dismiss();
-      } 
+  async createNewSkillModal() {
+    const modal = await this.modalController.create({
+      component: CreateNewSkillPage,
+    });
+    modal.onDidDismiss().then(data => {
+      this.refreshSkills();
+    });
+    return await modal.present();
+  }
    
     
   }

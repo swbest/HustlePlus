@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'Form A Team',
-      url: '/viewAllStudents',
+      url: '/teams',
       icon: 'people'
     },
     {
@@ -50,31 +50,31 @@ export class AppComponent implements OnInit {
       icon: 'ribbon-outline'
     },
     // temporary
-    {
-      title: 'Leave A Review Student',
-      url: '/createNewStudentReview',
-      icon: 'create'
-    },
-    {
-      title: 'Leave A Review Company',
-      url: '/createNewCompanyReview',
-      icon: 'create'
-    },
-    {
-      title: 'Form a new Team',
-      url: '/createNewTeam',
-      icon: 'create'
-    },
-    {
-      title: 'View my Teams',
-      url: '/viewMyTeams',
-      icon: 'people'
-    },
-    {
-      title: 'View My Reviews',
-      url: '/reviews',
-      icon: 'ribbon-outline'
-    },
+    // {
+    //   title: 'Leave A Review Student',
+    //   url: '/createNewStudentReview',
+    //   icon: 'create'
+    // },
+    // {
+    //   title: 'Leave A Review Company',
+    //   url: '/createNewCompanyReview',
+    //   icon: 'create'
+    // },
+    // {
+    //   title: 'Form a new Team',
+    //   url: '/createNewTeam',
+    //   icon: 'create'
+    // },
+    // {
+    //   title: 'View my Teams',
+    //   url: '/viewMyTeams',
+    //   icon: 'people'
+    // },
+    // {
+    //   title: 'View My Reviews',
+    //   url: '/reviews',
+    //   icon: 'ribbon-outline'
+    // },
   ];
 
   constructor(

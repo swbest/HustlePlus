@@ -67,7 +67,7 @@ export class SessionService {
       student: Student;
       let student = this.getCurrentStudent();
 
-      if (student.accessRightEnum == AccessRightEnum.STUDENT) {
+      if (student.accessRightEnum == "STUDENT") {
         if (path == "/viewAllStudents" ||
           path == "/viewAllCompanies"
         ) {

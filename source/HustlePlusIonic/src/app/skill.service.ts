@@ -48,6 +48,13 @@ export class SkillService {
 			);
 	}
 
+	deleteSkill(skillId: number): Observable<any> {
+		return this.httpClient.delete<any>(this.baseUrl + "/deleteSkill/" + skillId).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
   createNewSkill(newSkill: Skill): Observable<any> {
     let createNewSkillReq = { 
       'newSkill': newSkill

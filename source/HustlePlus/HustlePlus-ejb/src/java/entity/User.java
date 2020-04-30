@@ -8,6 +8,8 @@ package entity;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,6 +53,7 @@ public class User implements Serializable {
     protected String email;
     @Column(columnDefinition = "CHAR(32) NOT NULL")
     protected String salt;
+    @Enumerated(EnumType.STRING)
     @Column(nullable = true) // changed to true for students
     protected AccessRightEnum accessRightEnum;
 

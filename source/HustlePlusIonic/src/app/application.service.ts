@@ -55,6 +55,14 @@ export class ApplicationService {
       );
   }
 
+	deleteApplication(applicationId: number): Observable<any> {
+    console.log("deleteing application with id: " + applicationId);
+		return this.httpClient.delete<any>(this.baseUrl + "/deleteApplication/" + applicationId).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage: string = '';
 

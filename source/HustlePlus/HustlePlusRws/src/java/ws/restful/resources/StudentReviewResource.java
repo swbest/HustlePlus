@@ -113,26 +113,8 @@ public class StudentReviewResource {
         try {
             List<StudentReview> studentReviews = studentReviewSessionBeanLocal.retrieveAllStudentReviewsForStudent(studentId);
             for (StudentReview studentReview : studentReviews) {
-                Company company = studentReview.getCompany();
-                if (company != null) {
-                    company.getStudentReviews().clear();
-                    company.getCompanyReviews().clear();
-                    company.getProjects().clear();
-                }
-                Project p = studentReview.getProject();
-                p.getApplications().clear();
-                p.getCompany().getProjects().clear();
-                p.getCompanyReviews().clear();
-                p.getMilestones().clear();
-                List<Skill> skills = p.getSkills();
-                for (Skill s : skills) {
-                    s.getProjects().clear();
-                }
-                p.getStudentReviews().clear();
-                List<Student> students = p.getStudents();
-                for (Student s : students) {
-                    s.getProjects().clear();
-                }
+                studentReview.setCompany(null);
+                studentReview.setProject(null);
                 studentReview.setStudentReviewed(null);
             }
             RetrieveAllStudentReviewsRsp retrieveAllStudentReviewsRsp = new RetrieveAllStudentReviewsRsp(studentReviews);

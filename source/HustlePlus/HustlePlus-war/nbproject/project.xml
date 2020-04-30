@@ -10,20 +10,17 @@
                     <file>${reference.HustlePlus-ejb.dist}</file>
                 </library>
                 <library dirs="200">
-                    <file>${libs.jsf20.classpath}</file>
-                </library>
-                <library dirs="200">
                     <file>${libs.javaee-web-api-7.0.classpath}</file>
                 </library>
                 <library dirs="200">
                     <file>${libs.PrimeFaces_7.0.classpath}</file>
                 </library>
                 <library dirs="200">
-                    <file>${libs.javax.mail.classpath}</file>
+                    <file>${file.reference.javax.mail.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.eggplant-1.0.1.jar}</file>
+                    <file>${file.reference.eggplant-1.0.1.jar-1}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">

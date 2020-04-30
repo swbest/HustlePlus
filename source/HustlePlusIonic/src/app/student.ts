@@ -14,7 +14,7 @@ export class Student {
     username: string;
     password: string;
     email: string;
-    accessRightEnum: AccessRightEnum;
+    accessRightEnum: string;
     description: string;
     avgRating: number;
     isVerified: boolean;
@@ -31,7 +31,7 @@ export class Student {
     projects: Project[];
 
     constructor(userId?: number, name?: string, username?: string, password?: string, email?: string, 
-        accessRightEnum?: AccessRightEnum, description?: string, bankAccountName?: string, 
+        accessRightEnum?: string, description?: string, bankAccountName?: string, 
         bankAccountNumber?: number, resume?: File) {
         this.userId = userId;
         this.name = name;

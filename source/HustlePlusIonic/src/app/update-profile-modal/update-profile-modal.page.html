@@ -19,42 +19,43 @@
     {{message}}
   </div>
 
+
   <form *ngIf="studentToUpdate != null" #updateStudentForm="ngForm" (ngSubmit)="updateStudentAccount(updateStudentForm)">
     <ion-list lines="full" class="ion-no-margin ion-no-padding">
       
       <ion-item>
         <ion-label position="stacked">Name</ion-label>
-        <ion-input placeholder="{{name}}"></ion-input>
+        <ion-input placeholder="{{name}}" id="name" name="name" #name="ngModel" [(ngModel)]="studentToUpdate.name" required="true"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="stacked">Username</ion-label>
-        <ion-input placeholder="{{username}}"></ion-input>
+        <ion-input placeholder="{{username}}" id="username" name="username" #username="ngModel" [(ngModel)]="studentToUpdate.username" required="true"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="stacked">Password</ion-label>
-        <ion-input placeholder="{{password}}"></ion-input>
+        <ion-input placeholder="{{password}}" id="password" name="password" #password="ngModel" [(ngModel)]="studentToUpdate.password" required="true"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="stacked">Description</ion-label>
-        <ion-input placeholder="{{description}}"></ion-input>
+        <ion-input placeholder="{{description}}" id="description" name="description" #description="ngModel" [(ngModel)]="studentToUpdate.description" required="true"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="stacked">Email</ion-label>
-        <ion-input placeholder="{{email}}"></ion-input>
+        <ion-input placeholder="{{email}}" id="email" name="email" #email="ngModel" [(ngModel)]="studentToUpdate.email" required="true"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="stacked">Bank Name</ion-label>
-        <ion-input placeholder="{{bankAccountName}}"></ion-input>
+        <ion-input placeholder="{{bankAccountName}}" id="bankAccountName" name="bankAccountName" #bankAccountName="ngModel" [(ngModel)]="studentToUpdate.bankAccountName" required="true"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="stacked">Bank Account</ion-label>
-        <ion-input placeholder="{{bankAccountNumber}}"></ion-input>
+        <ion-input placeholder="{{bankAccountNumber}}" id="bankAccountNumber" name="bankAccountNumber" #bankAccountNumber="ngModel" [(ngModel)]="studentToUpdate.bankAccountNumber" required="true"></ion-input>
       </ion-item>
 
     </ion-list>

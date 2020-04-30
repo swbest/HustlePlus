@@ -7,23 +7,22 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-toolbar no-border-top>
+  <ion-segment [(ngModel)]="option">
+    <ion-segment-button value="Profile">
+      About
+    </ion-segment-button>
+    <ion-segment-button value="Skills">
+      Skills
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
+
 
 <ion-content fullscreen>
 
-  <ion-toolbar no-border-top>
-    <ion-segment [(ngModel)]="option">
-      <ion-segment-button value="Profile">
-        About
-      </ion-segment-button>
-      <ion-segment-button value="Skills">
-        Skills
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
-
-
-
   <div [ngSwitch]="option">
+
     <div *ngSwitchCase="'Profile'">
       <ion-grid>
 
@@ -68,10 +67,10 @@
                 </ion-item>
               </ion-card>
               <ion-toolbar position="bottom">
-                <ion-button  color="success" (click)="updateStudentAccount($event, studentToView)">
-                  <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>  Update Profile
+                <ion-button color="success" (click)="updateStudentAccount($event, studentToView)">
+                  <ion-icon slot="icon-only" name="pencil-outline"></ion-icon> Update Profile
                 </ion-button>
-                <ion-button  color="danger" (click)="deleteStudentAccount($event, studentToView)">
+                <ion-button color="danger" (click)="deleteStudentAccount($event, studentToView)">
                   <ion-icon slot="icon-only" name="trash-outline"></ion-icon> Delete Account
                 </ion-button>
               </ion-toolbar>
@@ -82,25 +81,40 @@
 
     </div>
 
+
     <div *ngSwitchCase="'Skills'">
+
       <div *ngIf="skills">
         {{errorMessage}}
       </div>
-      <ng-container *ngFor="let skills of skills">
-        <div item-end>
-          <ion-chip style="float:left; position:absolute;" color="dark">
-            <ion-icon name="person"></ion-icon>
-            <ion-label>this skill</ion-label>
-          </ion-chip>
-          <h2 style="top:23px; float: left;">"what a skill"</h2>
 
-          <ion-badge color="medium">
-            <ion-icon name="star"></ion-icon>"skill stuff"
-          </ion-badge>
-        </div>
+      <ion-list-header>My Skillset</ion-list-header>
+
+      <ng-container *ngFor="let skill of skills">
+        <ion-chip outline color="primary" #skill.skillId>
+          <ion-icon name="person"></ion-icon>
+          <ion-label>{{ skill.title }}</ion-label>
+          <button ion-button clear color="danger" (click)="dissociateSkillFromStudent(skill.skillId)">
+            <ion-icon name="close-circle"></ion-icon>
+          </button>
+        </ion-chip>
       </ng-container>
 
+      <ion-fab horizontal="end" vertical="top" slot="fixed">
+        <ion-fab-button>
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list>
+          <button size="large" (click)="createNewSkillModal($event, studentToView)">
+            <ion-icon name="color-filter">Add New Skill</ion-icon>
+            <ion-text>Add New Skill</ion-text>
+          </button>
+        </ion-fab-list>
+      </ion-fab>
+
     </div>
+
+
     <div *ngSwitchDefault>
       <ion-grid>
 
@@ -146,7 +160,7 @@
               </ion-card>
               <ion-toolbar position="bottom">
                 <ion-button slot="start" color="success" (click)="updateStudentAccount()">
-                  <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>  Update Profile
+                  <ion-icon slot="icon-only" name="pencil-outline"></ion-icon> Update Profile
                 </ion-button>
                 <ion-button slot="end" color="danger" (click)="deleteStudentAccount($event, studentToView)">
                   <ion-icon slot="icon-only" name="trash-outline"></ion-icon> Delete Account
@@ -160,3 +174,8 @@
 
     </div>
   </div>
+</ion-content>
+
+<ion-footer>
+  <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+</ion-footer>

@@ -27,8 +27,6 @@ public class StudentNameExistException extends Exception {
     public StudentNameExistException(String msg) {
         super(msg);
     }
-    
-    
 }
 
 

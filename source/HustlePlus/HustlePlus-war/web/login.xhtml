@@ -48,7 +48,7 @@
         <div class="box login-box-body">
             <div style="color: #000000; font-size: large; text-align: center">            
                 <p class="login-box-msg" style="color: #000000; font-size: x-large"></p>
-                <h:panelGroup rendered="#{sessionScope.isLogin == false}">
+                
                     <h:form id="loginForm">
                         <p:messages/>
 
@@ -60,7 +60,7 @@
                         <p:password id="password" value="#{loginManagedBean.password}" style="font-family: Segoe UI, Tahoma, sans-serif;" size="14" required="true" requiredMessage="Password is required to login!" maxlength="32">
                         </p:password>
                         &nbsp;
-                        <p:commandButton ajax="false" type="submit" value="Login" actionListener="#{loginManagedBean.login}">
+                        <p:commandButton ajax="false" type="submit" value="Login" actionListener="#{loginManagedBean.login(event)}">
                             <f:attribute name="companyToDisplayProjects" value="#{sessionScope.userEntity}"/>
                         </p:commandButton>
 
@@ -79,7 +79,7 @@
                     </h:form>
 
 
-                </h:panelGroup>
+                
             </div>
         </div>
     </h:body>

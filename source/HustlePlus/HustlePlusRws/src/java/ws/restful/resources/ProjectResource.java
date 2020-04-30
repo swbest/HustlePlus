@@ -59,17 +59,15 @@ public class ProjectResource {
         try {
             Project p = projectSessionBean.retrieveProjectByProjectId(projectId);
             p.getApplications().clear();
-            p.getCompany().getProjects().clear();
+            p.setCompany(null);
             p.getCompanyReviews().clear();
             p.getMilestones().clear();
-            List<Skill> skills = p.getSkills();
-            for (Skill s : skills) {
-                s.getProjects().clear();
-            }
             p.getStudentReviews().clear();
-            List<Student> students = p.getStudents();
-            for (Student s : students) {
-                s.getProjects().clear();
+            p.getStudents().clear();
+            List<Skill> skills = p.getSkills();
+            for (Skill skill : skills) {
+                skill.getProjects().clear();
+                skill.getStudents().clear();
             }
             RetrieveProjectRsp retrieveProjectRsp = new RetrieveProjectRsp(p);
             return Response.status(Status.OK).entity(retrieveProjectRsp).build();
@@ -94,21 +92,13 @@ public class ProjectResource {
 
             for (Project p : projects) {
                 // clear bidirectional mappings or set the inverse side to null
-                // skills - not bidirectional
-                // milestones not needed
                 p.getApplications().clear();
-                p.getCompany().getProjects().clear();
+                p.setCompany(null);
                 p.getCompanyReviews().clear();
                 p.getMilestones().clear();
-                List<Skill> skills = p.getSkills();
-                for (Skill s : skills) {
-                    s.getProjects().clear();
-                }
+                p.getSkills().clear();
                 p.getStudentReviews().clear();
-                List<Student> students = p.getStudents();
-                for (Student s : students) {
-                    s.getProjects().clear();
-                }
+                p.getStudents().clear();
             }
             RetrieveAllProjectsRsp retrieveAllProjectsRsp = new RetrieveAllProjectsRsp(projects);
             return Response.status(Status.OK).entity(retrieveAllProjectsRsp).build();
@@ -134,19 +124,45 @@ public class ProjectResource {
                 // clear bidirectional mappings or set the inverse side to null
                 // skills - not bidirectional
                 // milestones not needed
-                List<Skill> skills = p.getSkills();
-                for (Skill s : skills) {
-                    s.getProjects().clear();
-                }
-                p.getMilestones().clear();
-                p.getCompany().getProjects().clear();
-                p.getCompanyReviews().clear();
-                p.getStudentReviews().clear();
                 p.getApplications().clear();
-                List<Student> students = p.getStudents();
-                for (Student s : students) {
-                    s.getProjects().clear();
-                }
+                p.setCompany(null);
+                p.getCompanyReviews().clear();
+                p.getMilestones().clear();
+                p.getSkills().clear();
+                p.getStudentReviews().clear();
+                p.getStudents().clear();
+            }
+            RetrieveAllProjectsRsp retrieveAllProjectsRsp = new RetrieveAllProjectsRsp(projects);
+            return Response.status(Status.OK).entity(retrieveAllProjectsRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+
+    /**
+     * Retrieves representation of an instance of
+     * ws.restful.resources.ProjectResource
+     *
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Path("/retrieveProjectsByCompanyId/{companyId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveProjectsByCompanyId(@PathParam("companyId") Long companyId) {
+        try {
+            List<Project> projects = projectSessionBean.retrieveProjectsByCompany(companyId);
+            for (Project p : projects) {
+                // clear bidirectional mappings or set the inverse side to null
+                // skills - not bidirectional
+                // milestones not needed
+                p.getApplications().clear();
+                p.setCompany(null);
+                p.getCompanyReviews().clear();
+                p.getMilestones().clear();
+                p.getSkills().clear();
+                p.getStudentReviews().clear();
+                p.getStudents().clear();
             }
             RetrieveAllProjectsRsp retrieveAllProjectsRsp = new RetrieveAllProjectsRsp(projects);
             return Response.status(Status.OK).entity(retrieveAllProjectsRsp).build();
@@ -182,6 +198,7 @@ public class ProjectResource {
         }
     }
      */
+    
     private ProjectSessionBeanLocal lookupProjectSessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();
