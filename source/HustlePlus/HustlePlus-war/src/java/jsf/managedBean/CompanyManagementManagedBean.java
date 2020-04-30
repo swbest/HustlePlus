@@ -353,6 +353,8 @@ public class CompanyManagementManagedBean implements Serializable {
 
             fileOutputStream.close();
             inputStream.close();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Picture successfully uploaded!", null));
+
         } catch (IOException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }

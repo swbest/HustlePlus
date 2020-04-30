@@ -223,7 +223,8 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         } else {
             // if (condition.equals("OR")) {
 
-            Query query = em.createQuery("SELECT DISTINCT st FROM Student st AS st LEFT JOIN Skill_student AS skst ON st.userId = skst. WHERE st.skills_skillId IN :inSkillIds");
+            //Query query = em.createQuery("SELECT DISTINCT st FROM Student st AS st LEFT JOIN Skill_student AS skst ON st.userId = skst. WHERE st.skills_skillId IN :inSkillIds");
+            Query query = em.createQuery("SELECT st FROM Student st, IN (st.skills) s WHERE s.skillId IN :inSkillIds");
             query.setParameter("inSkillIds", skillIds);
             students = query.getResultList();
 

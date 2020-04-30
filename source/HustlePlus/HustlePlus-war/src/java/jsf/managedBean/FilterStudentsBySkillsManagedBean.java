@@ -82,7 +82,7 @@ public class FilterStudentsBySkillsManagedBean {
 
         if(selectedSkillIds != null && selectedSkillIds.size() > 0)
         {
-            //students = studentSessionBeanLocal.retrieveStudentsBySkills(selectedSkillIds, condition);
+            students = studentSessionBeanLocal.filterStudentsBySkills(selectedSkillIds);
         }
         else
         {
