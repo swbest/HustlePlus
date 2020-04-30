@@ -175,11 +175,16 @@ public class CompanyManagementManagedBean implements Serializable {
     }
 
     public void verifyCompany(ActionEvent event) {
-        try {
-            Company selectedCompanyToVerify = (Company) event.getComponent().getAttributes().get("selectedCompanyToVerify");
-            companySessionBeanLocal.verifyCompany(selectedCompanyToVerify.getUserId());
-            selectedCompanyToVerify.setIsVerified(Boolean.TRUE);
+        try {  
+            Company selectedCompany= (Company) event.getComponent().getAttributes().get("selectedCompanyToVerify");
+            if (selectedCompany.getIsVerified() == false) {
+            companySessionBeanLocal.verifyCompany(selectedCompany.getUserId());
+            selectedCompany.setIsVerified(Boolean.TRUE);
             verifiedStatus = "Yes"; 
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Company successfully verified!", null));
+            } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Company has been verified!", null));
+            }
         } catch (CompanyNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while verifying company account: " + ex.getMessage(), null));
         } catch (VerifyCompanyException ex) {
@@ -190,10 +195,15 @@ public class CompanyManagementManagedBean implements Serializable {
 
     public void suspendCompany(ActionEvent event) {
         try {
-            Company selectedCompanyToSuspend = (Company) event.getComponent().getAttributes().get("selectedCompanyToSuspend");
-            companySessionBeanLocal.suspendCompany(selectedCompanyToSuspend.getUserId());
-            selectedCompanyToSuspend.setIsSuspended(Boolean.TRUE);
-            suspendedStatus = "Yes"; 
+            Company selectedCompany = (Company) event.getComponent().getAttributes().get("selectedCompanyToSuspend");
+            if (selectedCompany.getIsSuspended() == false) {
+            companySessionBeanLocal.suspendCompany(selectedCompany.getUserId());
+            selectedCompany.setIsSuspended(Boolean.TRUE);
+            suspendedStatus = "Yes";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Company successfully suspended!", null));
+            } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Company has been suspended!", null));
+            }
         } catch (CompanyNotFoundException | SuspendCompanyException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while suspending company account: " + ex.getMessage(), null));
         }

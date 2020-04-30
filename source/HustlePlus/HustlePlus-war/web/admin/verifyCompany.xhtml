@@ -11,8 +11,9 @@
                 
         <div>
             <h:form id="formAllCompanies">
-            
-                <p:messages id="messages" redisplay="false" closable="true" />
+                
+                 <p:messages id="messages" redisplay="false" closable="true" />
+
 
                 <p:dataTable id="dataTableAllCompanies" widgetVar="dataTableAllCompanies" value="#{companyManagementManagedBean.companies}" var="company" rowKey="#{company.userId}" rowIndexVar="row" filteredValue="#{companyManagementManagedBean.filteredCompanies}"  
                              rows="10" paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
@@ -48,15 +49,15 @@
                     </p:column>
                     
                     <p:column headerText="Action" >  
-                        <p:commandButton actionListener="#{companyManagementManagedBean.verifyCompany}" value="Verify" update="formAllCompanies:dataTableAllCompanies">
+                        <p:commandButton actionListener="#{companyManagementManagedBean.verifyCompany}" value="Verify" update="formAllCompanies:dataTableAllCompanies formAllCompanies:messages">
                             <f:attribute name="selectedCompanyToVerify" value="#{company}" />
-                            <p:confirm header="Confirmation" message="Are you sure you want to verify #{company.name} (Company ID #{company.userId})?" icon="ui-icon-alert" rendered="#{company.isVerified == TRUE}"/>
+                            <p:confirm header="Confirmation" message="Are you sure you want to verify #{company.name} (Company ID #{company.userId})?" icon="ui-icon-alert"/>
                         </p:commandButton>
                             <br />
                        <br /> 
-                        <p:commandButton actionListener="#{companyManagementManagedBean.suspendCompany}" value="Suspend" update="formAllCompanies:dataTableAllCompanies">
+                        <p:commandButton actionListener="#{companyManagementManagedBean.suspendCompany}" value="Suspend" update="formAllCompanies:dataTableAllCompanies formAllCompanies:messages">
                             <f:attribute name="selectedCompanyToSuspend" value="#{company}" />
-                            <p:confirm header="Confirmation" message="Are you sure you want to suspend #{company.name} (Company ID: #{company.userId})?" icon="ui-icon-alert" rendered="#{company.isSuspended == TRUE}"/>
+                            <p:confirm header="Confirmation" message="Are you sure you want to suspend #{company.name} (Company ID: #{company.userId})?" icon="ui-icon-alert"/>
                         </p:commandButton>                
                     </p:column>  
 

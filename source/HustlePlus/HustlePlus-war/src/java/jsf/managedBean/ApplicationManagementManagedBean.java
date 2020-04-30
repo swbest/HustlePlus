@@ -8,7 +8,9 @@ package jsf.managedBean;
 import ejb.session.stateless.ApplicationSessionBeanLocal;
 import entity.Application;
 import entity.Project;
+import entity.Student;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -39,21 +41,17 @@ public class ApplicationManagementManagedBean implements Serializable {
      private Application newApplication; 
 
      private StreamedContent file;
+     private String fileName; 
      
 
 
     /**
      * Creates a new instance of ApplicationManagementManagedBean
      */
-//    public ApplicationManagementManagedBean() {
-//        newApplication = new Application(); 
-//        file = DefaultStreamedContent.builder()
-//                .name("downloadedResume_pdf")
-//                .contentType("resume/pdf")
-//                .stream( () -> FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/resume/pdf"))
-//                .build(); 
-//   
-//    }
+    public ApplicationManagementManagedBean() {
+       
+    }
+
     
     @PostConstruct
     public void postConstruct()
@@ -62,10 +60,7 @@ public class ApplicationManagementManagedBean implements Serializable {
   
     }
     
-    public StreamedContent getFile() {
-        return file; 
-    }
-    
+
     /**
      * @param event
      */
@@ -116,6 +111,18 @@ public class ApplicationManagementManagedBean implements Serializable {
     }
         
     }
+    
+    public void downloadFile(ActionEvent event) {
+        Student studentResume = (Student) event.getComponent().getAttributes().get("studentResume");
+        String resumeFileName = studentResume.getResume().getName();
+        if (studentResume.getResume().getName() == null) {
+            System.out.println("NULLSTRING"); 
+        }
+       setFileName(resumeFileName);
+        InputStream stream = this.getClass().getResourceAsStream(fileName);
+        file = new DefaultStreamedContent(stream, "application/pdf", "downloaded_file.pdf");
+        
+    }
    
     public List<Application> getApplications() {
         return applications;
@@ -140,6 +147,21 @@ public class ApplicationManagementManagedBean implements Serializable {
     public void setNewApplication(Application newApplication) {
         this.newApplication = newApplication;
     }
+    
+    public StreamedContent getFile() {
+        return this.file;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+    
+    
+    
     
     
     

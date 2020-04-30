@@ -159,7 +159,7 @@ public class MilestoneManagementManagedBean implements Serializable{
             
             Payment newPayment = new Payment();
             newPayment.setIsPaid(Boolean.FALSE);
-            newPayment.setPaymentDescription("For Milestone " + m.getTitle());
+            newPayment.setPaymentDescription(m.getTitle());
             paymentSessionBeanLocal.createNewPaymentForMilestone(newPayment, milestoneId);
 
             System.out.println("MMMB3");

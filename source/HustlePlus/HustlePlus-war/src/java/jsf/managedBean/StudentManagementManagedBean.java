@@ -76,8 +76,13 @@ public class StudentManagementManagedBean implements Serializable {
      public void verifyStudent(ActionEvent event) {
         try {
             Student selectedStudentToVerify = (Student) event.getComponent().getAttributes().get("selectedStudentToVerify");
+            if (selectedStudentToVerify.getIsVerified() == false) {
             studentSessionBeanLocal.verifyStudent(selectedStudentToVerify.getUserId());
             selectedStudentToVerify.setIsVerified(Boolean.TRUE);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student successfully verified!", null));
+            } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Student has been verified!", null));
+            }
         } catch (StudentNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while verifying student account: " + ex.getMessage(), null));
         } catch (VerifyStudentException ex) {
@@ -89,8 +94,13 @@ public class StudentManagementManagedBean implements Serializable {
     public void suspendStudent(ActionEvent event) {
         try {
             Student selectedStudentToSuspend = (Student) event.getComponent().getAttributes().get("selectedStudentToSuspend");
+            if (selectedStudentToSuspend.getIsSuspended() == false) {
             studentSessionBeanLocal.suspendStudent(selectedStudentToSuspend.getUserId());
             selectedStudentToSuspend.setIsSuspended(Boolean.TRUE);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student successfully suspended!", null));
+            } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Student has been suspended!", null));
+            }
         } catch (StudentNotFoundException | SuspendStudentException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while suspending student account: " + ex.getMessage(), null));
         }

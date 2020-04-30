@@ -31,22 +31,19 @@
                             <f:convertNumber maxFractionDigits="2"/>
                         </h:outputText>
                         
-                        <h:outputText value="Application Pending: "/>
-                        <h:outputText value="#{myapp.isPending}"/>
-                        
-                        <h:outputText value="Application Approved: "/>
-                        <h:outputText value="#{myapp.isApproved}"/>
-                        
                         
                         <h:outputText value="Skills of Student: "/>
                         <p:dataList value="#{myapp.student.skills}" var="skill" type="ordered">
                             #{skill.title}
                             </p:dataList>
                         
-                        
+                        <h:outputText value ="Email:"/>
+                        <h:outputText value ="#{myapp.student.email}"/>
+
                         <h:outputText value="Student Resume: "/>
-                        <p:commandButton value="Download Resume" ajax="false" onclick="PrimeFaces.monitorDownload(start,stop);" icon="pi pi-arrow-down">
-                            <p:fileDownload value="#{applicationManagementManagedBean.file}"/>
+                        <p:commandButton icon="ui-icon-arrowthickstop-1-s" ajax="false" actionListener="#{applicationManagementManagedBean.downloadFile}">
+                            <f:attribute name="studentResume" value="#{myapp.student}"/>
+                            <p:fileDownload value="#{applicationManagementManagedBean.file}" />
                         </p:commandButton>
                         
                         <h:outputText value="Application Status: "/>
