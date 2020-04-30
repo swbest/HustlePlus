@@ -264,6 +264,35 @@ public class StudentResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
+    
+    @Path("/addSkillToStudent/{skillId}")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addSkillToStudent(@PathParam("skillId") Long skillId, UpdateStudentReq updateStudentReq) {
+        if (updateStudentReq != null) {
+            try {
+                Student student = studentSessionBean.studentLogin(updateStudentReq.getUsername(), updateStudentReq.getPassword());
+                System.out.println("********** StudentResource.updateStudent(): Student " + student.getUsername() + " login remotely via web service");
+
+                studentSessionBean.addSkillToStudent(updateStudentReq.getStudent().getUserId(), skillId);
+
+                return Response.status(Response.Status.OK).build();
+            } catch (InvalidLoginCredentialException ex) {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+                return Response.status(Status.UNAUTHORIZED).entity(errorRsp).build();
+            } catch (Exception ex) {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+                return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        } else {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid update student request");
+
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
 
     private StudentSessionBeanLocal lookupStudentSessionBeanLocal() {
         try {

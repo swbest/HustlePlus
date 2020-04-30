@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Student } from '../student';
 import { Skill } from '../skill';
+import { CreateNewSkillPage } from '../create-new-skill/create-new-skill.page';
+
 
 @Component({
   selector: 'app-profile',
@@ -32,7 +34,7 @@ export class ProfilePage implements OnInit {
   errorMessage: string;
   infoMessage: string;
   resultSuccess: boolean;
-  resultError: boolean
+  resultError: boolean;
   error: boolean;
   message: string;
 
@@ -56,7 +58,6 @@ export class ProfilePage implements OnInit {
         error => {
           this.infoMessage = null;
           this.errorMessage = "Error retrieving student details.";
-          this.errorToast();
           this.location.back();
         }
     } 
@@ -84,10 +85,6 @@ export class ProfilePage implements OnInit {
           this.sessionService.setSkills(response.skills);
         },
       )
-    }
-
-    createNewSkill() {
-      this.router.navigate(["/createNewSkill"]);
     }
 
     dissociateSkillFromStudent(skillId){
@@ -124,30 +121,6 @@ export class ProfilePage implements OnInit {
     updateStudentAccount() {
       this.router.navigate(["/updateProfileModal"]);
     }
-
-    async successToast() {
-      const toast = await this.toastController.create({
-        message: this.infoMessage,
-        duration: 3000
-      });
-  
-      toast.present();
-      
-      }
-  
-      async errorToast() {
-      const toast = await this.toastController.create({
-        message: this.errorMessage,
-        duration: 3000
-      });
-  
-      toast.present();
-      
-      }
-  
-      closeModal(){
-        this.modalController.dismiss();
-      } 
       
   async presentToast() {
     const toast = await this.toastController.create({
@@ -155,6 +128,16 @@ export class ProfilePage implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+
+  async createNewSkillModal() {
+    const modal = await this.modalController.create({
+      component: CreateNewSkillPage,
+    });
+    modal.onDidDismiss().then(data => {
+      this.refreshSkills();
+    });
+    return await modal.present();
   }
    
     

@@ -1,9 +1,39 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>create-new-skill</ion-title>
+    <ion-title>Add New Skill</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <div *ngIf="infoMessage">
+    {{infoMessage}}
+  </div>
+
+  <div *ngIf="errorMessage">
+    {{errorMessage}}
+  </div>
+
+  <form #addSkillForm="ngForm" (ngSubmit)="createNewSkill(addSkillForm)">
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+      
+      <ion-item>
+        <ion-label position="stacked">Enter Title of Skill:</ion-label>
+        <ion-input type="text" id="title" name="title" #title="ngModel" [(ngModel)]="newSkill.title" required="true"></ion-input>
+
+        <div *ngIf="title.invalid && (title.dirty || title.touched || submitted)" style="color: red;">
+          <div *ngIf="title.errors.required">
+            Please enter a title for your skill.
+          </div>
+        </div>
+
+      </ion-item>
+
+    </ion-list>
+
+    <div class="ion-padding">
+      <ion-button (click)="dismiss()" expand="block" type="submit" class="ion-no-margin">Save</ion-button>
+    </div>
+  </form>
 
 </ion-content>

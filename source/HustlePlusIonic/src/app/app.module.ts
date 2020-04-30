@@ -9,6 +9,7 @@ import { EmailComposer } from '@ionic-native/email-composer/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { CreateNewSkillPageModule } from './create-new-skill/create-new-skill.module';
 
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -21,7 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
     IonicModule.forRoot(),
     AppRoutingModule,
 	  FormsModule,
-	  HttpClientModule
+    HttpClientModule,
+    CreateNewSkillPageModule
   ],
   providers: [
     StatusBar,
