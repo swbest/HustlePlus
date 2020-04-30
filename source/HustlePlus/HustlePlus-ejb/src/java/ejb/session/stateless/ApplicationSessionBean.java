@@ -157,7 +157,7 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
     @Override
     public void deleteApplication(Long applicationId) throws ApplicationNotFoundException, DeleteApplicationException {
         Application applicationToRemove = retrieveApplicationByApplicationId(applicationId);
-        if (applicationToRemove.getIsApproved() == Boolean.FALSE && applicationToRemove.getIsPending() == Boolean.FALSE) {
+        if (applicationToRemove.getIsPending() == Boolean.TRUE) {
             em.remove(applicationToRemove);
         } else {
             throw new DeleteApplicationException("Application ID " + applicationId + " has been processed and cannot be deleted!");
