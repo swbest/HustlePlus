@@ -90,18 +90,22 @@ export class ProfilePage implements OnInit {
       this.router.navigate(["/createNewSkill"]);
     }
 
-    // deleteSkill(skillId: number){
-    //   this.skills.splice(skillId, 1);
-    //   this.skillService.deleteSkill(this.skills[skillId]).subscribe(
-    //     response => {
-    //       this.resultSuccess = true;
-    //     },
-    //     error => {
-    //       this.error = true;
-    //       this.errorMessage = error;
-    //     }
-    //   );	
-    // }
+    dissociateSkillFromStudent(skillId){
+      this.skills.splice(skillId, 1);
+      this.studentService.dissociateSkillFromStudent(this.studentToView, skillId).subscribe(
+        response => {
+          this.resultSuccess = true;
+        },
+        error => {
+          this.error = true;
+          this.errorMessage = error;
+        }
+      );	
+      console.log("Skill successfully deleted");
+      this.presentToast();
+      this.refreshSkills();
+      this.studentInitialiseFields();
+    }
 
     deleteStudentAccount() {
       this.studentService.deleteStudentAccount(this.studentToView.userId).subscribe(
@@ -144,6 +148,14 @@ export class ProfilePage implements OnInit {
       closeModal(){
         this.modalController.dismiss();
       } 
+      
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Skill successfully removed from your profile!',
+      duration: 2000
+    });
+    toast.present();
+  }
    
     
   }
