@@ -75,8 +75,8 @@
             <p:graphicImage name="img/icon-transparent.png" style="width: 150px"/>
 
             <!--COMPANY SIDEBAR-->
-            
-            <h:panelGroup rendered="#{sessionScope.isLogin == true &amp;&amp; sessionScope.userEntity.accessRightEnum == 'COMPANY'}">   
+
+            <h:panelGroup rendered="#{sessionScope.isLogin == true and sessionScope.userEntity.accessRightEnum == 'COMPANY'}">   
                 <h:form>
                     <p:slideMenu style="width:300px">
                         <p:menuitem value="Home" outcome="/index"/>
@@ -142,8 +142,8 @@
             </h:panelGroup>
 
             <!--ADMIN SIDEBAR-->
-            
-            <h:panelGroup rendered="#{sessionScope.isLogin == true &amp;&amp; sessionScope.userEntity.accessRightEnum == 'ADMIN'}">   
+
+            <h:panelGroup rendered="#{sessionScope.isLogin == true and sessionScope.userEntity.accessRightEnum == 'ADMIN'}">   
                 <h:form>
                     <p:slideMenu style="width:300px">
                         <p:menuitem value="Home" outcome="/index"/>
@@ -187,7 +187,7 @@
 
                 <!--COMPANY MENUBAR-->
 
-                <h:panelGroup rendered="#{sessionScope.isLogin == true &amp;&amp; sessionScope.userEntity.accessRightEnum == 'COMPANY'}">   
+                <h:panelGroup rendered="#{sessionScope.isLogin == true and sessionScope.userEntity.accessRightEnum == 'COMPANY'}">   
 
                     <h:form>
 
@@ -263,16 +263,12 @@
                         </p:menubar>
                         <br/>
                         <p:commandButton icon="fa fa-navicon" oncomplete="PF('sidebar1').show()" />
-                    </h:form>
-
-                    <ui:insert name="content">
-                        <ui:include src="/index.xhtml" />
-                    </ui:insert>  
+                    </h:form>                    
 
                 </h:panelGroup>
 
                 <!--ADMIN MENUBAR-->
-                <h:panelGroup rendered="#{sessionScope.isLogin == true &amp;&amp; sessionScope.userEntity.accessRightEnum == 'ADMIN'}">   
+                <h:panelGroup rendered="#{sessionScope.isLogin == true and sessionScope.userEntity.accessRightEnum == 'ADMIN'}">   
 
                     <h:form>
 
@@ -313,13 +309,13 @@
                         </p:menubar>
                         <br/>
                         <p:commandButton icon="fa fa-navicon" oncomplete="PF('sidebar1').show()" />
-                    </h:form>
-
-                    <ui:insert name="content">
-                        <ui:include src="/index.xhtml" />
-                    </ui:insert>  
+                    </h:form>                    
 
                 </h:panelGroup>
+
+                <ui:insert name="content">
+                    <ui:include src="/index.xhtml" />
+                </ui:insert>  
 
             </p:layoutUnit>
 
