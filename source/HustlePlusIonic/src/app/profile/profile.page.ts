@@ -42,86 +42,87 @@ export class ProfilePage implements OnInit {
     private skillService: SkillService,
     private sessionService: SessionService,
     private modalController: ModalController,
-    private toastController:ToastController,
+    private toastController: ToastController,
     private location: Location,
     private router: Router
-    ) { 
-      this.skills = new Array();
+  ) {
+    this.skills = new Array();
 
-    }
+  }
 
-    ngOnInit() {
-      this.studentToView = this.sessionService.getCurrentStudent();
-      console.log(this.studentToView);
-      this.refreshSkills();    
-      this.studentInitialiseFields();
-        error => {
-          this.infoMessage = null;
-          this.errorMessage = "Error retrieving student details.";
-          this.location.back();
-        }
-    } 
-  
-    studentInitialiseFields() {
-      this.userId = this.studentToView.userId;
-      this.name = this.studentToView.name;
-      this.username = this.studentToView.username;
-      this.password = this.studentToView.password;
-      this.email = this.studentToView.email;
-      this.description = this.studentToView.description;
-      this.avgRating = this.studentToView.avgRating;
-      this.isVerified = this.studentToView.isVerified;
-      this.isSuspended = this.studentToView.isSuspended;
-      this.bankAccountName = this.studentToView.bankAccountName;
-      this.bankAccountNumber = this.studentToView.bankAccountNumber;
-      this.resume = this.studentToView.resume;
-      this.skills = this.sessionService.getSkills();
+  ngOnInit() {
+    this.studentToView = this.sessionService.getCurrentStudent();
+    console.log(this.studentToView);
+    this.refreshSkills();
+    this.studentInitialiseFields();
+    error => {
+      this.infoMessage = null;
+      this.errorMessage = "Error retrieving student details.";
+      this.location.back();
     }
+  }
 
-    refreshSkills() {
-      this.skillService.getSkillsByStudentId(this.studentToView.userId).subscribe(
-        response => {
-          this.skills = response.skills;
-          this.sessionService.setSkills(response.skills);
-        },
-      )
-    }
+  studentInitialiseFields() {
+    this.userId = this.studentToView.userId;
+    this.name = this.studentToView.name;
+    this.username = this.studentToView.username;
+    this.password = this.studentToView.password;
+    this.email = this.studentToView.email;
+    this.description = this.studentToView.description;
+    this.avgRating = this.studentToView.avgRating;
+    this.isVerified = this.studentToView.isVerified;
+    this.isSuspended = this.studentToView.isSuspended;
+    this.bankAccountName = this.studentToView.bankAccountName;
+    this.bankAccountNumber = this.studentToView.bankAccountNumber;
+    this.resume = this.studentToView.resume;
+    this.skills = this.sessionService.getSkills();
+  }
 
-    dissociateSkillFromStudent(skillId){
-      this.skills.splice(skillId, 1);
-      this.studentService.dissociateSkillFromStudent(this.studentToView, skillId).subscribe(
-        response => {
-          this.resultSuccess = true;
-        },
-        error => {
-          this.error = true;
-          this.errorMessage = error;
-        }
-      );	
-      console.log("Skill successfully deleted");
-      this.presentToast();
-      this.refreshSkills();
-      this.studentInitialiseFields();
-    }
+  refreshSkills() {
+    this.skillService.getSkillsByStudentId(this.studentToView.userId).subscribe(
+      response => {
+        this.skills = response.skills;
+        this.sessionService.setSkills(response.skills);
+      },
+    )
+  }
 
-    deleteStudentAccount() {
-      this.studentService.deleteStudentAccount(this.studentToView.userId).subscribe(
-        response => {
-          this.resultSuccess = true;
-        },
-        error => {
-          this.error = true;
-          this.errorMessage = error;
-        }
-      );	
-      this.studentService.studentLogout();	
-      this.router.navigate(["/home"]);
-    }
+  dissociateSkillFromStudent(skillId) {
+    this.skills.splice(skillId, 1);
+    this.studentService.dissociateSkillFromStudent(this.studentToView, skillId).subscribe(
+      response => {
+        this.resultSuccess = true;
+      },
+      error => {
+        this.error = true;
+        this.errorMessage = error;
+      }
+    );
+    console.log("Skill successfully deleted");
+    this.presentToast();
+    this.refreshSkills();
+    this.studentInitialiseFields();
+  }
 
-    updateStudentAccount() {
-      this.router.navigate(["/updateProfileModal"]);
-    }
-      
+  deleteStudentAccount() {
+    this.studentService.deleteStudentAccount(this.studentToView.userId).subscribe(
+      response => {
+        this.resultSuccess = true;
+        this.deleteToast();
+      },
+      error => {
+        this.error = true;
+        this.errorMessage = error;
+      }
+    );
+    this.studentService.studentLogout();
+    this.router.navigate(["/home"]);
+  }
+
+  updateStudentAccount() {
+    this.router.navigate(["/updateProfileModal"]);
+  }
+
   async presentToast() {
     const toast = await this.toastController.create({
       message: 'Skill successfully removed from your profile!',
@@ -139,9 +140,15 @@ export class ProfilePage implements OnInit {
     });
     return await modal.present();
   }
-   
-    
-  }
 
-  
-  
+  async deleteToast() {
+    const toast = await this.toastController.create({
+      message: 'Successfully deleted your Hustle+ account!',
+      duration: 2000
+    });
+    toast.present();
+  }
+}
+
+
+

@@ -26,8 +26,6 @@ import util.exception.VerifyStudentException;
 @Local
 public interface StudentSessionBeanLocal {
 
-    public void updateStudent(Student student)  throws StudentNotFoundException, UpdateStudentException, InputDataValidationException;
-
     public void deleteStudentAccount(Long studentId) throws StudentNotFoundException, DeleteStudentException;
 
     public List<Student> retrieveAllStudents();
@@ -56,5 +54,9 @@ public interface StudentSessionBeanLocal {
     public void disassociateProjectSkill(Long studentId, Long skillId) throws StudentNotFoundException, SkillNotFoundException;
 
     public void addSkillToStudent(Long skillId, Long studentId) throws StudentNotFoundException, SkillNotFoundException;
+
+    public void updateStudent(Student student) throws StudentNotFoundException, UpdateStudentException, InputDataValidationException;
+
+    public void updatePassword(Student student, String password) throws StudentNotFoundException, UpdateStudentException, InputDataValidationException;
 
 }

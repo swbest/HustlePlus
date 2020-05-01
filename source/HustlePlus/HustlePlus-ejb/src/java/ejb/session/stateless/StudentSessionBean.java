@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.Company;
 import entity.Skill;
 import entity.Student;
 import entity.Team;
@@ -25,6 +26,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import util.exception.CompanyNotFoundException;
 import util.exception.DeleteStudentException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
@@ -33,6 +35,7 @@ import util.exception.StudentAssignedToProjectException;
 import util.exception.StudentNotFoundException;
 import util.exception.SuspendStudentException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UpdateCompanyException;
 import util.exception.UpdateStudentException;
 import util.exception.VerifyStudentException;
 import util.security.CryptographicHelper;
@@ -109,18 +112,18 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
     public void updateStudent(Student student) throws StudentNotFoundException, UpdateStudentException, InputDataValidationException {
         if (student != null && student.getUserId() != null) {
             Set<ConstraintViolation<Student>> constraintViolations = validator.validate(student);
-            System.out.println(student.getUsername());
-            System.out.println(student.getPassword());
+            System.out.println("Student Session Bean updateStudent(): " + student.getUsername());
 
             if (constraintViolations.isEmpty()) {
                 Student studentToUpdate = retrieveStudentByStudentId(student.getUserId());
                 studentToUpdate.setUsername(student.getUsername());
-                studentToUpdate.setPassword(student.getPassword());
                 studentToUpdate.setIcon(student.getIcon());
                 studentToUpdate.setEmail(student.getEmail());
                 studentToUpdate.setName(student.getName());
                 studentToUpdate.setResume(student.getResume());
                 studentToUpdate.setDescription(student.getDescription());
+                /*
+                studentToUpdate.setPassword(newPassword);
                 studentToUpdate.setAvgRating(student.getAvgRating());
                 studentToUpdate.setIsVerified(student.getIsVerified());
                 studentToUpdate.setIsSuspended(student.getIsSuspended());
@@ -141,11 +144,27 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
                 studentToUpdate.setBankAccountNumber(student.getBankAccountNumber());
                 studentToUpdate.setApplications(student.getApplications());
                 studentToUpdate.setProjects(student.getProjects());
+                 */
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
         } else {
             throw new StudentNotFoundException("Student Id not provided for student to be updated");
+        }
+    }
+
+    @Override
+    public void updatePassword(Student student, String password) throws StudentNotFoundException, UpdateStudentException, InputDataValidationException {
+        if (student != null && student.getUserId() != null) {
+            Set<ConstraintViolation<Student>> constraintViolations = validator.validate(student);
+            if (constraintViolations.isEmpty()) {
+                Student studentToUpdate = retrieveStudentByStudentId(student.getUserId());
+                studentToUpdate.setPassword(password);
+            } else {
+                throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+            }
+        } else {
+            throw new StudentNotFoundException("Student id: " + student.getUserId() + " does not exists!");
         }
     }
 

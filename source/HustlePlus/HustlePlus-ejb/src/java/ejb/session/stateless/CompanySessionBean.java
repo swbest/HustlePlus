@@ -57,20 +57,18 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
             newCompany.setIsSuspended(Boolean.FALSE);
             newCompany.setIsVerified(Boolean.FALSE);
             newCompany.setAccessRightEnum(AccessRightEnum.COMPANY);
-            newCompany.setAvgRating(0.0); 
+            newCompany.setAvgRating(0.0);
             String passwordHash = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(newCompany.getPassword() + newCompany.getSalt()));
 
             Set<ConstraintViolation<Company>> constraintViolations = validator.validate(newCompany);
 
             if (constraintViolations.isEmpty()) {
-                
-                System.out.println("Create new company(Before persist)");
 
+                System.out.println("Create new company(Before persist)");
 
                 em.persist(newCompany);
                 em.flush();
                 System.out.println("Create new company(After persist)");
-
 
                 return newCompany.getUserId();
             } else {
@@ -147,10 +145,10 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
                 companyToUpdate.setName(company.getName());
                 companyToUpdate.setDescription(company.getDescription());
                 //companyToUpdate.setAvgRating(company.getAvgRating());
-              //  companyToUpdate.setIsVerified(company.getIsVerified());
+                //  companyToUpdate.setIsVerified(company.getIsVerified());
                 companyToUpdate.setIcon(company.getIcon());
-              //  companyToUpdate.setIsSuspended(company.getIsSuspended());
-               // companyToUpdate.setProjects(company.getProjects());
+                //  companyToUpdate.setIsSuspended(company.getIsSuspended());
+                // companyToUpdate.setProjects(company.getProjects());
                 companyToUpdate.setStudentReviews(company.getStudentReviews());
                 companyToUpdate.setCompanyReviews(company.getCompanyReviews());
             } else {
@@ -160,36 +158,33 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
             throw new CompanyNotFoundException("Company Id not provided for company to be updated");
         }
     }
-    
+
     @Override
     public void updatePassword(Company company, String password) throws CompanyNotFoundException, UpdateCompanyException, InputDataValidationException {
         if (company != null && company.getUserId() != null) {
             Set<ConstraintViolation<Company>> constraintViolations = validator.validate(company);
             if (constraintViolations.isEmpty()) {
-            Company companyToUpdate = retrieveCompanyByCompanyId(company.getUserId());
-            companyToUpdate.setPassword(password);
-          } else {
+                Company companyToUpdate = retrieveCompanyByCompanyId(company.getUserId());
+                companyToUpdate.setPassword(password);
+            } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
         } else {
             throw new CompanyNotFoundException("Company Id not provided for company to be updated");
         }
-    } 
-    
+    }
 
-    public void uploadIcon(Long companyId , String source) {
-        
-        Company currentCompany = null; 
+    public void uploadIcon(Long companyId, String source) {
+
+        Company currentCompany = null;
         try {
-            currentCompany = retrieveCompanyByCompanyId(companyId); 
-        } catch (CompanyNotFoundException ex)
-        {
+            currentCompany = retrieveCompanyByCompanyId(companyId);
+        } catch (CompanyNotFoundException ex) {
             Logger.getLogger(CompanySessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         currentCompany.setIcon(source);
-        
-        
-                /*
+
+        /*
             if (company != null && company.getUserId() != null) {
             Set<ConstraintViolation<Company>> constraintViolations = validator.validate(company);
             if (constraintViolations.isEmpty()) {
@@ -213,48 +208,46 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
             throw new DeleteCompanyException("Company ID " + companyId + " is associated with existing projects and reviews and cannot be deleted!");
         }
     }
-    
+
     @Override
     public void verifyCompany(Long companyId) throws CompanyNotFoundException, VerifyCompanyException {
-       try {  
-        Company companyToVerify = retrieveCompanyByCompanyId(companyId);
-        
+        try {
+            Company companyToVerify = retrieveCompanyByCompanyId(companyId);
+
             if (companyToVerify.getIsVerified() == false) {
                 System.out.println("*****FALSE******");
-              companyToVerify.setIsVerified(Boolean.TRUE);   
+                companyToVerify.setIsVerified(Boolean.TRUE);
             } else {
-             System.out.println("*****TRUE******");
-             throw new VerifyCompanyException("Company has been verified!"); 
-            }      
-       } catch (CompanyNotFoundException ex) {
-             throw new CompanyNotFoundException("Company id does not exist!"); 
-               }
+                System.out.println("*****TRUE******");
+                throw new VerifyCompanyException("Company has been verified!");
+            }
+        } catch (CompanyNotFoundException ex) {
+            throw new CompanyNotFoundException("Company id does not exist!");
+        }
     }
-    
-        @Override
-        public void suspendCompany(Long companyId) throws CompanyNotFoundException, SuspendCompanyException {
+
+    @Override
+    public void suspendCompany(Long companyId) throws CompanyNotFoundException, SuspendCompanyException {
         Company companyToSuspend = retrieveCompanyByCompanyId(companyId);
-        
+
         if (companyToSuspend != null) {
-            
+
             if (companyToSuspend.getIsSuspended() == false) {
-              companyToSuspend.setIsSuspended(Boolean.TRUE);   
+                companyToSuspend.setIsSuspended(Boolean.TRUE);
             } else {
-             throw new SuspendCompanyException("Company has been suspended"); 
+                throw new SuspendCompanyException("Company has been suspended");
             }
         } else {
             throw new CompanyNotFoundException("Company Id does not exist");
-               }
+        }
     }
-    
-    
 
     // searching for company) rating/ company's name
     @Override
     public List<Company> retrieveCompaniesByName(String cname) throws CompanyNotFoundException {
         Query query = em.createQuery("SELECT c FROM Company c WHERE c.name LIKE '%name%'");
         query.setParameter("name", cname);
-        
+
         try {
             return query.getResultList();
         } catch (NoResultException ex) {
@@ -262,43 +255,37 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
         }
     }
 
-    
-
-    
     @Override
     public List<Company> searchCompaniesByRating(Double avgRating) {
-       Query query = em.createQuery("SELECT c FROM Company c WHERE c.avgRating = :rating");
-       query.setParameter("rating", avgRating);
-       return (List<Company>) query.getResultList(); 
-     
+        Query query = em.createQuery("SELECT c FROM Company c WHERE c.avgRating = :rating");
+        query.setParameter("rating", avgRating);
+        return (List<Company>) query.getResultList();
+
     }
-   
-    
-   
-    
+
     @Override
     public List<Company> searchCompaniesByName(String searchString) {
         Query query = em.createQuery("SELECT c FROM Company c WHERE c.name LIKE :inSearchString ORDER BY c.userId ASC");
         query.setParameter("inSearchString", "%" + searchString + "%");
         List<Company> companies = query.getResultList();
-        
-       return companies; 
+
+        return companies;
     }
-    
+
     @Override
     public boolean checkCompany(Company company) {
-        
+
         if (company.getIsVerified() == true) {
             System.out.println("true");
-            return true ; 
+            return true;
         } else {
             System.out.println("false");
-            return false; 
+            return false;
         }
     }
-    
+
     public void verifyCompany(Company company) {
-         company.setIsVerified(true);
+        company.setIsVerified(true);
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Company>> constraintViolations) {
@@ -309,5 +296,5 @@ public class CompanySessionBean implements CompanySessionBeanLocal {
         }
         return msg;
     }
-    
+
 }

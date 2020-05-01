@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { StudentService } from '../student.service';
 import { Student } from '../student';
+import { ToastController } from '@ionic/angular';
 
 @Component({
 	selector: 'app-create-new-student',
@@ -19,7 +20,8 @@ export class CreateNewStudentPage implements OnInit {
 	hasError: boolean;
 
 	constructor(private studentService: StudentService,
-		private router: Router) {
+		private router: Router,
+		private toastController: ToastController) {
 		this.submitted = false;
 		this.newStudent = new Student();
 	}
@@ -41,6 +43,8 @@ export class CreateNewStudentPage implements OnInit {
 					this.infoMessage = 'Your account was succesfully created with ID: ' + response.newStudentId;
 					this.errorMessage = null;
 					this.hasError = true;
+					this.back();
+					this.successToast();
 				},
 				error => {
 					this.infoMessage = null;
@@ -55,6 +59,14 @@ export class CreateNewStudentPage implements OnInit {
 		if (!this.hasError) {
 			this.router.navigate(["/home"]);
 		}
+	}
+
+	async successToast() {
+		const toast = await this.toastController.create({
+			message: "Welcome to HustlePlus!",
+			duration: 3000
+		});
+		toast.present();
 	}
 }
 
