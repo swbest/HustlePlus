@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
+
 import { SessionService } from '../session.service';
 import { StudentService } from '../student.service';
 import { SkillService } from '../skill.service';
@@ -28,8 +30,8 @@ export class CreateNewSkillPage implements OnInit {
   constructor(private modalController: ModalController,
     private sessionService: SessionService,
     private studentService: StudentService,
-    private skillService: SkillService
-    ) { 
+    private skillService: SkillService,
+    private toastController: ToastController) {
       this.submitted = false;
       this.newSkill = new Skill();
     }
@@ -49,7 +51,8 @@ export class CreateNewSkillPage implements OnInit {
           this.newSkill.skillId = response.newSkillId;
           console.log(response.newSkillId);
 					this.errorMessage = null;
-					this.hasError = true;
+          this.hasError = true;
+          this.addSkillToast();
 				},
 				error => {
 					this.infoMessage = null;
@@ -80,4 +83,11 @@ export class CreateNewSkillPage implements OnInit {
     });
   }
 
+  async addSkillToast() {
+    const toast = await this.toastController.create({
+      message: 'Created new skill: ' + this.newSkill.title,
+      duration: 2000
+    });
+    toast.present();
+  }  
 }

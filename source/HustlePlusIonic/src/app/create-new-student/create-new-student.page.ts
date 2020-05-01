@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { ToastController } from '@ionic/angular';
+
 import { StudentService } from '../student.service';
 import { Student } from '../student';
 
@@ -19,7 +21,8 @@ export class CreateNewStudentPage implements OnInit {
 	hasError: boolean;
 
 	constructor(private studentService: StudentService,
-		private router: Router) {
+		private router: Router,
+		private toastController: ToastController) {
 		this.submitted = false;
 		this.newStudent = new Student();
 	}
@@ -41,6 +44,8 @@ export class CreateNewStudentPage implements OnInit {
 					this.infoMessage = 'Your account was succesfully created with ID: ' + response.newStudentId;
 					this.errorMessage = null;
 					this.hasError = true;
+					this.registerToast();
+					this.back();
 				},
 				error => {
 					this.infoMessage = null;
@@ -55,6 +60,14 @@ export class CreateNewStudentPage implements OnInit {
 		if (!this.hasError) {
 			this.router.navigate(["/home"]);
 		}
+	}
+
+	async registerToast() {
+		const toast = await this.toastController.create({
+			message: 'Successfully registered as ' + this.newStudent.username,
+			duration: 2000
+		});
+		toast.present();
 	}
 }
 

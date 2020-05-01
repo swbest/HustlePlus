@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { ToastController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 
 import { ProjectService } from '../project.service';
@@ -34,7 +35,8 @@ export class ViewProjectDetailsPage implements OnInit {
     private projectService: ProjectService,
     public alertController: AlertController,
     private sessionService: SessionService,
-    private applicationService: ApplicationService) {
+    private applicationService: ApplicationService,
+    private toastController: ToastController) {
     this.retrieveProjectError = false;
     this.error = false;
     this.resultSuccess = false;
@@ -75,6 +77,8 @@ export class ViewProjectDetailsPage implements OnInit {
         this.infoMessage = 'New application created ' + response.newApplicationId;
         this.errorMessage = null;
         this.hasError = true;
+        this.applyProjectToast();
+        this.back();
       },
       error => {
         this.infoMessage = null;
@@ -82,8 +86,15 @@ export class ViewProjectDetailsPage implements OnInit {
         this.hasError = false;
       }
     );
-    this.back();
   }
+
+  async applyProjectToast() {
+    const toast = await this.toastController.create({
+      message: 'Successfully applied for project ' + this.projectToView.projectName,
+      duration: 2000
+    });
+    toast.present();
+  }  
 
   back() {
     this.router.navigate(["/viewAllProjects"]);
