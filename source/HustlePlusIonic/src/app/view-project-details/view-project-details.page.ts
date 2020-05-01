@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ToastController } from '@ionic/angular';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 import { ProjectService } from '../project.service';
 import { Project } from '../project';
@@ -84,6 +83,7 @@ export class ViewProjectDetailsPage implements OnInit {
         this.infoMessage = null;
         this.errorMessage = error;
         this.hasError = false;
+        this.failToast();
       }
     );
   }
@@ -99,4 +99,12 @@ export class ViewProjectDetailsPage implements OnInit {
   back() {
     this.router.navigate(["/viewAllProjects"]);
   }
+
+  async failToast() {
+		const toast = await this.toastController.create({
+			message: this.errorMessage,
+			duration: 3000
+		});
+		toast.present();
+	}
 }

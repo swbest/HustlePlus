@@ -6,6 +6,7 @@ import { ToastController } from '@ionic/angular';
 
 import { StudentService } from '../student.service';
 import { Student } from '../student';
+import { ToastController } from '@ionic/angular';
 
 @Component({
 	selector: 'app-create-new-student',
@@ -65,8 +66,8 @@ export class CreateNewStudentPage implements OnInit {
 	async registerToast() {
 		const toast = await this.toastController.create({
 			message: 'Successfully registered as ' + this.newStudent.username,
-			duration: 2000
-		});
+			duration: 3000
+    });
 		toast.present();
 	}
 }

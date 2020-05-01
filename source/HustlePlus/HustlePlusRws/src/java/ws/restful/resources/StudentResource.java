@@ -37,6 +37,7 @@ import ws.restful.model.ErrorRsp;
 import ws.restful.model.RetrieveAllStudentsRsp;
 import ws.restful.model.RetrieveStudentRsp;
 import ws.restful.model.StudentLoginRsp;
+import ws.restful.model.UpdatePasswordReq;
 import ws.restful.model.UpdateStudentReq;
 
 /**
@@ -69,6 +70,7 @@ public class StudentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response studentLogin(@QueryParam("username") String username,
             @QueryParam("password") String password) {
+        System.out.println("********** StudentResource.studentLogin(): Student " + username + " password: " + password);
         try {
             Student student = studentSessionBean.studentLogin(username, password);
             System.out.println("********** StudentResource.studentLogin(): Student " + student.getUsername() + " login remotely via web service");
@@ -202,17 +204,22 @@ public class StudentResource {
 
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
-    } 
+    }
 
+    @Path("updateStudentDetails")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateStudent(UpdateStudentReq updateStudentReq) {
+        System.out.println("updating student!");
         if (updateStudentReq != null) {
             try {
+                System.out.println("********** StudentResource.updateStudent(): Student " + updateStudentReq.getUsername() + " password: " + updateStudentReq.getPassword() + " trying to login");
+
                 Student student = studentSessionBean.studentLogin(updateStudentReq.getUsername(), updateStudentReq.getPassword());
                 System.out.println("********** StudentResource.updateStudent(): Student " + student.getUsername() + " login remotely via web service");
 
+                System.out.println("**** StudentResource.updateStudent(): new username: " + updateStudentReq.getStudent().getUsername() + " new password: " + updateStudentReq.getStudent().getPassword());
                 studentSessionBean.updateStudent(updateStudentReq.getStudent());
 
                 return Response.status(Response.Status.OK).build();
@@ -235,7 +242,43 @@ public class StudentResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
-    
+
+    @Path("updatePassword")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updatePassword(UpdatePasswordReq updatePasswordReq) {
+        if (updatePasswordReq != null) {
+            try {
+                System.out.println("********** StudentResource.updatePassword(): user " + updatePasswordReq.getUsername());
+
+                Student student = studentSessionBean.studentLogin(updatePasswordReq.getUsername(), updatePasswordReq.getCurrPassword());
+                System.out.println("********** StudentResource.updateStudent(): Student " + student.getUsername() + " login remotely via web service");
+
+                System.out.println("**** StudentResource.updateStudent(): username: " + updatePasswordReq.getUsername() + " new password: " + updatePasswordReq.getNewPassword());
+                studentSessionBean.updatePassword(student, updatePasswordReq.getNewPassword());
+
+                return Response.status(Response.Status.OK).build();
+            } catch (InvalidLoginCredentialException ex) {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+                return Response.status(Status.UNAUTHORIZED).entity(errorRsp).build();
+            } catch (UpdateStudentException ex) {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+                return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+            } catch (Exception ex) {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+                return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        } else {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid update student request");
+
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
+
     @Path("/dissociateSkillFromStudent/{skillId}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -264,7 +307,7 @@ public class StudentResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
-    
+
     @Path("/addSkillToStudent/{skillId}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
