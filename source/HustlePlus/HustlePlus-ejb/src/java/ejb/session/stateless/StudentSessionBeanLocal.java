@@ -57,4 +57,6 @@ public interface StudentSessionBeanLocal {
 
     public void addSkillToStudent(Long skillId, Long studentId) throws StudentNotFoundException, SkillNotFoundException;
 
+    public void updatePassword(Student student, String password) throws StudentNotFoundException, UpdateStudentException, InputDataValidationException;
+
 }
