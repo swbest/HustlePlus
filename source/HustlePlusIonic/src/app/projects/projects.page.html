@@ -26,8 +26,8 @@
 
 		<div *ngSwitchCase="'Search'">
 
-			<ion-searchbar showCancelButton="true" placeholder="Search Projects" (ionInput)="getSearchProjects($event)"
-				(ionCancel)="onCancel($event)"></ion-searchbar>
+			<ion-searchbar showCancelButton="true" placeholder="Search All Projects"
+				(ionInput)="getSearchProjects($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
 
 			<ion-card *ngFor="let project of projects">
 				<img src="https://picsum.photos/400" />
@@ -51,34 +51,35 @@
 
 
 		<div *ngSwitchCase="'My Projects'">
-<!-- 
+			<!-- 
 			<div *ngIf="skills">
 				Create a team now!
 			</div> -->
 
-			<ion-list-header>My Projects</ion-list-header>
-			<!-- Default Searchbar -->
-			<ion-card-content>
+			<ion-searchbar showCancelButton="true" placeholder="Search My Projects"
+				(ionInput)="getSearchProjects($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
 
-				<ion-searchbar showCancelButton="true" placeholder="Search Projects" (ionInput)="getSearchProjects($event)"
-					(ionCancel)="onCancel($event)"></ion-searchbar>
+			<div *ngIf="errorMessage">
+				You do not have any projects! Apply for one?
+			</div>
 
-					<div *ngIf="errorMessage">
-						You do not have any projects! Apply for one?
-					</div>	
+			<ion-card *ngFor="let project of myProjects">
+				<img src="https://picsum.photos/400" />
+				<ion-card-header>
+					<ion-card-subtitle>JOB VALUE: ${{project.jobValue}}</ion-card-subtitle>
+					<ion-card-title>{{project.projectName}}</ion-card-title>
+				</ion-card-header>
 
-					<ion-list *ngFor="let project of myProjects">
-						<ion-item-sliding>
-						  <ion-item>
-							<ion-label>{{project.projectName}}</ion-label>
-						  </ion-item>
-						  <ion-item-options side="end">
-							<ion-item-option (click)="unread(item)">View More</ion-item-option>
-						  </ion-item-options>
-						</ion-item-sliding>
-					  </ion-list>
+				<ion-card-content>
+					{{project.projectDescription}}
+				</ion-card-content>
 
-			</ion-card-content>
+				<ion-item (click)="viewMyProjectDetails($event, project)" class="ion-activated">
+					<ion-icon name="open-outline" slot="start"></ion-icon>
+					<ion-label>View My Project Details</ion-label>
+				</ion-item>
+
+			</ion-card>
 		</div>
 
 		<div *ngSwitchDefault>

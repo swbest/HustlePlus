@@ -8,12 +8,16 @@ package ejb.session.singleton;
 import ejb.session.stateless.AdminStaffSessionBeanLocal;
 import ejb.session.stateless.ApplicationSessionBeanLocal;
 import ejb.session.stateless.CompanySessionBeanLocal;
+import ejb.session.stateless.MilestoneSessionBeanLocal;
+import ejb.session.stateless.PaymentSessionBeanLocal;
 import ejb.session.stateless.ProjectSessionBeanLocal;
 import ejb.session.stateless.SkillSessionBeanLocal;
 import ejb.session.stateless.StudentSessionBeanLocal;
 import entity.AdminStaff;
 import entity.Application;
 import entity.Company;
+import entity.Milestone;
+import entity.Payment;
 import entity.Project;
 import entity.Skill;
 import entity.Student;
@@ -37,6 +41,8 @@ import util.exception.CompanyNotFoundException;
 import util.exception.CompanyNotVerifiedException;
 import util.exception.CompanySuspendedException;
 import util.exception.InputDataValidationException;
+import util.exception.MilestoneIdExistException;
+import util.exception.MilestoneNotFoundException;
 import util.exception.ProjectNameExistException;
 import util.exception.ProjectNotFoundException;
 import util.exception.SkillNameExistsException;
@@ -57,6 +63,12 @@ import util.exception.UserEmailExistsException;
 @LocalBean
 @Startup
 public class DataInitSessionBean {
+
+    @EJB(name = "PaymentSessionBeanLocal")
+    private PaymentSessionBeanLocal paymentSessionBeanLocal;
+
+    @EJB(name = "MilestoneSessionBeanLocal")
+    private MilestoneSessionBeanLocal milestoneSessionBeanLocal;
 
     @EJB(name = "ApplicationSessionBeanLocal")
     private ApplicationSessionBeanLocal applicationSessionBeanLocal;
@@ -198,6 +210,18 @@ public class DataInitSessionBean {
             skillIds.add(new Long(5));
             studentSessionBeanLocal.createStudentAccount(newStudent, skillIds);
 
+            Payment newPayment = new Payment();
+            newPayment.setPaymentDescription("For completing Homework 1");
+            paymentSessionBeanLocal.createNewPayment(newPayment, new Long(1), newStudent.getUserId());
+
+            Payment newPayment2 = new Payment();
+            newPayment2.setPaymentDescription("For completing Homework 2");
+            paymentSessionBeanLocal.createNewPayment(newPayment2, new Long(1), newStudent.getUserId());
+
+            Payment newPayment3 = new Payment();
+            newPayment3.setPaymentDescription("For completing Homework 3");
+            paymentSessionBeanLocal.createNewPayment(newPayment3, new Long(1), newStudent.getUserId());
+
             Student newStudent2 = new Student();
             newStudent2.setBankAccountName("posb");
             newStudent2.setBankAccountNumber(Long.valueOf("12345678"));
@@ -229,6 +253,10 @@ public class DataInitSessionBean {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SkillNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MilestoneNotFoundException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (StudentNotFoundException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -244,6 +272,26 @@ public class DataInitSessionBean {
             List<Long> skillIds = new ArrayList<Long>();
             skillIds.add(Long.valueOf("6"));
             projectSessionBeanLocal.createNewProject(newProject, Long.valueOf("1"), skillIds);
+
+            Milestone newMilestone = new Milestone();
+            newMilestone.setTitle("JSP");
+            newMilestone.setDescription("Taught JSP");
+            milestoneSessionBeanLocal.createNewMilestone(newMilestone, newProject.getProjectId());
+
+            Milestone newMilestone2 = new Milestone();
+            newMilestone2.setTitle("JSF");
+            newMilestone2.setDescription("Taught JSF");
+            milestoneSessionBeanLocal.createNewMilestone(newMilestone2, newProject.getProjectId());
+
+            Milestone newMilestone3 = new Milestone();
+            newMilestone3.setTitle("Angular");
+            newMilestone3.setDescription("Taught Angular");
+            milestoneSessionBeanLocal.createNewMilestone(newMilestone3, newProject.getProjectId());
+
+            Milestone newMilestone4 = new Milestone();
+            newMilestone4.setTitle("Ionic");
+            newMilestone4.setDescription("Taught Ionic");
+            milestoneSessionBeanLocal.createNewMilestone(newMilestone4, newProject.getProjectId());
 
             Project newProject2 = new Project();
             newProject2.setProjectName("Instagram");
@@ -269,15 +317,19 @@ public class DataInitSessionBean {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SkillNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MilestoneIdExistException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProjectNotFoundException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private void createApplications() {
         try {
             Application application = new Application();
-            applicationSessionBeanLocal.createApplication(application, Long.valueOf("1"), Long.valueOf("4"));
+            applicationSessionBeanLocal.createApplication(application, Long.valueOf("1"), Long.valueOf("5"));
             Application application2 = new Application();
-            applicationSessionBeanLocal.createApplication(application2, Long.valueOf("2"), Long.valueOf("4"));
+            applicationSessionBeanLocal.createApplication(application2, Long.valueOf("2"), Long.valueOf("6"));
         } catch (StudentSuspendedException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (StudentNotVerifiedException ex) {

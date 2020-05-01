@@ -6,7 +6,6 @@ import { ToastController } from '@ionic/angular';
 
 import { StudentService } from '../student.service';
 import { Student } from '../student';
-import { ToastController } from '@ionic/angular';
 
 @Component({
 	selector: 'app-create-new-student',

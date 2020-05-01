@@ -97,7 +97,7 @@ export class ViewProjectDetailsPage implements OnInit {
   }  
 
   back() {
-    this.router.navigate(["/viewAllProjects"]);
+    this.router.navigate(["/projects"]);
   }
 
   async failToast() {

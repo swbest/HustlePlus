@@ -27,19 +27,17 @@
   </h3>
 
   <ion-item *ngFor="let application of applications">
-    <ion-label>
-      <ion-row>
-        <ion-col>
-          <h2>Project Name: {{application.project.projectName}}</h2>
-          <h3 *ngIf="!isPending">Status: Pending</h3>
-          <h3 *ngIf="isPending && isApproved">Status: Rejected</h3>
-          <h3 *ngIf="isPending && !isApproved">Status: Approved</h3>
-          <ion-button (click)="deleteApplication($event, application)">
-            <ion-icon name="trash-outline"></ion-icon>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-label>
+    <ion-row>
+      <ion-col>
+        <h2>Project Name: {{application.project.projectName}}</h2>
+        <h3 *ngIf="!isPending">Status: Pending</h3>
+        <h3 *ngIf="isPending && isApproved">Status: Rejected</h3>
+        <h3 *ngIf="isPending && !isApproved">Status: Approved</h3>
+        <ion-button (click)="deleteApplication($event, application)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
   </ion-item>
 </ion-content>
 

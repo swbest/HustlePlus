@@ -5,11 +5,11 @@ import { Application } from '../application';
 import { ApplicationService } from '../application.service';
 
 @Component({
-  selector: 'app-view-all-applications',
-  templateUrl: './view-all-applications.page.html',
-  styleUrls: ['./view-all-applications.page.scss'],
+  selector: 'app-applications',
+  templateUrl: './applications.page.html',
+  styleUrls: ['./applications.page.scss'],
 })
-export class ViewAllApplicationsPage implements OnInit {
+export class ApplicationsPage implements OnInit {
 
   applications: Application[];
   errorMessage: string;
@@ -69,6 +69,6 @@ export class ViewAllApplicationsPage implements OnInit {
   }
 
   applyForProjects() {
-    this.router.navigate(["/viewAllProjects"]);
+    this.router.navigate(["/projects"]);
   }
 }

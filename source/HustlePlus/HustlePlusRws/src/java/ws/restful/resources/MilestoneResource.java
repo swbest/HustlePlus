@@ -54,11 +54,37 @@ public class MilestoneResource {
      * @return an instance of java.lang.String
      */
     @GET
+    @Path("retrieveMilestonesByProjectId/{projectId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveMilestonesByProjectId(@PathParam("projectId") Long projectId) {
+        try {
+            List<Milestone> milestones = milestoneSessionBean.retrieveMilestonesByProject(projectId);
+            for (Milestone milestone : milestones) {
+                milestone.getPayments().clear();
+                milestone.setProject(null);
+            }
+            RetrieveAllMilestonesRsp retrieveAllMilestonesRsp = new RetrieveAllMilestonesRsp(milestones);
+            return Response.status(Response.Status.OK).entity(retrieveAllMilestonesRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+
+    /**
+     * Retrieves representation of an instance of
+     * ws.restful.resources.MilestoneResource
+     *
+     * @return an instance of java.lang.String
+     */
+    @GET
     @Path("retrieveMilestone/{milestoneId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveMilestoneById(@PathParam("milestoneId") Long milestoneId) {
         try {
             Milestone milestone = milestoneSessionBean.retrieveMilestoneByMilestoneId(milestoneId);
+            milestone.getPayments().clear();
+            milestone.setProject(null);
             RetrieveMilestoneRsp retrieveMilestoneRsp = new RetrieveMilestoneRsp(milestone);
             return Response.status(Response.Status.OK).entity(retrieveMilestoneRsp).build();
         } catch (Exception ex) {
@@ -79,6 +105,10 @@ public class MilestoneResource {
     public Response retrieveAllMilestones() {
         try {
             List<Milestone> milestones = milestoneSessionBean.retrieveAllMilestones();
+            for (Milestone milestone : milestones) {
+                milestone.getPayments().clear();
+                milestone.setProject(null);
+            }
             RetrieveAllMilestonesRsp retrieveAllMilestonesRsp = new RetrieveAllMilestonesRsp(milestones);
             return Response.status(Response.Status.OK).entity(retrieveAllMilestonesRsp).build();
         } catch (Exception ex) {

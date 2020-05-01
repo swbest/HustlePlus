@@ -13,6 +13,7 @@ import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -42,17 +43,26 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
 
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
-    
+
     @EJB
     private ProjectSessionBeanLocal projectSessionBeanLocal;
-    
-    private List<Milestone> milestoneList; 
-    
-    
+
+    private List<Milestone> milestoneList;
 
     public MilestoneSessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
+    }
+
+    @Override
+    public List<Project> retrieveMilestonesByProjectId(Long projectId) throws MilestoneNotFoundException {
+        Query query = em.createQuery("SELECT DISTINCT m FROM Milestone m JOIN Project p WHERE p.projectId = :inProjectId");
+        query.setParameter("inProjectId", projectId);
+        try {
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new MilestoneNotFoundException("No milestones available for this project!");
+        }
     }
 
     @Override
@@ -62,13 +72,13 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
 
             if (constraintViolations.isEmpty()) {
                 try {
-                Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
-                newMilestone.setProject(project);  
-                project.addMilestone(newMilestone);
-                em.persist(newMilestone);
-                em.flush();
+                    Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
+                    newMilestone.setProject(project);
+                    project.addMilestone(newMilestone);
+                    em.persist(newMilestone);
+                    em.flush();
 
-                return newMilestone.getMilestoneId();
+                    return newMilestone.getMilestoneId();
                 } catch (ProjectNotFoundException ex) {
                     throw new ProjectNotFoundException("Project Not Found for ID: " + projectId);
                 }
@@ -131,24 +141,23 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
         return query.getResultList();
 
     }
-    
+
     @Override
     public List<Milestone> retrieveMilestonesByProject(Long projectId) {
-           Query query = em.createQuery("SELECT m FROM Milestone m WHERE m.project.projectId =:pid ");
-           query.setParameter("pid", projectId);
-           
-           return (List<Milestone>) query.getResultList();
-    }   
-    
+        Query query = em.createQuery("SELECT m FROM Milestone m WHERE m.project.projectId =:pid ");
+        query.setParameter("pid", projectId);
+
+        return (List<Milestone>) query.getResultList();
+    }
+
     @Override
     public List<Milestone> retrieveMilestonesByCompany(Long companyId) throws ProjectNotFoundException {
-        
-        
+
         try {
-         //retrieve all projects of company 
-        List<Project> projects = projectSessionBeanLocal.retrieveProjectsByCompany(companyId);
+            //retrieve all projects of company 
+            List<Project> projects = projectSessionBeanLocal.retrieveProjectsByCompany(companyId);
 //        List<Milestone> milestonesForOneProject = new ArrayList(); 
-        List<Milestone> msList = new ArrayList(); 
+            List<Milestone> msList = new ArrayList();
 //        for (Project p:projects) {
 //            milestonesForOneProject = p.getMilestones();
 //            for(Milestone m:milestonesForOneProject) {
@@ -156,30 +165,27 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
 //                milestoneList.add(m); 
 //            }
 //        } 
-        
-        //in milestone table, the milestone must have these project ids 
-        //iterate through all milestones, if milestone has that id
-       
-        for (Project p:projects)
-       {
-           Query query = em.createQuery("SELECT m FROM Milestone m WHERE m.project.projectId =:pid ");
-           query.setParameter("pid", p.getProjectId());
-           List<Milestone> milestones = (List<Milestone>)query.getResultList();
-           for (Milestone m: milestones) {
-               msList.add(m);
-               System.out.println("m.getP.getPID " + m.getProject().getProjectId());
-           }
 
-       }
-        
-        
-        return msList; 
-        //retrieve all projects of a company first 
-        //iterate through list, if projectId falls in milestone table retrieve it 
-    } catch (ProjectNotFoundException ex) {
-        throw new ProjectNotFoundException("Project Not Found for ID: " );
-        
-    }
+            //in milestone table, the milestone must have these project ids 
+            //iterate through all milestones, if milestone has that id
+            for (Project p : projects) {
+                Query query = em.createQuery("SELECT m FROM Milestone m WHERE m.project.projectId =:pid ");
+                query.setParameter("pid", p.getProjectId());
+                List<Milestone> milestones = (List<Milestone>) query.getResultList();
+                for (Milestone m : milestones) {
+                    msList.add(m);
+                    System.out.println("m.getP.getPID " + m.getProject().getProjectId());
+                }
+
+            }
+
+            return msList;
+            //retrieve all projects of a company first 
+            //iterate through list, if projectId falls in milestone table retrieve it 
+        } catch (ProjectNotFoundException ex) {
+            throw new ProjectNotFoundException("Project Not Found for ID: ");
+
+        }
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Milestone>> constraintViolations) {
@@ -191,6 +197,5 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
 
         return msg;
     }
-    
-    
+
 }

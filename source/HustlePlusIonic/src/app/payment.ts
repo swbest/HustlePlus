@@ -4,7 +4,6 @@ import { Milestone } from './milestone';
 export class Payment {
 
     paymentId: number;
-    title: string;
     paymentDescription: string;
     isPaid: boolean;
     student: Student;
@@ -14,5 +13,4 @@ export class Payment {
         this.paymentId = paymentId;
         this.paymentDescription = paymentDescription;
     }
-
 }

@@ -6,6 +6,7 @@
 package ws.restful.resources;
 
 import ejb.session.stateless.PaymentSessionBeanLocal;
+import entity.Milestone;
 import entity.Payment;
 import java.util.List;
 import java.util.logging.Level;
@@ -49,6 +50,32 @@ public class PaymentResource {
 
     /**
      * Retrieves representation of an instance of
+     * ws.restful.resources.MilestoneResource
+     *
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Path("retrievePaymentsByProjectIdAndStudentId/{projectId}/{studentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrievePaymentsByProjectIdAndStudentId(@PathParam("projectId") Long projectId, @PathParam("studentId") Long studentId) {
+        try {
+            List<Payment> payments = paymentSessionBean.retrievePaymentsByProjectIdAndStudentId(projectId, studentId);
+            for (Payment payment : payments) {
+                Milestone milestone = payment.getMilestone();
+                milestone.getPayments().clear();
+                milestone.setProject(null);
+                payment.setStudent(null);
+            }
+            RetrieveAllPaymentsRsp retrieveAllPaymentsRsp = new RetrieveAllPaymentsRsp(payments);
+            return Response.status(Response.Status.OK).entity(retrieveAllPaymentsRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+
+    /**
+     * Retrieves representation of an instance of
      * ws.restful.resources.PaymentResource
      *
      * @return an instance of java.lang.String
@@ -59,6 +86,10 @@ public class PaymentResource {
     public Response retrievePaymentById(@PathParam("paymentId") Long paymentId) {
         try {
             Payment payment = paymentSessionBean.retrievePaymentByPaymentId(paymentId);
+            Milestone milestone = payment.getMilestone();
+            milestone.getPayments().clear();
+            milestone.setProject(null);
+            payment.setStudent(null);
             RetrievePaymentRsp retrievePaymentRsp = new RetrievePaymentRsp(payment);
             return Response.status(Response.Status.OK).entity(retrievePaymentRsp).build();
         } catch (Exception ex) {
@@ -78,6 +109,12 @@ public class PaymentResource {
     public Response retrieveAllPayments() {
         try {
             List<Payment> payments = paymentSessionBean.retrieveAllPayment();
+            for (Payment payment : payments) {
+                Milestone milestone = payment.getMilestone();
+                milestone.getPayments().clear();
+                milestone.setProject(null);
+                payment.setStudent(null);
+            }
             RetrieveAllPaymentsRsp retrieveAllPaymentsRsp = new RetrieveAllPaymentsRsp(payments);
             return Response.status(Response.Status.OK).entity(retrieveAllPaymentsRsp).build();
         } catch (Exception ex) {

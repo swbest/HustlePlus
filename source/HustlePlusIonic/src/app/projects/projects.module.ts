@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ViewMyTeamsPageRoutingModule } from './view-my-teams-routing.module';
+import { ProjectsPageRoutingModule } from './projects-routing.module';
 
-import { ViewMyTeamsPage } from './view-my-teams.page';
+import { ProjectsPage } from './projects.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ViewMyTeamsPageRoutingModule
+    ProjectsPageRoutingModule
   ],
-  declarations: [ViewMyTeamsPage]
+  declarations: [ProjectsPage]
 })
-export class ViewMyTeamsPageModule {}
+export class ProjectsPageModule {}

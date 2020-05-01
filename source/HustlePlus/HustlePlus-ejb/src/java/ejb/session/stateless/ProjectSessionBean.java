@@ -218,10 +218,15 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
 
     @Override
-    public List<Project> retrieveProjectsByStudentId(Long studentId) {
-        Query query = em.createQuery("SELECT p FROM Project p WHERE p.students.userId = :inStudentId");
+    public List<Project> retrieveProjectsByStudentId(Long studentId) throws ProjectNotFoundException {
+        Query query = em.createQuery("SELECT DISTINCT p FROM Project p JOIN Student s WHERE s.userId = :inStudentId");
         query.setParameter("inStudentId", studentId);
-        return query.getResultList(); // its ok to return empty list
+        try {
+            System.out.println("Student ID: " + studentId + " is working for " + query.getResultList().size() + " projects");
+            return query.getResultList();
+        } catch (NoResultException ex) {
+            throw new ProjectNotFoundException("You are not working on any project!");
+        }
     }
 
     @Override
@@ -246,7 +251,6 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
             System.out.println("PSB1");
             throw new ProjectNotFoundException("No projects were found by that Company!");
         }
-
     }
 
     @Override
