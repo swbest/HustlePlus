@@ -39,7 +39,7 @@
                         
                         <h:outputText value ="Bank Account Number"/>                        
                         <h:outputText value ="#{student.bankAccountNumber}"/>
-                       
+                        
                         <h:outputText value="Skills of Student: "/>
                         <p:dataList value="#{student.skills}" var="skill" type="ordered">
                             #{skill.title}
@@ -48,8 +48,12 @@
                         <h:outputText value ="Description: "/>
                         <h:outputText value ="#{student.description}"/>
                         
-                        <h:outputText value="Student Resume: "/>
-                        <p:linkButton value="Download Resume" href="#{application.contextPath}/uploadedFiles/Bryan_Resume.pdf" />
+                        <h:outputText value ="Student Resume: "/>
+                        <p:commandButton icon="ui-icon-arrowthickstop-1-s" ajax="false" actionListener="#{applicationManagementManagedBean.downloadFile}">
+                            <f:attribute name="studentResume" value="#{student}"/>
+                            <p:fileDownload value="#{applicationManagementManagedBean.file}" />
+                        </p:commandButton>
+
                         
                         <p:commandButton value="Leave A Review" actionListener="#{getStudentForReviewManagedBean.leaveReview}">
                             <f:attribute name="studentToReview" value="#{student}"/>

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 import { SessionService } from '../session.service';
 import { CompanyReviewService } from '../company-review.service';
@@ -37,7 +38,8 @@ export class CreateNewCompanyReviewPage implements OnInit {
     private router: Router,
     private companyService: CompanyService,
     private projectService: ProjectService,
-    private sessionService: SessionService) {
+    private sessionService: SessionService,
+    private toastController: ToastController) {
     this.submitted = false;
     this.newCompanyReview = new CompanyReview();
   }
@@ -68,6 +70,8 @@ export class CreateNewCompanyReviewPage implements OnInit {
           this.infoMessage = 'New company review created ' + response.newCompanyReviewId;
           this.errorMessage = null;
           this.hasError = true;
+          this.reviewToast();
+          this.back();
         },
         error => {
           this.infoMessage = null;
@@ -131,6 +135,14 @@ export class CreateNewCompanyReviewPage implements OnInit {
     if (!this.hasError) {
       this.router.navigate(["/reviews"]);
     }
+  }
+
+  async reviewToast() {
+    const toast = await this.toastController.create({
+      message: 'Successfully left a review for company id: ' + this.companyId,
+      duration: 2000
+    });
+    toast.present();
   }
 }
 

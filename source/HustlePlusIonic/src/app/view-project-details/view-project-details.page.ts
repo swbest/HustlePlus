@@ -76,7 +76,8 @@ export class ViewProjectDetailsPage implements OnInit {
         this.infoMessage = 'New application created ' + response.newApplicationId;
         this.errorMessage = null;
         this.hasError = true;
-        this.successToast();
+        this.applyProjectToast();
+        this.back();
       },
       error => {
         this.infoMessage = null;
@@ -87,17 +88,17 @@ export class ViewProjectDetailsPage implements OnInit {
     );
   }
 
+  async applyProjectToast() {
+    const toast = await this.toastController.create({
+      message: 'Successfully applied for project ' + this.projectToView.projectName,
+      duration: 2000
+    });
+    toast.present();
+  }  
+
   back() {
     this.router.navigate(["/viewAllProjects"]);
   }
-
-	async successToast() {
-		const toast = await this.toastController.create({
-			message: this.infoMessage,
-			duration: 3000
-		});
-		toast.present();
-	}
 
   async failToast() {
 		const toast = await this.toastController.create({

@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, EventEmitter ,Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 import { SessionService } from '../session.service';
 import { StudentReviewService } from '../student-review.service';
@@ -36,7 +37,8 @@ export class CreateNewStudentReviewPage implements OnInit {
     private router: Router,
     private studentService: StudentService,
     private projectService: ProjectService,
-    private sessionService: SessionService) {
+    private sessionService: SessionService,
+    private toastController: ToastController) {
     this.submitted = false;
     this.newStudentReview = new StudentReview();
   }
@@ -49,7 +51,7 @@ export class CreateNewStudentReviewPage implements OnInit {
   ionViewWillEnter() {
     this.refreshStudents();
     this.refreshProjects();
-	}
+  }
 
   clear() {
     this.submitted = false;
@@ -67,6 +69,8 @@ export class CreateNewStudentReviewPage implements OnInit {
           this.infoMessage = 'New student review created ' + response.newStudentReviewId;
           this.errorMessage = null;
           this.hasError = true;
+          this.reviewToast();
+          this.back();
         },
         error => {
           this.infoMessage = null;
@@ -77,27 +81,27 @@ export class CreateNewStudentReviewPage implements OnInit {
     }
   }
 
-	refreshStudents() {
-		this.studentService.getAllStudents().subscribe(
-			response => {
-				this.students = response.students
-			},
-			error => {
-				this.errorMessage = error
-			}
-		);
-	}
+  refreshStudents() {
+    this.studentService.getAllStudents().subscribe(
+      response => {
+        this.students = response.students
+      },
+      error => {
+        this.errorMessage = error
+      }
+    );
+  }
 
-	refreshProjects() {
-		this.projectService.getProjects().subscribe(
-			response => {
-				this.projects = response.projects
-			},
-			error => {
-				this.errorMessage = error
-			}
-		);
-	}
+  refreshProjects() {
+    this.projectService.getProjects().subscribe(
+      response => {
+        this.projects = response.projects
+      },
+      error => {
+        this.errorMessage = error
+      }
+    );
+  }
 
   back() {
     if (!this.hasError) {
@@ -130,6 +134,14 @@ export class CreateNewStudentReviewPage implements OnInit {
       default:
         return Colors.GREY;
     }
+  }
+
+  async reviewToast() {
+    const toast = await this.toastController.create({
+      message: 'Successfully left a review for student id: ' + this.studentId,
+      duration: 2000
+    });
+    toast.present();
   }
 }
 

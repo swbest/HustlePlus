@@ -26,16 +26,7 @@
                         </p:column>
                     </p:row>
                 
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="emailTo" value="To: " />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="emailTo" value="#{emailManagedBean.toMail}" required="true" requiredMessage="Email of Receiver is required" />
-                        </p:column>
-                    </p:row>
-
-                
+                 
                 <p:row>
                         <p:column>
                             <p:outputLabel for="username" value="Username " />
@@ -77,10 +68,10 @@
                               
                 <p:row>
                     <p:column>
-                         <p:commandButton immediate="true" value="Back" action="/companies/viewTeam.xhtml?faces-redirect=true"/>
+                         <p:commandButton immediate="true" value="Back" action="/index.xhtml?faces-redirect=true"/>
                     </p:column>
                      <p:column>
-                        <p:commandButton value="Send Email" ajax="false" action="#{emailManagedBean.send}"/>
+                        <p:commandButton value="Send Email" ajax="false" action="#{emailManagedBean.sendEmailToAdmin}"/>
                     </p:column>                    
                 </p:row>
         

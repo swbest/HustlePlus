@@ -156,12 +156,23 @@ public class CryptographicHelper {
         return byteArrayToHexString(rsaPublicKeyImpl.getEncoded());
     }
 
-    public RSAPublicKey getRSAPublicKeyFromHexString(String publicKeyHexString) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        byte[] publicKeyByteArray = hexStringToByteArray(publicKeyHexString);
-        RSAPublicKey publicKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(
-                new X509EncodedKeySpec(publicKeyByteArray));
-        return publicKey;
+    /*
+    public RSAPublicKeyImpl getRSAPublicKeyFromHexString(String publicKeyHexString)
+    {
+        try
+        {
+            byte[] publicKeyByteArray = hexStringToByteArray(publicKeyHexString);
+
+            return new RSAPublicKeyImpl(publicKeyByteArray);
+        }
+        catch(InvalidKeyException ex)
+        {
+            ex.printStackTrace();
+            
+            return null;
+        }
     }
+     */
 
     public byte[] doRSAEncryption(String stringToEncrypt, Key key) {
         try {

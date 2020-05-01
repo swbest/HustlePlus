@@ -27,10 +27,6 @@
     <div *ngSwitchCase="'Search'">
       <ion-list>
 
-        <div *ngIf="errorMessage">
-          {{errorMessage}}
-        </div>
-
         <ion-searchbar showCancelButton="true" placeholder="Search Students" (ionInput)="getSearchStudents($event)"
           (ionCancel)="onCancel($event)"></ion-searchbar>
 
@@ -112,10 +108,6 @@
     <div *ngSwitchDefault>
 
       <ion-list>
-
-        <div *ngIf="errorMessage">
-          {{errorMessage}}
-        </div>
 
         <ion-searchbar showCancelButton="true" placeholder="Search Students" (ionInput)="getSearchStudents($event)"
           (ionCancel)="onCancel($event)"></ion-searchbar>

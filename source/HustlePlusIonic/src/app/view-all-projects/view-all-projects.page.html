@@ -37,9 +37,6 @@
 				</ion-card-header>
 
 				<ion-card-content>
-					<div *ngIf="errorMessage">
-						{{errorMessage}}
-					</div>
 					{{project.projectDescription}}
 				</ion-card-content>
 
@@ -63,12 +60,12 @@
 			<!-- Default Searchbar -->
 			<ion-card-content>
 
-				<div *ngIf="errorMessage">
-					{{errorMessage}}
-				</div>
-
 				<ion-searchbar showCancelButton="true" placeholder="Search Projects" (ionInput)="getSearchProjects($event)"
 					(ionCancel)="onCancel($event)"></ion-searchbar>
+
+					<div *ngIf="errorMessage">
+						You do not have any projects! Apply for one?
+					</div>	
 
 					<ion-list *ngFor="let project of myProjects">
 						<ion-item-sliding>
@@ -96,9 +93,6 @@
 				</ion-card-header>
 
 				<ion-card-content>
-					<div *ngIf="errorMessage">
-						{{errorMessage}}
-					</div>
 					{{project.projectDescription}}
 				</ion-card-content>
 

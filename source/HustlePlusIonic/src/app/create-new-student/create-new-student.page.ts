@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { ToastController } from '@ionic/angular';
+
 import { StudentService } from '../student.service';
 import { Student } from '../student';
 import { ToastController } from '@ionic/angular';
@@ -43,8 +45,8 @@ export class CreateNewStudentPage implements OnInit {
 					this.infoMessage = 'Your account was succesfully created with ID: ' + response.newStudentId;
 					this.errorMessage = null;
 					this.hasError = true;
+					this.registerToast();
 					this.back();
-					this.successToast();
 				},
 				error => {
 					this.infoMessage = null;
@@ -61,11 +63,11 @@ export class CreateNewStudentPage implements OnInit {
 		}
 	}
 
-	async successToast() {
+	async registerToast() {
 		const toast = await this.toastController.create({
-			message: "Welcome to HustlePlus!",
+			message: 'Successfully registered as ' + this.newStudent.username,
 			duration: 3000
-		});
+    });
 		toast.present();
 	}
 }

@@ -250,6 +250,12 @@
                                     <f:attribute name="companyRev" value="#{sessionScope.userEntity}"/> 
                                 </p:menuitem>
                             </p:submenu>
+                            
+                            <p:submenu icon="fa fa-envelope">
+                                <p:menuitem value="Email Student" outcome="/companies/emailStudent.xhtml"/>
+                                <p:separator/>
+                                <p:menuitem value="Email Admin" outcome="/companies/emailAdmin.xhtml"/>
+                            </p:submenu>
 
                             <f:facet name="options">
                                 <p:menuButton icon="fa fa-building" value="Hello, #{sessionScope.userEntity.name}">

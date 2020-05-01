@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 import { TeamService } from '../team.service';
 import { Team } from '../team';
-import { SessionService } from '../session.service';
-import { Student } from '../student';
 
 @Component({
   selector: 'app-create-new-team',
@@ -22,7 +21,7 @@ export class CreateNewTeamPage implements OnInit {
 
   constructor(private teamService: TeamService,
     private router: Router,
-    private sessionService: SessionService) {
+    private toastController: ToastController) {
     this.submitted = false;
     this.newTeam = new Team();
   }
@@ -45,6 +44,8 @@ export class CreateNewTeamPage implements OnInit {
           this.infoMessage = 'New team created ' + response.newTeamId;
           this.errorMessage = null;
           this.hasError = false;
+          this.createTeamToast();
+          this.back();
         },
         error => {
           this.infoMessage = null;
@@ -60,5 +61,13 @@ export class CreateNewTeamPage implements OnInit {
       this.router.navigate(["/teams"]);
     }
   }
+
+  async createTeamToast() {
+    const toast = await this.toastController.create({
+      message: 'Created new team: ' + this.newTeam.teamName,
+      duration: 2000
+    });
+    toast.present();
+  }  
 }
 

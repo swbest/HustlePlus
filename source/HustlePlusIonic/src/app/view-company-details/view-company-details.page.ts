@@ -5,6 +5,8 @@ import { AlertController } from '@ionic/angular';
 
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
 
+import { ProjectService } from '../project.service';
+import { Project } from '../project';
 import { CompanyService } from '../company.service';
 import { Company } from '../company';
 
@@ -18,16 +20,20 @@ export class ViewCompanyDetailsPage implements OnInit {
   userId: number;
   companyToView: Company;
   retrieveCompanyError: boolean;
+  retrieveProjectsError: boolean;
   error: boolean;
   errorMessage: string;
   resultSuccess: boolean;
+  projects: Project[]
 
   constructor(private router: Router,
     private activatedRoute: ActivatedRoute,
     private companyService: CompanyService,
     public alertController: AlertController,
-    private emailComposer: EmailComposer) {
+    private emailComposer: EmailComposer,
+    private projectService: ProjectService) {
     this.retrieveCompanyError = false;
+    this.retrieveProjectsError = false;
     this.error = false;
     this.resultSuccess = false;
   }
@@ -51,6 +57,15 @@ export class ViewCompanyDetailsPage implements OnInit {
         console.log('********** ViewCompanyDetailsPage.ts: ' + error);
       }
     );
+    this.projectService.getProjectsByCompanyId(this.userId).subscribe(
+      response => {
+        this.projects = response.projects;
+      },
+      error => {
+        this.retrieveProjectsError = true;
+        console.log('********** ViewCompanyDetailsPage.ts: ' + error);
+      }
+    )
   }
 
   back() {

@@ -220,16 +220,6 @@ public class DataInitSessionBean {
             newStudent3.setIsVerified(Boolean.TRUE);
             studentSessionBeanLocal.createStudentAccount(newStudent3, skillIds);
 
-            System.out.println("retrieving is3106 project");
-            Project project = projectSessionBeanLocal.retrieveProjectByProjectId(new Long("1"));
-            project.addStudent(newStudent);
-            project.addStudent(newStudent2);
-            project.addStudent(newStudent3);
-            System.out.println("retrieved project: " + project.getProjectName());
-
-            newStudent.addProject(project);
-            newStudent2.addProject(project);
-            newStudent3.addProject(project);
             em.flush();
         } catch (StudentAssignedToProjectException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -238,8 +228,6 @@ public class DataInitSessionBean {
         } catch (InputDataValidationException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SkillNotFoundException ex) {
-            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ProjectNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

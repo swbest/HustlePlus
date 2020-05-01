@@ -122,16 +122,24 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
                 studentToUpdate.setName(student.getName());
                 studentToUpdate.setResume(student.getResume());
                 studentToUpdate.setDescription(student.getDescription());
-                /*
+                studentToUpdate.setBankAccountName(student.getBankAccountName());
+                studentToUpdate.setBankAccountNumber(student.getBankAccountNumber());
+
+
+              /* not in profile
                 studentToUpdate.setPassword(newPassword);
                 studentToUpdate.setAvgRating(student.getAvgRating());
                 studentToUpdate.setIsVerified(student.getIsVerified());
                 studentToUpdate.setIsSuspended(student.getIsSuspended());
+
                 studentToUpdate.setSkills(student.getSkills());
                 List<Skill> skills = student.getSkills();
                 for (Skill skill : skills) {
                     skill.addStudent(student);
                 }
+                studentToUpdate.setAvgRating(student.getAvgRating());
+                studentToUpdate.setIsVerified(student.getIsVerified());
+                studentToUpdate.setIsSuspended(student.getIsSuspended());
                 studentToUpdate.setTeams(student.getTeams());
                 List<Team> teams = student.getTeams();
                 for (Team team : teams) {
@@ -140,8 +148,6 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
                 studentToUpdate.setCompanyReviews(student.getCompanyReviews());
                 studentToUpdate.setStudentReviews(student.getStudentReviews());
                 studentToUpdate.setPayments(student.getPayments());
-                studentToUpdate.setBankAccountName(student.getBankAccountName());
-                studentToUpdate.setBankAccountNumber(student.getBankAccountNumber());
                 studentToUpdate.setApplications(student.getApplications());
                 studentToUpdate.setProjects(student.getProjects());
                  */
