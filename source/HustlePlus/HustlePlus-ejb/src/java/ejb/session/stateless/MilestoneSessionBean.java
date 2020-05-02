@@ -146,13 +146,12 @@ public class MilestoneSessionBean implements MilestoneSessionBeanLocal {
     public List<Milestone> retrieveMilestonesByProject(Long projectId) throws MilestoneNotFoundException {
         Query query = em.createQuery("SELECT m FROM Milestone m WHERE m.project.projectId =:pid ");
         query.setParameter("pid", projectId);
-         try {
-        return (List<Milestone>) query.getResultList();
-    }  catch (NoResultException ex) {
+        if (query.getResultList().size() == 0) {
             throw new MilestoneNotFoundException("No milestones available for this project!");
+        } else {
+            return query.getResultList();
         }
     }
-    
 
     @Override
     public List<Milestone> retrieveMilestonesByCompany(Long companyId) throws ProjectNotFoundException {
