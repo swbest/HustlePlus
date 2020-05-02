@@ -24,3 +24,45 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('./assets/fonts/Montserrat/Montserrat-Regular.ttf');
+  }
+
+  @font-face {
+    font-family: 'Montserrat Bold';
+    src: url('./assets/fonts/Montserrat/Montserrat-Bold.ttf');
+  }
+
+  @font-face {
+    font-family: 'Montserrat Italic';
+    src: url('./assets/fonts/Montserrat/Montserrat-Italic.ttf');
+  }
+
+  @font-face {
+    font-family: 'Montserrat Light';
+    src: url('./assets/fonts/Montserrat/Montserrat-Light.ttf');
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url('./assets/fonts/Roboto_Slab/RobotoSlab-Regular.ttf');
+  }
+
+  @font-face {
+    font-family: 'Roboto Bold';
+    src: url('./assets/fonts/Roboto_Slab/RobotoSlab-Bold.ttf');
+  }
+
+  @font-face {
+    font-family: 'Roboto Black';
+    src: url('./assets/fonts/Roboto_Slab/RobotoSlab-Black.ttf');
+  }
+
+  @font-face {
+    font-family: 'Roboto Light';
+    src: url('./assets/fonts/Roboto_Slab/RobotoSlab-Light.ttf');
+  }
+  
+  
