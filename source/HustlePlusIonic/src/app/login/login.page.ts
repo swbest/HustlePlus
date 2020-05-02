@@ -93,7 +93,7 @@ export class LoginPage implements OnInit {
   }  
 
   logout() {
-    this.router.navigate(["/home"]);
+    this.router.navigate(["/login"]);
   }
 
   async loginToast() {

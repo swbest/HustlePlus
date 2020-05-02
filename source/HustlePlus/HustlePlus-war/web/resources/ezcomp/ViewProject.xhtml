@@ -166,6 +166,17 @@
                         </p:column>
                     </p:row>
                     
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Payments " />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="View Payments" actionListener="#{paymentManagementManagedBean.retrievePayments}">
+                                <f:attribute name="projectToView" value="#{projectManagementManagedBean.projectToView}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                    
            </p:panelGrid>
 
             </p:dialog>
