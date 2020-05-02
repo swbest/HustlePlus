@@ -45,7 +45,7 @@ export class CreateNewStudentPage implements OnInit {
 					this.errorMessage = null;
 					this.hasError = true;
 					this.registerToast();
-					this.back();
+					this.login();
 				},
 				error => {
 					this.infoMessage = null;
@@ -57,16 +57,18 @@ export class CreateNewStudentPage implements OnInit {
 	}
 
 	back() {
-		if (!this.hasError) {
-			this.router.navigate(["/home"]);
-		}
+		this.router.navigate(["/home"]);
+	}
+
+	login() {
+		this.router.navigate(["/login"]);
 	}
 
 	async registerToast() {
 		const toast = await this.toastController.create({
 			message: 'Successfully registered as ' + this.newStudent.username,
 			duration: 3000
-    });
+		});
 		toast.present();
 	}
 }

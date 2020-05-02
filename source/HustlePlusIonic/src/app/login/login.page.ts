@@ -81,16 +81,21 @@ export class LoginPage implements OnInit {
     this.sessionService.setCurrentStudent(null);
     console.log('successful logout');
     this.logoutToast();
+    this.logout();
   }
 
   back() {
     this.router.navigate(["/home"]);
   }
 
+  logout() {
+    this.router.navigate(["/slides"]);
+  }
+
   async loginToast() {
     const toast = await this.toastController.create({
       message: 'Welcome to Hustle+',
-      duration: 2000
+      duration: 3000
     });
     toast.present();
   }
@@ -98,7 +103,7 @@ export class LoginPage implements OnInit {
   async logoutToast() {
     const toast = await this.toastController.create({
       message: 'You have logged out of Hustle+',
-      duration: 2000
+      duration: 3000
     });
     toast.present();
   }

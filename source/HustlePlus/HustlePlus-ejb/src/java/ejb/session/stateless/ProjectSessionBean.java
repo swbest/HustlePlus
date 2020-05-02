@@ -219,7 +219,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
 
     @Override
     public List<Project> retrieveProjectsByStudentId(Long studentId) throws ProjectNotFoundException {
-        Query query = em.createQuery("SELECT DISTINCT p FROM Project p JOIN Student s WHERE s.userId = :inStudentId");
+        Query query = em.createQuery("SELECT DISTINCT p FROM Project p INNER JOIN p.students s WHERE s.userId = :inStudentId");
         query.setParameter("inStudentId", studentId);
         try {
             System.out.println("Student ID: " + studentId + " is working for " + query.getResultList().size() + " projects");

@@ -210,6 +210,10 @@ public class DataInitSessionBean {
             skillIds.add(new Long(5));
             studentSessionBeanLocal.createStudentAccount(newStudent, skillIds);
 
+            Project project = projectSessionBeanLocal.retrieveProjectByProjectId(new Long(1));
+            project.addStudent(newStudent);
+            newStudent.addProject(project);
+            
             Payment newPayment = new Payment();
             newPayment.setPaymentDescription("For completing Homework 1");
             paymentSessionBeanLocal.createNewPayment(newPayment, new Long(1), newStudent.getUserId());
@@ -261,6 +265,8 @@ public class DataInitSessionBean {
         } catch (MilestoneNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (StudentNotFoundException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProjectNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -30,9 +30,9 @@
     <ion-row>
       <ion-col>
         <h2>Project Name: {{application.project.projectName}}</h2>
-        <h3 *ngIf="!isPending">Status: Pending</h3>
-        <h3 *ngIf="isPending && isApproved">Status: Rejected</h3>
-        <h3 *ngIf="isPending && !isApproved">Status: Approved</h3>
+        <h3 *ngIf="application.isPending">Status: Pending</h3>
+        <h3 *ngIf="!application.isPending && !application.isApproved">Status: Rejected</h3>
+        <h3 *ngIf="application.isApproved">Status: Approved</h3>
         <ion-button (click)="deleteApplication($event, application)">
           <ion-icon name="trash-outline"></ion-icon>
         </ion-button>
