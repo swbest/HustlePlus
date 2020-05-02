@@ -92,10 +92,20 @@ export class ViewMyProjectDetailsPage implements OnInit {
         console.log(this.payments);
       },
       error => {
-        this.retrieveMilestoneError = true;
+        this.retrievePaymentError = true;
         console.log('********** ViewProjectDetailsPage.ts: ' + error);
       }
     );
+  }
+
+  startDateTime() {
+    const string = this.projectToView.startDate.toString();
+    return string.substring(0, 10);
+  }
+
+  endDateTime() {
+    const string = this.projectToView.endDate.toString();
+    return string.substring(0, 10);
   }
 
   back() {

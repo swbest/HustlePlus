@@ -1,8 +1,8 @@
 <ion-header>
 
-  <ion-toolbar>
+  <ion-toolbar class="header">
     <ion-buttons slot="start">
-      <ion-button (click)="back()">
+      <ion-button class="back" (click)="back()">
         <ion-icon slot="start" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -13,53 +13,63 @@
 
 <ion-content>
 
-  <ion-card>
+  <ion-list-header>Project Details</ion-list-header>
 
-    <ion-card-content>
-      <div *ngIf="retrieveProjectError == true" style="color: red;">
-        Project ID {{projectId}} does not exist!
-      </div>
+  <br>
+  <div *ngIf="retrieveProjectError == true" style="color: red;">
+    Project ID {{projectId}} does not exist!
+  </div>
 
-      <ion-list *ngIf="retrieveProjectError == false && projectToView != null">
+  <ion-list *ngIf="retrieveProjectError == false && projectToView != null">
 
-        <ion-item>
-          <ion-label><b>Name</b></ion-label>
-          {{projectToView.projectName}}
-        </ion-item>
+    <ion-item>
+      <ion-label><b>Name:</b></ion-label>
+      {{projectToView.projectName}}
+    </ion-item>
 
-        <ion-item>
-          <ion-label><b>Description</b></ion-label>
-          {{projectToView.projectDescription}}
-        </ion-item>
+    <ion-item>
+      <ion-label><b>Description:</b></ion-label>
+      {{projectToView.projectDescription}}
+    </ion-item>
 
-        <ion-item>
-          <ion-label><b>Job Value</b></ion-label>
-          ${{projectToView.jobValue}}
-        </ion-item>
+    <ion-item>
+      <ion-label><b>Job Value:</b></ion-label>
+      ${{projectToView.jobValue}}
+    </ion-item>
 
-        <ion-item>
-          <ion-label><b>Start Date</b></ion-label>
-          {{projectToView.startDate}}
-        </ion-item>
+    <ion-item>
+      <ion-label><b>Start Date:</b></ion-label>
+      {{startDateTime()}}
+    </ion-item>
 
-        <ion-item>
-          <ion-label><b>End Date</b></ion-label>
-          {{projectToView.endDate}}
-        </ion-item>
+    <ion-item>
+      <ion-label><b>End Date:</b></ion-label>
+      {{endDateTime()}}
+    </ion-item>
 
-        <ion-item>
-          <ion-label><b>Skills</b></ion-label>
-          <ul>
-            <li *ngFor="let skill of projectToView.skills">{{skill.title}}</li>
-          </ul>
-        </ion-item>
-      </ion-list>
-      <!-- <ion-button *ngIf="studentPartOfProject == false"> -->
-      <ion-button type="submit" (click)="apply()" ion-button block>
+    <ion-item>
+      <ion-label><b>Skills:</b></ion-label>
+      <ng-container *ngFor="let skill of projectToView.skills">
+        <ion-chip outline color="primary">
+          <ion-label >{{ skill.title }}</ion-label>
+        </ion-chip>
+      </ng-container>
+    </ion-item>
+  </ion-list>
+  <!-- <ion-button *ngIf="studentPartOfProject == false"> -->
+  <br>
+
+  <ion-row>
+    <ion-col></ion-col>
+    <ion-col>
+      <ion-button expand="default" type="submit" (click)="apply()" ion-button block>
         Apply to Project
       </ion-button>
-    </ion-card-content>
-  </ion-card>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+
+
 </ion-content>
 
 <ion-footer>

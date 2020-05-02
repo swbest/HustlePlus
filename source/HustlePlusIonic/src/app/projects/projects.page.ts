@@ -73,6 +73,21 @@ export class ProjectsPage implements OnInit {
 			})
 		}
 	}
+
+	getSearchMyProjects(ev: any) {
+		// Reset items back to all of the items
+		//		this.refreshStudents();
+
+		// set val to the value of the searchbar
+		const val = ev.target.value;
+
+		// if the value is an empty string don't filter the items
+		if (val && val.trim() != '') {
+			this.myProjects = this.myProjects.filter((project) => {
+				return (project.projectName.toLowerCase().indexOf(val.toLowerCase()) > -1);
+			})
+		}
+	}
 	
 	onCancel(ev: any) {
 		// Reset items back to all of the items

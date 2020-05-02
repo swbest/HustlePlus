@@ -8,12 +8,12 @@ package ejb.session.stateless;
 import entity.Milestone;
 import entity.Payment;
 import entity.Student;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -52,15 +52,23 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
     }
 
     @Override
-    public List<Payment> retrievePaymentsByProjectIdAndStudentId(Long projectId, Long studentId) throws MilestoneNotFoundException {
+    public List<Payment> retrievePaymentsByProjectIdAndStudentId(Long projectId, Long studentId) throws PaymentNotFoundException, MilestoneNotFoundException {
         System.out.println("Getting payments for project: " + projectId + " and student id: " + studentId);
-        Query query = em.createQuery("SELECT DISTINCT m FROM Payment m JOIN Project p JOIN Student s WHERE (p.projectId = :inProjectId AND s.userId = :inStudentId)");
-        query.setParameter("inProjectId", projectId);
-        query.setParameter("inStudentId", studentId);
- 
+        List<Payment> payments = new ArrayList<>();
         try {
-            return query.getResultList();
-        } catch (NoResultException ex) {
+            List<Milestone> milestones = milestoneSessionBeanLocal.retrieveMilestonesByProject(projectId);
+            for (Milestone milestone : milestones) {
+                Query query = em.createQuery("SELECT DISTINCT p FROM Payment p WHERE p.milestone.milestoneId = :inMilestoneId AND p.student.userId = :inStudentId");
+                query.setParameter("inMilestoneId", milestone.getMilestoneId());
+                query.setParameter("inStudentId", studentId);
+                payments.addAll(query.getResultList());
+            }
+            if (payments.size() == 0) {
+                throw new PaymentNotFoundException("No payments available for this project!");
+            } else {
+                return payments;
+            }
+        } catch (MilestoneNotFoundException ex) {
             throw new MilestoneNotFoundException("No milestones available for this project!");
     }
     }
@@ -95,7 +103,8 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
     }
 
     @Override
-    public Long createNewPayment(Payment newPayment, Long milestoneId, Long studentId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException, StudentNotFoundException {
+    public Long createNewPayment(Payment newPayment, Long milestoneId,
+            Long studentId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException, StudentNotFoundException {
         try {
             Set<ConstraintViolation<Payment>> constraintViolations = validator.validate(newPayment);
 
@@ -132,7 +141,8 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
 
     // to do when relationships are done up
     @Override
-    public List<Payment> retrieveAllPaymentByMilestone(Long milestoneId) {
+    public List<Payment> retrieveAllPaymentByMilestone(Long milestoneId
+    ) {
         Query query = em.createQuery("SELECT p FROM Payment p WHERE p.milestone.milestoneId =:mid");
         query.setParameter("mid", milestoneId);
         return query.getResultList();
@@ -152,7 +162,8 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
 
     @Override
     public Payment retrievePaymentByPaymentId(Long paymentId) throws PaymentNotFoundException {
-        Payment payment = em.find(Payment.class, paymentId);
+        Payment payment = em.find(Payment.class,
+                 paymentId);
         if (payment != null) {
             return payment;
         } else {

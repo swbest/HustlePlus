@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-button (click)="back()">
+  <ion-toolbar class="header">
+    <ion-button class="back" (click)="back()">
       <ion-icon slot="start" name="arrow-back"></ion-icon>
     </ion-button>
     <ion-title>
@@ -28,11 +28,11 @@
   <div [ngSwitch]="option">
     <div *ngSwitchCase="'Project Details'">
 
-      <ion-card>
+
 
         <ion-list-header>My Project Details</ion-list-header>
 
-        <ion-card-content>
+<br>
           <div *ngIf="retrieveProjectError == true" style="color: red;">
             Project ID {{projectId}} does not exist!
           </div>
@@ -56,25 +56,23 @@
 
             <ion-item>
               <ion-label><b>Start Date</b></ion-label>
-              {{projectToView.startDate}}
+              <ion-datetime displayFormat="DD/MM/YYYY" value="{{startDateTime()}}"></ion-datetime>
             </ion-item>
 
             <ion-item>
               <ion-label><b>End Date</b></ion-label>
-              {{projectToView.endDate}}
+              <ion-datetime displayFormat="DD/MM/YYYY" value="{{endDateTime()}}"></ion-datetime>
             </ion-item>
 
           </ion-list>
-        </ion-card-content>
-      </ion-card>
+
     </div>
 
     <div *ngSwitchDefault>
-      <ion-card>
+
 
         <ion-list-header>Project Details</ion-list-header>
-
-        <ion-card-content>
+<br>
           <div *ngIf="retrieveProjectError == true" style="color: red;">
             Project ID {{projectId}} does not exist!
           </div>
@@ -98,20 +96,20 @@
 
             <ion-item>
               <ion-label><b>Start Date</b></ion-label>
-              {{projectToView.startDate}}
+              {{startDateTime()}}
             </ion-item>
 
             <ion-item>
               <ion-label><b>End Date</b></ion-label>
-              {{projectToView.endDate}}
+              {{endDateTime()}}
             </ion-item>
 
           </ion-list>
-        </ion-card-content>
-      </ion-card>
+
     </div>
 
     <div *ngSwitchCase="'Milestones'">
+      <p *ngIf="retrieveMilestoneError">There are no milestones available for this project!</p>
       <ion-item *ngFor="let milestone of milestones">
         <ion-row>
           <ion-col>
@@ -123,6 +121,7 @@
     </div>
 
     <div *ngSwitchCase="'Payments'">
+      <p *ngIf="retrievePaymentError">There are no payments available for this project!</p>
       <ion-item *ngFor="let payment of payments">
         <ion-row>
           <ion-col>

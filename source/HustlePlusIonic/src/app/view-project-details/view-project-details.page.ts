@@ -88,6 +88,16 @@ export class ViewProjectDetailsPage implements OnInit {
     );
   }
 
+  startDateTime() {
+    const string = this.projectToView.startDate.toString();
+    return string.substring(0, 10);
+  }
+
+  endDateTime() {
+    const string = this.projectToView.endDate.toString();
+    return string.substring(0, 10);
+  }
+
   async applyProjectToast() {
     const toast = await this.toastController.create({
       message: 'Successfully applied for project ' + this.projectToView.projectName,

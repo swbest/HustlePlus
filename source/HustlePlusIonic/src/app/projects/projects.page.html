@@ -1,5 +1,5 @@
 <ion-header>
-	<ion-toolbar>
+	<ion-toolbar class="header">
 		<ion-buttons slot="start">
 			<ion-menu-button></ion-menu-button>
 		</ion-buttons>
@@ -57,7 +57,7 @@
 			</div> -->
 
 			<ion-searchbar showCancelButton="true" placeholder="Search My Projects"
-				(ionInput)="getSearchProjects($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
+				(ionInput)="getSearchMyProjects($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
 
 			<div *ngIf="errorMessage">
 				You do not have any projects! Apply for one?
