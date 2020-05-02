@@ -98,6 +98,16 @@ export class ViewMyProjectDetailsPage implements OnInit {
     );
   }
 
+  startDateTime() {
+    const string = this.projectToView.startDate.toString();
+    return string.substring(0, 10);
+  }
+
+  endDateTime() {
+    const string = this.projectToView.endDate.toString();
+    return string.substring(0, 10);
+  }
+
   back() {
     this.router.navigate(["/projects"]);
   }
