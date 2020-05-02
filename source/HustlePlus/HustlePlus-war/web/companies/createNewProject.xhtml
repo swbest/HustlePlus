@@ -59,12 +59,10 @@
                     </p:selectCheckboxMenu>
                     <p:commandButton immediate="true" value="Add Skill" action="/companies/addASkill.xhtml?faces-redirect=true"/>
                 </h:panelGrid>
-                
-                <p:outputLabel for="milestone" value="Create New Milestone" />
-                <p:commandButton id="milestone" value="Add Milestone" action="/companies/createNewMilestone.xhtml?faces-redirect=true"/>
+                      
 
                 <h:panelGrid columns="3" cellpadding="5">
-                    <p:commandButton type="reset" value="Clear" />
+                    <p:commandButton immediate="true" type="reset" value="Clear" />
                     <p:commandButton ajax="false" type="submit" value="Create" process="@form" update="@form" actionListener="#{projectManagementManagedBean.createNewProject}" >
                         <f:attribute name="companyTagged" value="#{sessionScope.userEntity}" />
                     </p:commandButton>
@@ -74,6 +72,23 @@
 
             </p:panelGrid>
 
+        </h:form>
+        
+        &nbsp;
+        &nbsp;
+        
+        <h:form style="width: 20%;">
+            
+             <p:panelGrid rendered="#{sessionScope.userEntity.isVerified == true}" columns="1" layout="grid" styleClass="customPanelGrid" style="font-size: large">
+                <f:facet name="header" >
+                    <p:outputLabel>Create New Milestone (After Creating A Project)</p:outputLabel>
+                </f:facet>
+        
+                 <p:commandButton id="milestone" value="Add Milestone" immediate="true" actionListener="#{milestoneManagementManagedBean.doCreateNewMilestone}">
+                   <f:attribute name="companyToView" value="#{sessionScope.userEntity}"/>
+                 </p:commandButton>
+             </p:panelGrid>  
+            
         </h:form>
 
         <p:panelGrid rendered="#{sessionScope.userEntity.isVerified == false}">

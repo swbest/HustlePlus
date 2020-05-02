@@ -45,7 +45,7 @@ export class CreateNewStudentPage implements OnInit {
 					this.errorMessage = null;
 					this.hasError = true;
 					this.registerToast();
-					this.back();
+					this.login();
 				},
 				error => {
 					this.infoMessage = null;
@@ -64,7 +64,7 @@ export class CreateNewStudentPage implements OnInit {
 		const toast = await this.toastController.create({
 			message: 'Successfully registered as ' + this.newStudent.username,
 			duration: 3000
-    });
+		});
 		toast.present();
 	}
 }
