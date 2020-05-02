@@ -104,9 +104,7 @@ export class CreateNewStudentReviewPage implements OnInit {
   }
 
   back() {
-    if (!this.hasError) {
       this.router.navigate(["/reviews"]);
-    }
   }
 
   rate(index: number) {
