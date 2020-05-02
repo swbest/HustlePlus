@@ -20,6 +20,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
+import util.exception.MilestoneNotFoundException;
 import util.exception.ProjectNotFoundException;
 
 /**
@@ -85,7 +86,7 @@ public class GetMilestonesManagedBean implements Serializable {
                  milestonesForSelectedProject = milestoneSessionBeanLocal.retrieveMilestonesByProject(projectToDisplayMilestones.getProjectId()); 
                 ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("milestonesForSelectedProject", milestonesForSelectedProject); 
                  FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/milestoneForProject.xhtml");
-         } catch (IOException ex) {
+         } catch (IOException | MilestoneNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving milestones: " + ex.getMessage(), null));
          }
          }

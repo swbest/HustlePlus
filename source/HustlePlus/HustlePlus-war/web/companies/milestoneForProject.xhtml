@@ -27,12 +27,7 @@
                         
                         <h:outputText value ="Description: "/>                        
                         <h:outputText value ="#{milestone.description}"/>
-                        
-                        <h:outputText value="Payment Details "/>
-                        <p:commandButton  actionListener="#{paymentManagementManagedBean.viewPaymentDetails}" update="formViewPayment" oncomplete="PF('dialogViewPayment').show()" icon="ui-icon-document" title="View">
-                            <f:attribute name="milestoneForPayment" value="#{milestone}" />
-                        </p:commandButton>
-   
+
                     </h:panelGrid>
                 </p:panel>
             
@@ -42,72 +37,7 @@
                
         </h:form>
         
-        <h:form id="formViewPayment">
-            <p:growl id="msgs"/> 
-
-                <p:dialog id="dialogViewPayment" widgetVar="dialogViewPayment" header="View Payment Details" closable="true">
-
-                    <p:messages id="messagesViewProject" redisplay="false" />
-
-                    <p:panelGrid>
-
-                        <p:row>
-                            <p:column>
-                                <h:outputLabel value="Payment ID: " />
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{paymentManagementManagedBean.paymentToView.paymentId}" />
-                            </p:column>
-
-                        </p:row>
-                        
-                        <p:row>
-                            <p:column>
-                                <h:outputLabel value="Payment Description: " />
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{paymentManagementManagedBean.paymentToView.paymentDescription}" />
-                            </p:column>
-
-                        </p:row>
-                        
-                         <p:row>
-                            <p:column>
-                                <h:outputLabel value="Payment Status: " />
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{paymentManagementManagedBean.paymentStatus}" />
-                            </p:column>
-  
-                        </p:row>
-                        
-                       
-                        <p:row>
-                            <p:column colspan="3">
-                                <p:commandButton value="Release Payment" update="@form formViewPayment" actionListener="#{paymentManagementManagedBean.releasePayment}" oncomplete="PF('dialogViewPayment').show();">
-                                    <f:attribute name="payment" value="#{paymentManagementManagedBean.paymentToView}"/>
-                                    <p:confirm header="Confirmation" message="Are you sure you want to release  payment for Milestone: #{paymentManagementManagedBean.paymentToView.milestone.title}?" icon="ui-icon-alert" />
-                                </p:commandButton>
-                            </p:column>
-                        </p:row>
-
-                    </p:panelGrid>
-
-                </p:dialog>
-            
-              <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
- 
-            
-        </h:form>
-        
-        
-        
-        
-        
-        
+       
         
     </ui:define>
 

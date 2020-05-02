@@ -130,10 +130,10 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
 
     // to do when relationships are done up
     @Override
-    public Payment retrieveAllPaymentByMilestone(Long milestoneId) {
+    public List<Payment> retrieveAllPaymentByMilestone(Long milestoneId) {
         Query query = em.createQuery("SELECT p FROM Payment p WHERE p.milestone.milestoneId =:mid");
         query.setParameter("mid", milestoneId);
-        return (Payment) query.getSingleResult();
+        return query.getResultList();
     }
 
     @Override

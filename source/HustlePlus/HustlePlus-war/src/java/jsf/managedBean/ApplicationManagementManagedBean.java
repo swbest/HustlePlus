@@ -6,7 +6,11 @@
 package jsf.managedBean;
 
 import ejb.session.stateless.ApplicationSessionBeanLocal;
+import ejb.session.stateless.MilestoneSessionBeanLocal;
+import ejb.session.stateless.PaymentSessionBeanLocal;
 import entity.Application;
+import entity.Milestone;
+import entity.Payment;
 import entity.Project;
 import entity.Student;
 import java.io.IOException;
@@ -24,6 +28,10 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import util.exception.ApplicationNotFoundException;
 import util.exception.ApproveApplicationException;
+import util.exception.InputDataValidationException;
+import util.exception.MilestoneNotFoundException;
+import util.exception.StudentNotFoundException;
+import util.exception.UnknownPersistenceException;
 
 /**
  *
@@ -32,7 +40,13 @@ import util.exception.ApproveApplicationException;
 @Named(value = "applicationManagementManagedBean")
 @ViewScoped
 public class ApplicationManagementManagedBean implements Serializable {
-    
+
+    @EJB(name = "MilestoneSessionBeanLocal")
+    private MilestoneSessionBeanLocal milestoneSessionBeanLocal;
+
+    @EJB(name = "PaymentSessionBeanLocal")
+    private PaymentSessionBeanLocal paymentSessionBeanLocal;
+
      @EJB(name = "ApplicationSessionBeanLocal")
     private ApplicationSessionBeanLocal applicationSessionBeanLocal;
      
@@ -81,8 +95,18 @@ public class ApplicationManagementManagedBean implements Serializable {
         applicationSessionBeanLocal.approveApplication(applicationToApprove.getApplicationId()); 
         applicationToApprove.setIsApproved(Boolean.TRUE);
         applicationToApprove.setIsPending(Boolean.FALSE);
+        
+        List<Milestone> msList = milestoneSessionBeanLocal.retrieveMilestonesByProject(applicationToApprove.getProject().getProjectId());
+        for(Milestone ms:msList) {
+            System.out.println("REACHEDPAYMENTCREATION"); 
+           Payment newPayment = new Payment();
+           newPayment.setIsPaid(Boolean.FALSE);
+           newPayment.setPaymentDescription(ms.getTitle());
+           paymentSessionBeanLocal.createNewPayment(newPayment, ms.getMilestoneId(), applicationToApprove.getStudent().getUserId());    
+        }
+   
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Application has been successfully approved!", null));
-    } catch(ApproveApplicationException | ApplicationNotFoundException ex) {
+    } catch(ApproveApplicationException | ApplicationNotFoundException | UnknownPersistenceException | InputDataValidationException | MilestoneNotFoundException | StudentNotFoundException ex) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while approving application: " + ex.getMessage(), null));
     }
     }

@@ -5,10 +5,15 @@
  */
 package jsf.managedBean;
 
+import ejb.session.stateless.MilestoneSessionBeanLocal;
 import ejb.session.stateless.PaymentSessionBeanLocal;
 import entity.Milestone;
 import entity.Payment;
+import entity.Project;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -16,7 +21,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.servlet.http.HttpSession;
 import util.exception.InputDataValidationException;
+import util.exception.MilestoneNotFoundException;
 import util.exception.PaymentNotFoundException;
 import util.exception.UpdatePaymentException;
 
@@ -28,11 +35,16 @@ import util.exception.UpdatePaymentException;
 @ViewScoped
 public class PaymentManagementManagedBean implements Serializable {
 
+    @EJB(name = "MilestoneSessionBeanLocal")
+    private MilestoneSessionBeanLocal milestoneSessionBeanLocal;
+
     @EJB(name = "PaymentSessionBeanLocal")
     private PaymentSessionBeanLocal paymentSessionBeanLocal;
+
     
     private Payment paymentToView ; 
     private String paymentStatus; 
+    private List<Payment> payments; 
     
     
     
@@ -46,17 +58,48 @@ public class PaymentManagementManagedBean implements Serializable {
     
     @PostConstruct 
     public void PostConstruct() {
+        setPayments((List<Payment>)((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("payments"));
         
     }
     
-    public void viewPaymentDetails(ActionEvent event) {
-        Milestone milestoneForPayment = (Milestone) event.getComponent().getAttributes().get("milestoneForPayment");
-        paymentToView = paymentSessionBeanLocal.retrieveAllPaymentByMilestone(milestoneForPayment.getMilestoneId()); 
-        if (paymentToView.getIsPaid() == true) {
-             setPaymentStatus("Payment Released");  
-        } else {
-             setPaymentStatus("Payment Unreleased");  
+    public void viewPaymentStatus(ActionEvent event) {
+        Payment paymentToCheck = (Payment) event.getComponent().getAttributes().get("paymentToCheck");
+        if (paymentToCheck.getIsPaid() == true) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Payment has been released",null));
+    } else {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Payment unreleased",null));
         }
+    }
+    
+ 
+    
+    public void retrievePayments(ActionEvent event) {
+        try {
+            
+            if (payments == null) {
+                payments = new ArrayList();
+            }
+        Project p = (Project) event.getComponent().getAttributes().get("projectToView");
+        System.out.println(p.getProjectId());
+        List <Milestone> milestones = milestoneSessionBeanLocal.retrieveMilestonesByProject(p.getProjectId());
+        System.out.println(p.getProjectId());
+
+        if (milestones != null) {
+        for (Milestone ms:milestones) {
+            List<Payment> pm = paymentSessionBeanLocal.retrieveAllPaymentByMilestone(ms.getMilestoneId());
+            if (pm != null) {
+            for (Payment pay:pm) {
+                getPayments().add(pay);
+            } 
+            }
+        } 
+        }
+  
+       ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).setAttribute("payments", getPayments()); 
+        FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/companies/paymentsForProject.xhtml");
+    } catch (IOException | MilestoneNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving payments: " + ex.getMessage(), null));
+    }
     }
     
     public void releasePayment(ActionEvent event) {
@@ -65,9 +108,8 @@ public class PaymentManagementManagedBean implements Serializable {
         if (p.getIsPaid() == true) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Payment has been released",null));
         } else {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Payment for milestone successfully released!",null));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Payment for student successfully released!",null));
         p.setIsPaid(Boolean.TRUE);
-        setPaymentStatus("Payment Released");  
         paymentSessionBeanLocal.updatePayment(p);
         }
     } catch (PaymentNotFoundException ex) {
@@ -94,6 +136,16 @@ public class PaymentManagementManagedBean implements Serializable {
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+    
+    
     
     
     
