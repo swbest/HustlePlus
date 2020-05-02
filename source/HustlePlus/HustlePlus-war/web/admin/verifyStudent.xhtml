@@ -54,7 +54,7 @@
                         </p:commandButton>
                             <br />
                        <br /> 
-                        <p:commandButton actionListener="#{studentManagementManagedBean.verifyStudent}" value="Suspend" update="formAllStudents:dataTableAllStudents formAllStudents:messages">
+                       <p:commandButton actionListener="#{studentManagementManagedBean.suspendStudent}" value="Suspend" update="formAllStudents:dataTableAllStudents formAllStudents:messages">
                             <f:attribute name="selectedStudentToSuspend" value="#{student}" />
                             <p:confirm header="Confirmation" message="Are you sure you want to suspend #{student.name} (Student ID: #{student.userId})?" icon="ui-icon-alert"/>
                         </p:commandButton>                
