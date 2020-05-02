@@ -52,15 +52,16 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
     }
 
     @Override
-    public List<Payment> retrievePaymentsByProjectIdAndStudentId(Long projectId, Long studentId) throws MilestoneNotFoundException {
+    public List<Payment> retrievePaymentsByProjectIdAndStudentId(Long projectId, Long studentId) throws PaymentNotFoundException {
         System.out.println("Getting payments for project: " + projectId + " and student id: " + studentId);
-        Query query = em.createQuery("SELECT DISTINCT m FROM Payment m JOIN Project p JOIN Student s WHERE (p.projectId = :inProjectId AND s.userId = :inStudentId)");
+        Query query = em.createQuery("SELECT DISTINCT p FROM Milestone m INNER JOIN Payment p WHERE m.project.projectId = :inProjectId AND p.student.username = :inStudentId");
+        // SELECT DISTINCT p FROM Project p INNER JOIN p.students s WHERE s.userId = :inStudentId
         query.setParameter("inProjectId", projectId);
         query.setParameter("inStudentId", studentId);
         try {
             return query.getResultList();
         } catch (NoResultException ex) {
-            throw new MilestoneNotFoundException("No milestones available for this project!");
+            throw new PaymentNotFoundException("No milestones available for this project!");
         }
     }
 
