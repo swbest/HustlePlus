@@ -92,6 +92,10 @@ export class LoginPage implements OnInit {
     this.router.navigate(["/createNewStudent"]);
   }  
 
+  logout() {
+    this.router.navigate(["/home"]);
+  }
+
   async loginToast() {
     const toast = await this.toastController.create({
       message: 'Welcome to Hustle+',
