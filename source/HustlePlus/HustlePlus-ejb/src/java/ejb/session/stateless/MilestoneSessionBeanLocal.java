@@ -35,7 +35,7 @@ public interface MilestoneSessionBeanLocal {
 
     public List<Milestone> retrieveMilestonesByCompany(Long companyId) throws ProjectNotFoundException;
 
-    public List<Milestone> retrieveMilestonesByProject(Long projectId);
+    public List<Milestone> retrieveMilestonesByProject(Long projectId)  throws MilestoneNotFoundException ;
 
     public List<Project> retrieveMilestonesByProjectId(Long projectId) throws MilestoneNotFoundException;
     

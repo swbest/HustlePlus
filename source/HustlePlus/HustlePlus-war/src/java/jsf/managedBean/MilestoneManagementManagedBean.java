@@ -157,10 +157,6 @@ public class MilestoneManagementManagedBean implements Serializable{
             Long milestoneId = milestoneSessionBeanLocal.createNewMilestone(newMilestone, selProjectId);
             Milestone m = milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId);
             
-            Payment newPayment = new Payment();
-            newPayment.setIsPaid(Boolean.FALSE);
-            newPayment.setPaymentDescription(m.getTitle());
-            paymentSessionBeanLocal.createNewPaymentForMilestone(newPayment, milestoneId);
 
             System.out.println("MMMB3");
             getMilestones().add(milestoneSessionBeanLocal.retrieveMilestoneByMilestoneId(milestoneId));
@@ -246,8 +242,6 @@ public class MilestoneManagementManagedBean implements Serializable{
         try
         {
             Milestone milestoneToDelete = (Milestone)event.getComponent().getAttributes().get("milestoneToDelete");
-            Payment payment = paymentSessionBeanLocal.retrieveAllPaymentByMilestone(milestoneToDelete.getMilestoneId()); 
-            paymentSessionBeanLocal.deletePayment(payment.getPaymentId());
             milestoneSessionBeanLocal.deleteMilestone(milestoneToDelete.getMilestoneId());
             
             List<Milestone> ms = getMilestonesManagedBean.getMilestonesForSelectedCompany();
