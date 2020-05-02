@@ -7,8 +7,13 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'slides',
     pathMatch: 'full'
+  },
+
+  {
+    path: 'slides',
+    loadChildren: () => import('./slides/slides.module').then( m => m.SlidesPageModule)
   },
 
   {
@@ -41,6 +46,7 @@ const routes: Routes = [
   { path: 'applications', loadChildren: './applications/applications.module#ApplicationsPageModule', canActivate: [AuthGuard] },
   { path: 'viewMyProjectDetails', loadChildren: './view-my-project-details/view-my-project-details.module#ViewMyProjectDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'viewMyProjectDetails/:projectId', loadChildren: './view-my-project-details/view-my-project-details.module#ViewMyProjectDetailsPageModule', canActivate: [AuthGuard] },
+
 ];
 
 @NgModule({

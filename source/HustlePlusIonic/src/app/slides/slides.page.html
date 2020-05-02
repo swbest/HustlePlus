@@ -1,0 +1,42 @@
+<ion-content fullscreen class="ion-padding" scroll-y="false">
+  <ion-slides [options]="slideOpts">
+
+    <ion-slide>
+      <div class="slide">
+        <img src="../../assets/images/hustle+.png"/>
+        <h4><b>Welcome to the Hustle+ Platform!</b></h4>
+        <p>Here you can apply for your favourite projects, and it's as <i>easy as 1, 2, 3! </i></p>
+        <!-- <h1><em>Swipe to begin -></em></h1> -->
+      </div>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="../../assets/images/catregister.png"/>
+      <h2>Step One: Register</h2>
+      <p>Don't have an account? It only takes a minute to sign up!</p>
+      <p><b>Simply key in your name, description and bank account details and you are good to go. You can always change this later.</b></p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="../../assets/images/catbrowse.png"/>
+      <h2>Step Two: Browse</h2>
+      <p><b>Looking to earn some side income?</b><br> <i>Browse our list of projects.</i></p>
+      <p><b>Looking for fellow hustlers?</b><br> <i>Browse our list of teammates.</i></p>
+      <p><b>Looking for your favourite employer?</b> <br><i>Browse our list of companies.</i></p>
+
+    </ion-slide>
+
+    <ion-slide>
+      <img src="../../assets/images/catconnect.png"/>
+      <h2>Step Three: Connect</h2>
+      <p><b>Once you are ready, simply submit your application. You will be notified when the company accepts you!</b></p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="../../assets/images/cathustle.png"/>
+      <h2>Ready to Hustle?</h2>
+      <ion-button (click)="home()" fill="clear">Hell yeah! <ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
+    </ion-slide>
+
+  </ion-slides>
+</ion-content>
