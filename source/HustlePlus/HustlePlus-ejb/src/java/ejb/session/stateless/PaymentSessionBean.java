@@ -57,13 +57,15 @@ public class PaymentSessionBean implements PaymentSessionBeanLocal {
         Query query = em.createQuery("SELECT DISTINCT m FROM Payment m JOIN Project p JOIN Student s WHERE (p.projectId = :inProjectId AND s.userId = :inStudentId)");
         query.setParameter("inProjectId", projectId);
         query.setParameter("inStudentId", studentId);
+ 
         try {
             return query.getResultList();
         } catch (NoResultException ex) {
             throw new MilestoneNotFoundException("No milestones available for this project!");
-        }
     }
-
+    }
+    
+  
     @Override
     public Long createNewPaymentForMilestone(Payment newPayment, Long milestoneId) throws UnknownPersistenceException, InputDataValidationException, MilestoneNotFoundException {
         try {
