@@ -1,20 +1,23 @@
 <ion-header>
 
-	<ion-toolbar>
+	<ion-toolbar class="header">
 		<ion-buttons slot="start">
-			<ion-button (click)="back()">
-				<ion-icon slot="start" name="arrow-back"></ion-icon>
-			</ion-button>
+			<ion-buttons slot="start">
+				<ion-menu-button></ion-menu-button>
+			</ion-buttons>
 		</ion-buttons>
-		<ion-title>Login</ion-title>
+		<ion-title *ngIf="sessionService.getIsLogin() == false">Login</ion-title>
+		<ion-title *ngIf="sessionService.getIsLogin() == true">Logout</ion-title>
 	</ion-toolbar>
 
 </ion-header>
 
-<ion-content *ngIf="sessionService.getIsLogin() == false">
+<ion-content>
 
 	<ion-card *ngIf="sessionService.getIsLogin() == false">
-
+		<br><br><br>
+		<ion-card-title style="text-align: center">Hustle+ Login</ion-card-title>
+		<br><br>
 		<ion-card-content>
 
 			<div *ngIf="loginError == true" style="color: red;">
@@ -23,50 +26,54 @@
 
 			<form #studentLoginForm="ngForm" (ngSubmit)="studentLogin(studentLoginForm)">
 
-				<div style="color: red;">
-
-					<div *ngIf="inusername.invalid && (inusername.dirty || inusername.touched || submitted)"
-						class="errorText">
-						<div *ngIf="inusername.errors.required">
-							Username is required.
-						</div>
-						<div *ngIf="inusername.errors.minlength">
-							Username must be at least 6 characters long.
-						</div>
-						<div *ngIf="inusername.errors.maxlength">
-							Username cannot exceed 64 characters.
-						</div>
-					</div>
-
-					<div *ngIf="inpassword.invalid && (inpassword.dirty || inpassword.touched || submitted)"
-						class="errorText">
-						<div *ngIf="inpassword.errors.required">
-							Password is required.
-						</div>
-						<div *ngIf="inpassword.errors.minlength">
-							Password must be at least 6 characters long.
-						</div>
-						<div *ngIf="inpassword.errors.maxlength">
-							Password cannot exceed 64 characters.
-						</div>
-					</div>
-
-				</div>
-
 				<ion-list class="line-input">
+					<div style="color: red;">
 
+						<div *ngIf="inusername.invalid && (inusername.dirty || inusername.touched || submitted)"
+							class="errorText">
+							<div *ngIf="inusername.errors.required">
+								Username is required.
+							</div>
+							<div *ngIf="inusername.errors.minlength">
+								Username must be at least 6 characters long.
+							</div>
+							<div *ngIf="inusername.errors.maxlength">
+								Username cannot exceed 64 characters.
+							</div>
+						</div>
+					</div>
 					<ion-item>
-						<ion-input placeholder="Username" type="text" id="username" name="username" [(ngModel)]="username" minlength="4"
-							maxlength="32" required="true" #inusername="ngModel"></ion-input>
+						<ion-input placeholder="Username" type="text" id="username" name="username"
+							[(ngModel)]="username" minlength="4" maxlength="32" required="true" #inusername="ngModel">
+						</ion-input>
+					</ion-item>
+					<br>
+
+					<div style="color: red;">
+						<div *ngIf="inpassword.invalid && (inpassword.dirty || inpassword.touched || submitted)"
+							class="errorText">
+							<div *ngIf="inpassword.errors.required">
+								Password is required.
+							</div>
+							<div *ngIf="inpassword.errors.minlength">
+								Password must be at least 6 characters long.
+							</div>
+							<div *ngIf="inpassword.errors.maxlength">
+								Password cannot exceed 64 characters.
+							</div>
+						</div>
+					</div>
+					<ion-item>
+						<ion-input placeholder="Password" type="password" id="password" name="password"
+							[(ngModel)]="password" minlength="4" maxlength="32" required="true" #inpassword="ngModel">
+						</ion-input>
 					</ion-item>
 
 					<br>
 
-					<ion-item>
-						<ion-input placeholder="Password" type="password" id="password" name="password" [(ngModel)]="password" minlength="4"
-							maxlength="32" required="true" #inpassword="ngModel"></ion-input>
-					</ion-item>
-
+					<div>
+						<ion-text style="text-align: center;">Don't have an account? <b>Sign up </b> </ion-text> <ion-text (click)="register()"><b><u>now</u>.</b></ion-text>
+					</div>
 					<br>
 
 
@@ -100,7 +107,7 @@
 
 		<ion-card-content>
 
-			You are login as {{sessionService.getCurrentStudent().name}}.
+			You are logged in as <b>{{sessionService.getCurrentStudent().name}}.</b>
 
 		</ion-card-content>
 

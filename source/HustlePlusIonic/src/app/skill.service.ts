@@ -13,7 +13,7 @@ const httpOptions = {
 }
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class SkillService {
 
@@ -55,18 +55,20 @@ export class SkillService {
 			);
 	}
 
-  createNewSkill(newSkill: Skill): Observable<any> {
-    let createNewSkillReq = { 
-      'newSkill': newSkill
-    };
+	createNewSkill(newSkill: Skill): Observable<any> {
+		this.studentId = this.sessionService.getCurrentStudent().userId;
+		let createNewSkillReq = {
+			'newSkill': newSkill,
+			'studentId': this.studentId
+		};
 
-    return this.httpClient.put<any>(this.baseUrl, createNewSkillReq, httpOptions).pipe
-      (
-        catchError(this.handleError)
-      );
-  }
+		return this.httpClient.put<any>(this.baseUrl, createNewSkillReq, httpOptions).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
 
-  private handleError(error: HttpErrorResponse) {
+	private handleError(error: HttpErrorResponse) {
 		let errorMessage: string = '';
 
 		if (error.error instanceof ErrorEvent) {

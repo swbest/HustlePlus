@@ -6,8 +6,12 @@
 package ejb.session.stateless;
 
 import entity.Skill;
+import entity.Student;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -23,6 +27,7 @@ import util.exception.DeleteSkillException;
 import util.exception.InputDataValidationException;
 import util.exception.SkillNameExistsException;
 import util.exception.SkillNotFoundException;
+import util.exception.StudentNotFoundException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateSkillException;
 
@@ -32,6 +37,9 @@ import util.exception.UpdateSkillException;
  */
 @Stateless
 public class SkillSessionBean implements SkillSessionBeanLocal {
+
+    @EJB(name = "StudentSessionBeanLocal")
+    private StudentSessionBeanLocal studentSessionBeanLocal;
 
     @PersistenceContext(unitName = "HustlePlus-ejbPU")
     private EntityManager em;
@@ -68,6 +76,39 @@ public class SkillSessionBean implements SkillSessionBeanLocal {
                 throw new UnknownPersistenceException(ex.getMessage());
             }
         }
+    }
+
+    @Override
+    public Long studentAddSkill(Skill newSkill, Long studentId) throws UnknownPersistenceException, InputDataValidationException, SkillNameExistsException {
+        try {
+            Skill skill = retrieveSkillsBySkillTitle(newSkill.getTitle());
+            Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+            skill.addStudent(student);
+            student.addSkill(skill);
+            em.flush();
+            return skill.getSkillId();
+        } catch (SkillNotFoundException ex) {
+            // create new skill and assign to student
+            Set<ConstraintViolation<Skill>> constraintViolations = validator.validate(newSkill);
+            if (constraintViolations.isEmpty()) {
+                em.persist(newSkill);
+                Student student;
+                try {
+                    student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
+                    newSkill.addStudent(student);
+                    student.addSkill(newSkill);
+                    em.flush();
+                    return newSkill.getSkillId();
+                } catch (StudentNotFoundException ex1) {
+                    Logger.getLogger(SkillSessionBean.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            } else {
+                throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+            }
+        } catch (StudentNotFoundException ex) {
+            Logger.getLogger(SkillSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Long.valueOf("0"); // stub
     }
 
     @Override
@@ -134,14 +175,15 @@ public class SkillSessionBean implements SkillSessionBeanLocal {
      * @return
      */
     @Override
-    public List<Skill> retrieveSkillsByStudentId(Long studentId) {
+    public List<Skill> retrieveSkillsByStudentId(Long studentId
+    ) {
         Query query = em.createQuery("SELECT s.skills FROM Student s WHERE s.userId = :inStudentId");
         query.setParameter("inStudentId", studentId);
         return query.getResultList(); // its ok to return empty list
     }
-
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<Skill>> constraintViolations) {
         String msg = "Input data validation error!:";
         for (ConstraintViolation constraintViolation : constraintViolations) {

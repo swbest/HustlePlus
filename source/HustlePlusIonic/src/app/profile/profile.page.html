@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="header">
     <ion-title>{{name}}'s Profile</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -38,7 +38,7 @@
             <div padding>
               <ion-card>
                 <ion-item>
-                  <p><strong>" {{description}} "</strong></p>
+                  <p style="text-align: center;"><em>"{{description}}"</em></p>
                 </ion-item>
                 <ion-item>
                   <p><strong>Name :</strong> {{ name }}</p>
@@ -46,9 +46,9 @@
                 <ion-item>
                   <p><strong>Username :</strong> {{ username }}</p>
                 </ion-item>
-                <ion-item>
+                <!-- <ion-item>
                   <p><strong>Password :</strong> {{ password }}</p>
-                </ion-item>
+                </ion-item> -->
                 <ion-item>
                   <p><strong>Email :</strong> {{ email }}</p>
                 </ion-item>
@@ -62,8 +62,8 @@
                   <p><strong>Bank Account :</strong> {{ bankAccountNumber }}</p>
                 </ion-item>
                 <ion-item>
-                  <p *ngIf="isVerified == true"><strong>Verified? :</strong> Yes </p>
-                  <p *ngIf="isVerified == false"><strong>Verified? :</strong> No </p>
+                  <p *ngIf="isVerified == true"><strong>Verified? :      </strong> <ion-icon style="color:green" slot="icon-only" name="checkmark-circle"></ion-icon></p>
+                  <p *ngIf="isVerified == false"><strong>Verified? :      </strong> <ion-icon style="color:red" slot="icon-only" name="close-circle"></ion-icon></p>
                 </ion-item>
               </ion-card>
               <ion-toolbar position="bottom">
@@ -89,12 +89,12 @@
       </div>
 
       <ion-list-header>My Skillset</ion-list-header>
-
+<br>
       <ng-container *ngFor="let skill of skills">
         <ion-chip outline color="primary" #skill.skillId>
           <ion-icon name="person"></ion-icon>
           <ion-label>{{ skill.title }}</ion-label>
-          <button ion-button clear color="danger" (click)="dissociateSkillFromStudent(skill.skillId)">
+          <button style="background-color: #FFF;" ion-button clear color="danger" (click)="dissociateSkillFromStudent(skill.skillId)">
             <ion-icon name="close-circle"></ion-icon>
           </button>
         </ion-chip>
@@ -105,7 +105,7 @@
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
         <ion-fab-list>
-          <button size="large" (click)="createNewSkillModal($event, studentToView)">
+          <button style="background-color: #FFF;" size="large" (click)="createNewSkillModal($event, studentToView)">
             <ion-icon name="color-filter">Add New Skill</ion-icon>
             <ion-text>Add New Skill</ion-text>
           </button>
@@ -130,7 +130,7 @@
             <div padding>
               <ion-card>
                 <ion-item>
-                  <p><strong>" {{description}} "</strong></p>
+                  <p style="text-align: center;"><em>"{{description}}"</em></p>
                 </ion-item>
                 <ion-item>
                   <p><strong>Name :</strong> {{ name }}</p>
@@ -138,9 +138,9 @@
                 <ion-item>
                   <p><strong>Username :</strong> {{ username }}</p>
                 </ion-item>
-                <ion-item>
+                <!-- <ion-item>
                   <p><strong>Password :</strong> {{ password }}</p>
-                </ion-item>
+                </ion-item> -->
                 <ion-item>
                   <p><strong>Email :</strong> {{ email }}</p>
                 </ion-item>
@@ -154,8 +154,8 @@
                   <p><strong>Bank Account :</strong> {{ bankAccountNumber }}</p>
                 </ion-item>
                 <ion-item>
-                  <p *ngIf="isVerified == true"><strong>Verified? :</strong> Yes </p>
-                  <p *ngIf="isVerified == false"><strong>Verified? :</strong> No </p>
+                  <p *ngIf="isVerified == true"><strong>Verified? :      </strong> <ion-icon style="color:green" slot="icon-only" name="checkmark-circle"></ion-icon></p>
+                  <p *ngIf="isVerified == false"><strong>Verified? :      </strong> <ion-icon style="color:red" slot="icon-only" name="close-circle"></ion-icon></p>
                 </ion-item>
               </ion-card>
               <ion-toolbar position="bottom">

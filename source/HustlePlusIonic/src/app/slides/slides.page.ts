@@ -170,6 +170,6 @@ export class SlidesPage implements OnInit {
   }
 
   home() {
-    this.router.navigate(["/home"]);
+    this.router.navigate(["/login"]);
   }
 }

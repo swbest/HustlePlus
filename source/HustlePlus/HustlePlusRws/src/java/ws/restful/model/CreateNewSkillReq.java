@@ -14,12 +14,14 @@ import entity.Skill;
 public class CreateNewSkillReq {
 
     private Skill newSkill;
+    private Long studentId;
 
     public CreateNewSkillReq() {
     }
 
-    public CreateNewSkillReq(Skill newSkill) {
+    public CreateNewSkillReq(Skill newSkill, Long studentId) {
         this.newSkill = newSkill;
+        this.studentId = studentId;
     }
 
     public Skill getNewSkill() {
@@ -30,4 +32,11 @@ public class CreateNewSkillReq {
         this.newSkill = newSkill;
     }
 
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
 }

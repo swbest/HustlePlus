@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { ToastController } from '@ionic/angular';
+
 import { Application } from '../application';
 import { ApplicationService } from '../application.service';
 
@@ -17,7 +19,8 @@ export class ApplicationsPage implements OnInit {
   numApplications: number;
 
   constructor(private router: Router,
-    private applicationService: ApplicationService) { }
+    private applicationService: ApplicationService,
+    private toastController: ToastController) { }
 
   ngOnInit() {
     this.refreshApplications();
@@ -55,9 +58,13 @@ export class ApplicationsPage implements OnInit {
 
   deleteApplication(event, application) {
     this.applicationService.deleteApplication(application.applicationId).subscribe(
+      response => {
+        this.successDeleteToast(application);
+      },
       error => {
         this.error = true;
         this.errorMessage = error;
+        this.failDeleteToast();
       }
     );
     this.refreshApplications();
@@ -71,4 +78,20 @@ export class ApplicationsPage implements OnInit {
   applyForProjects() {
     this.router.navigate(["/projects"]);
   }
+
+  async successDeleteToast(application) {
+		const toast = await this.toastController.create({
+			message: 'Successfully deleted application for project: ' + application.project.projectName,
+			duration: 3000
+		});
+		toast.present();
+  }
+  
+  async failDeleteToast() {
+		const toast = await this.toastController.create({
+			message: this.errorMessage,
+			duration: 3000
+		});
+		toast.present();
+	}
 }

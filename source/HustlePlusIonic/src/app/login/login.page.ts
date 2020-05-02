@@ -88,8 +88,12 @@ export class LoginPage implements OnInit {
     this.router.navigate(["/home"]);
   }
 
+  register() {
+    this.router.navigate(["/createNewStudent"]);
+  }  
+
   logout() {
-    this.router.navigate(["/slides"]);
+    this.router.navigate(["/login"]);
   }
 
   async loginToast() {
@@ -107,4 +111,6 @@ export class LoginPage implements OnInit {
     });
     toast.present();
   }
+
+  
 }

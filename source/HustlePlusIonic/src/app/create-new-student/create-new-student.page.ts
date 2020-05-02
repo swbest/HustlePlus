@@ -57,11 +57,7 @@ export class CreateNewStudentPage implements OnInit {
 	}
 
 	back() {
-		this.router.navigate(["/home"]);
-	}
-
-	login() {
-		this.router.navigate(["/login"]);
+			this.router.navigate(["/login"]);
 	}
 
 	async registerToast() {
