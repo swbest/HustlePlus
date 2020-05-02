@@ -35,5 +35,7 @@ public interface SkillSessionBeanLocal {
     public List<Skill> retrieveAllSkills();
 
     public List<Skill> retrieveSkillsByStudentId(Long studentId);
+
+    public Long studentAddSkill(Skill newSkill, Long studentId) throws UnknownPersistenceException, InputDataValidationException, SkillNameExistsException;
     
 }

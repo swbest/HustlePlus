@@ -109,7 +109,7 @@ public class SkillResource {
     public Response createSkill(CreateNewSkillReq createNewSkillReq) {
         if (createNewSkillReq != null) {
             try {
-                Long newSkillId = skillSessionBean.createNewSkill(createNewSkillReq.getNewSkill());
+                Long newSkillId = skillSessionBean.studentAddSkill(createNewSkillReq.getNewSkill(), createNewSkillReq.getStudentId());
                 CreateNewSkillRsp createNewSkillRsp = new CreateNewSkillRsp(newSkillId);
                 return Response.status(Status.OK).entity(createNewSkillRsp).build();
             } catch (Exception ex) {
