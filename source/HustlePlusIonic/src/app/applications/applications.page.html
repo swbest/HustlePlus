@@ -14,17 +14,6 @@
   <ion-searchbar showCancelButton="true" placeholder="Search Applications" (ionInput)="getSearchApplications($event)"
     (ionCancel)="onCancel($event)"></ion-searchbar>
 
-  <h3 style="text-align:center" *ngIf="numApplications == 0">
-    No Projects? Apply for one now!
-    &nbsp;  </h3>
-    <ion-row>
-      <ion-col></ion-col>
-      <ion-col>
-        <ion-button expand="block" (click)="applyForProjects()">Apply</ion-button>
-      </ion-col>
-      <ion-col></ion-col>
-    </ion-row>
-
   <ion-item *ngFor="let application of applications">
     <ion-row>
       <ion-col>
@@ -38,6 +27,18 @@
       </ion-col>
     </ion-row>
   </ion-item>
+<br>
+  <h3 style="text-align:center" *ngIf="numApplications == 0">
+    No Projects? Apply for one now!
+    &nbsp;  </h3>
+    <ion-row>
+      <ion-col></ion-col>
+      <ion-col>
+        <ion-button expand="block" (click)="applyForProjects()">Apply for Projects</ion-button>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+
 </ion-content>
 
 <ion-footer>
