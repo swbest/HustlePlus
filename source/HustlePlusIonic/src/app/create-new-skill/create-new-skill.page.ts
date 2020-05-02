@@ -47,7 +47,7 @@ export class CreateNewSkillPage implements OnInit {
 		if (addSkillForm.valid) {
 			this.skillService.createNewSkill(this.newSkill).subscribe(
 				response => {
-          this.infoMessage = 'Skill was successfully created an added with ID: ' + response.newSkillId;
+          this.infoMessage = 'Skill ID: ' + this.newSkill.title + ' added!';
           this.newSkill.skillId = response.newSkillId;
           console.log(response.newSkillId);
 					this.errorMessage = null;
@@ -63,6 +63,7 @@ export class CreateNewSkillPage implements OnInit {
     }
 	}
 
+  /*
   ionViewDidLeave() {
     this.studentService.addSkillToStudent(this.studentToAddSkill, this.newSkill.skillId).subscribe(
       response => {
@@ -74,6 +75,7 @@ export class CreateNewSkillPage implements OnInit {
       }
     );	
   }
+  */
 
   dismiss() {
     // using the injected ModalController this page
