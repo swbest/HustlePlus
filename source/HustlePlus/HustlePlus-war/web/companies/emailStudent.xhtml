@@ -10,7 +10,7 @@
     </h:head>
     <h:body style="background-image: url('http://localhost:8080/HustlePlus-war/resources/img/website-login-background-3.jpg');">
         
-  <p:panel header="Send Email" style="background-color: powderblue; font-size: large">
+  <p:panel header="Send Email" style="font-size: large">
             <h:form id="sendEmail">
 
                 <h:messages/>
@@ -70,7 +70,7 @@
                             <p:outputLabel for="content" value="Message: " />
                         </p:column>
                         <p:column>
-                            <p:textEditor id="content" value="#{emailManagedBean.message}" required="true" requiredMessage="Message is required"/>
+                            <p:textEditor id="content" value="#{emailManagedBean.message}" required="true" requiredMessage="Message is required" height="200" style="background-color: white; color: black"/>
                         </p:column>
                     </p:row>
                 
