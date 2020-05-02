@@ -41,10 +41,7 @@
                         <h:outputText value ="#{myapp.student.email}"/>
 
                         <h:outputText value="Student Resume: "/>
-                        <p:commandButton icon="ui-icon-arrowthickstop-1-s" ajax="false" actionListener="#{applicationManagementManagedBean.downloadFile}">
-                            <f:attribute name="studentResume" value="#{myapp.student}"/>
-                            <p:fileDownload value="#{applicationManagementManagedBean.file}" />
-                        </p:commandButton>
+                         <p:linkButton icon="ui-icon-arrowthickstop-1-s" href="#{application.contextPath}/uploadedFiles/Bryan_Resume.pdf" />
                         
                         <h:outputText value="Application Status: "/>
                         <p:commandButton icon="ui-icon-info"  ajax="false" actionListener="#{applicationManagementManagedBean.viewApplicationStatus}">

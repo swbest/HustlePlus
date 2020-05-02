@@ -283,6 +283,10 @@ public class ProjectManagementManagedBean implements Serializable {
              List<Project> p = getAllProjectsManagedBean.getProjectsForCompany(); 
              p.remove(projectToDelete);
              getAllProjectsManagedBean.setProjectsForCompany(p);
+             
+            List<Project> projectList = loginManagedBean.getProjectsToDisplay();
+            projectList.remove(projectToDelete);
+            loginManagedBean.setProjectsToDisplay(projectList);
  
              projectSessionBeanLocal.deleteProject(projectToDelete.getProjectId());
              getProjects().remove(projectToDelete);
