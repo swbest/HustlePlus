@@ -87,6 +87,10 @@ export class LoginPage implements OnInit {
     this.router.navigate(["/home"]);
   }
 
+  register() {
+    this.router.navigate(["/createNewStudent"]);
+  }  
+
   async loginToast() {
     const toast = await this.toastController.create({
       message: 'Welcome to Hustle+',
@@ -102,4 +106,6 @@ export class LoginPage implements OnInit {
     });
     toast.present();
   }
+
+  
 }

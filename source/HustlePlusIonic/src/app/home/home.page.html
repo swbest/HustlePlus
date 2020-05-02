@@ -9,23 +9,24 @@
 	</ion-toolbar>
 </ion-header>
 
-<ion-content>
-
-	<ion-card *ngIf="sessionService.getIsLogin() == false">
+<ion-content *ngIf="sessionService.getIsLogin() == false">
 
 		<ion-card-header>
 			<ion-card-title>Welcome to HustlePlus</ion-card-title>
 		</ion-card-header>
-	</ion-card>
+</ion-content>
 
-	<ion-card *ngIf="sessionService.getIsLogin() == true">
-		<ion-card-header>
-			<ion-card-title>Hustle Plus Ionic</ion-card-title>
-		</ion-card-header>
-		<ion-card-content>
-			<p>Use the side menu to navigate around this app.</p>
-		</ion-card-content>
-	</ion-card>
+<ion-content *ngIf="sessionService.getIsLogin() == true">
+
+	<div style="margin: auto;">
+	<ion-card-header>
+		<ion-card-title>Hustle Plus Ionic</ion-card-title>
+	</ion-card-header>
+	<ion-card-content>
+		<p>Use the side menu to navigate around this app.</p>
+	</ion-card-content>
+	</div>
+
 </ion-content>
 
 <ion-footer>

@@ -197,11 +197,11 @@ public class DataInitSessionBean {
             Student newStudent = new Student();
             newStudent.setBankAccountName("dbs");
             newStudent.setBankAccountNumber(Long.valueOf("12345678"));
-            newStudent.setName("student one");
+            newStudent.setName("Student One");
             newStudent.setUsername("studentone");
             newStudent.setPassword("password");
             newStudent.setEmail("studentone@gmail.com");
-            newStudent.setDescription("information systems undergraduate");
+            newStudent.setDescription("Interested in web dev!");
             newStudent.setAccessRightEnum(AccessRightEnum.STUDENT);
             newStudent.setIsVerified(Boolean.TRUE);
             List<Long> skillIds = new ArrayList<>();
@@ -225,22 +225,22 @@ public class DataInitSessionBean {
             Student newStudent2 = new Student();
             newStudent2.setBankAccountName("posb");
             newStudent2.setBankAccountNumber(Long.valueOf("12345678"));
-            newStudent2.setName("student two");
+            newStudent2.setName("Student two");
             newStudent2.setUsername("studenttwo");
             newStudent2.setPassword("password");
             newStudent2.setEmail("studenttwo@gmail.com");
-            newStudent2.setDescription("information systems undergraduate");
+            newStudent2.setDescription("Aspiring Machine Learning Engineer.");
             newStudent2.setIsVerified(Boolean.TRUE);
             studentSessionBeanLocal.createStudentAccount(newStudent2, skillIds);
 
             Student newStudent3 = new Student();
             newStudent3.setBankAccountName("uob");
             newStudent3.setBankAccountNumber(Long.valueOf("12345678"));
-            newStudent3.setName("student three");
+            newStudent3.setName("Student Three");
             newStudent3.setUsername("studentthree");
             newStudent3.setPassword("password");
             newStudent3.setEmail("studentthree@gmail.com");
-            newStudent3.setDescription("information systems undergraduate");
+            newStudent3.setDescription("I love coding!");
             newStudent3.setIsVerified(Boolean.TRUE);
             studentSessionBeanLocal.createStudentAccount(newStudent3, skillIds);
 
