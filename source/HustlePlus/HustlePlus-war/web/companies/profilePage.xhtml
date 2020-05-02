@@ -14,16 +14,16 @@
             </article>
         </h:panelGroup>
 
-        <h:panelGroup rendered="#{sessionScope.isLogin == true}" style="text-align:center">
+        <h:panelGroup rendered="#{sessionScope.isLogin == true}" style="text-align:center; color: #301934">
             
-             <center><h2>#{sessionScope.userEntity.name}</h2></center>
-             <center><p:graphicImage value="/uploadedFiles/#{sessionScope.userEntity.icon}"  width="40%" rendered="#{sessionScope.userEntity.icon != null}" /></center>
+             <center><h1>#{sessionScope.userEntity.name}</h1></center>
+             <center><p:graphicImage value="/uploadedFiles/#{sessionScope.userEntity.icon}"  width="20%" rendered="#{sessionScope.userEntity.icon != null}" /></center>
             <br/>
             
             <h:form>
                 <p:growl id="messages" showDetail="true"/>
                 
-                                      <table class="table" align="center">
+                                      <table class="table" align="center" style="color: white; border-color: black; border-radius: 10px; background-color: #301934; font-family: Segoe UI">
 
                                         <tr>
                                             <td>Company Name: </td>
