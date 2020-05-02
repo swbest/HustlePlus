@@ -48,13 +48,9 @@
                         <h:outputText value ="Description: "/>
                         <h:outputText value ="#{student.description}"/>
                         
-                        <h:outputText value ="Student Resume: "/>
-                        <p:commandButton icon="ui-icon-arrowthickstop-1-s" ajax="false" actionListener="#{applicationManagementManagedBean.downloadFile}">
-                            <f:attribute name="studentResume" value="#{student}"/>
-                            <p:fileDownload value="#{applicationManagementManagedBean.file}" />
-                        </p:commandButton>
-
-                        
+                        <h:outputText value="Student Resume: "/>
+                         <p:linkButton icon="ui-icon-arrowthickstop-1-s" href="#{application.contextPath}/uploadedFiles/Bryan_Resume.pdf" />
+    
                         <p:commandButton value="Leave A Review" actionListener="#{getStudentForReviewManagedBean.leaveReview}">
                             <f:attribute name="studentToReview" value="#{student}"/>
                             <f:attribute name="projectToReview" value="#{getTeamForProjectManagedBean.projectToDisplayTeam}"/>
