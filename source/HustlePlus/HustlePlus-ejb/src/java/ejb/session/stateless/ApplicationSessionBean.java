@@ -173,7 +173,7 @@ public class ApplicationSessionBean implements ApplicationSessionBeanLocal {
         if (applicationToRemove.getIsPending() == Boolean.TRUE) {
             em.remove(applicationToRemove);
         } else {
-            throw new DeleteApplicationException("Application ID " + applicationId + " has been processed and cannot be deleted!");
+            throw new DeleteApplicationException("Application for " + applicationToRemove.getProject().getProjectName() + " has been processed and cannot be deleted!");
         }
         em.remove(applicationToRemove);
     }
