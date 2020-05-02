@@ -193,7 +193,7 @@ public class Student extends User implements Serializable {
             this.projects.remove(project);
         }
     }
-    
+
     public List<StudentReview> getStudentReviews() {
         return studentReviews;
     }
@@ -201,7 +201,7 @@ public class Student extends User implements Serializable {
     public void setStudentReviews(List<StudentReview> studentReviews) {
         this.studentReviews = studentReviews;
     }
-    
+
     public void addStudentReview(StudentReview studentReview) {
         if (!this.studentReviews.contains(studentReview)) {
             this.getStudentReviews().add(studentReview);
@@ -213,9 +213,7 @@ public class Student extends User implements Serializable {
             this.getStudentReviews().remove(studentReview);
         }
     }
-    
-    
-    
+
     public List<CompanyReview> getCompanyReviews() {
         return companyReviews;
     }
@@ -223,7 +221,6 @@ public class Student extends User implements Serializable {
     public void setCompanyReviews(List<CompanyReview> companyReviews) {
         this.companyReviews = companyReviews;
     }
-    
 
     public void addCompanyReview(CompanyReview companyReview) {
         if (!this.companyReviews.contains(companyReview)) {
@@ -276,8 +273,6 @@ public class Student extends User implements Serializable {
             this.applications.remove(application);
         }
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -304,7 +299,4 @@ public class Student extends User implements Serializable {
         return "entity.Student[ id=" + userId + " ]";
     }
 
-    
-
-    
 }

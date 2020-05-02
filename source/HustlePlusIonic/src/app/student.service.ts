@@ -68,7 +68,19 @@ export class StudentService {
 		};
 
 		console.log(sessionStorage.currentStudent);
-		return this.httpClient.post<any>(this.baseUrl, updateStudentReq, httpOptions).pipe
+		return this.httpClient.post<any>(this.baseUrl + "/updateStudentDetails", updateStudentReq, httpOptions).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
+	updatePassword(newPassword: string): Observable<any> {
+		let updatePasswordReq = {
+			"username": this.sessionService.getUsername(),
+			"currPassword": this.sessionService.getPassword(),
+			"newPassword": newPassword
+		};
+		return this.httpClient.post<any>(this.baseUrl + "/updatePassword", updatePasswordReq, httpOptions).pipe
 			(
 				catchError(this.handleError)
 			);

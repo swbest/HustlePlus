@@ -47,6 +47,13 @@ export class ProjectService {
 			);
 	}
 
+	getProjectsByCompanyId(companyId: number): Observable<any> {
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveProjectsByCompanyId/" + companyId).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
 	getMyProjects(): Observable<any> {
 		this.studentId = this.sessionService.getCurrentStudent().userId;
 		return this.httpClient.get<any>(this.baseUrl + "/retrieveProjectsByStudentId/" + this.studentId).pipe

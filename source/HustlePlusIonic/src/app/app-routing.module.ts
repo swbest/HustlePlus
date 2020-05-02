@@ -7,8 +7,13 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'slides',
     pathMatch: 'full'
+  },
+
+  {
+    path: 'slides',
+    loadChildren: () => import('./slides/slides.module').then( m => m.SlidesPageModule)
   },
 
   {
@@ -23,27 +28,24 @@ const routes: Routes = [
   { path: 'profile/:userId', loadChildren: './profile/profile.module#ProfilePageModule', canActivate: [AuthGuard] },
   { path: 'viewStudentDetails', loadChildren: './view-student-details/view-student-details.module#ViewStudentDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'viewStudentDetails/:userId', loadChildren: './view-student-details/view-student-details.module#ViewStudentDetailsPageModule', canActivate: [AuthGuard] },
-  { path: 'viewAllProjects', loadChildren: './view-all-projects/view-all-projects.module#ViewAllProjectsPageModule', canActivate: [AuthGuard] },
-  { path: 'viewAllStudents', loadChildren: './view-all-students/view-all-students.module#ViewAllStudentsPageModule', canActivate: [AuthGuard] },
   { path: 'viewAllCompanies', loadChildren: './view-all-companies/view-all-companies.module#ViewAllCompaniesPageModule', canActivate: [AuthGuard] },
   { path: 'viewCompanyDetails', loadChildren: './view-company-details/view-company-details.module#ViewCompanyDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'viewCompanyDetails/:userId', loadChildren: './view-company-details/view-company-details.module#ViewCompanyDetailsPageModule', canActivate: [AuthGuard] },
-  { path: 'viewMyTeams', loadChildren: './view-my-teams/view-my-teams.module#ViewMyTeamsPageModule', canActivate: [AuthGuard] },
   { path: 'viewTeamDetails', loadChildren: './view-team-details/view-team-details.module#ViewTeamDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'viewTeamDetails/:teamId', loadChildren: './view-team-details/view-team-details.module#ViewTeamDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'createNewCompanyReview', loadChildren: './create-new-company-review/create-new-company-review.module#CreateNewCompanyReviewPageModule', canActivate: [AuthGuard] },
   { path: 'createNewStudentReview', loadChildren: './create-new-student-review/create-new-student-review.module#CreateNewStudentReviewPageModule', canActivate: [AuthGuard] },
   { path: 'createNewTeam', loadChildren: './create-new-team/create-new-team.module#CreateNewTeamPageModule', canActivate: [AuthGuard] },
-  { path: 'viewAllApplications', loadChildren: './view-all-applications/view-all-applications.module#ViewAllApplicationsPageModule', canActivate: [AuthGuard] },
   { path: 'createNewSkill', loadChildren: './create-new-skill/create-new-skill.module#CreateNewSkillPageModule', canActivate: [AuthGuard] },
   { path: 'updateProfileModal', loadChildren: './update-profile-modal/update-profile-modal.module#UpdateProfileModalPageModule', canActivate: [AuthGuard] },
   { path: 'viewProjectDetails', loadChildren: './view-project-details/view-project-details.module#ViewProjectDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'viewProjectDetails/:projectId', loadChildren: './view-project-details/view-project-details.module#ViewProjectDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'reviews', loadChildren: './reviews/reviews.module#ReviewsPageModule', canActivate: [AuthGuard] },
-  { path: 'teams', loadChildren: './teams/teams.module#TeamsPageModule', canActivate: [AuthGuard] },  {
-    path: 'view-my-projects',
-    loadChildren: () => import('./view-my-projects/view-my-projects.module').then( m => m.ViewMyProjectsPageModule)
-  },
+  { path: 'teams', loadChildren: './teams/teams.module#TeamsPageModule', canActivate: [AuthGuard] },
+  { path: 'projects', loadChildren: './projects/projects.module#ProjectsPageModule', canActivate: [AuthGuard] },
+  { path: 'applications', loadChildren: './applications/applications.module#ApplicationsPageModule', canActivate: [AuthGuard] },
+  { path: 'viewMyProjectDetails', loadChildren: './view-my-project-details/view-my-project-details.module#ViewMyProjectDetailsPageModule', canActivate: [AuthGuard] },
+  { path: 'viewMyProjectDetails/:projectId', loadChildren: './view-my-project-details/view-my-project-details.module#ViewMyProjectDetailsPageModule', canActivate: [AuthGuard] },
 
 ];
 

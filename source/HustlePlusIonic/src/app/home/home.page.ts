@@ -4,37 +4,26 @@ import { SessionService } from '../session.service';
 
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
+	selector: 'app-home',
+	templateUrl: './home.page.html',
+	styleUrls: ['./home.page.scss'],
 })
 
-export class HomePage implements OnInit
-{
+export class HomePage implements OnInit {
 
-  
-	constructor(public sessionService: SessionService)
-	{		
+	constructor(public sessionService: SessionService) {
 	}
 
+	ngOnInit() {
+		console.log('********** HomePage.ngOnInit()');
 
+	}
 
-	ngOnInit()
-	{
-		console.log('********** HomePage.ngOnInit()');			
-		
+	ionViewWillEnter() {
+		console.log('********** HomePage.ionViewWillEnter()');
 	}
-	
-	
-	
-	ionViewWillEnter()
-	{
-		console.log('********** HomePage.ionViewWillEnter()');		
-	}
-	
-	
-	parseDate(d: Date)
-	{		
+
+	parseDate(d: Date) {
 		return d.toString().replace('[UTC]', '');
 	}
 }

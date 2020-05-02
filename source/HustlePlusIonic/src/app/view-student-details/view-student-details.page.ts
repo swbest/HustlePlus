@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 import { TeamService } from '../team.service';
 import { SkillService } from '../skill.service';
@@ -38,7 +38,8 @@ export class ViewStudentDetailsPage implements OnInit {
     private studentService: StudentService,
     private skillService: SkillService,
     private teamService: TeamService,
-    public alertController: AlertController) {
+    public alertController: AlertController,
+    private toastController: ToastController) {
     this.retrieveStudentError = false;
     this.retreieveSkillsError = false;
     this.retrieveTeamsError = false;
@@ -91,14 +92,16 @@ export class ViewStudentDetailsPage implements OnInit {
     this.submitted = true;
     this.teamService.addStudentToTeam(this.teamId, this.studentToView.userId).subscribe(
       response => {
-        this.infoMessage = 'Team updated ' + response.teamId;
+        this.infoMessage = 'Added student:' + this.studentToView.name + ' to team id: ' + this.teamId;
         this.errorMessage = null;
         this.hasError = false;
+        this.successToast();
       },
       error => {
         this.infoMessage = null;
         this.errorMessage = error;
         this.hasError = true;
+        this.failToast();
       }
     );
     this.back();
@@ -107,4 +110,20 @@ export class ViewStudentDetailsPage implements OnInit {
   back() {
     this.router.navigate(["/teams"]);
   }
+
+  async successToast() {
+		const toast = await this.toastController.create({
+			message: this.infoMessage,
+			duration: 3000
+		});
+		toast.present();
+	}
+
+  async failToast() {
+		const toast = await this.toastController.create({
+			message: this.errorMessage,
+			duration: 3000
+		});
+		toast.present();
+	}
 }

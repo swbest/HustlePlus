@@ -1,94 +1,110 @@
 <ion-header>
 
 	<ion-toolbar>
-		<ion-buttons slot="start">      
+		<ion-buttons slot="start">
 			<ion-button (click)="back()">
 				<ion-icon slot="start" name="arrow-back"></ion-icon>
 			</ion-button>
 		</ion-buttons>
 		<ion-title>Login</ion-title>
 	</ion-toolbar>
-  
+
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="sessionService.getIsLogin() == false">
 
 	<ion-card *ngIf="sessionService.getIsLogin() == false">
-	      
-      <ion-card-content>
-	  
-		<div *ngIf="loginError == true" style="color: red;">
-			{{errorMessage}}
-		</div>
-	  
-		<form #studentLoginForm="ngForm" (ngSubmit)="studentLogin(studentLoginForm)" >
-		
-			<div style="color: red;">
-			
-				<div *ngIf="inusername.invalid && (inusername.dirty || inusername.touched || submitted)" class="errorText">
-					<div *ngIf="inusername.errors.required">
-						Username is required.
-					</div>
-					<div *ngIf="inusername.errors.minlength">
-						Username must be at least 6 characters long.
-					</div>
-					<div *ngIf="inusername.errors.maxlength">
-						Username cannot exceed 64 characters.
-					</div>
-				</div>
-				
-				<div *ngIf="inpassword.invalid && (inpassword.dirty || inpassword.touched || submitted)" class="errorText">
-					<div *ngIf="inpassword.errors.required">
-						Password is required.
-					</div>
-					<div *ngIf="inpassword.errors.minlength">
-						Password must be at least 6 characters long.
-					</div>
-					<div *ngIf="inpassword.errors.maxlength">
-						Password cannot exceed 64 characters.
-					</div>
-				</div>
-				
+
+		<ion-card-content>
+
+			<div *ngIf="loginError == true" style="color: red;">
+				{{errorMessage}}
 			</div>
 
-			<ion-list>
+			<form #studentLoginForm="ngForm" (ngSubmit)="studentLogin(studentLoginForm)">
 
-				<ion-item>
-					<ion-label fixed>Username</ion-label>
-					<ion-input type="text" id="username" name="username" [(ngModel)]="username" minlength="4" maxlength="32" required="true" #inusername="ngModel"></ion-input>
-				</ion-item>
+				<div style="color: red;">
 
-				<ion-item>
-					<ion-label fixed>Password</ion-label>
-					<ion-input type="password" id="password" name="password" [(ngModel)]="password" minlength="4" maxlength="32" required="true" #inpassword="ngModel"></ion-input>
-				</ion-item>
-				
-				<ion-item>
-					<ion-button (click)="clear()">
-						Clear
-					</ion-button>					
-					<ion-button type="submit" ion-button block>
-						Login
-					</ion-button>
-				</ion-item>
+					<div *ngIf="inusername.invalid && (inusername.dirty || inusername.touched || submitted)"
+						class="errorText">
+						<div *ngIf="inusername.errors.required">
+							Username is required.
+						</div>
+						<div *ngIf="inusername.errors.minlength">
+							Username must be at least 6 characters long.
+						</div>
+						<div *ngIf="inusername.errors.maxlength">
+							Username cannot exceed 64 characters.
+						</div>
+					</div>
 
-			</ion-list>
-			
-		</form>
-        
-      </ion-card-content>
-	  
-    </ion-card>	
-	
+					<div *ngIf="inpassword.invalid && (inpassword.dirty || inpassword.touched || submitted)"
+						class="errorText">
+						<div *ngIf="inpassword.errors.required">
+							Password is required.
+						</div>
+						<div *ngIf="inpassword.errors.minlength">
+							Password must be at least 6 characters long.
+						</div>
+						<div *ngIf="inpassword.errors.maxlength">
+							Password cannot exceed 64 characters.
+						</div>
+					</div>
+
+				</div>
+
+				<ion-list class="line-input">
+
+					<ion-item>
+						<ion-input placeholder="Username" type="text" id="username" name="username" [(ngModel)]="username" minlength="4"
+							maxlength="32" required="true" #inusername="ngModel"></ion-input>
+					</ion-item>
+
+					<br>
+
+					<ion-item>
+						<ion-input placeholder="Password" type="password" id="password" name="password" [(ngModel)]="password" minlength="4"
+							maxlength="32" required="true" #inpassword="ngModel"></ion-input>
+					</ion-item>
+
+					<br>
+
+
+				</ion-list>
+
+				<ion-grid>
+					<ion-row>
+						<ion-col>
+							<ion-button expand="block" (click)="clear()">
+								Clear
+							</ion-button>
+						</ion-col>
+						<ion-col>
+							<ion-button expand="block" type="submit" ion-button block>
+								Login
+							</ion-button>
+						</ion-col>
+
+					</ion-row>
+
+
+				</ion-grid>
+
+			</form>
+
+		</ion-card-content>
+
+	</ion-card>
+
 	<ion-card *ngIf="sessionService.getIsLogin() == true">
-	      
-    <ion-card-content>
-	  
-      You are login as {{sessionService.getCurrentStudent().name}}.
 
-        </ion-card-content>
-	  
-    </ion-card>
+		<ion-card-content>
+
+			You are login as {{sessionService.getCurrentStudent().name}}.
+
+		</ion-card-content>
+
+	</ion-card>
 
 </ion-content>
 
@@ -100,5 +116,5 @@
 			Logout
 		</ion-button>
 	</ion-toolbar>
-	
+
 </ion-footer>

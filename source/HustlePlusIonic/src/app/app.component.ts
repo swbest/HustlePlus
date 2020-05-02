@@ -26,12 +26,12 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'My Applications',
-      url: '/viewAllApplications',
+      url: '/applications',
       icon: 'code-slash'
     },
     {
       title: 'Apply for Projects',
-      url: '/viewAllProjects',
+      url: '/projects',
       icon: 'code-working'
     },
     {
@@ -49,32 +49,6 @@ export class AppComponent implements OnInit {
       url: '/reviews',
       icon: 'ribbon-outline'
     },
-    // temporary
-    // {
-    //   title: 'Leave A Review Student',
-    //   url: '/createNewStudentReview',
-    //   icon: 'create'
-    // },
-    // {
-    //   title: 'Leave A Review Company',
-    //   url: '/createNewCompanyReview',
-    //   icon: 'create'
-    // },
-    // {
-    //   title: 'Form a new Team',
-    //   url: '/createNewTeam',
-    //   icon: 'create'
-    // },
-    // {
-    //   title: 'View my Teams',
-    //   url: '/viewMyTeams',
-    //   icon: 'people'
-    // },
-    // {
-    //   title: 'View My Reviews',
-    //   url: '/reviews',
-    //   icon: 'ribbon-outline'
-    // },
   ];
 
   constructor(

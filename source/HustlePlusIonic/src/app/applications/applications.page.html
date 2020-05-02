@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      My Applications
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-searchbar showCancelButton="true" placeholder="Search Applications" (ionInput)="getSearchApplications($event)"
+    (ionCancel)="onCancel($event)"></ion-searchbar>
+
+  <h3 style="text-align:center" *ngIf="numApplications == 0">
+    No Projects? Apply for one now!
+    &nbsp;
+    <ion-row>
+      <ion-col></ion-col>
+      <ion-col>
+        <ion-button (click)="applyForProjects()">Apply</ion-button>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+  </h3>
+
+  <ion-item *ngFor="let application of applications">
+    <ion-row>
+      <ion-col>
+        <h2>Project Name: {{application.project.projectName}}</h2>
+        <h3 *ngIf="!isPending">Status: Pending</h3>
+        <h3 *ngIf="isPending && isApproved">Status: Rejected</h3>
+        <h3 *ngIf="isPending && !isApproved">Status: Approved</h3>
+        <ion-button (click)="deleteApplication($event, application)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-item>
+</ion-content>
+
+<ion-footer>
+  <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+</ion-footer>

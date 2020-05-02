@@ -52,6 +52,6 @@ public interface ProjectSessionBeanLocal {
 
     public void disassociateProjectSkill(Long projectId, Long skillId) throws ProjectNotFoundException, SkillNotFoundException;
 
-    public List<Project> retrieveProjectsByStudentId(Long studentId);
+    public List<Project> retrieveProjectsByStudentId(Long studentId) throws ProjectNotFoundException;
     
 }

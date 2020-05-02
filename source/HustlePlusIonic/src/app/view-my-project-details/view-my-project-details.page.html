@@ -1,0 +1,142 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button (click)="back()">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-title>
+      View My Project Details
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-toolbar no-border-top>
+  <ion-segment [(ngModel)]="option">
+    <ion-segment-button value="Project Details">
+      Details
+    </ion-segment-button>
+    <ion-segment-button value="Milestones">
+      Milestones
+    </ion-segment-button>
+    <ion-segment-button value="Payments">
+      Payments
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
+
+<ion-content fullscreen>
+
+  <div [ngSwitch]="option">
+    <div *ngSwitchCase="'Project Details'">
+
+      <ion-card>
+
+        <ion-list-header>My Project Details</ion-list-header>
+
+        <ion-card-content>
+          <div *ngIf="retrieveProjectError == true" style="color: red;">
+            Project ID {{projectId}} does not exist!
+          </div>
+
+          <ion-list *ngIf="retrieveProjectError == false && projectToView != null">
+
+            <ion-item>
+              <ion-label><b>Name</b></ion-label>
+              {{projectToView.projectName}}
+            </ion-item>
+
+            <ion-item>
+              <ion-label><b>Description</b></ion-label>
+              {{projectToView.projectDescription}}
+            </ion-item>
+
+            <ion-item>
+              <ion-label><b>Job Value</b></ion-label>
+              ${{projectToView.jobValue}}
+            </ion-item>
+
+            <ion-item>
+              <ion-label><b>Start Date</b></ion-label>
+              {{projectToView.startDate}}
+            </ion-item>
+
+            <ion-item>
+              <ion-label><b>End Date</b></ion-label>
+              {{projectToView.endDate}}
+            </ion-item>
+
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div *ngSwitchDefault>
+      <ion-card>
+
+        <ion-list-header>Project Details</ion-list-header>
+
+        <ion-card-content>
+          <div *ngIf="retrieveProjectError == true" style="color: red;">
+            Project ID {{projectId}} does not exist!
+          </div>
+
+          <ion-list *ngIf="retrieveProjectError == false && projectToView != null">
+
+            <ion-item>
+              <ion-label><b>Name</b></ion-label>
+              {{projectToView.projectName}}
+            </ion-item>
+
+            <ion-item>
+              <ion-label><b>Description</b></ion-label>
+              {{projectToView.projectDescription}}
+            </ion-item>
+
+            <ion-item>
+              <ion-label><b>Job Value</b></ion-label>
+              ${{projectToView.jobValue}}
+            </ion-item>
+
+            <ion-item>
+              <ion-label><b>Start Date</b></ion-label>
+              {{projectToView.startDate}}
+            </ion-item>
+
+            <ion-item>
+              <ion-label><b>End Date</b></ion-label>
+              {{projectToView.endDate}}
+            </ion-item>
+
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div *ngSwitchCase="'Milestones'">
+      <ion-item *ngFor="let milestone of milestones">
+        <ion-row>
+          <ion-col>
+            <h2>Milestone: {{milestone.title}}</h2>
+            <p>{{milestone.description}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </div>
+
+    <div *ngSwitchCase="'Payments'">
+      <ion-item *ngFor="let payment of payments">
+        <ion-row>
+          <ion-col>
+            <h3>Payment for milestone {{payment.milestone.title}}</h3>
+            <h4 *ngIf="payment.isPaid">Status: Paid</h4>
+            <h4 *ngIf="!payment.isPaid">Status: Unpaid</h4>
+            <p>{{payment.paymentDescription}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-title size="small">&copy; 2020 HustlePlus. All rights reserved.</ion-title>
+</ion-footer>

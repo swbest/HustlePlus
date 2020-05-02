@@ -23,6 +23,13 @@ export class MilestoneService {
 		this.baseUrl = this.utilityService.getRootPath() + 'Milestone';
 	}
 
+	getMilestonesByProjectId(projectId: number): Observable<any> {
+		return this.httpClient.get<any>(this.baseUrl + "/retrieveMilestonesByProjectId/" + projectId).pipe
+			(
+				catchError(this.handleError)
+			);
+	}
+
 	getMilestones(): Observable<any> {
 		return this.httpClient.get<any>(this.baseUrl + "/retrieveAllMilestones").pipe
 			(

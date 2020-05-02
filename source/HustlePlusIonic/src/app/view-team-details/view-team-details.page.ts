@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 import { TeamService } from '../team.service';
 import { Team } from '../team';
@@ -25,7 +25,8 @@ export class ViewTeamDetailsPage implements OnInit {
   constructor(private router: Router,
     private activatedRoute: ActivatedRoute,
     private teamService: TeamService,
-    public alertController: AlertController) {
+    public alertController: AlertController,
+    private toastController: ToastController) {
     this.retrieveTeamError = false;
     this.error = false;
     this.resultSuccess = false;
@@ -65,11 +66,16 @@ export class ViewTeamDetailsPage implements OnInit {
   removeStudent(event, student) {
     if (this.teamToView.numStudents == 1) {
       this.removeStudentMsg = "You need at least one student in the team!";
+      this.atLeastOneToast();
     } else {
       this.teamService.removeStudent(this.teamId, student.userId).subscribe(
+        response => {
+          this.successToast();
+        },
         error => {
           this.error = true;
           this.errorMessage = error;
+          this.failToast();
         }
       );
     }
@@ -79,4 +85,28 @@ export class ViewTeamDetailsPage implements OnInit {
   back() {
     this.router.navigate(["/teams"]);
   }
+
+  async successToast() {
+		const toast = await this.toastController.create({
+			message: 'Successfully removed student: ' + this.studentId + ' from team!',
+			duration: 3000
+		});
+		toast.present();
+  }
+  
+  async failToast() {
+		const toast = await this.toastController.create({
+			message: this.removeStudentMsg,
+			duration: 3000
+		});
+		toast.present();
+	}
+
+  async atLeastOneToast() {
+		const toast = await this.toastController.create({
+			message: this.removeStudentMsg,
+			duration: 3000
+		});
+		toast.present();
+	}
 }

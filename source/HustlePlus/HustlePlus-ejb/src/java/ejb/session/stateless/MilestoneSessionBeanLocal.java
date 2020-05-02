@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.Milestone;
+import entity.Project;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.InputDataValidationException;
@@ -35,6 +36,8 @@ public interface MilestoneSessionBeanLocal {
     public List<Milestone> retrieveMilestonesByCompany(Long companyId) throws ProjectNotFoundException;
 
     public List<Milestone> retrieveMilestonesByProject(Long projectId);
+
+    public List<Project> retrieveMilestonesByProjectId(Long projectId) throws MilestoneNotFoundException;
     
 }
 
