@@ -45,7 +45,9 @@
                             </p:column>
                             
                             <p:column headerText="Rating" sortBy="#{student.avgRating}">
-                                <h:outputText value="#{student.avgRating}" />
+                                <h:outputText value="#{student.avgRating}">
+                                    <f:convertNumber maxFractionDigits="2"/>
+                                </h:outputText>
                             </p:column>
 
                             <p:column headerText="Action" >

@@ -136,7 +136,7 @@ public class DataInitSessionBean {
     private void createAdmin() {
         try {
             AdminStaff newAdmin = new AdminStaff();
-            newAdmin.setName("admin tan");
+            newAdmin.setName("Admin Tan");
             newAdmin.setUsername("admin1");
             newAdmin.setPassword("password");
             newAdmin.setEmail("admin1@gmail.com");
@@ -185,10 +185,10 @@ public class DataInitSessionBean {
             Student newStudent = new Student();
             newStudent.setBankAccountName("dbs");
             newStudent.setBankAccountNumber(Long.valueOf("12345678"));
-            newStudent.setName("student one");
-            newStudent.setUsername("studentone");
+            newStudent.setName("Bryan Tan");
+            newStudent.setUsername("bryanTanYX");
             newStudent.setPassword("password");
-            newStudent.setEmail("studentone@gmail.com");
+            newStudent.setEmail("bryanTanYongXiang@gmail.com");
             newStudent.setDescription("information systems undergraduate");
             newStudent.setAccessRightEnum(AccessRightEnum.STUDENT);
             newStudent.setIsVerified(Boolean.TRUE);
@@ -201,24 +201,29 @@ public class DataInitSessionBean {
             Student newStudent2 = new Student();
             newStudent2.setBankAccountName("posb");
             newStudent2.setBankAccountNumber(Long.valueOf("12345678"));
-            newStudent2.setName("student two");
-            newStudent2.setUsername("studenttwo");
+            newStudent2.setName("Chloe Lim");
+            newStudent2.setUsername("chloLim");
             newStudent2.setPassword("password");
-            newStudent2.setEmail("studenttwo@gmail.com");
-            newStudent2.setDescription("information systems undergraduate");
+            newStudent2.setEmail("chloexlim@gmail.com");
+            newStudent2.setDescription("smu undergraduate");
             newStudent2.setIsVerified(Boolean.TRUE);
-            studentSessionBeanLocal.createStudentAccount(newStudent2, skillIds);
+            List<Long> skillIds2 = new ArrayList<>();
+            skillIds2.add(new Long(2));
+            skillIds2.add(new Long(4));
+            studentSessionBeanLocal.createStudentAccount(newStudent2, skillIds2);
 
             Student newStudent3 = new Student();
             newStudent3.setBankAccountName("uob");
             newStudent3.setBankAccountNumber(Long.valueOf("12345678"));
-            newStudent3.setName("student three");
-            newStudent3.setUsername("studentthree");
+            newStudent3.setName("Russell Ng");
+            newStudent3.setUsername("rusellNg");
             newStudent3.setPassword("password");
-            newStudent3.setEmail("studentthree@gmail.com");
-            newStudent3.setDescription("information systems undergraduate");
+            newStudent3.setEmail("rusellNgJS@gmail.com");
+            newStudent3.setDescription("nus undergraduate");
             newStudent3.setIsVerified(Boolean.TRUE);
-            studentSessionBeanLocal.createStudentAccount(newStudent3, skillIds);
+            List<Long> skillIds3 = new ArrayList<>();;
+            skillIds3.add(new Long(6));
+            studentSessionBeanLocal.createStudentAccount(newStudent3, skillIds3);
 
             em.flush();
         } catch (StudentAssignedToProjectException ex) {
@@ -247,14 +252,14 @@ public class DataInitSessionBean {
 
             Project newProject2 = new Project();
             newProject2.setProjectName("Instagram");
-            newProject2.setJobValue(BigDecimal.valueOf(310.60));
-            newProject2.setNumStudentsRequired(4);
+            newProject2.setJobValue(BigDecimal.valueOf(876.00));
+            newProject2.setNumStudentsRequired(5);
             newProject2.setProjectDescription("IG Project");
             newProject2.setStartDate(new Date());
             newProject2.setEndDate(new Date());
             List<Long> skillIds2 = new ArrayList<Long>();
-            skillIds2.add(Long.valueOf("6"));
-            projectSessionBeanLocal.createNewProject(newProject2, Long.valueOf("1"), skillIds);
+            skillIds2.add(Long.valueOf("1"));
+            projectSessionBeanLocal.createNewProject(newProject2, Long.valueOf("1"), skillIds2);
         } catch (CompanyNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CompanyNotVerifiedException ex) {
@@ -278,6 +283,8 @@ public class DataInitSessionBean {
             applicationSessionBeanLocal.createApplication(application, Long.valueOf("1"), Long.valueOf("4"));
             Application application2 = new Application();
             applicationSessionBeanLocal.createApplication(application2, Long.valueOf("2"), Long.valueOf("4"));
+            Application application3 = new Application();
+            applicationSessionBeanLocal.createApplication(application3, Long.valueOf("2"), Long.valueOf("5"));  
         } catch (StudentSuspendedException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (StudentNotVerifiedException ex) {
