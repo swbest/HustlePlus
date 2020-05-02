@@ -1,0 +1,22 @@
+ion-menu {
+    --ion-background-color: #ffffff;
+    --ion-text-color: var(--ion-color-primary-contrast);
+  
+    ion-toolbar {
+      --background: #e46c0a;
+    }
+  
+    ion-list {/* optional, but it needs when you use gradient as a background color.*/
+      background: transparent;
+    }
+  }
+
+  ion-toolbar.header {
+    --background: #e46c0a;
+    --ion-text-color: var(--ion-color-primary-contrast);
+  }
+
+  ion-button.back {
+    --background: #e46c0a;
+    --color: #FFF;
+  }
