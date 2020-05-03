@@ -25,14 +25,15 @@ export class TeamService {
 		private utilityService: UtilityService,
 		private sessionService: SessionService) {
 		this.baseUrl = this.utilityService.getRootPath() + 'Team';
-		this.studentId = this.sessionService.getCurrentStudent().userId;
 	}
 
 	createNewTeam(newTeam: Team): Observable<any> {
+		this.studentId = this.sessionService.getCurrentStudent().userId;
 		let createNewTeamReq = {
 			'newTeam': newTeam,
 			'studentId': this.studentId,
 		};
+		console.log("creating new team for " + this.studentId);
 		return this.httpClient.put<any>(this.baseUrl + "/createNewTeam", createNewTeamReq, httpOptions).pipe
 			(
 				catchError(this.handleError)

@@ -182,6 +182,7 @@ public class TeamResource {
     public Response createTeam(CreateNewTeamReq createNewTeamReq) {
         if (createNewTeamReq != null) {
             try {
+                System.out.println("*** TeamResource createTeam for: " + createNewTeamReq.getStudentId());
                 Long newTeamId = teamSessionBean.createNewTeam(createNewTeamReq.getNewTeam(), createNewTeamReq.getStudentId());
                 CreateNewStudentRsp createNewStudentRsp = new CreateNewStudentRsp(newTeamId);
                 return Response.status(Response.Status.OK).entity(createNewStudentRsp).build();
