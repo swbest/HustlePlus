@@ -1,8 +1,0 @@
-{
-  "files.exclude": {
-    ".idea/": "explorerExcludedFiles",
-    "node_modules/": "explorerExcludedFiles",
-    "test/fixtures/shots/": "explorerExcludedFiles",
-    "bower_components/": "explorerExcludedFiles"
-  }
-}
