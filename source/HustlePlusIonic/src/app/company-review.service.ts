@@ -34,7 +34,6 @@ export class CompanyReviewService {
 			'companyId': companyId,
 			'studentId': studentId
 		};
-
 		return this.httpClient.put<any>(this.baseUrl, createNewCompanyReviewReq, httpOptions).pipe
 			(
 				catchError(this.handleError)

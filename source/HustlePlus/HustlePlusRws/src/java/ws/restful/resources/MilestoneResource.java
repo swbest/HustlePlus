@@ -22,8 +22,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import ws.restful.model.CreateNewMilestoneReq;
-import ws.restful.model.CreateNewMilestoneRsp;
 import ws.restful.model.ErrorRsp;
 import ws.restful.model.RetrieveAllMilestonesRsp;
 import ws.restful.model.RetrieveMilestoneRsp;
@@ -114,30 +112,6 @@ public class MilestoneResource {
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-        }
-    }
-
-    /**
-     * PUT method for updating or creating an instance of MilestoneResource
-     *
-     * @param content representation for the resource
-     */
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createMilestone(CreateNewMilestoneReq createNewMilestoneReq) {
-        if (createNewMilestoneReq != null) {
-            try {
-                Long newMilestoneId = milestoneSessionBean.createNewMilestone(createNewMilestoneReq.getNewMilestone(), createNewMilestoneReq.getProjectId());
-                CreateNewMilestoneRsp createNewMilestoneRsp = new CreateNewMilestoneRsp(newMilestoneId);
-                return Response.status(Response.Status.OK).entity(createNewMilestoneRsp).build();
-            } catch (Exception ex) {
-                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-            }
-        } else {
-            ErrorRsp errorRsp = new ErrorRsp("Invalid Request");
-            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
 

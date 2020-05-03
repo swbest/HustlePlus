@@ -45,7 +45,7 @@ export class CreateNewStudentPage implements OnInit {
 					this.errorMessage = null;
 					this.hasError = true;
 					this.registerToast();
-					this.login();
+					this.back();
 				},
 				error => {
 					this.infoMessage = null;
