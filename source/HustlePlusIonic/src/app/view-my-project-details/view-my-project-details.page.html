@@ -40,28 +40,28 @@
           <ion-list *ngIf="retrieveProjectError == false && projectToView != null">
 
             <ion-item>
-              <ion-label><b>Name</b></ion-label>
+              <ion-label><b>Name:</b></ion-label>
               {{projectToView.projectName}}
             </ion-item>
 
             <ion-item>
-              <ion-label><b>Description</b></ion-label>
+              <ion-label><b>Description:</b></ion-label>
               {{projectToView.projectDescription}}
             </ion-item>
 
             <ion-item>
-              <ion-label><b>Job Value</b></ion-label>
+              <ion-label><b>Job Value:</b></ion-label>
               ${{projectToView.jobValue}}
             </ion-item>
 
             <ion-item>
-              <ion-label><b>Start Date</b></ion-label>
-              <ion-datetime displayFormat="DD/MM/YYYY" value="{{startDateTime()}}"></ion-datetime>
+              <ion-label><b>Start Date:</b></ion-label>
+              {{startDateTime()}}
             </ion-item>
 
             <ion-item>
-              <ion-label><b>End Date</b></ion-label>
-              <ion-datetime displayFormat="DD/MM/YYYY" value="{{endDateTime()}}"></ion-datetime>
+              <ion-label><b>End Date:</b></ion-label>
+              {{endDateTime()}}
             </ion-item>
 
           </ion-list>
@@ -80,27 +80,27 @@
           <ion-list *ngIf="retrieveProjectError == false && projectToView != null">
 
             <ion-item>
-              <ion-label><b>Name</b></ion-label>
+              <ion-label><b>Name:</b></ion-label>
               {{projectToView.projectName}}
             </ion-item>
 
             <ion-item>
-              <ion-label><b>Description</b></ion-label>
+              <ion-label><b>Description:</b></ion-label>
               {{projectToView.projectDescription}}
             </ion-item>
 
             <ion-item>
-              <ion-label><b>Job Value</b></ion-label>
+              <ion-label><b>Job Value:</b></ion-label>
               ${{projectToView.jobValue}}
             </ion-item>
 
             <ion-item>
-              <ion-label><b>Start Date</b></ion-label>
+              <ion-label><b>Start Date:</b></ion-label>
               {{startDateTime()}}
             </ion-item>
 
             <ion-item>
-              <ion-label><b>End Date</b></ion-label>
+              <ion-label><b>End Date:</b></ion-label>
               {{endDateTime()}}
             </ion-item>
 

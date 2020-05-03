@@ -13,75 +13,75 @@
 
 <ion-content>
 
-  <ion-card>
 
-    <ion-card-content>
+  <div *ngIf="retrieveStudentError == true" style="color: red;">
+    Student ID {{userId}} does not exist!
+  </div>
 
-      <div *ngIf="retrieveStudentError == true" style="color: red;">
-        Student ID {{userId}} does not exist!
-      </div>
+  <ion-list *ngIf="retrieveStudentError == false && studentToView != null">
+    <ion-list-header>Student Details</ion-list-header>
+    <br>
+    <ion-item>
+      <ion-label><b>Name:</b></ion-label>
+      {{studentToView.name}}
+    </ion-item>
 
-      <ion-list *ngIf="retrieveStudentError == false && studentToView != null">
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-label><b>Description:</b></ion-label>
+        </ion-row>
+        <br>
+        <ion-row style="float: right;">{{studentToView.description}}</ion-row>
+        <br>
+        <ion-row><br></ion-row>
+      </ion-grid>
+    </ion-item>
+
+    <ion-item>
+      <ion-label><b>Average Rating:</b></ion-label>
+      {{studentToView.avgRating}}
+    </ion-item>
+
+    <ion-item>
+      <ion-label><b>Email:</b></ion-label>
+      {{studentToView.email}}
+    </ion-item>
+
+    <ion-item>
+      <ion-label><b>Skills:</b></ion-label>
+      <ng-container *ngFor="let skill of skills">
+        <ion-chip outline color="primary">
+          <ion-label>{{ skill.title }}</ion-label>
+        </ion-chip>
+      </ng-container>
+    </ion-item>
+
+      <form #addToTeamForm="ngForm" (ngSubmit)="addToTeam(addToTeamForm)">
 
         <ion-item>
-          <ion-label><b>Name</b></ion-label>
-          {{studentToView.name}}
+          <ion-label><b>Team: </b></ion-label>
+            <ion-select style="float: right;" [compareWith]="compareWith" placeholder="Select Team" id="team"
+              team="team" #team="ngModel" [(ngModel)]="teamId" required="true" [ngModelOptions]="{standalone: true}">
+              <ion-select-option *ngFor="let team of teams" value="{{team.teamId}}">{{team.teamName}}
+              </ion-select-option>
+            </ion-select>
         </ion-item>
 
-        <ion-item>
-          <ion-label><b>Description</b></ion-label>
-          {{studentToView.description}}
-        </ion-item>
+        <ion-row>
+          <ion-col></ion-col>
+          <ion-col>
+            <ion-button type="submit" ion-button block>
+              Add To Team
+            </ion-button>
+          </ion-col>
+          <ion-col></ion-col>
+        </ion-row>
 
-        <ion-item>
-          <ion-label><b>Average Rating</b></ion-label>
-          {{studentToView.avgRating}}
-        </ion-item>
+      </form>
 
-        <ion-item>
-          <ion-label><b>Email</b></ion-label>
-          {{studentToView.email}}
-        </ion-item>
+  </ion-list>
 
-        <ion-item>
-          <ion-label><b>Skills</b></ion-label>
-          <ul>
-            <li *ngFor="let skill of skills">{{skill.title}}</li>
-          </ul>
-        </ion-item>
-
-        <form #addToTeamForm="ngForm" (ngSubmit)="addToTeam(addToTeamForm)">
-
-          <ion-grid>
-
-            <ion-row>
-              <ion-col>
-                <ion-item>
-                  <ion-label>Add Student To Team</ion-label>
-                  <ion-select [compareWith]="compareWith" placeholder="Select Team" id="team" team="team"
-                    #team="ngModel" [(ngModel)]="teamId" required="true" [ngModelOptions]="{standalone: true}">
-                    <ion-select-option *ngFor="let team of teams" value="{{team.teamId}}">{{team.teamName}}
-                    </ion-select-option>
-                  </ion-select>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-
-            <ion-row>
-              <ion-col></ion-col>
-              <ion-col>
-                <ion-button type="submit" ion-button block>
-                  Add To Team
-                </ion-button>
-              </ion-col>
-              <ion-col></ion-col>
-            </ion-row>
-
-          </ion-grid>
-        </form>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
 </ion-content>
 
 <ion-footer>

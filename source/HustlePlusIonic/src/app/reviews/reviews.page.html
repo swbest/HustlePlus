@@ -52,25 +52,27 @@
 
             <ion-list>
 
-                <ion-label>
-                    Reviews From Other Students
-                </ion-label>
+                <ion-list-header>
+                    Reviews from Teammates:
+                </ion-list-header>
 
                 <ion-item *ngFor="let studentReview of studentReviews">
                     <ion-row>
                         <ion-col>
-                            <h2>Rating: {{studentReview.rating}}</h2>
-                            <p>Text: {{studentReview.reviewText}}</p>
+                            <h2><b>{{studentReview.rating}}</b> out of 5 Stars</h2>
+                            <p><em>"{{studentReview.reviewText}}"</em></p>
                         </ion-col>
                     </ion-row>
                 </ion-item>
 
-                <br/>
-                <br/>
+            </ion-list>
+<br>
 
-                <ion-label>
-                    Reviews From Companies
-                </ion-label>
+            <ion-list>
+
+                <ion-list-header>
+                    Reviews from Companies:
+                </ion-list-header>
 
                 <ion-item *ngFor="let companyReview of companyReviews">
                     <ion-row>
@@ -80,7 +82,10 @@
                         </ion-col>
                     </ion-row>
                 </ion-item>
+
             </ion-list>
+
+
         </div>
 
 

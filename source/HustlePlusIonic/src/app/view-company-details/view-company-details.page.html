@@ -13,43 +13,47 @@
 
 <ion-content>
 
-  <ion-card>
 
-    <ion-card-content>
 
       <div *ngIf="retrieveCompanyError == true" style="color: red;">
         Company ID {{userId}} does not exist!
       </div>
 
       <ion-list *ngIf="retrieveCompanyError == false && companyToView != null">
-
+        <ion-list-header>Company Details</ion-list-header>
+<br>
         <ion-item>
-          <ion-label><b>Name</b></ion-label>
+          <ion-label><b>Name:</b></ion-label>
           {{companyToView.name}}
         </ion-item>
 
         <ion-item>
-          <ion-label><b>Description</b></ion-label>
+          <ion-label><b>Description:</b></ion-label>
           {{companyToView.description}}
         </ion-item>
 
         <ion-item>
-          <ion-label><b>Average Rating</b></ion-label>
+          <ion-label><b>Average Rating:</b></ion-label>
           {{companyToView.avgRating}}
         </ion-item>
 
         <ion-item>
-          <ion-label><b>Verified?</b></ion-label>
-          {{companyToView.isVerified}}
+          <ion-label><b>Verified:</b></ion-label>
+          <p>
+            <ion-icon *ngIf="companyToView.isVerified == true" style="color:green" slot="icon-only"
+              name="checkmark-circle"></ion-icon>
+            <ion-icon *ngIf="companyToView.isVerified == false" style="color:red" slot="icon-only" name="close-circle">
+            </ion-icon>
+          </p>
         </ion-item>
 
         <ion-item>
-          <ion-label><b>Email</b></ion-label>
+          <ion-label><b>Email:</b></ion-label>
           {{companyToView.email}}
         </ion-item>
 
         <ion-item>
-          <ion-label><b>Projects</b></ion-label>
+          <ion-label><b>Projects:</b></ion-label>
           <ul>
             <li *ngFor="let project of projects">{{project.projectName}}</li>
           </ul>
@@ -58,15 +62,14 @@
         <ion-row>
           <ion-col></ion-col>
           <ion-col>
-          <ion-button expand="block" icon="mail-outline" (click)="emailCompany()">
-            Email Company
-          </ion-button>
-        </ion-col>
-        <ion-col></ion-col>
-      </ion-row>
+            <ion-button expand="block" icon="mail-outline" (click)="emailCompany()">
+              Email Company
+            </ion-button>
+          </ion-col>
+          <ion-col></ion-col>
+        </ion-row>
       </ion-list>
-    </ion-card-content>
-  </ion-card>
+
 </ion-content>
 
 <ion-footer>
