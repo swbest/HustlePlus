@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar class="header">
+    <ion-buttons slot="start">
+      <ion-button class="back" (click)="back()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Resume Upload</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <div text-center>
+    <ion-row>
+      <h4>Upload your resume now!</h4>
+      &nbsp;
+    </ion-row>
+
+    <ion-row>
+      <p>Help companies understand you better and land your first side hustle.</p>
+    </ion-row>
+
+    <ion-row>
+      <ion-col></ion-col>
+      <ion-col>
+        <ion-button size="default" color="success" (click)="uploadFile()">Upload Resume</ion-button>
+        <ion-label><b>{{uploadText}}</b></ion-label>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col></ion-col>
+      <ion-col>
+        <ion-button size="default" color="warning" (click)="abortUpload()">Cancel Upload</ion-button>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+  </div>
+</ion-content>

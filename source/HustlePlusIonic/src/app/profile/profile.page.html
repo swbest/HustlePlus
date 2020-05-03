@@ -159,6 +159,9 @@
                 </ion-item>
               </ion-card>
               <ion-toolbar position="bottom">
+                <ion-button slot="start" color="medium" (click)="uploadResume()">
+                  <ion-icon slot="icon-only" name="document-outline"></ion-icon> Upload Resume
+                </ion-button>
                 <ion-button slot="start" color="success" (click)="updateStudentAccount()">
                   <ion-icon slot="icon-only" name="pencil-outline"></ion-icon> Update Profile
                 </ion-button>
@@ -170,8 +173,6 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-
-
     </div>
   </div>
 </ion-content>

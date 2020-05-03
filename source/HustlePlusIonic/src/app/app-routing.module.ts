@@ -46,7 +46,7 @@ const routes: Routes = [
   { path: 'applications', loadChildren: './applications/applications.module#ApplicationsPageModule', canActivate: [AuthGuard] },
   { path: 'viewMyProjectDetails', loadChildren: './view-my-project-details/view-my-project-details.module#ViewMyProjectDetailsPageModule', canActivate: [AuthGuard] },
   { path: 'viewMyProjectDetails/:projectId', loadChildren: './view-my-project-details/view-my-project-details.module#ViewMyProjectDetailsPageModule', canActivate: [AuthGuard] },
-
+  { path: 'resume', loadChildren: './resume/resume.module#ResumePageModule', canActivate: [AuthGuard] },
 ];
 
 @NgModule({

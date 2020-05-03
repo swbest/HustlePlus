@@ -43,10 +43,8 @@ export class ProfilePage implements OnInit {
     private modalController: ModalController,
     private toastController: ToastController,
     private location: Location,
-    private router: Router
-  ) {
+    private router: Router) {
     this.skills = new Array();
-
   }
 
   ngOnInit() {
@@ -120,6 +118,10 @@ export class ProfilePage implements OnInit {
 
   updateStudentAccount() {
     this.router.navigate(["/updateProfileModal"]);
+  }
+
+  uploadResume() {
+    this.router.navigate(["/resume"]);
   }
 
   async presentToast() {
