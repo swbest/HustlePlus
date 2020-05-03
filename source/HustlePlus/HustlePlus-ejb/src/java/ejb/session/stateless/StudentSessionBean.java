@@ -9,11 +9,14 @@ import entity.Company;
 import entity.Skill;
 import entity.Student;
 import entity.Team;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -126,7 +129,7 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
                 studentToUpdate.setBankAccountNumber(student.getBankAccountNumber());
 
 
-              /* not in profile
+                /* not in profile
                 studentToUpdate.setPassword(newPassword);
                 studentToUpdate.setAvgRating(student.getAvgRating());
                 studentToUpdate.setIsVerified(student.getIsVerified());
@@ -375,4 +378,14 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         return msg;
     }
 
+    public String uploadResume(Long studentId, File resume) {
+
+        try {
+            Student currStudent = retrieveStudentByStudentId(studentId);
+            currStudent.setResume(resume);
+        } catch (StudentNotFoundException ex) {
+            Logger.getLogger(StudentSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "filepath";
+    }
 }
