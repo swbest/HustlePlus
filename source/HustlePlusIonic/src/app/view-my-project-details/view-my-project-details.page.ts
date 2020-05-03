@@ -92,7 +92,7 @@ export class ViewMyProjectDetailsPage implements OnInit {
         console.log(this.payments);
       },
       error => {
-        this.retrieveMilestoneError = true;
+        this.retrievePaymentError = true;
         console.log('********** ViewProjectDetailsPage.ts: ' + error);
       }
     );

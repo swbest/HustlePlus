@@ -109,6 +109,7 @@
     </div>
 
     <div *ngSwitchCase="'Milestones'">
+      <p *ngIf="retrieveMilestoneError">There are no milestones available for this project!</p>
       <ion-item *ngFor="let milestone of milestones">
         <ion-row>
           <ion-col>
@@ -120,6 +121,7 @@
     </div>
 
     <div *ngSwitchCase="'Payments'">
+      <p *ngIf="retrievePaymentError">There are no payments available for this project!</p>
       <ion-item *ngFor="let payment of payments">
         <ion-row>
           <ion-col>
