@@ -6,28 +6,29 @@
 package ws.restful.model;
 
 import entity.Company;
+import entity.CompanyReview;
 import java.util.List;
 
 /**
  *
  * @author dtjldamien
  */
-public class RetrieveAllCompaniesRsp {
+public class RetrieveCompanyReviewsRsp {
 
-    public List<Company> companies;
+    public List<CompanyReview> companyReviews;
 
-    public RetrieveAllCompaniesRsp() {
+    public RetrieveCompanyReviewsRsp() {
     }
 
-    public RetrieveAllCompaniesRsp(List<Company> companies) {
-        this.companies = companies;
+    public RetrieveCompanyReviewsRsp(List<CompanyReview> companyReviews) {
+        this.companyReviews = companyReviews;
     }
 
-    public List<Company> getCompanies() {
-        return companies;
+    public List<CompanyReview> getCompanyReviews() {
+        return companyReviews;
     }
 
-    public void setCompanies(List<Company> companies) {
-        this.companies = companies;
+    public void setCompanyReviews(List<CompanyReview> companyReviews) {
+        this.companyReviews = companyReviews;
     }
 }

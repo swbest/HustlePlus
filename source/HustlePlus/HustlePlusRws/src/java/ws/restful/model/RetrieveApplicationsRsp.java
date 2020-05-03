@@ -5,6 +5,7 @@
  */
 package ws.restful.model;
 
+import entity.Application;
 import entity.Student;
 import java.util.List;
 
@@ -12,22 +13,22 @@ import java.util.List;
  *
  * @author dtjldamien
  */
-public class RetrieveAllStudentsRsp {
+public class RetrieveApplicationsRsp {
 
-    public List<Student> students;
+    public List<Application> applications;
 
-    public RetrieveAllStudentsRsp() {
+    public RetrieveApplicationsRsp() {
     }
 
-    public RetrieveAllStudentsRsp(List<Student> students) {
-        this.students = students;
+    public RetrieveApplicationsRsp(List<Application> applications) {
+        this.applications = applications;
     }
 
-    public List<Student> getStudents() {
-        return students;
+    public List<Application> getApplications() {
+        return applications;
     }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
     }
 }

@@ -9,22 +9,22 @@ package ws.restful.model;
  *
  * @author dtjldamien
  */
-public class CreateNewStudentReviewRsp {
+public class CreateNewCompanyReviewRsp {
     
-    private Long newStudentReviewId;
+    private Long newCompanyReviewId;
 
-    public CreateNewStudentReviewRsp() {
+    public CreateNewCompanyReviewRsp() {
     }
 
-    public CreateNewStudentReviewRsp(Long newStudentReviewId) {
-        this.newStudentReviewId = newStudentReviewId;
+    public CreateNewCompanyReviewRsp(Long newCompanyReviewId) {
+        this.newCompanyReviewId = newCompanyReviewId;
     }
 
-    public Long getNewStudentReviewId() {
-        return newStudentReviewId;
+    public Long getNewCompanyReviewId() {
+        return newCompanyReviewId;
     }
 
-    public void setNewStudentReviewId(Long newStudentReviewId) {
-        this.newStudentReviewId = newStudentReviewId;
+    public void setNewCompanyReviewId(Long newCompanyReviewId) {
+        this.newCompanyReviewId = newCompanyReviewId;
     }
 }
