@@ -170,33 +170,6 @@ public class ProjectResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
-
-    /**
-     * PUT method for updating or creating an instance of ProjectResource
-     *
-     * @param content representation for the resource
-     */
-    /*
-    no need for put method for projects
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createProject(CreateNewProjectReq createNewProjectReq) {
-        if (createNewProjectReq != null) {
-            try {
-                Long newProjectId = projectSessionBean.createNewProject(createNewProjectReq.getNewProject(), createNewProjectReq.getCompanyId());
-                CreateNewProjectRsp createNewProjectRsp = new CreateNewProjectRsp(newProjectId);
-                return Response.status(Status.OK).entity(createNewProjectRsp).build();
-            } catch (Exception ex) {
-                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-                return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-            }
-        } else {
-            ErrorRsp errorRsp = new ErrorRsp("Invalid Request");
-            return Response.status(Status.BAD_REQUEST).entity(errorRsp).build();
-        }
-    }
-     */
     
     private ProjectSessionBeanLocal lookupProjectSessionBeanLocal() {
         try {

@@ -12,14 +12,14 @@ import java.util.List;
  *
  * @author sw_be
  */
-public class RetrieveAllMilestonesRsp {
+public class RetrieveMilestonesRsp {
     
     public List<Milestone> milestones;
 
-    public RetrieveAllMilestonesRsp() {
+    public RetrieveMilestonesRsp() {
     }
 
-    public RetrieveAllMilestonesRsp(List<Milestone> milestones) {
+    public RetrieveMilestonesRsp(List<Milestone> milestones) {
         this.milestones = milestones;
     }
 

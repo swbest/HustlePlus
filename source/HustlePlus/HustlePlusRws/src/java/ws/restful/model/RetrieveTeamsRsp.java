@@ -5,6 +5,7 @@
  */
 package ws.restful.model;
 
+import entity.Payment;
 import entity.Team;
 import java.util.List;
 
@@ -12,14 +13,14 @@ import java.util.List;
  *
  * @author dtjldamien
  */
-public class RetrieveTeamsByStudentRsp {
-
+public class RetrieveTeamsRsp {
+    
     public List<Team> teams;
 
-    public RetrieveTeamsByStudentRsp() {
+    public RetrieveTeamsRsp() {
     }
 
-    public RetrieveTeamsByStudentRsp(List<Team> teams) {
+    public RetrieveTeamsRsp(List<Team> teams) {
         this.teams = teams;
     }
 
@@ -27,7 +28,7 @@ public class RetrieveTeamsByStudentRsp {
         return teams;
     }
 
-    public void setStudents(List<Team> teams) {
+    public void setTeams(List<Team> teams) {
         this.teams = teams;
     }
 }

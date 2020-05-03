@@ -16,16 +16,13 @@ import javax.naming.NamingException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import ws.restful.model.ErrorRsp;
-import ws.restful.model.RetrieveAllPaymentsRsp;
-import ws.restful.model.RetrievePaymentRsp;
+import ws.restful.model.RetrievePaymentsRsp;
 
 /**
  * REST Web Service
@@ -64,56 +61,7 @@ public class PaymentResource {
                 milestone.setProject(null);
                 payment.setStudent(null);
             }
-            RetrieveAllPaymentsRsp retrieveAllPaymentsRsp = new RetrieveAllPaymentsRsp(payments);
-            return Response.status(Response.Status.OK).entity(retrieveAllPaymentsRsp).build();
-        } catch (Exception ex) {
-            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-        }
-    }
-
-    /**
-     * Retrieves representation of an instance of
-     * ws.restful.resources.PaymentResource
-     *
-     * @return an instance of java.lang.String
-     */
-    @GET
-    @Path("retrievePayment/{paymentId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response retrievePaymentById(@PathParam("paymentId") Long paymentId) {
-        try {
-            Payment payment = paymentSessionBean.retrievePaymentByPaymentId(paymentId);
-            Milestone milestone = payment.getMilestone();
-            milestone.getPayments().clear();
-            milestone.setProject(null);
-            payment.setStudent(null);
-            RetrievePaymentRsp retrievePaymentRsp = new RetrievePaymentRsp(payment);
-            return Response.status(Response.Status.OK).entity(retrievePaymentRsp).build();
-        } catch (Exception ex) {
-            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-        }
-    }
-
-    /**
-     * Retrieves representation of an instance of
-     * ws.restful.resources.PaymentResource
-     *
-     * @return an instance of java.lang.String
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveAllPayments() {
-        try {
-            List<Payment> payments = paymentSessionBean.retrieveAllPayment();
-            for (Payment payment : payments) {
-                Milestone milestone = payment.getMilestone();
-                milestone.getPayments().clear();
-                milestone.setProject(null);
-                payment.setStudent(null);
-            }
-            RetrieveAllPaymentsRsp retrieveAllPaymentsRsp = new RetrieveAllPaymentsRsp(payments);
+            RetrievePaymentsRsp retrieveAllPaymentsRsp = new RetrievePaymentsRsp(payments);
             return Response.status(Response.Status.OK).entity(retrieveAllPaymentsRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());

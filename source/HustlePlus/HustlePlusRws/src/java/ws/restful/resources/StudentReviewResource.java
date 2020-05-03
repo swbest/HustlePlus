@@ -26,8 +26,7 @@ import javax.ws.rs.core.Response;
 import ws.restful.model.CreateNewStudentReviewReq;
 import ws.restful.model.CreateNewStudentReviewRsp;
 import ws.restful.model.ErrorRsp;
-import ws.restful.model.RetrieveAllStudentReviewsRsp;
-import ws.restful.model.RetrieveStudentReviewRsp;
+import ws.restful.model.RetrieveStudentReviewsRsp;
 
 /**
  * REST Web Service
@@ -55,66 +54,43 @@ public class StudentReviewResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("retrieveStudentReview/{studentReviewId}")
+    @Path("retrieveMyReviewsFromStudents/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveStudentReviewById(@PathParam("studentReviewId") Long studentReviewId) {
+    public Response retrieveMyReviewsFromStudents(@PathParam("studentId") Long studentId) { // peers rating this user
         try {
-            StudentReview studentReview = studentReviewSessionBeanLocal.retrieveStudentReviewByReviewId(studentReviewId);
-            studentReview.setCompany(null);
-            studentReview.setProject(null);
-            studentReview.setStudentReviewId(null);
-            RetrieveStudentReviewRsp retrieveStudentReviewRsp = new RetrieveStudentReviewRsp(studentReview);
-            return Response.status(Response.Status.OK).entity(retrieveStudentReviewRsp).build();
-        } catch (Exception ex) {
-            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-        }
-    }
-
-    /**
-     * Retrieves representation of an instance of
-     * ws.restful.resources.ReviewResource
-     *
-     * @return an instance of java.lang.String
-     */
-    @GET
-    @Path("retrieveAllStudentReviews")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveAllReviews() {
-        try {
-            List<StudentReview> studentReviews = studentReviewSessionBeanLocal.retrieveAllStudentReviews();
-            for (StudentReview studentReview : studentReviews) {
-                studentReview.setCompany(null);
-                studentReview.setProject(null);
-                studentReview.setStudentReviewId(null);
-            }
-            RetrieveAllStudentReviewsRsp retrieveAllStudentReviewsRsp = new RetrieveAllStudentReviewsRsp(studentReviews);
-            return Response.status(Response.Status.OK).entity(retrieveAllStudentReviewsRsp).build();
-        } catch (Exception ex) {
-            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-        }
-    }
-
-    /**
-     * Retrieves representation of an instance of
-     * ws.restful.resources.ReviewResource
-     *
-     * @return an instance of java.lang.String
-     */
-    @GET
-    @Path("retrieveMyStudentReviews/{studentId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveMyReviews(@PathParam("studentId") Long studentId) { // peers and company rating this user
-        try {
-            List<StudentReview> studentReviews = studentReviewSessionBeanLocal.retrieveAllStudentReviewsForStudent(studentId);
+            List<StudentReview> studentReviews = studentReviewSessionBeanLocal.retrieveMyReviewsFromStudents(studentId);
             for (StudentReview studentReview : studentReviews) {
                 studentReview.setCompany(null);
                 studentReview.setProject(null);
                 studentReview.setStudentReviewed(null);
             }
-            RetrieveAllStudentReviewsRsp retrieveAllStudentReviewsRsp = new RetrieveAllStudentReviewsRsp(studentReviews);
-            return Response.status(Response.Status.OK).entity(retrieveAllStudentReviewsRsp).build();
+            RetrieveStudentReviewsRsp retrieveStudentReviewsRsp = new RetrieveStudentReviewsRsp(studentReviews);
+            return Response.status(Response.Status.OK).entity(retrieveStudentReviewsRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+
+    /**
+     * Retrieves representation of an instance of
+     * ws.restful.resources.ReviewResource
+     *
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Path("retrieveMyReviewsFromCompanies/{studentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveMyReviewsFromCompanies(@PathParam("studentId") Long studentId) { // company rating this user
+        try {
+            List<StudentReview> studentReviews = studentReviewSessionBeanLocal.retrieveMyReviewsFromCompanies(studentId);
+            for (StudentReview studentReview : studentReviews) {
+                studentReview.setCompany(null);
+                studentReview.setProject(null);
+                studentReview.setStudentReviewed(null);
+            }
+            RetrieveStudentReviewsRsp retrieveStudentReviewsRsp = new RetrieveStudentReviewsRsp(studentReviews);
+            return Response.status(Response.Status.OK).entity(retrieveStudentReviewsRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();

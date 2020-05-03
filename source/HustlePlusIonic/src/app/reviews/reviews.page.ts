@@ -33,17 +33,17 @@ export class ReviewsPage implements OnInit {
   }
 
   refreshReviews() {
-    this.companyReviewService.getMyCompanyReviews().subscribe(
+    this.studentReviewService.getMyReviewsFromStudents().subscribe(
       response => {
-        this.companyReviews = response.companyReviews
+        this.studentReviews = response.studentReviews
       },
       error => {
         this.errorMessage = error
       }
     );
-    this.studentReviewService.getMyStudentReviews().subscribe(
+    this.studentReviewService.getMyReviewsFromCompanies().subscribe(
       response => {
-        this.studentReviews = response.studentReviews
+        this.companyReviews = response.studentReviews
       },
       error => {
         this.errorMessage = error

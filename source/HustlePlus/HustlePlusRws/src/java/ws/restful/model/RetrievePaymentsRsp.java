@@ -12,14 +12,14 @@ import java.util.List;
  *
  * @author sw_be
  */
-public class RetrieveAllPaymentsRsp {
+public class RetrievePaymentsRsp {
     
     public List<Payment> payments;
 
-    public RetrieveAllPaymentsRsp() {
+    public RetrievePaymentsRsp() {
     }
 
-    public RetrieveAllPaymentsRsp(List<Payment> payments) {
+    public RetrievePaymentsRsp(List<Payment> payments) {
         this.payments = payments;
     }
 

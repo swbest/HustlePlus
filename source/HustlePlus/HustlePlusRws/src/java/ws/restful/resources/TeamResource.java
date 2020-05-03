@@ -30,8 +30,8 @@ import util.exception.TeamNotFoundException;
 import ws.restful.model.CreateNewStudentRsp;
 import ws.restful.model.CreateNewTeamReq;
 import ws.restful.model.ErrorRsp;
-import ws.restful.model.RetrieveTeamsByStudentRsp;
 import ws.restful.model.RetrieveTeamRsp;
+import ws.restful.model.RetrieveTeamsRsp;
 import ws.restful.model.UpdateTeamReq;
 import ws.restful.model.UpdateTeamRsp;
 
@@ -110,8 +110,8 @@ public class TeamResource {
                     student.getTeams().clear();
                 }
             }
-            RetrieveTeamsByStudentRsp retrieveAllTeamsRsp = new RetrieveTeamsByStudentRsp(teams);
-            return Response.status(Response.Status.OK).entity(retrieveAllTeamsRsp).build();
+            RetrieveTeamsRsp retrieveTeamsRsp = new RetrieveTeamsRsp(teams);
+            return Response.status(Response.Status.OK).entity(retrieveTeamsRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();

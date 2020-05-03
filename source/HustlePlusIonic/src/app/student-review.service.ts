@@ -47,16 +47,17 @@ export class StudentReviewService {
       );
   }
 
-  getMyStudentReviews(): Observable<any> {
+  getMyReviewsFromStudents(): Observable<any> {
     this.studentId = this.sessionService.getCurrentStudent().userId;
-    return this.httpClient.get<any>(this.baseUrl + "/retrieveMyStudentReviews/" + this.studentId).pipe
+    return this.httpClient.get<any>(this.baseUrl + "/retrieveMyReviewsFromStudents/" + this.studentId).pipe
       (
         catchError(this.handleError)
       );
   }
 
-  getStudentReviewByStudentReviewId(studentReviewId: number): Observable<any> {
-    return this.httpClient.get<any>(this.baseUrl + "/retrieveStudentReview/" + studentReviewId).pipe
+  getMyReviewsFromCompanies(): Observable<any> {
+    this.studentId = this.sessionService.getCurrentStudent().userId;
+    return this.httpClient.get<any>(this.baseUrl + "/retrieveMyReviewsFromCompanies/" + this.studentId).pipe
       (
         catchError(this.handleError)
       );

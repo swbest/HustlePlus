@@ -12,14 +12,14 @@ import java.util.List;
  *
  * @author sw_be
  */
-public class RetrieveAllApplicationsRsp {
+public class RetrieveApplicationsRsp {
     
     public List<Application> applications;
 
-    public RetrieveAllApplicationsRsp() {
+    public RetrieveApplicationsRsp() {
     }
 
-    public RetrieveAllApplicationsRsp(List<Application> applications) {
+    public RetrieveApplicationsRsp(List<Application> applications) {
         this.applications = applications;
     }
 

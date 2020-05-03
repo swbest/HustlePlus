@@ -30,8 +30,7 @@ import util.exception.DeleteApplicationException;
 import ws.restful.model.CreateNewApplicationReq;
 import ws.restful.model.CreateNewApplicationRsp;
 import ws.restful.model.ErrorRsp;
-import ws.restful.model.RetrieveAllApplicationsRsp;
-import ws.restful.model.RetrieveApplicationRsp;
+import ws.restful.model.RetrieveApplicationsRsp;
 
 /**
  * REST Web Service
@@ -59,71 +58,6 @@ public class ApplicationResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("retrieveApplication/{applicationId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveApplicationById(@PathParam("applicationId") Long applicationId) {
-        try {
-            Application application = applicationSessionBean.retrieveApplicationByApplicationId(applicationId);
-            application.getProject().getStudents().clear();
-            application.getProject().getApplications().clear();
-            application.getStudent().getApplications().clear();
-            application.getStudent().getProjects().clear();
-            RetrieveApplicationRsp retrieveApplicationRsp = new RetrieveApplicationRsp(application);
-            return Response.status(Response.Status.OK).entity(retrieveApplicationRsp).build();
-        } catch (Exception ex) {
-            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-        }
-    }
-
-    /**
-     * Retrieves representation of an instance of
-     * ws.restful.resources.ApplicationResource
-     *
-     * @return an instance of java.lang.String
-     */
-    @GET
-    @Path("retrieveAllApplications")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveAllApplications() {
-        try {
-            List<Application> applications = applicationSessionBean.retrieveAllApplications();
-            for (Application application : applications) {
-
-                application.setProject(null);
-                application.setStudent(null);
-
-//                Project project = application.getProject();
-//                List<Skill> skills = project.getSkills();
-//                for (Skill s : skills) {
-//                    s.getProjects().clear();
-//                }
-//                project.getMilestones().clear();
-//                project.getCompany().getProjects().clear();
-//                project.getCompanyReviews().clear();
-//                project.getStudentReviews().clear();
-//                project.getApplications().clear();
-//                List<Student> students = project.getStudents();
-//                for (Student s : students) {
-//                    s.getProjects().clear();
-//                    s.getProjects().clear();
-//                }
-            }
-            RetrieveAllApplicationsRsp retrieveAllApplicationsRsp = new RetrieveAllApplicationsRsp(applications);
-            return Response.status(Response.Status.OK).entity(retrieveAllApplicationsRsp).build();
-        } catch (Exception ex) {
-            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-        }
-    }
-
-    /**
-     * Retrieves representation of an instance of
-     * ws.restful.resources.ApplicationResource
-     *
-     * @return an instance of java.lang.String
-     */
-    @GET
     @Path("retrieveApplicationsByStudentId/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveApplicationsByStudentId(@PathParam("studentId") Long studentId) {
@@ -141,8 +75,8 @@ public class ApplicationResource {
                 project.getStudentReviews().clear();
                 project.getStudents().clear();
             }
-            RetrieveAllApplicationsRsp retrieveAllApplicationsRsp = new RetrieveAllApplicationsRsp(applications);
-            return Response.status(Response.Status.OK).entity(retrieveAllApplicationsRsp).build();
+            RetrieveApplicationsRsp retrieveMyApplicationsRsp = new RetrieveApplicationsRsp(applications);
+            return Response.status(Response.Status.OK).entity(retrieveMyApplicationsRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();

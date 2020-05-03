@@ -49,7 +49,7 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
 
     @EJB
     private StudentSessionBeanLocal studentSessionBeanLocal;
-    
+
     @EJB
     private CompanySessionBeanLocal companySessionBeanLocal;
 
@@ -68,7 +68,7 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
                     Student student = studentSessionBeanLocal.retrieveStudentByStudentId(studentId);
                     newReview.setStudentReviewed(student);
                     student.getStudentReviews().add(newReview);
-                   
+
                     Project project = projectSessionBeanLocal.retrieveProjectByProjectId(projectId);
                     newReview.setProject(project);
                     project.addStudentReview(newReview);
@@ -227,6 +227,22 @@ public class StudentReviewSessionBean implements StudentReviewSessionBeanLocal {
     public List<StudentReview> retrieveStudentReviewsByCompany(Long companyId) {
         Query query = em.createQuery("SELECT r FROM StudentReview r WHERE r.company.userId =:cid");
         query.setParameter("cid", companyId);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<StudentReview> retrieveMyReviewsFromStudents(Long studentId) {
+        Query query = em.createQuery("SELECT r FROM StudentReview r WHERE r.studentReviewed.userId =:sid AND r.company IS NULL");
+        query.setParameter("sid", studentId);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public List<StudentReview> retrieveMyReviewsFromCompanies(Long studentId) {
+        Query query = em.createQuery("SELECT r FROM StudentReview r WHERE r.studentReviewed.userId =:sid AND r.company IS NOT NULL");
+        query.setParameter("sid", studentId);
+
         return query.getResultList();
     }
 

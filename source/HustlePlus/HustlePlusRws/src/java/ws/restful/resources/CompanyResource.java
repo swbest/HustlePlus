@@ -12,12 +12,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
@@ -53,11 +51,11 @@ public class CompanyResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("retrieveCompany/{userId}")
+    @Path("retrieveCompany/{companyId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveCompanyById(@PathParam("userId") Long userId) {
+    public Response retrieveCompanyById(@PathParam("companyId") Long companyId) {
         try {
-            Company company = companySessionBean.retrieveCompanyByCompanyId(userId);
+            Company company = companySessionBean.retrieveCompanyByCompanyId(companyId);
             company.getStudentReviews().clear();
             company.getCompanyReviews().clear();
             company.getProjects().clear();

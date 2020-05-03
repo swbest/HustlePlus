@@ -40,20 +40,6 @@ export class CompanyReviewService {
 			);
 	}
 
-	getAllCompanyReviews(): Observable<any> {
-		return this.httpClient.get<any>(this.baseUrl + "/retrieveAllCompanyReviews").pipe
-			(
-				catchError(this.handleError)
-			);
-	}
-
-	getCompanyReviewByCompanyReviewId(companyReviewId: number): Observable<any> {
-		return this.httpClient.get<any>(this.baseUrl + "/retrieveCompanyReview/" + companyReviewId).pipe
-			(
-				catchError(this.handleError)
-			);
-	}
-
 	getMyCompanyReviews(): Observable<any> {
 		this.studentId = this.sessionService.getCurrentStudent().userId;
 		return this.httpClient.get<any>(this.baseUrl + "/retrieveMyCompanyReviews/" + this.studentId).pipe

@@ -48,13 +48,6 @@ export class ApplicationService {
       );
   }
 
-  getApplicationByApplicationid(applicationId: number): Observable<any> {
-    return this.httpClient.get<any>(this.baseUrl + "/retrieveApplication/" + applicationId).pipe
-      (
-        catchError(this.handleError)
-      );
-  }
-
 	deleteApplication(applicationId: number): Observable<any> {
     console.log("deleteing application with id: " + applicationId);
 		return this.httpClient.delete<any>(this.baseUrl + "/deleteApplication/" + applicationId).pipe

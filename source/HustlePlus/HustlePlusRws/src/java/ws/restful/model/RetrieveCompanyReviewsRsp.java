@@ -12,14 +12,14 @@ import java.util.List;
  *
  * @author dtjldamien
  */
-public class RetrieveAllCompanyReviewsRsp {
+public class RetrieveCompanyReviewsRsp {
 
     public List<CompanyReview> companyReviews;
 
-    public RetrieveAllCompanyReviewsRsp() {
+    public RetrieveCompanyReviewsRsp() {
     }
 
-    public RetrieveAllCompanyReviewsRsp(List<CompanyReview> companyReviews) {
+    public RetrieveCompanyReviewsRsp(List<CompanyReview> companyReviews) {
         this.companyReviews = companyReviews;
     }
 

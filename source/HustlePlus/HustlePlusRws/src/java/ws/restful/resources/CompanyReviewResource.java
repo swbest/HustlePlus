@@ -30,8 +30,7 @@ import javax.ws.rs.core.Response;
 import ws.restful.model.CreateNewCompanyReviewReq;
 import ws.restful.model.CreateNewCompanyReviewRsp;
 import ws.restful.model.ErrorRsp;
-import ws.restful.model.RetrieveAllCompanyReviewsRsp;
-import ws.restful.model.RetrieveCompanyReviewRsp;
+import ws.restful.model.RetrieveCompanyReviewsRsp;
 
 /**
  * REST Web Service
@@ -50,54 +49,6 @@ public class CompanyReviewResource {
      * Creates a new instance of ReviewResource
      */
     public CompanyReviewResource() {
-    }
-
-    /**
-     * Retrieves representation of an instance of
-     * ws.restful.resources.ReviewResource
-     *
-     * @return an instance of java.lang.String
-     */
-    @GET
-    @Path("retrieveCompanyReview/{companyReviewId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveCompanyReviewById(@PathParam("companyReviewId") Long companyReviewId) {
-        try {
-            CompanyReview companyReview = companyReviewSessionBeanLocal.retrieveCompanyReviewByReviewId(companyReviewId);
-            companyReview.setCompany(null);
-            companyReview.setProject(null);
-            companyReview.setStudent(null);
-            RetrieveCompanyReviewRsp retrieveCompanyReviewRsp = new RetrieveCompanyReviewRsp(companyReview);
-            return Response.status(Response.Status.OK).entity(retrieveCompanyReviewRsp).build();
-        } catch (Exception ex) {
-            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-        }
-    }
-
-    /**
-     * Retrieves representation of an instance of
-     * ws.restful.resources.ReviewResource
-     *
-     * @return an instance of java.lang.String
-     */
-    @GET
-    @Path("retrieveAllCompanyReviews")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveAllCompanyReviews() {
-        try {
-            List<CompanyReview> companyReviews = companyReviewSessionBeanLocal.retrieveAllCompanyReviews();
-            for (CompanyReview companyReview : companyReviews) {
-                companyReview.setCompany(null);
-                companyReview.setProject(null);
-                companyReview.setStudent(null);
-            }
-            RetrieveAllCompanyReviewsRsp retrieveAllCompanyReviewsRsp = new RetrieveAllCompanyReviewsRsp(companyReviews);
-            return Response.status(Response.Status.OK).entity(retrieveAllCompanyReviewsRsp).build();
-        } catch (Exception ex) {
-            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-        }
     }
 
     /**
@@ -135,7 +86,7 @@ public class CompanyReviewResource {
 
                 companyReview.setStudent(null);
             }
-            RetrieveAllCompanyReviewsRsp retrieveAllCompanyReviewsRsp = new RetrieveAllCompanyReviewsRsp(companyReviews);
+            RetrieveCompanyReviewsRsp retrieveAllCompanyReviewsRsp = new RetrieveCompanyReviewsRsp(companyReviews);
             return Response.status(Response.Status.OK).entity(retrieveAllCompanyReviewsRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
