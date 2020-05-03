@@ -17,18 +17,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import ws.restful.model.CreateNewCompanyReviewReq;
-import ws.restful.model.CreateNewReviewRsp;
+import ws.restful.model.CreateNewCompanyReviewRsp;
 import ws.restful.model.ErrorRsp;
 import ws.restful.model.RetrieveAllCompanyReviewsRsp;
 import ws.restful.model.RetrieveCompanyReviewRsp;
@@ -61,7 +61,7 @@ public class CompanyReviewResource {
     @GET
     @Path("retrieveCompanyReview/{companyReviewId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveStudentReviewById(@PathParam("companyReviewId") Long companyReviewId) {
+    public Response retrieveCompanyReviewById(@PathParam("companyReviewId") Long companyReviewId) {
         try {
             CompanyReview companyReview = companyReviewSessionBeanLocal.retrieveCompanyReviewByReviewId(companyReviewId);
             companyReview.setCompany(null);
@@ -109,7 +109,7 @@ public class CompanyReviewResource {
     @GET
     @Path("retrieveMyCompanyReviews/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveMyReviews(@PathParam("studentId") Long studentId) { // peers and company rating this user
+    public Response retrieveMyCompanyReviews(@PathParam("studentId") Long studentId) { // company rating this user
         try {
             List<CompanyReview> companyReviews = companyReviewSessionBeanLocal.retrieveAllCompanyReviewsForStudent(studentId);
             for (CompanyReview companyReview : companyReviews) {
@@ -117,7 +117,7 @@ public class CompanyReviewResource {
                 company.getStudentReviews().clear();
                 company.getCompanyReviews().clear();
                 company.getProjects().clear();
-                
+
                 Project p = companyReview.getProject();
                 p.getApplications().clear();
                 p.getCompany().getProjects().clear();
@@ -131,8 +131,8 @@ public class CompanyReviewResource {
                 List<Student> students = p.getStudents();
                 for (Student s : students) {
                     s.getProjects().clear();
-                }               
-                
+                }
+
                 companyReview.setStudent(null);
             }
             RetrieveAllCompanyReviewsRsp retrieveAllCompanyReviewsRsp = new RetrieveAllCompanyReviewsRsp(companyReviews);
@@ -151,12 +151,13 @@ public class CompanyReviewResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createStudentReview(CreateNewCompanyReviewReq createNewCompanyReviewReq) {
-        System.out.println("Creating new student review review text: " + createNewCompanyReviewReq.getNewCompanyReview().getReviewText() + " of rating: " + createNewCompanyReviewReq.getNewCompanyReview().getRating() + "with project id:" + createNewCompanyReviewReq.getProjectId() + " student id: " + createNewCompanyReviewReq.getStudentId());
+    public Response createCompanyReview(CreateNewCompanyReviewReq createNewCompanyReviewReq) {
         if (createNewCompanyReviewReq != null) {
+            System.out.println(createNewCompanyReviewReq.getNewCompanyReview());
+            System.out.println("Creating new company review review text: " + createNewCompanyReviewReq.getNewCompanyReview().getReviewText() + " of rating: " + createNewCompanyReviewReq.getNewCompanyReview().getRating() + "with project id:" + createNewCompanyReviewReq.getProjectId() + " made by student id: " + createNewCompanyReviewReq.getStudentId());
             try {
-                Long newReviewId = companyReviewSessionBeanLocal.createCompanyReview(createNewCompanyReviewReq.getNewCompanyReview(), createNewCompanyReviewReq.getStudentId(), createNewCompanyReviewReq.getProjectId(), createNewCompanyReviewReq.getCompanyId());
-                CreateNewReviewRsp createNewReviewRsp = new CreateNewReviewRsp(newReviewId);
+                Long newReviewId = companyReviewSessionBeanLocal.createCompanyReview(createNewCompanyReviewReq.getNewCompanyReview(), createNewCompanyReviewReq.getCompanyId(), createNewCompanyReviewReq.getProjectId(), createNewCompanyReviewReq.getStudentId());
+                CreateNewCompanyReviewRsp createNewReviewRsp = new CreateNewCompanyReviewRsp(newReviewId);
                 return Response.status(Response.Status.OK).entity(createNewReviewRsp).build();
             } catch (Exception ex) {
                 ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());

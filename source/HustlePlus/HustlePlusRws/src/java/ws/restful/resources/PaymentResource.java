@@ -23,8 +23,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import ws.restful.model.CreateNewPaymentReq;
-import ws.restful.model.CreateNewPaymentRsp;
 import ws.restful.model.ErrorRsp;
 import ws.restful.model.RetrieveAllPaymentsRsp;
 import ws.restful.model.RetrievePaymentRsp;
@@ -120,30 +118,6 @@ public class PaymentResource {
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-        }
-    }
-
-    /**
-     * PUT method for updating or creating an instance of PaymentResource
-     *
-     * @param content representation for the resource
-     */
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createPayment(CreateNewPaymentReq createNewPaymentReq) {
-        if (createNewPaymentReq != null) {
-            try {
-                Long newPaymentId = paymentSessionBean.createNewPayment(createNewPaymentReq.getNewPayment(), createNewPaymentReq.getMilestoneId(), createNewPaymentReq.getStudentId());
-                CreateNewPaymentRsp createNewPaymentRsp = new CreateNewPaymentRsp(newPaymentId);
-                return Response.status(Response.Status.OK).entity(createNewPaymentRsp).build();
-            } catch (Exception ex) {
-                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-            }
-        } else {
-            ErrorRsp errorRsp = new ErrorRsp("Invalid Request");
-            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
 

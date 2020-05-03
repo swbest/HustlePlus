@@ -12,20 +12,20 @@ import entity.CompanyReview;
  * @author dtjldamien
  */
 public class CreateNewCompanyReviewReq {
-    
+
     private CompanyReview newCompanyReview;
     private Long projectId;
-    private Long studentId;
     private Long companyId;
+    private Long studentId;
 
     public CreateNewCompanyReviewReq() {
     }
 
-    public CreateNewCompanyReviewReq(CompanyReview newCompanyReview, Long projectId, Long studentId, Long companyId) {
+    public CreateNewCompanyReviewReq(CompanyReview newCompanyReview, Long projectId, Long companyId, Long studentId) {
         this.newCompanyReview = newCompanyReview;
         this.projectId = projectId;
-        this.studentId = studentId;
         this.companyId = companyId;
+        this.studentId = studentId;
     }
 
     public CompanyReview getNewCompanyReview() {
@@ -44,19 +44,19 @@ public class CreateNewCompanyReviewReq {
         this.projectId = projectId;
     }
 
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
-    
     public Long getCompanyId() {
         return companyId;
     }
 
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
+    }
+
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 }

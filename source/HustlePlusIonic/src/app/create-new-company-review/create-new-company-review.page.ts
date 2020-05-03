@@ -77,6 +77,7 @@ export class CreateNewCompanyReviewPage implements OnInit {
           this.infoMessage = null;
           this.errorMessage = error;
           this.hasError = false;
+          this.failToast();
         }
       );
     }
@@ -138,6 +139,14 @@ export class CreateNewCompanyReviewPage implements OnInit {
   async reviewToast() {
     const toast = await this.toastController.create({
       message: 'Successfully left a review for company id: ' + this.companyId,
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async failToast() {
+    const toast = await this.toastController.create({
+      message: this.errorMessage,
       duration: 2000
     });
     toast.present();

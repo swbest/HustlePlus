@@ -7,10 +7,6 @@
 package ws.restful.resources;
 
 import ejb.session.stateless.StudentReviewSessionBeanLocal;
-import entity.Company;
-import entity.Project;
-import entity.Skill;
-import entity.Student;
 import entity.StudentReview;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,8 +23,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import ws.restful.model.CreateNewReviewRsp;
 import ws.restful.model.CreateNewStudentReviewReq;
+import ws.restful.model.CreateNewStudentReviewRsp;
 import ws.restful.model.ErrorRsp;
 import ws.restful.model.RetrieveAllStudentReviewsRsp;
 import ws.restful.model.RetrieveStudentReviewRsp;
@@ -138,7 +134,7 @@ public class StudentReviewResource {
         if (createNewStudentReviewReq != null) {
             try {
                 Long newReviewId = studentReviewSessionBeanLocal.createStudentReviewByStudent(createNewStudentReviewReq.getNewStudentReview(), createNewStudentReviewReq.getProjectId(), createNewStudentReviewReq.getStudentId());
-                CreateNewReviewRsp createNewReviewRsp = new CreateNewReviewRsp(newReviewId);
+                CreateNewStudentReviewRsp createNewReviewRsp = new CreateNewStudentReviewRsp(newReviewId);
                 return Response.status(Response.Status.OK).entity(createNewReviewRsp).build();
             } catch (Exception ex) {
                 ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());

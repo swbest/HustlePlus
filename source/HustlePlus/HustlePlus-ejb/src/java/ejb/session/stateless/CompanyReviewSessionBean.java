@@ -58,7 +58,7 @@ public class CompanyReviewSessionBean implements CompanyReviewSessionBeanLocal {
     }
 
     @Override
-    public Long createCompanyReview(CompanyReview newReview, Long studentId, Long projectId, Long companyId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException {
+    public Long createCompanyReview(CompanyReview newReview, Long projectId, Long companyId, Long studentId) throws UnknownPersistenceException, InputDataValidationException, StudentNotFoundException, ProjectNotFoundException, CompanyNotFoundException {
         try {
             Set<ConstraintViolation<CompanyReview>> constraintViolations = validator.validate(newReview);
 

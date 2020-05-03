@@ -76,6 +76,7 @@ export class CreateNewStudentReviewPage implements OnInit {
           this.infoMessage = null;
           this.errorMessage = error;
           this.hasError = false;
+          this.failToast();
         }
       );
     }
@@ -137,6 +138,14 @@ export class CreateNewStudentReviewPage implements OnInit {
   async reviewToast() {
     const toast = await this.toastController.create({
       message: 'Successfully left a review for student id: ' + this.studentId,
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async failToast() {
+    const toast = await this.toastController.create({
+      message: this.errorMessage,
       duration: 2000
     });
     toast.present();
