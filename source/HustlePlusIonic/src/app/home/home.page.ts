@@ -12,7 +12,8 @@ import { SessionService } from '../session.service';
 
 export class HomePage implements OnInit {
 
-	const slideOpts = {
+	name: string;
+	readonly slideOpts = {
 		slidesPerView: 2,
 		coverflowEffect: {
 		  rotate: 50,
@@ -100,8 +101,6 @@ export class HomePage implements OnInit {
 		  }
 		}
 	  }
-
-	name: string;
 
 	constructor(public sessionService: SessionService, private router: Router) {
 	}
