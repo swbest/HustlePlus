@@ -141,9 +141,6 @@ export class HomePage implements OnInit {
 	reviews() {
 		this.router.navigate(["/reviews"]);
 	}
-
-	
-	  
 }
 
 
