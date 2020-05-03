@@ -59,6 +59,8 @@ enter "Y" when prompted to install platform android
 
 Step 12: Connect the Android device to the computer and enable USB debugging
 
-Step 13: run "ionic cordova run android -l" in your terminal
+Step 13: Open .\source\HustlePlusIonic\src\app\session.service.ts and change the IP address on line 20 to your computer's IP address
 
-Step 14: Open HustlePlusIonic on your Android device
+Step 14: run "ionic cordova run android -l" in your terminal
+
+Step 15: Open HustlePlus on your Android device

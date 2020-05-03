@@ -16,6 +16,7 @@ export class SessionService {
     console.log('this.platform.is("hybrid"): ' + this.platform.is('hybrid'));
 
     if (this.platform.is('hybrid')) {
+      // change ip address here
       return "http://192.168.137.1:8080/HustlePlusRws/Resources/";
     }
     else {

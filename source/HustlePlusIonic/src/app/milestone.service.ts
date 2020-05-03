@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { UtilityService } from './utility.service';
+import { SessionService } from './session.service';
 
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,8 +19,8 @@ export class MilestoneService {
 	baseUrl: string;
 
 	constructor(private httpClient: HttpClient,
-		private utilityService: UtilityService) {
-		this.baseUrl = this.utilityService.getRootPath() + 'Milestone';
+		private sessionService: SessionService) {
+		this.baseUrl = this.sessionService.getRootPath() + 'Milestone';
 	}
 
 	getMilestonesByProjectId(projectId: number): Observable<any> {

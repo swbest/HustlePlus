@@ -6,7 +6,6 @@ import { catchError } from 'rxjs/operators';
 
 import { SessionService } from './session.service';
 import { Team } from './team';
-import { UtilityService } from './utility.service';
 
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -22,9 +21,8 @@ export class TeamService {
 	studentId: number;
 
 	constructor(private httpClient: HttpClient,
-		private utilityService: UtilityService,
 		private sessionService: SessionService) {
-		this.baseUrl = this.utilityService.getRootPath() + 'Team';
+		this.baseUrl = this.sessionService.getRootPath() + 'Team';
 	}
 
 	createNewTeam(newTeam: Team): Observable<any> {

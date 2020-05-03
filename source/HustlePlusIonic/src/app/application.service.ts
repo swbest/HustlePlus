@@ -5,7 +5,6 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { SessionService } from './session.service';
-import { UtilityService } from './utility.service';
 import { Application } from './application';
 
 const httpOptions = {
@@ -22,9 +21,8 @@ export class ApplicationService {
   studentId: number;
 
   constructor(private httpClient: HttpClient,
-    private utilityService: UtilityService,
     private sessionService: SessionService) {
-    this.baseUrl = this.utilityService.getRootPath() + 'Application';
+    this.baseUrl = this.sessionService.getRootPath() + 'Application';
   }
 
   createNewApplication(newApplication: Application, projectId: number, studentId: number): Observable<any> {

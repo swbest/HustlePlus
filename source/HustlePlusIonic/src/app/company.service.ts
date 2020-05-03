@@ -4,8 +4,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { UtilityService } from './utility.service';
-import { Company } from './company';
+import { SessionService } from './session.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,8 +18,8 @@ export class CompanyService {
   baseUrl: string;
 
   constructor(private httpClient: HttpClient,
-    private utilityService: UtilityService) {
-    this.baseUrl = this.utilityService.getRootPath() + 'Company';
+    private sessionService: SessionService) {
+    this.baseUrl = this.sessionService.getRootPath() + 'Company';
   }
 
   getAllCompanies(): Observable<any> {

@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { UtilityService } from './utility.service';
 import { SessionService } from './session.service';
 
 const httpOptions = {
@@ -20,9 +19,8 @@ export class PaymentService {
 	studentId: number;
 
 	constructor(private httpClient: HttpClient,
-		private utilityService: UtilityService,
 		private sessionService: SessionService) {
-		this.baseUrl = this.utilityService.getRootPath() + 'Payment';
+		this.baseUrl = this.sessionService.getRootPath() + 'Payment';
 	}
 
 	getMyPaymentsByProjectId(projectId: number): Observable<any> {
