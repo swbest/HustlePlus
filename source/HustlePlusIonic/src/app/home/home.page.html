@@ -11,21 +11,80 @@
 
 <ion-content *ngIf="sessionService.getIsLogin() == false">
 
-		<ion-card-header>
-			<ion-card-title>Welcome to HustlePlus</ion-card-title>
-		</ion-card-header>
+	<ion-card-header>
+		<ion-card-title>Welcome to HustlePlus</ion-card-title>
+	</ion-card-header>
 </ion-content>
 
 <ion-content *ngIf="sessionService.getIsLogin() == true">
 
-	<div style="margin: auto;">
-	<ion-card-header>
-		<ion-card-title>Hustle Plus Ionic</ion-card-title>
-	</ion-card-header>
-	<ion-card-content>
-		<p>Use the side menu to navigate around this app.</p>
-	</ion-card-content>
-	</div>
+	<ion-list>
+
+		<ion-list-header>Welcome, <i>&nbsp;{{name}}</i>.</ion-list-header>
+     <ion-item>
+		<p><i>What would you like to do today?</i></p>
+	</ion-item>
+	</ion-list>
+
+<ion-item>
+	<ion-slides fullscreen class="ion-padding" scroll-y="false" [options]="slideOpts">
+		<ion-slide style="background-color: #39d668;">
+			<div class="slide">
+				<ion-button (click)="profile()" fill="clear">
+					<ion-icon size="large" name="person"></ion-icon>
+				</ion-button>
+				<ion-label color="light">Profile</ion-label>
+			</div>
+		</ion-slide>
+
+		<ion-slide style="background-color: #3999d6;">
+			<div class="slide">
+				<ion-button (click)="applications()" fill="clear">
+					<ion-icon size="large" name="code-slash"></ion-icon>
+				</ion-button>
+				<ion-label  color="light">Applications</ion-label>
+			</div>
+		</ion-slide>
+
+		<ion-slide style="background-color: #c439d6;">
+			<div class="slide">
+				<ion-button (click)="projects()" fill="clear">
+					<ion-icon size="large" name="code-working"></ion-icon>
+				</ion-button>
+				<ion-label  color="light">Projects</ion-label>
+			</div>
+		</ion-slide>
+
+		<ion-slide style="background-color: #d63939;">
+			<div class="slide">
+				<ion-button (click)="teams()" fill="clear">
+					<ion-icon size="large" name="people"></ion-icon>
+				</ion-button>
+				<ion-label  color="light">Teams</ion-label>
+			</div>
+		</ion-slide>
+
+		<ion-slide style="background-color: #c6d639;">
+			<div class="slide">
+				<ion-button (click)="company()" fill="clear">
+					<ion-icon size="large" name="business"></ion-icon>
+				</ion-button>
+				<ion-label  color="light">Companies</ion-label>
+			</div>
+		</ion-slide>
+
+		<ion-slide style="background-color: #39d6c9;">
+			<div class="slide">
+				<ion-button (click)="reviews()" fill="clear">
+					<ion-icon size="large" name="ribbon"></ion-icon>
+				</ion-button>
+				<ion-label  color="light">Reviews</ion-label>
+			</div>
+		</ion-slide>
+
+
+	</ion-slides>
+</ion-item>
 
 </ion-content>
 

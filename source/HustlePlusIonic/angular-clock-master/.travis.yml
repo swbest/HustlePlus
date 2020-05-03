@@ -1,0 +1,12 @@
+os:
+    - linux
+language: node_js
+node_js:
+    - "6.11.3"
+before_install:
+    - npm -g install bower gulp-cli
+install:
+    - npm install
+    - bower install
+script:
+    - gulp default
