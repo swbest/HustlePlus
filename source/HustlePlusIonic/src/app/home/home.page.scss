@@ -20,7 +20,25 @@ ion-menu {
       --color: #FFF;
   }
 
+  ion-button {
+    background-color: transparent;
+    color: white;
+}
+
+ion-label {
+  --ion-text-color: white;
+}
+
+ion-icon {
+  background-color: transparent;
+}
+
   ion-card-header {
       text-align: center;
       display: inline-block;
+  }
+
+  ion-slide {
+    width: 500vw;
+    height: 30vh;
   }

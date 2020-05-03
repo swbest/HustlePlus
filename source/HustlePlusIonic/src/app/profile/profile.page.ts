@@ -9,7 +9,6 @@ import { Student } from '../student';
 import { Skill } from '../skill';
 import { CreateNewSkillPage } from '../create-new-skill/create-new-skill.page';
 
-
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
