@@ -13,6 +13,7 @@ import { SessionService } from '../session.service';
   templateUrl: './resume.page.html',
   styleUrls: ['./resume.page.scss'],
 })
+
 export class ResumePage implements OnInit {
 
   baseUrl: string;
