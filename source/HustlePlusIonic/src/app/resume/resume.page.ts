@@ -49,6 +49,7 @@ export class ResumePage implements OnInit {
           mimeType: 'application/pdf'
         }
         this.uploadText = "Uploading your resume to our servers!";
+        //  upload method need to refine
         this.fileTransfer.upload(nativepath, this.baseUrl, options).then((data) => {
           alert("Upload done = " + JSON.stringify(data));
           this.uploadText = "";
