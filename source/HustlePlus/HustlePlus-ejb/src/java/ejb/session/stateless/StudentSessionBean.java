@@ -5,11 +5,8 @@
  */
 package ejb.session.stateless;
 
-import entity.Company;
 import entity.Skill;
 import entity.Student;
-import entity.Team;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,7 +26,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import util.exception.CompanyNotFoundException;
 import util.exception.DeleteStudentException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
@@ -38,7 +34,6 @@ import util.exception.StudentAssignedToProjectException;
 import util.exception.StudentNotFoundException;
 import util.exception.SuspendStudentException;
 import util.exception.UnknownPersistenceException;
-import util.exception.UpdateCompanyException;
 import util.exception.UpdateStudentException;
 import util.exception.VerifyStudentException;
 import util.security.CryptographicHelper;
@@ -378,14 +373,13 @@ public class StudentSessionBean implements StudentSessionBeanLocal {
         return msg;
     }
 
-    public String uploadResume(Long studentId, File resume) {
-
+    public String uploadResume(Long studentId, String resume) {
         try {
             Student currStudent = retrieveStudentByStudentId(studentId);
             currStudent.setResume(resume);
         } catch (StudentNotFoundException ex) {
             Logger.getLogger(StudentSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "filepath";
+        return "Student Id: " + studentId + " resume upload";
     }
 }

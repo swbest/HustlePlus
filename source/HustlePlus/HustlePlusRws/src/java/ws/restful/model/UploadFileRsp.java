@@ -11,20 +11,20 @@ package ws.restful.model;
  */
 public class UploadFileRsp {
 
-    private String fileAddress;
+    private String status;
 
     public UploadFileRsp() {
     }
 
-    public UploadFileRsp(String fileAddress) {
-        this.fileAddress = fileAddress;
+    public UploadFileRsp(String status) {
+        this.status = status;
     }
 
-    public String getFileAddress() {
-        return fileAddress;
+    public String getStatus() {
+        return status;
     }
 
-    public void setFileAddress(String fileAddress) {
-        this.fileAddress = fileAddress;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

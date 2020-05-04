@@ -6,6 +6,7 @@ import { FileChooser } from '@ionic-native/file-chooser/ngx'
 import { FilePath } from '@ionic-native/file-path/ngx'
 import { File } from '@ionic-native/file/ngx'
 
+import { FileUploadService } from '../file-upload.service';
 import { SessionService } from '../session.service';
 
 @Component({
@@ -21,23 +22,25 @@ export class ResumePage implements OnInit {
   uploadText: any;
   downloadText: any;
   fileTransfer: FileTransferObject;
+  fileToUpload: File;
 
   constructor(private router: Router,
     private transfer: FileTransfer,
     private file: File,
     private filePath: FilePath,
     private fileChooser: FileChooser,
+    private fileUploadService: FileUploadService,
     private sessionService: SessionService) {
-    this.baseUrl = this.sessionService.getRootPath() + 'File/uploadResume';
     this.uploadText = "";
     this.downloadText = "";
+    this.fileToUpload = null;
   }
 
   ngOnInit() {
   }
 
   uploadFile() {
-    this.studentId = this.sessionService.getCurrentStudent().userId;
+    this.baseUrl = this.sessionService.getRootPath() + 'File/uploadResume' + this.sessionService.getCurrentStudent().userId;
     this.fileChooser.open().then((uri) => {
       this.filePath.resolveNativePath(uri).then((nativepath) => {
         this.fileTransfer = this.transfer.create();

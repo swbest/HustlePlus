@@ -6,7 +6,6 @@
 package ejb.session.stateless;
 
 import entity.Student;
-import java.io.File;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.DeleteStudentException;
@@ -60,6 +59,6 @@ public interface StudentSessionBeanLocal {
 
     public void updatePassword(Student student, String password) throws StudentNotFoundException, UpdateStudentException, InputDataValidationException;
 
-    public String uploadResume(Long studentId, File resume);
+    public String uploadResume(Long studentId, String resume);
 
 }
