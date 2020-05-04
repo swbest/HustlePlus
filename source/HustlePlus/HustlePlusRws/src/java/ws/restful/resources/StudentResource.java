@@ -103,11 +103,11 @@ public class StudentResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("retrieveStudent/{userId}")
+    @Path("retrieveStudent/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveStudentByStudentId(@PathParam("userId") Long userId) {
+    public Response retrieveStudentByStudentId(@PathParam("studentId") Long studentId) {
         try {
-            Student student = studentSessionBean.retrieveStudentByStudentId(userId);
+            Student student = studentSessionBean.retrieveStudentByStudentId(studentId);
             student.getApplications().clear();
             student.getSkills().clear();
             student.getStudentReviews().clear();

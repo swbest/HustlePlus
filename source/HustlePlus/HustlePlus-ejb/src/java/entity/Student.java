@@ -29,7 +29,7 @@ public class Student extends User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(nullable = true)
-    private File resume;
+    private String resume;
     @NotNull
     @Size(max = 256, message = "Description should be at most 256 characters")
     @Column(nullable = false)
@@ -78,11 +78,11 @@ public class Student extends User implements Serializable {
         this.isSuspended = Boolean.FALSE;
     }
 
-    public File getResume() {
+    public String getResume() {
         return resume;
     }
 
-    public void setResume(File resume) {
+    public void setResume(String resume) {
         this.resume = resume;
     }
 
@@ -298,5 +298,4 @@ public class Student extends User implements Serializable {
     public String toString() {
         return "entity.Student[ id=" + userId + " ]";
     }
-
 }
