@@ -64,3 +64,6 @@ Step 13: Open .\source\HustlePlusIonic\src\app\session.service.ts and change the
 Step 14: run "ionic cordova run android -l" in your terminal
 
 Step 15: Open HustlePlus on your Android device
+
+Step 16: To create APK file for Android devices, go to .\source\HustlePlusIonic\ and run "ionic cordova build --release android" in the terminal,
+the output file "" will be in .\source\HustlePlusIonic\platforms\android\app\build\outputs\apk\release
